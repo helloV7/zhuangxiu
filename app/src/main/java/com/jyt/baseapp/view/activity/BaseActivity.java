@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by chenweiqi on 2017/5/10.
@@ -132,6 +133,10 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public void hideFunction(){
         textFunction.setVisibility(View.INVISIBLE);
+    }
+    @OnClick(R.id.img_back)
+    public void onBackClick(){
+        finish();
     }
 
 
