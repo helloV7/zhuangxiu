@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
 
+import com.jyt.baseapp.view.fragment.BaseFragment;
+
 import java.util.List;
 
 /**
@@ -12,18 +14,18 @@ import java.util.List;
  */
 
 public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
-    List<Fragment> fragments;
+    List<BaseFragment> fragments;
     List<String> titles;
 
     public FragmentViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    public List<Fragment> getFragments() {
+    public List<BaseFragment> getFragments() {
         return fragments;
     }
 
-    public void setFragments(List<Fragment> fragments) {
+    public void setFragments(List<BaseFragment> fragments) {
         this.fragments = fragments;
     }
 

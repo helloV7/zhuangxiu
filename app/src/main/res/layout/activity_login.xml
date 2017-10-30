@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+        <ImageView
+            android:id="@+id/iv_login_logo"
+            android:layout_marginTop="75dp"
+            android:layout_width="145dp"
+            android:layout_height="145dp"
+            android:background="@color/bg_login"/>
+        <EditText
+            android:id="@+id/et_login_user"
+            android:layout_marginTop="71dp"
+            android:layout_width="280dp"
+            android:layout_height="40dp"
+            android:hint="请输入账号"
+            android:paddingLeft="15dp"
+            android:textColorHint="@color/et_login_hint"
+            android:background="@drawable/input_login"/>
+
+        <EditText
+            android:id="@+id/et_login_pwd"
+            android:layout_marginTop="20dp"
+            android:layout_width="280dp"
+            android:layout_height="40dp"
+            android:hint="请输入密码"
+            android:paddingLeft="15dp"
+            android:textColorHint="@color/et_login_hint"
+            android:background="@drawable/input_login"/>
+
+        <Button
+            android:id="@+id/btn_login_submit"
+            android:layout_marginTop="20dp"
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:text="登录"
+            android:textSize="16dp"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_login"/>
+</LinearLayout>

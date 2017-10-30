@@ -9,6 +9,10 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".view.activity.UpLoadImageActivity" android:label="celiang">
+        </activity>
+        <activity android:name=".view.activity.LoginActivity">
+        </activity>
+        <activity android:name=".view.activity.ContentActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
                 <category android:name="android.intent.category.LAUNCHER"></category>

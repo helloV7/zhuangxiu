@@ -139,6 +139,13 @@ public abstract class BaseActivity extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * 隐藏ActionBar
+     */
+    public void HideActionBar(){
+        vActionBar.setVisibility(View.GONE);
+    }
+
 
 
     @Override

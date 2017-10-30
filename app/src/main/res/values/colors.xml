@@ -13,4 +13,9 @@
 
     <color name="disableColor">#9a9a9a</color>
     <color name="enableColor">#00a3e9</color>
+    <color name="bg_login">#D8D8D8  </color>
+    <color name="et_login">#F5F5F5</color>
+    <color name="et_login_hint">#BBBBBB</color>
+    <color name="bg_blue">#429BFF</color>
+    <color name="vp_text">#A0CCFF</color>
 </resources>
