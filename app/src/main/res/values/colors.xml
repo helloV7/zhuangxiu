@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#F5F5F5</color>
-    <color name="colorPrimaryDark">#F5F5F5</color>
+    <color name="colorPrimaryDark">#808080</color>
     <color name="colorAccent">#1C1C1C</color>
 
     <color name="activityBg">#f2f2f2</color>
@@ -10,9 +10,9 @@
     <color name="divider">#e5e5e5</color>
     <color name="background">#f2f2f2</color>
     <color name="white">#FFFFFF</color>
-
-    <color name="disableColor">#9a9a9a</color>
-    <color name="enableColor">#00a3e9</color>
+    <color name="enableBtnFontColor">#FFFFFF</color>
+    <color name="disableColor">#ECECEC</color>
+    <color name="enableColor">#429BFF</color>
     <color name="bg_login">#D8D8D8  </color>
     <color name="et_login">#F5F5F5</color>
     <color name="et_login_hint">#BBBBBB</color>

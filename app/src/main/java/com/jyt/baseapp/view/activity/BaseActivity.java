@@ -136,7 +136,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
     @OnClick(R.id.img_back)
     public void onBackClick(){
-        finish();
+        onBackPressed();
     }
 
     /**

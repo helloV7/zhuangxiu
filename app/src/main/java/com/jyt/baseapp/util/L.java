@@ -2,6 +2,8 @@ package com.jyt.baseapp.util;
 
 import android.util.Log;
 
+import java.util.List;
+
 /**
  * Created by chenweiqi on 2017/1/20.
  */
@@ -24,5 +26,16 @@ public class L {
              objects) {
             Log.e(TAG,o.toString());
         }
+    }
+
+    public static void e(List list) {
+        if (list==null){
+            Log.e(TAG,"list is empty");
+        }else {
+            for (Object obj:
+                    list) {
+                L.e(obj.toString());
+            }
+        };
     }
 }

@@ -1,12 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/asd"
-        android:layout_alignParentBottom="true"
-        android:text="12312313"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/v_rcv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+    </android.support.v7.widget.RecyclerView>
+
+
+    <LinearLayout
+        android:clickable="true"
+        android:id="@+id/btn_submit"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_big_sel"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提交"
+            android:textColor="@color/enableBtnFontColor"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/text_imageCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="图片数量(19/20)"
+            android:textColor="@color/enableBtnFontColor" />
+    </LinearLayout>
+</LinearLayout>

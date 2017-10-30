@@ -3,6 +3,8 @@ package com.jyt.baseapp.view.viewholder;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by chenweiqi on 2017/5/10.
  */
@@ -19,6 +21,7 @@ public class BaseViewHolder<T> extends RecyclerView.ViewHolder {
     public BaseViewHolder(View itemView) {
         super(itemView);
 
+        ButterKnife.bind(this,itemView);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
