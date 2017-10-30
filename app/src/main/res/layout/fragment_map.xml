@@ -1,10 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="map"/>
-</LinearLayout>
+    <com.amap.api.maps2d.MapView
+        android:id="@+id/mapview_map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.amap.api.maps2d.MapView>
+
+    <LinearLayout
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="335dp"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="@mipmap/bg_corner">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14dp"
+            android:textColor="@color/text_color1"
+            android:text="城市∨∧"/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="25dp"
+            android:background="#ECECEC"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="14dp"
+            android:textColor="@color/text_color1"
+            android:text="品牌∨∧"/>
+
+    </LinearLayout>
+</FrameLayout>

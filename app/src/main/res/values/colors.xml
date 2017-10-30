@@ -6,6 +6,7 @@
 
     <color name="activityBg">#f2f2f2</color>
     <color name="transparent">#00000000</color>
+    <color name="transparent_half">#e0000000</color>//半透明
     <color name="gray">#cccccc</color>
     <color name="divider">#e5e5e5</color>
     <color name="background">#f2f2f2</color>
@@ -18,4 +19,6 @@
     <color name="et_login_hint">#BBBBBB</color>
     <color name="bg_blue">#429BFF</color>
     <color name="vp_text">#A0CCFF</color>
+    <color name="text_color1">#1C1C1C</color>
+    <color name="text_color2">#429BFF</color>
 </resources>
