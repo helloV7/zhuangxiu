@@ -12,7 +12,27 @@ import java.util.List;
  */
 
 public abstract class BaseRcvAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+
+
     List dataList;
+    BaseViewHolder.OnViewHolderClickListener onViewHolderClickListener;
+    BaseViewHolder.OnViewHolderLongClickListener onViewHolderLongClickListener;
+
+    public List getDataList() {
+        return dataList;
+    }
+
+    public void setDataList(List dataList) {
+        this.dataList = dataList;
+    }
+
+    public void setOnViewHolderClickListener(BaseViewHolder.OnViewHolderClickListener onViewHolderClickListener) {
+        this.onViewHolderClickListener = onViewHolderClickListener;
+    }
+
+    public void setOnViewHolderLongClickListener(BaseViewHolder.OnViewHolderLongClickListener onViewHolderLongClickListener) {
+        this.onViewHolderLongClickListener = onViewHolderLongClickListener;
+    }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
