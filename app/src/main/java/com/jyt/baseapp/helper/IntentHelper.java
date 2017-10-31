@@ -41,6 +41,11 @@ public class IntentHelper {
         }
     }
 
+    /**
+     *
+     * @param intent
+     * @return int maxCount,List images
+     */
     public static Tuple SelImageActivityGetPara(Intent intent){
         int maxCount = intent.getIntExtra(IntentKey.MAX_COUNT,0);
         List images = intent.getStringArrayListExtra(IntentKey.IMAGES);
@@ -56,6 +61,12 @@ public class IntentHelper {
         List images = intent.getStringArrayListExtra(IntentKey.IMAGES);
         return new Tuple(images);
     }
+    public static void SelImageActivitySetResult(Activity activity,int resultCode,List images){
+        Intent intent = getIntent();
+        intent.putStringArrayListExtra(IntentKey.IMAGES, (ArrayList<String>) images);
+        activity.setResult(resultCode,intent);
+        activity.finish();
+    }
 
     //endregion
 
@@ -64,17 +75,16 @@ public class IntentHelper {
     public static void openBrowseImagesActivity(Context context ,String image){
         List images = new ArrayList();
         images.add(image);
-        openBrowseImagesActivity(context,images);
+        openBrowseImagesActivity(context,images,0);
     }
 
-    public static void openBrowseImagesActivity(Context context , List<String> images){
+    public static void openBrowseImagesActivity(Context context, List<String> images, int startIndex){
         Intent intent = getIntent(context, BrowseImagesActivity.class);
+        intent.putExtra(IntentKey.START_INDEX,startIndex);
         intent.putStringArrayListExtra(IntentKey.IMAGES, (ArrayList<String>) images);
 
         context.startActivity(intent);
     }
-    //endregion
-
     /**
      *
      * @param intent
@@ -85,9 +95,29 @@ public class IntentHelper {
         int startIndex = intent.getIntExtra(IntentKey.START_INDEX,0);
         return new Tuple(list,startIndex);
     }
+    //endregion
+
+
+// region 上传图片
+    public static void openUploadImagesActivityForResult(Object context,List images,int maxCount){
+        Intent intent = getIntent((Context) context, SelImageActivity.class);
+        intent.putExtra(IntentKey.MAX_COUNT,maxCount);
+        intent.putStringArrayListExtra(IntentKey.IMAGES, (ArrayList<String>) images);
+        if (context instanceof Activity) {
+            ((Activity) context).startActivityForResult(intent, IntentRequestCode.CODE_UPLOAD_IMAGES);
+        }else if (context instanceof Fragment){
+            ((Fragment) context).startActivityForResult(intent, IntentRequestCode.CODE_UPLOAD_IMAGES);
+        }
+    }
+
+// endregion
 
 
 
+
+    public static Intent getIntent(){
+        return new Intent();
+    }
 
     public static Intent getIntent(Context context, Class activityClass){
         return new Intent(context,activityClass);

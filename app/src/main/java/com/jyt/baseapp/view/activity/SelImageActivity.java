@@ -4,6 +4,7 @@ package com.jyt.baseapp.view.activity;
  * Created by chenweiqi on 2017/10/31.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -11,7 +12,9 @@ import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.FragmentViewPagerAdapter;
 import com.jyt.baseapp.bean.LocalMedia;
 import com.jyt.baseapp.bean.LocalMediaFolder;
+import com.jyt.baseapp.bean.Tuple;
 import com.jyt.baseapp.helper.IntentHelper;
+import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.util.LocalMediaLoader;
 import com.jyt.baseapp.util.ScreenUtils;
 import com.jyt.baseapp.view.fragment.ImgFolderFragment;
@@ -37,7 +40,7 @@ public class SelImageActivity extends BaseActivity {
     ImgFolderFragment imgFolderFragment;
     ImgListFragment imgListFragment;
 
-    List<String> selImages = new ArrayList<>();
+    List<String> selImages;
 
     int currentSelCount = 0;
     int maxSelCount = 0;
@@ -56,6 +59,19 @@ public class SelImageActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Tuple para = IntentHelper.SelImageActivityGetPara(getIntent());
+
+        maxSelCount = (int) para.getItem1();
+        selImages = (List<String>) para.getItem2();
+        if (selImages==null){
+            selImages = new ArrayList<>();
+            currentSelCount = 0;
+        }else {
+            currentSelCount = selImages.size();
+        }
+
+        setFunctionText(getResources().getString(R.string.selImages_finish_text,currentSelCount+"",maxSelCount+""));
+
         vViewPager.setAdapter(adapter = new FragmentViewPagerAdapter(getSupportFragmentManager()));
         adapter.addFragment(imgFolderFragment = new ImgFolderFragment());
         adapter.addFragment(imgListFragment = new ImgListFragment());
@@ -68,7 +84,21 @@ public class SelImageActivity extends BaseActivity {
             @Override
             public void onClick(List<LocalMedia> medias) {
                 imgListFragment.setData(medias,selImages);
-                vViewPager.setCurrentItem(1);
+                vViewPager.setCurrentItem(1,true);
+            }
+        });
+
+        imgListFragment.setOnImageCheckChanged(new ImgListFragment.OnImageCheckChanged() {
+            @Override
+            public void onChanged(boolean checked, String path) {
+                if (checked){
+                    selImages.add(path);
+                }else {
+                    selImages.remove(path);
+                }
+                currentSelCount = selImages.size();
+                setFunctionText(getResources().getString(R.string.selImages_finish_text,currentSelCount+"",maxSelCount+""));
+
             }
         });
 
@@ -85,6 +115,14 @@ public class SelImageActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onFunctionClick() {
+        if (currentSelCount>0 && currentSelCount<=maxSelCount){
+            IntentHelper.SelImageActivitySetResult(this,RESULT_OK,selImages);
+        }else {
+
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -92,7 +130,7 @@ public class SelImageActivity extends BaseActivity {
             super.onBackPressed();
 
         }else {
-            vViewPager.setCurrentItem(0);
+            vViewPager.setCurrentItem(0,true);
         }
     }
 }

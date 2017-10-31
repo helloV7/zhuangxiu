@@ -8,7 +8,7 @@
     <color name="transparent">#00000000</color>
     <color name="transparent_half">#e0000000</color>//半透明
     <color name="gray">#cccccc</color>
-    <color name="divider">#e5e5e5</color>
+    <color name="divider">#ECECEC</color>
     <color name="background">#f2f2f2</color>
     <color name="white">#FFFFFF</color>
     <color name="enableBtnFontColor">#FFFFFF</color>

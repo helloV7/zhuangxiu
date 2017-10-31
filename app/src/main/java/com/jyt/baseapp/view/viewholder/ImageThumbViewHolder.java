@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.bean.LocalMedia;
 import com.jyt.baseapp.util.DensityUtil;
+import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.util.ScreenUtils;
 
 import butterknife.BindView;
@@ -39,7 +40,6 @@ public class ImageThumbViewHolder extends BaseViewHolder<LocalMedia> {
         imgChecker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 data.setChecked(!data.isChecked());
                 setChecked(data.isChecked());
 

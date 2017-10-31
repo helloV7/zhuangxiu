@@ -11,6 +11,7 @@ import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.ImageThumbAdapter;
 import com.jyt.baseapp.bean.LocalMedia;
 import com.jyt.baseapp.helper.IntentHelper;
+import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 
 import java.util.List;
@@ -29,6 +30,13 @@ public class ImgListFragment extends BaseFragment {
 
     List<LocalMedia> localMedias;
     List<String> selPath;
+
+    public void setOnImageCheckChanged(OnImageCheckChanged onImageCheckChanged) {
+        this.onImageCheckChanged = onImageCheckChanged;
+    }
+
+    OnImageCheckChanged onImageCheckChanged;
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_image_list;
@@ -49,10 +57,8 @@ public class ImgListFragment extends BaseFragment {
             @Override
             public void onClick(BaseViewHolder holder) {
                 LocalMedia media = (LocalMedia) holder.getData();
-                if (media.isChecked()){
-                    selPath.add(media.getPath());
-                }else {
-                    selPath.remove(media.getPath());
+                if (onImageCheckChanged!=null){
+                    onImageCheckChanged.onChanged(media.isChecked(),media.getPath());
                 }
             }
         });
@@ -69,11 +75,12 @@ public class ImgListFragment extends BaseFragment {
             }
         }
 
-
         adapter.setDataList(localMedias);
         adapter.notifyDataSetChanged();
 
     }
 
-
+    public interface OnImageCheckChanged{
+        void onChanged(boolean checked,String path);
+    }
 }

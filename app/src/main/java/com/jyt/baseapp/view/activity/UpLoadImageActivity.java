@@ -4,6 +4,7 @@ package com.jyt.baseapp.view.activity;
  * Created by chenweiqi on 2017/10/30.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +16,12 @@ import android.widget.TextView;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.ShowImageAdapter;
 import com.jyt.baseapp.annotation.ActivityAnnotation;
+import com.jyt.baseapp.bean.Tuple;
 import com.jyt.baseapp.helper.IntentHelper;
+import com.jyt.baseapp.helper.IntentKey;
+import com.jyt.baseapp.helper.IntentRequestCode;
 import com.jyt.baseapp.itemDecoration.RcvGridSpaceItemDecoration;
+import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.util.ScreenUtils;
 import com.jyt.baseapp.util.T;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
@@ -25,6 +30,9 @@ import com.lcodecore.tkrefreshlayout.utils.DensityUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -49,11 +57,11 @@ public class UpLoadImageActivity extends BaseActivity {
     //图片链接
     List imageList;
     //rcv显示列数
-    int columnCount = 4;
+    final int columnCount = 4;
     //底部按钮margin百分比
-    float bottomBtnMarginPercent = 0.12f;
+    final float bottomBtnMarginPercent = 0.12f;
     //图片边距百分比
-    float imageMarginPercent = 0.011f;
+    final float imageMarginPercent = 0.011f;
 
     ShowImageAdapter adapter;
 
@@ -72,6 +80,10 @@ public class UpLoadImageActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         int windowWidth = ScreenUtils.getScreenWidth(getContext());
 
+        Intent intent = getIntent();
+        imageList = intent.getStringArrayListExtra(IntentKey.IMAGES);
+        maxCount = intent.getIntExtra(IntentKey.MAX_COUNT,0);
+
         int margin_btn_percent = (int) (windowWidth*bottomBtnMarginPercent);
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) btnSubmit.getLayoutParams();
         params.leftMargin = margin_btn_percent;
@@ -88,13 +100,22 @@ public class UpLoadImageActivity extends BaseActivity {
             @Override
             public void onClick(BaseViewHolder holder) {
                 if (holder.getData() instanceof Integer){
-                    int selCount = maxCount-currentCount;
-                    if (selCount==0){
-                        IntentHelper.openSelImageActivityForResult(getContext(),selCount);
 
-                    }else {
-                        T.showShort(getContext(),"已达到限制，无法继续添加");
-                    }
+                    List images = new  ArrayList(Arrays.asList( new Integer[imageList.size()]));
+
+                    Collections.copy(images,imageList);
+
+                    L.e("size"+images.size());
+                    images.remove(images.size()-1);
+                    IntentHelper.openSelImageActivityForResult(getContext(),1,images);
+
+//                    int selCount = maxCount-currentCount;
+//                    if (selCount>0){
+//                        IntentHelper.openSelImageActivityForResult(getContext(),selCount);
+//
+//                    }else {
+//                        T.showShort(getContext(),"已达到限制，无法继续添加");
+//                    }
                 }else {
                     IntentHelper.openBrowseImagesActivity(getContext(),holder.getData().toString());
                 }
@@ -104,13 +125,30 @@ public class UpLoadImageActivity extends BaseActivity {
         if (imageList==null){
             imageList = new ArrayList();
         }
-        imageList.add("http://img1.imgtn.bdimg.com/it/u=3191256922,1392369155&fm=214&gp=0.jpg");
-        imageList.add("http://img1.imgtn.bdimg.com/it/u=3191256922,1392369155&fm=214&gp=0.jpg");
-        imageList.add("http://img1.imgtn.bdimg.com/it/u=3191256922,1392369155&fm=214&gp=0.jpg");
+//        imageList.add("http://img1.imgtn.bdimg.com/it/u=3191256922,1392369155&fm=214&gp=0.jpg");
+//        imageList.add("http://img1.imgtn.bdimg.com/it/u=3191256922,1392369155&fm=214&gp=0.jpg");
+//        imageList.add("http://img1.imgtn.bdimg.com/it/u=3191256922,1392369155&fm=214&gp=0.jpg");
 
         imageList.add(imageList.size(),new Integer(0));
 
         adapter.setDataList(imageList);
+        upDateView();
+    }
+    public void upDateView(){
+        textImageCount.setText(getString(R.string.uploadImages_finish_text,imageList.size()-1+"",maxCount+""));
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == IntentRequestCode.CODE_SEL_IMAGES && resultCode == RESULT_OK){
+            Tuple result = IntentHelper.SelImageActivityGetResult(data);
+            imageList = (List) result.getItem1();
+            imageList.add(imageList.size(),new Integer(0));
+            adapter.setDataList(imageList);
+            adapter.notifyDataSetChanged();
+            upDateView();
+        }
     }
 }
