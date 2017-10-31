@@ -64,4 +64,16 @@ public class LocalMedia implements Serializable {
     public void setLastUpdateAt(long lastUpdateAt) {
         this.lastUpdateAt = lastUpdateAt;
     }
+
+
+    @Override
+    public String toString() {
+        return "LocalMedia{" +
+                "path='" + path + '\'' +
+                ", duration=" + duration +
+                ", lastUpdateAt=" + lastUpdateAt +
+                ", isChecked=" + isChecked +
+                ", type=" + type +
+                '}';
+    }
 }

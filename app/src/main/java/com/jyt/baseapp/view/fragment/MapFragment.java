@@ -16,18 +16,20 @@ import com.jyt.baseapp.R;
 public class MapFragment extends BaseFragment {
 
     private MapView mMapView;
-    @Nullable
+
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_map, container, false);
+    protected int getLayoutId() {
+        return R.layout.fragment_map;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         mMapView= (MapView) rootView.findViewById(R.id.mapview_map);
         mMapView.onCreate(savedInstanceState);
         AMap map=mMapView.getMap();
         map.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放按钮
-        return rootView;
     }
-
-
 
     @Override
     public void onResume() {

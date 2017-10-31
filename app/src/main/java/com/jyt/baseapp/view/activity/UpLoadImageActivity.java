@@ -5,7 +5,6 @@ package com.jyt.baseapp.view.activity;
  */
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -22,6 +21,8 @@ import com.jyt.baseapp.util.ScreenUtils;
 import com.jyt.baseapp.util.T;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 import com.lcodecore.tkrefreshlayout.utils.DensityUtil;
+
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +89,7 @@ public class UpLoadImageActivity extends BaseActivity {
             public void onClick(BaseViewHolder holder) {
                 if (holder.getData() instanceof Integer){
                     int selCount = maxCount-currentCount;
-                    if (selCount>0){
+                    if (selCount==0){
                         IntentHelper.openSelImageActivityForResult(getContext(),selCount);
 
                     }else {

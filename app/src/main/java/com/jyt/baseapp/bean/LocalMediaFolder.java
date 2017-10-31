@@ -85,4 +85,19 @@ public class LocalMediaFolder implements Serializable {
     public void setImages(List<LocalMedia> images) {
         this.images = images;
     }
+
+
+    @Override
+    public String toString() {
+        return "LocalMediaFolder{" +
+                "name='" + name + '\'' +
+                ", path='" + path + '\'' +
+                ", firstImagePath='" + firstImagePath + '\'' +
+                ", imageNum=" + imageNum +
+                ", isChecked=" + isChecked +
+                ", checkedNum=" + checkedNum +
+                ", type=" + type +
+                ", images=" + images +
+                '}';
+    }
 }

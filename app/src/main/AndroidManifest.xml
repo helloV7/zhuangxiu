@@ -22,6 +22,7 @@
     <!--用于申请获取蓝牙信息进行室内定位-->
     <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -43,6 +44,8 @@
 
         </activity>
         <activity android:name=".view.activity.BrowseImagesActivity" android:label="浏览图片" android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".view.activity.SelImageActivity" android:label="选择媒体文件" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -51,6 +51,9 @@ public class BaseViewHolder<T> extends RecyclerView.ViewHolder {
         return data;
     }
 
+    public BaseViewHolder getHolder(){
+        return this;
+    }
 
     public void setOnViewHolderLongClickListener(OnViewHolderLongClickListener onViewHolderLongClickListener) {
         this.onViewHolderLongClickListener = onViewHolderLongClickListener;

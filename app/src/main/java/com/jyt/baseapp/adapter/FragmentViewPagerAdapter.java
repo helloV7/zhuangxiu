@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.jyt.baseapp.view.fragment.BaseFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,18 +15,25 @@ import java.util.List;
  */
 
 public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
-    List<BaseFragment> fragments;
+    List<Fragment> fragments;
     List<String> titles;
 
     public FragmentViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
-    public List<BaseFragment> getFragments() {
+    public void addFragment(Fragment fragment){
+        getFragments().add(fragment);
+    }
+
+    public List getFragments() {
+        if (fragments==null){
+            fragments = new ArrayList<>();
+        }
         return fragments;
     }
 
-    public void setFragments(List<BaseFragment> fragments) {
+    public void setFragments(List fragments) {
         this.fragments = fragments;
     }
 

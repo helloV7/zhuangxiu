@@ -1,24 +1,17 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'lin'
-            keyPassword '123456'
-            storeFile file('E:/key/zhuangxiu.jks')
-            storePassword '123456'
-        }
-    }
+
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.jyt.baseapp"
-        minSdkVersion 19
+        minSdkVersion 17
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        signingConfig signingConfigs.config
+
     }
     buildTypes {
         release {
@@ -26,8 +19,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    productFlavors {
-    }
+
 }
 
 dependencies {
@@ -50,6 +42,5 @@ dependencies {
     compile 'jp.wasabeef:glide-transformations:2.0.2'
     compile 'cn.bingoogolapple:bga-banner:2.1.7@aar'
     compile 'com.lcodecorex:tkrefreshlayout:1.0.4'
-    compile files('libs/Amap_2DMap_V5.2.0_20170627.jar')
-    compile files('libs/AMap_Location_V3.6.1_20171012.jar')
+    compile 'org.jetbrains:annotations-java5:15.0'
 }

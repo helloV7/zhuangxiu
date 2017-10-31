@@ -1,9 +1,12 @@
 package com.jyt.baseapp.util;
 
+import android.app.Activity;
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -41,51 +44,52 @@ public class LocalMediaLoader {
     };
 
     private int type = TYPE_IMAGE;
-    private FragmentActivity activity;
+    private Object activityOrFragment;
 
 
-    public LocalMediaLoader(FragmentActivity activity, int type) {
-        this.activity = activity;
+    public LocalMediaLoader(Object activityOrFragment, int type) {
+        this.activityOrFragment = activityOrFragment;
         this.type = type;
     }
 
     public void loadAllImage(final LocalMediaLoadListener imageLoadListener) {
-        activity.getSupportLoaderManager().initLoader(type, null, new LoaderManager.LoaderCallbacks<Cursor>() {
-            @Override
-            public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-                CursorLoader cursorLoader = null;
-                if (id == TYPE_IMAGE) {
-                    cursorLoader = new CursorLoader(
-                            activity, MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                            IMAGE_PROJECTION, MediaStore.Images.Media.MIME_TYPE + "=? or "
-                            + MediaStore.Images.Media.MIME_TYPE + "=?",
-                            new String[]{"image/jpeg", "image/png"}, IMAGE_PROJECTION[2] + " DESC");
-                } else if (id == TYPE_VIDEO) {
-                    cursorLoader = new CursorLoader(
-                            activity, MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
-                            VIDEO_PROJECTION, null, null, VIDEO_PROJECTION[2] + " DESC");
+        if (activityOrFragment instanceof Activity){
+            ((Activity)activityOrFragment).getLoaderManager().initLoader(type, null, new android.app.LoaderManager.LoaderCallbacks<Cursor>() {
+                @Override
+                public android.content.Loader<Cursor> onCreateLoader(int id, Bundle args) {
+                    android.content.CursorLoader cursorLoader = null;
+                    if (id == TYPE_IMAGE) {
+                        cursorLoader = new android.content.CursorLoader(
+                                (Context) activityOrFragment, MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                                IMAGE_PROJECTION, MediaStore.Images.Media.MIME_TYPE + "=? or "
+                                + MediaStore.Images.Media.MIME_TYPE + "=?",
+                                new String[]{"image/jpeg", "image/png"}, IMAGE_PROJECTION[2] + " DESC");
+                    } else if (id == TYPE_VIDEO) {
+                        cursorLoader = new android.content.CursorLoader(
+                                (Context)activityOrFragment, MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                                VIDEO_PROJECTION, null, null, VIDEO_PROJECTION[2] + " DESC");
+                    }
+                    return cursorLoader;
                 }
-                return cursorLoader;
-            }
 
-            @Override
-            public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-                try {
-                    ArrayList<LocalMediaFolder> imageFolders = new ArrayList<LocalMediaFolder>();
-                    LocalMediaFolder allImageFolder = new LocalMediaFolder();
-                    List<LocalMedia> allImages = new ArrayList<LocalMedia>();
-                    if (data != null) {
-                        int count = data.getCount();
-                        if (count > 0) {
-                            data.moveToFirst();
-                            do {
+                @Override
+                public void onLoadFinished(android.content.Loader<Cursor> loader, Cursor data) {
+                    try {
+                        ArrayList<LocalMediaFolder> imageFolders = new ArrayList<LocalMediaFolder>();
+                        LocalMediaFolder allImageFolder = new LocalMediaFolder();
+                        List<LocalMedia> allImages = new ArrayList<LocalMedia>();
+                        if (data != null) {
+                            int count = data.getCount();
+                            if (count > 0) {
+                                data.moveToFirst();
+                                do {
 
-                                String path = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
-                                String name = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
-                                // 如原图路径不存在或者路径存在但文件不存在,就结束当前循环
-                                if (TextUtils.isEmpty(path) || !new File(path).exists()) {
-                                    continue;
-                                }
+                                    String path = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
+                                    String name = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
+                                    // 如原图路径不存在或者路径存在但文件不存在,就结束当前循环
+                                    if (TextUtils.isEmpty(path) || !new File(path).exists()) {
+                                        continue;
+                                    }
 //                                if (type == TYPE_VIDEO) {
 //                                    // 视频缩略图ID:MediaStore.Audio.Media._ID
 //                                    int imageId = data.getInt(data.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
@@ -94,52 +98,149 @@ public class LocalMediaLoader {
 //                                        path = thumbCursor.getString(thumbCursor.getColumnIndexOrThrow(MediaStore.Video.Thumbnails.DATA));
 //                                    }
 //                                }
-                                long dateTime = data.getLong(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]));
-                                int duration = (type == TYPE_VIDEO ? data.getInt(data.getColumnIndexOrThrow(VIDEO_PROJECTION[4])) : 0);
-                                LocalMedia image = new LocalMedia(path, dateTime, duration, type);
-                                LocalMediaFolder folder = getImageFolder(path, imageFolders);
-                                Log.i("FolderName", folder.getName());
-                                folder.getImages().add(image);
-                                folder.setImageNum(folder.getImageNum() + 1);
-                                folder.setType(type);
-                                allImages.add(image);
-                                allImageFolder.setType(type);
-                                allImageFolder.setImageNum(allImageFolder.getImageNum() + 1);
-                            } while (data.moveToNext());
+                                    long dateTime = data.getLong(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]));
+                                    int duration = (type == TYPE_VIDEO ? data.getInt(data.getColumnIndexOrThrow(VIDEO_PROJECTION[4])) : 0);
+                                    LocalMedia image = new LocalMedia(path, dateTime, duration, type);
+                                    LocalMediaFolder folder = getImageFolder(path, imageFolders);
+                                    Log.i("FolderName", folder.getName());
+                                    folder.getImages().add(image);
+                                    folder.setImageNum(folder.getImageNum() + 1);
+                                    folder.setType(type);
+                                    allImages.add(image);
+                                    allImageFolder.setType(type);
+                                    allImageFolder.setImageNum(allImageFolder.getImageNum() + 1);
+                                } while (data.moveToNext());
 
-                            if (allImages.size() > 0) {
-                                String title = "";
-                                switch (type) {
-                                    case TYPE_VIDEO:
-                                        title = "所有视频";
-                                        break;
-                                    case TYPE_IMAGE:
-                                        title = "所有图片";
-                                        break;
+                                if (allImages.size() > 0) {
+                                    String title = "";
+                                    switch (type) {
+                                        case TYPE_VIDEO:
+                                            title = "所有视频";
+                                            break;
+                                        case TYPE_IMAGE:
+                                            title = "所有图片";
+                                            break;
+                                    }
+                                    allImageFolder.setFirstImagePath(allImages.get(0).getPath());
+                                    allImageFolder.setName(title);
+                                    allImageFolder.setType(type);
+                                    allImageFolder.setImages(allImages);
+                                    imageFolders.add(allImageFolder);
+                                    sortFolder(imageFolders);
                                 }
-                                allImageFolder.setFirstImagePath(allImages.get(0).getPath());
-                                allImageFolder.setName(title);
-                                allImageFolder.setType(type);
-                                allImageFolder.setImages(allImages);
-                                imageFolders.add(allImageFolder);
-                                sortFolder(imageFolders);
+                                imageLoadListener.loadComplete(imageFolders);
+                                if (Build.VERSION.SDK_INT<14)
+                                    data.close();
+                            } else {
+                                imageLoadListener.loadComplete(imageFolders);
                             }
-                            imageLoadListener.loadComplete(imageFolders);
-                            if (Build.VERSION.SDK_INT<14)
-                                data.close();
-                        } else {
-                            imageLoadListener.loadComplete(imageFolders);
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
 
-            @Override
-            public void onLoaderReset(Loader<Cursor> loader) {
-            }
-        });
+                @Override
+                public void onLoaderReset(android.content.Loader<Cursor> loader) {
+
+                }
+            });
+
+        }else if (activityOrFragment instanceof Fragment){
+
+        }
+
+
+//        (Fragment)activityOrFragment.getSupportLoaderManager().initLoader(type, null, new LoaderManager.LoaderCallbacks<Cursor>() {
+//            @Override
+//            public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+//                CursorLoader cursorLoader = null;
+//                if (id == TYPE_IMAGE) {
+//                    cursorLoader = new CursorLoader(
+//                            activity, MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+//                            IMAGE_PROJECTION, MediaStore.Images.Media.MIME_TYPE + "=? or "
+//                            + MediaStore.Images.Media.MIME_TYPE + "=?",
+//                            new String[]{"image/jpeg", "image/png"}, IMAGE_PROJECTION[2] + " DESC");
+//                } else if (id == TYPE_VIDEO) {
+//                    cursorLoader = new CursorLoader(
+//                            activity, MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+//                            VIDEO_PROJECTION, null, null, VIDEO_PROJECTION[2] + " DESC");
+//                }
+//                return cursorLoader;
+//            }
+//
+//            @Override
+//            public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+//                try {
+//                    ArrayList<LocalMediaFolder> imageFolders = new ArrayList<LocalMediaFolder>();
+//                    LocalMediaFolder allImageFolder = new LocalMediaFolder();
+//                    List<LocalMedia> allImages = new ArrayList<LocalMedia>();
+//                    if (data != null) {
+//                        int count = data.getCount();
+//                        if (count > 0) {
+//                            data.moveToFirst();
+//                            do {
+//
+//                                String path = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[0]));
+//                                String name = data.getString(data.getColumnIndexOrThrow(IMAGE_PROJECTION[1]));
+//                                // 如原图路径不存在或者路径存在但文件不存在,就结束当前循环
+//                                if (TextUtils.isEmpty(path) || !new File(path).exists()) {
+//                                    continue;
+//                                }
+////                                if (type == TYPE_VIDEO) {
+////                                    // 视频缩略图ID:MediaStore.Audio.Media._ID
+////                                    int imageId = data.getInt(data.getColumnIndexOrThrow(MediaStore.Images.Media._ID));
+////                                    Cursor thumbCursor = activity.getContentResolver().query(MediaStore.Video.Thumbnails.EXTERNAL_CONTENT_URI, new String[]{MediaStore.Video.Thumbnails.DATA}, MediaStore.Video.Thumbnails.VIDEO_ID + "=" + imageId, null, null);
+////                                    if (thumbCursor.moveToFirst()) {
+////                                        path = thumbCursor.getString(thumbCursor.getColumnIndexOrThrow(MediaStore.Video.Thumbnails.DATA));
+////                                    }
+////                                }
+//                                long dateTime = data.getLong(data.getColumnIndexOrThrow(IMAGE_PROJECTION[2]));
+//                                int duration = (type == TYPE_VIDEO ? data.getInt(data.getColumnIndexOrThrow(VIDEO_PROJECTION[4])) : 0);
+//                                LocalMedia image = new LocalMedia(path, dateTime, duration, type);
+//                                LocalMediaFolder folder = getImageFolder(path, imageFolders);
+//                                Log.i("FolderName", folder.getName());
+//                                folder.getImages().add(image);
+//                                folder.setImageNum(folder.getImageNum() + 1);
+//                                folder.setType(type);
+//                                allImages.add(image);
+//                                allImageFolder.setType(type);
+//                                allImageFolder.setImageNum(allImageFolder.getImageNum() + 1);
+//                            } while (data.moveToNext());
+//
+//                            if (allImages.size() > 0) {
+//                                String title = "";
+//                                switch (type) {
+//                                    case TYPE_VIDEO:
+//                                        title = "所有视频";
+//                                        break;
+//                                    case TYPE_IMAGE:
+//                                        title = "所有图片";
+//                                        break;
+//                                }
+//                                allImageFolder.setFirstImagePath(allImages.get(0).getPath());
+//                                allImageFolder.setName(title);
+//                                allImageFolder.setType(type);
+//                                allImageFolder.setImages(allImages);
+//                                imageFolders.add(allImageFolder);
+//                                sortFolder(imageFolders);
+//                            }
+//                            imageLoadListener.loadComplete(imageFolders);
+//                            if (Build.VERSION.SDK_INT<14)
+//                                data.close();
+//                        } else {
+//                            imageLoadListener.loadComplete(imageFolders);
+//                        }
+//                    }
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            @Override
+//            public void onLoaderReset(Loader<Cursor> loader) {
+//            }
+//        });
     }
 
 

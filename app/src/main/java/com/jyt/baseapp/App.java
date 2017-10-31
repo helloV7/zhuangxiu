@@ -32,7 +32,7 @@ public class App  extends Application{
         isDebug = debug;
     }
 
-    private boolean isDebug = false;
+    private boolean isDebug = true;
 
     @Override
     public void onCreate() {

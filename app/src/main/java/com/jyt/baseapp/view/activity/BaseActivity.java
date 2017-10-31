@@ -139,6 +139,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         onBackPressed();
     }
 
+
+    @OnClick(R.id.text_function)
+    public void onFunctionClick(){
+
+    }
     /**
      * 隐藏ActionBar
      */

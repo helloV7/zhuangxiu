@@ -13,10 +13,8 @@ import com.jyt.baseapp.R;
  */
 public class MoreFragment  extends BaseFragment{
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_more, container, false);
-        return rootView;
+    protected int getLayoutId() {
+        return R.layout.fragment_more;
     }
 }

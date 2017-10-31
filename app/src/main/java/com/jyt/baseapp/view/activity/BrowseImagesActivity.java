@@ -27,8 +27,9 @@ public class BrowseImagesActivity extends BaseActivity {
 
 
     TouchImageAdapter adapter;
-
+    //数据源
     List images = new ArrayList();
+    //开始查看index
     int startIndex = 0;
 
     @Override
