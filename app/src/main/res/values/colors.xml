@@ -21,4 +21,6 @@
     <color name="vp_text">#A0CCFF</color>
     <color name="text_color1">#1C1C1C</color>
     <color name="text_color2">#429BFF</color>
+    <color name="map_text1">#949494</color>
+    <color name="map_text2">#429BFF</color>
 </resources>

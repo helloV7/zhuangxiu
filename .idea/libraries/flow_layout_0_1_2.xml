@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="flow-layout-0.1.2">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.nex3z/flow-layout/0.1.2/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.nex3z/flow-layout/0.1.2/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.nex3z/flow-layout/0.1.2/f976d0710679c49b2052f74135ed8ed6732339f7/flow-layout-0.1.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

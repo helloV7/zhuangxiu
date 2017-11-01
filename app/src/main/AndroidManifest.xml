@@ -25,6 +25,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
+        android:name=".GoglePlayApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -33,15 +34,15 @@
             android:name="com.amap.api.v2.apikey"
             android:value="4e7f20c1b5d868348284cee64b0134e9"/>
         <activity android:name=".view.activity.UpLoadImageActivity" android:label="上传测量图片">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"></action>
-                <category android:name="android.intent.category.LAUNCHER"></category>
-            </intent-filter>
+
         </activity>
         <activity android:name=".view.activity.LoginActivity">
         </activity>
         <activity android:name=".view.activity.ContentActivity">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"></action>
+                <category android:name="android.intent.category.LAUNCHER"></category>
+            </intent-filter>
         </activity>
         <activity android:name=".view.activity.BrowseImagesActivity" android:label="浏览图片" android:screenOrientation="portrait"></activity>
 
