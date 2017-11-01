@@ -113,6 +113,9 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         }
     }
+    public void setTextTitle(String text){
+        textTitle.setText(text);
+    }
 
     public void showBackBtn(){
         imgBack.setVisibility(View.VISIBLE);

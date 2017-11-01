@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_selector_city"
+        android:text=""
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="16dp"
+        android:layout_marginLeft="8dp"/>
+    <com.nex3z.flowlayout.FlowLayout
+        android:id="@+id/flow_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+    </com.nex3z.flowlayout.FlowLayout>
+    <View
+        android:id="@+id/line_last"
+        android:layout_marginTop="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:background="@color/gray"/>
+
+</LinearLayout>

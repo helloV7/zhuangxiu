@@ -3,12 +3,14 @@ package com.jyt.baseapp.helper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 
 import com.jyt.baseapp.bean.Tuple;
 import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.view.activity.BaseActivity;
 import com.jyt.baseapp.view.activity.BrowseImagesActivity;
+import com.jyt.baseapp.view.activity.CommonProgressActivity;
 import com.jyt.baseapp.view.activity.SelImageActivity;
 
 import java.util.ArrayList;
@@ -112,6 +114,138 @@ public class IntentHelper {
 
 // endregion
 
+    //region 测量完毕 设计完毕 客户已审批 待店主确认 店主已确认 待审图纸 已审图纸 待生产招牌 待审材料 已审材料
+
+    /**
+     * 测量完毕
+     * @param context
+     * @param project
+     */
+    public static void openMeasureFinishActivity(Context context,Parcelable project){
+            Intent intent = getIntent(context, CommonProgressActivity.class);
+            intent.putExtra(IntentKey.TYPE,CommonProgressActivity.TYPE_MEASURE_FINISH);
+            intent.putExtra(IntentKey.DATA,project);
+            context.startActivity(intent);
+    }
+
+    /**
+     * 设计完毕
+     * @param context
+     * @param project
+     */
+    public static void openDesignFinishActivity(Context context,Parcelable project){
+        Intent intent = getIntent(context, CommonProgressActivity.class);
+        intent.putExtra(IntentKey.TYPE,CommonProgressActivity.TYPE_DESIGN_FINISH);
+        intent.putExtra(IntentKey.DATA,project);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 客户已审批
+     * @param context
+     * @param project
+     */
+    public static void openCustomerConfirmedActivity(Context context,Parcelable project){
+        Intent intent = getIntent(context, CommonProgressActivity.class);
+        intent.putExtra(IntentKey.TYPE,CommonProgressActivity.TYPE_CUSTOMER_VERIFIED);
+        intent.putExtra(IntentKey.DATA,project);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 待店主确认
+     * @param context
+     * @param project
+     */
+    public static void openWaitShopkeeperConfirmActivity(Context context,Parcelable project){
+        Intent intent = getIntent(context, CommonProgressActivity.class);
+        intent.putExtra(IntentKey.TYPE,CommonProgressActivity.TYPE_WAIT_SHOPKEEPER_CONFIRM);
+        intent.putExtra(IntentKey.DATA,project);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 店主已确认
+     * @param context
+     * @param project
+     */
+    public static void openShopkeeperConfirmedActivity(Context context,Parcelable project){
+        Intent intent = getIntent(context, CommonProgressActivity.class);
+        intent.putExtra(IntentKey.TYPE,CommonProgressActivity.TYPE_SHOPKEEPER_CONFIRMED);
+        intent.putExtra(IntentKey.DATA,project);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 待审图纸
+     * @param context
+     * @param project
+     */
+    public static void openWaitVerifiedDrawingActivity(Context context,Parcelable project){
+        Intent intent = getIntent(context, CommonProgressActivity.class);
+        intent.putExtra(IntentKey.TYPE,CommonProgressActivity.TYPE_WAIT_VERIFIED_DRAWING);
+        intent.putExtra(IntentKey.DATA,project);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 已审图纸
+     * @param context
+     * @param project
+     */
+    public static void openVerifiedDrawingActivity(Context context,Parcelable project){
+        Intent intent = getIntent(context, CommonProgressActivity.class);
+        intent.putExtra(IntentKey.TYPE,CommonProgressActivity.TYPE_VERIFIED_DRAWING);
+        intent.putExtra(IntentKey.DATA,project);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 待生产招牌
+     * @param context
+     * @param project
+     */
+    public static void openWaitProduceSignActivity(Context context,Parcelable project){
+        Intent intent = getIntent(context, CommonProgressActivity.class);
+        intent.putExtra(IntentKey.TYPE,CommonProgressActivity.TYPE_WAIT_PRODUCE_SIGN);
+        intent.putExtra(IntentKey.DATA,project);
+        context.startActivity(intent);
+    }
+    /**
+     *待审材料
+     * @param context
+     * @param project
+     */
+    public static void openWaitVerifyMaterialActivity(Context context,Parcelable project){
+        Intent intent = getIntent(context, CommonProgressActivity.class);
+        intent.putExtra(IntentKey.TYPE,CommonProgressActivity.TYPE_WAIT_VERIFY_MATERIAL);
+        intent.putExtra(IntentKey.DATA,project);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 已审材料
+     * @param context
+     * @param project
+     */
+    public static void openVerifiedMaterialActivity(Context context,Parcelable project){
+        Intent intent = getIntent(context, CommonProgressActivity.class);
+        intent.putExtra(IntentKey.TYPE,CommonProgressActivity.TYPE_VERIFIED_MATERIAL);
+        intent.putExtra(IntentKey.DATA,project);
+        context.startActivity(intent);
+    }
+
+    /**
+     * CommonProgressActivity 读取数据
+     * @param intent
+     * @return int type , Parcelable data
+     */
+    public static Tuple CommonProgressActivityGetPara(Intent intent){
+        int type = intent.getIntExtra(IntentKey.TYPE,0);
+        Parcelable data = intent.getParcelableExtra(IntentKey.DATA);
+        return new Tuple(type,data);
+    }
+    //endregion
 
 
 

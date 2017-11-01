@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/ll_selector_map"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="380dp"
+              android:background="@drawable/bg_selector">
+    <com.jyt.baseapp.view.widget.MapSelector
+        android:id="@+id/selector_city"
+        android:layout_width="match_parent"
+        android:layout_height="380dp">
+    </com.jyt.baseapp.view.widget.MapSelector>
+</LinearLayout>

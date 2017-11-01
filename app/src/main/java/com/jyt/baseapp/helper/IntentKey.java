@@ -8,5 +8,7 @@ public class IntentKey {
     public static String IMAGES = "IMAGES";
     public static String START_INDEX = "START_INDEX";
     public static String MAX_COUNT = "MAX_COUNT";
+    public static String TYPE = "TYPE";
+    public static String DATA = "DATA";
 
 }

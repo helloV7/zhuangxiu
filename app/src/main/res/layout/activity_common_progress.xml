@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:divider="@drawable/divider"
+    android:showDividers="beginning|end|middle"
+    >
+
+    <TextView
+        android:id="@+id/text_confirm"
+        style="@style/defaultTextStyle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#429BFF"
+        android:gravity="center"
+        android:text="√   店主已确认"
+        android:textColor="@color/white"
+        android:visibility="gone" />
+    <com.jyt.baseapp.view.widget.WorkerNameAndDateTime
+        android:id="@+id/v_workerAndTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </com.jyt.baseapp.view.widget.WorkerNameAndDateTime>
+
+    <LinearLayout
+        android:id="@+id/v_fileLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:divider="@drawable/divider"
+        android:orientation="vertical"
+        android:showDividers="beginning|middle"
+        android:visibility="gone">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/v_imageLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </LinearLayout>
+</LinearLayout>

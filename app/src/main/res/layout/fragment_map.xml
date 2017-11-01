@@ -3,13 +3,14 @@
 
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <com.amap.api.maps2d.MapView
+    <com.amap.api.maps.MapView
         android:id="@+id/mapview_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </com.amap.api.maps2d.MapView>
+    </com.amap.api.maps.MapView>
 
     <LinearLayout
+        android:id="@+id/ll_map_gan"
         android:layout_marginTop="15dp"
         android:layout_gravity="center_horizontal"
         android:layout_width="335dp"
@@ -18,25 +19,28 @@
         android:gravity="center"
         android:background="@mipmap/bg_corner">
         <TextView
+            android:id="@+id/tv_map_city"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="14dp"
             android:textColor="@color/text_color1"
-            android:text="城市∨∧"/>
+            android:text="城市∨"/>
         <View
+            android:id="@+id/line_map"
             android:layout_width="1dp"
             android:layout_height="25dp"
             android:background="#ECECEC"/>
         <TextView
+            android:id="@+id/tv_map_brand"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
             android:textSize="14dp"
             android:textColor="@color/text_color1"
-            android:text="品牌∨∧"/>
+            android:text="品牌∨"/>
 
     </LinearLayout>
 </FrameLayout>

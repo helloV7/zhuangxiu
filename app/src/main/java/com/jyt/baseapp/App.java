@@ -34,6 +34,7 @@ public class App  extends Application{
 
     private boolean isDebug = true;
 
+
     @Override
     public void onCreate() {
         super.onCreate();
