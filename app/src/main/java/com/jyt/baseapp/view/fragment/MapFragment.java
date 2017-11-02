@@ -1,14 +1,15 @@
 package com.jyt.baseapp.view.fragment;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.jyt.baseapp.bean.MapBean;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.widget.MapSelector;
+import com.jyt.baseapp.view.widget.SingleSelector;
 
 import java.util.ArrayList;
 
@@ -40,11 +42,23 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
     TextView tv_brand;
     @BindView(R.id.ll_map_gan)
     LinearLayout line;
+    @BindView(R.id.selector_city)
+    MapSelector mMapSelector;
+    @BindView(R.id.selector_brand)
+    SingleSelector mBrandSelector;
+    @BindView(R.id.fl_selector)
+    FrameLayout fl_selector;
     private PopupWindow pop_city;
     private PopupWindow pop_brand;
     private MapModel mMapModel;
     private MapBean mMapBean;
-    private MapSelector mMapSelector;
+//    private MapSelector mMapSelector;
+    private int selecrotHeight=BaseUtil.dip2px(380);
+    private boolean isHideMapSelecotr; //是否展开pop
+    private boolean isHideBrandSelecotr;
+    private boolean isShowMap=true;  //是否展开Map
+    private boolean isShowBrand=true;    //是否展开Brand
+
 
     @Override
     protected int getLayoutId() {
@@ -57,9 +71,38 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         mMapView.onCreate(savedInstanceState);
         init();
         initMap();
-        initPopupWindow(mMapBean);
+//        initPopupWindow(mMapBean);
         initProvince();
         initListener();
+    }
+
+    private void init(){
+        WindowManager wm= (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
+        mtotalWidth=wm.getDefaultDisplay().getWidth();
+        mMapSelector.getLayoutParams().width= (int) (mtotalWidth*0.9);
+        mMapSelector.getLayoutParams().height= 0;
+        mMapSelector.requestLayout();
+        mMapSelector.setHideDeleteIV(true);
+        mBrandSelector.getLayoutParams().width= (int) (mtotalWidth*0.9);
+        mBrandSelector.getLayoutParams().height= 0;
+        mBrandSelector.requestLayout();
+        mBrandSelector.setHideDeleteIV(true);
+        mMapSelector.setOnMapClickListener(new MapSelector.OnMapClickListener() {
+            @Override
+            public void onClickProvince(int ProvinceID) {
+                ChangeProvince(ProvinceID);
+            }
+
+            @Override
+            public void onClickArea(int CityIndex, int AreaIndex) {
+
+            }
+
+            @Override
+            public void onClickBack() {
+                pop_city.dismiss();
+            }
+        });
     }
 
     private void initMap(){
@@ -67,11 +110,6 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         mMapModel = new MapModel();
         AMap map=mMapView.getMap();
         map.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放按钮
-    }
-
-    private void init(){
-        WindowManager wm= (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
-        mtotalWidth=wm.getDefaultDisplay().getWidth();
     }
 
     private void initPopupWindow(MapBean bean){
@@ -83,7 +121,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         mMapSelector.setOnMapClickListener(new MapSelector.OnMapClickListener() {
             @Override
             public void onClickProvince(int ProvinceID) {
-                notifyProvince(ProvinceID);
+                ChangeProvince(ProvinceID);
             }
 
             @Override
@@ -93,7 +131,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
 
             @Override
             public void onClickBack() {
-                pop_city.dismiss();
+
             }
         });
 
@@ -132,7 +170,11 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         });
     }
 
-    private void notifyProvince(int ProcinveID){
+    /**
+     * 点击省，改变市级列表
+     * @param ProcinveID
+     */
+    private void ChangeProvince(int ProcinveID){
         mMapModel.getCityData(ProcinveID, new MapModel.onResultCityListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, final ArrayList<MapBean.City> data) {
@@ -178,29 +220,95 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         });
         return popupWindow;
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_map_city:
-                if (!pop_city.isShowing()){
-//                    pop_city.showAsDropDown(line,-10,-10);
-                    pop_city.showAtLocation(line,Gravity.CENTER_HORIZONTAL, 0, -(line.getHeight()));
+                if (isShowMap){
                     tv_city.setText("城市∧");
                     tv_city.setTextColor(getResources().getColor(R.color.map_text2));
+                    tv_brand.setText("品牌∨");
+                    tv_brand.setTextColor(getResources().getColor(R.color.text_color1));
+                    mMapSelector.setVisibility(View.VISIBLE);
+                    mBrandSelector.setVisibility(View.GONE);
+                    isShowMap=false;
+                    isShowBrand=true;
+                    isHideMapSelecotr=false;
                 }else {
-                    pop_city.dismiss();
                     tv_city.setText("城市∨");
                     tv_city.setTextColor(getResources().getColor(R.color.text_color1));
+                    isShowMap=true;
                 }
+                setMapSelector();
                 break;
             case R.id.tv_map_brand:
-                pop_city.dismiss();
-                tv_city.setText("城市∨");
-                tv_city.setTextColor(getResources().getColor(R.color.text_color1));
+                if (isShowBrand){
+                    tv_brand.setText("品牌∧");
+                    tv_brand.setTextColor(getResources().getColor(R.color.map_text2));
+                    tv_city.setText("城市∨");
+                    tv_city.setTextColor(getResources().getColor(R.color.text_color1));
+                    mMapSelector.setVisibility(View.GONE);
+                    mBrandSelector.setVisibility(View.VISIBLE);
+                    isShowBrand=false;
+                    isShowMap=true;
+                    isHideBrandSelecotr=false;
+                }else {
+                    tv_brand.setText("品牌∨");
+                    tv_brand.setTextColor(getResources().getColor(R.color.text_color1));
+                    isShowBrand=true;
+
+                }
+                setBrandSelector();
                 break;
         }
     }
+
+    /**
+     * 地图的选择器动画
+     */
+    private void setMapSelector(){
+        ValueAnimator animator=null;
+        if (!isHideMapSelecotr){
+            animator=ValueAnimator.ofInt(0,selecrotHeight);
+            isHideMapSelecotr =true;
+        }else {
+            animator=ValueAnimator.ofInt(selecrotHeight,0);
+            isHideMapSelecotr =false;
+        }
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mMapSelector.getLayoutParams().height= (int) animation.getAnimatedValue();
+                mMapSelector.requestLayout();
+            }
+        });
+        animator.setDuration(500);
+        animator.start();
+    }
+
+    /**
+     * 品牌的选择器动画
+     */
+    private void setBrandSelector(){
+        ValueAnimator animator=null;
+        if (!isHideBrandSelecotr){
+            animator=ValueAnimator.ofInt(0,selecrotHeight);
+            isHideBrandSelecotr =true;
+        }else {
+            animator=ValueAnimator.ofInt(selecrotHeight,0);
+            isHideBrandSelecotr =false;
+        }
+        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                mBrandSelector.getLayoutParams().height= (int) animation.getAnimatedValue();
+                mBrandSelector.requestLayout();
+            }
+        });
+        animator.setDuration(500);
+        animator.start();
+    }
+
 
 
     @Override
@@ -220,6 +328,8 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         super.onDestroy();
         mMapView.onDestroy();
     }
+
+
 
 
 

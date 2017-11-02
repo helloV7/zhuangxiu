@@ -48,7 +48,7 @@ public class MapModel {
                                         .getJSONObject("result")
                                         .getJSONObject("jingdong_area_province_get_responce")
                                         .getJSONArray("province_areas");
-                                Log.e("@#","json="+json.toString());
+
                                 ArrayList<ProvinceBean> provinceList = new Gson().fromJson(json.toString(),new TypeToken<List<ProvinceBean>>(){}.getType());
                                 ArrayList<MapBean.Province> data=new ArrayList<>();
                                 for (int i = 0; i < provinceList.size(); i++) {
@@ -91,7 +91,6 @@ public class MapModel {
                                     .getJSONArray("data");
                             final ArrayList<CityBean> provinceList = new Gson().fromJson(CityJsons.toString(),new TypeToken<List<CityBean>>(){}.getType());
                             final ArrayList<MapBean.City> data=new ArrayList<>();
-                            Log.e("@#","name="+provinceList.get(0).areaName);
 //                            new Thread(new Runnable() {
 //                                @Override
 //                                public void run() {
@@ -176,10 +175,10 @@ public class MapModel {
                             ArrayList<AreaBean> citylist = new Gson().fromJson(AreaJsons.toString(),new TypeToken<List<AreaBean>>(){}.getType());
                             ArrayList<MapBean.Area> AreaBean =new ArrayList<>();
                             for (int i = 0; i < citylist.size(); i++) {
-                                if (i==0){
-                                    MapBean.Area city=new MapBean.Area("全市",CityID);
-                                    AreaBean.add(city);
-                                }
+//                                if (i==0){
+//                                    MapBean.Area city=new MapBean.Area("全市",CityID);
+//                                    AreaBean.add(city);
+//                                }
                                 MapBean.Area area=new MapBean.Area(citylist.get(i).areaName,citylist.get(i).areaId);
                                 AreaBean.add(area);
                             }

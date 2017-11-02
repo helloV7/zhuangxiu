@@ -62,7 +62,6 @@ public class AreaAdapter extends RecyclerView.Adapter<AreaViewHolder> {
             TextView area=new TextView(context);
             area.setSingleLine();
             area.setEllipsize(TextUtils.TruncateAt.END);
-
             area.setGravity(Gravity.CENTER);
             area.setText( City.mAreas.get(j).AreaName);
             area.setBackground(context.getResources().getDrawable(R.drawable.bg_corner_trans));

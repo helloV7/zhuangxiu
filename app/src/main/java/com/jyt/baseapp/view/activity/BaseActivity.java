@@ -137,6 +137,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public void hideFunction(){
         textFunction.setVisibility(View.INVISIBLE);
     }
+
     @OnClick(R.id.img_back)
     public void onBackClick(){
         onBackPressed();
