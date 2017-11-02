@@ -58,8 +58,6 @@ public class UpLoadImageActivity extends BaseActivity {
     List imageList;
     //rcv显示列数
     final int columnCount = 4;
-    //底部按钮margin百分比
-    final float bottomBtnMarginPercent = 0.12f;
     //图片边距百分比
     final float imageMarginPercent = 0.011f;
 
@@ -84,10 +82,6 @@ public class UpLoadImageActivity extends BaseActivity {
         imageList = intent.getStringArrayListExtra(IntentKey.IMAGES);
         maxCount = intent.getIntExtra(IntentKey.MAX_COUNT,0);
 
-        int margin_btn_percent = (int) (windowWidth*bottomBtnMarginPercent);
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) btnSubmit.getLayoutParams();
-        params.leftMargin = margin_btn_percent;
-        params.rightMargin = margin_btn_percent;
 
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(columnCount,StaggeredGridLayoutManager.VERTICAL);
         vRcv.setLayoutManager(gridLayoutManager);

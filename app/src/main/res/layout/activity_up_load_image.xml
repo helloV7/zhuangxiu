@@ -13,13 +13,8 @@
 
 
     <LinearLayout
-        android:clickable="true"
         android:id="@+id/btn_submit"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/btn_big_sel"
+        style="@style/bigButton"
         android:gravity="center"
         android:orientation="vertical">
 

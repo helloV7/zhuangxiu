@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <ScrollView
+        android:id="@+id/v_scrollView"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/v_batchLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.jyt.baseapp.view.widget.DeliverGoodsItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.jyt.baseapp.view.widget.DeliverGoodsItem>
+        </LinearLayout>
+    </ScrollView>
+    <LinearLayout
+        android:clickable="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:clickable="true"
+            android:id="@+id/btn_addBatch"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/bg_top_bottom_border"
+            android:gravity="center"
+            android:text="+   添加发货批次"
+            android:textColor="@color/enableColor" />
+
+        <TextView
+            android:id="@+id/btn_confirm"
+            style="@style/bigButton"
+            android:gravity="center"
+            android:text="确认" />
+    </LinearLayout>
+</LinearLayout>

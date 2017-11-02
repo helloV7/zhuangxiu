@@ -43,7 +43,7 @@ public class TitleAndFlowImages extends FrameLayout {
 
     OnClickListener onClickListener;
     public TitleAndFlowImages(@NonNull Context context) {
-        super(context, null);
+        this(context, null);
     }
 
     public TitleAndFlowImages(@NonNull Context context, @Nullable AttributeSet attrs) {

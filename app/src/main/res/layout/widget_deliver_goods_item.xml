@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:divider="@drawable/divider"
+    android:showDividers="middle|beginning|end"
+    android:background="@color/white"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text_batch"
+            style="@style/defaultTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="#F2F2F2"
+            android:gravity="center_vertical"
+            android:paddingLeft="20dp"
+            android:text="第一批发货"
+            android:textColor="#429BFF" />
+
+        <ImageView
+            android:id="@+id/img_del"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@mipmap/icon_del" />
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/input_goodsName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:gravity="top|left"
+        android:hint="请输入货物名称…"
+        android:minHeight="100dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:textColor="#1C1C1C"
+        android:textColorHint="#949494"
+        android:textSize="13dp" />
+
+    <com.jyt.baseapp.view.widget.LabelAndTextItem
+        android:id="@+id/LT_companyName"
+        app:labelText="物流公司"
+        app:needInput="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.jyt.baseapp.view.widget.LabelAndTextItem>
+    <com.jyt.baseapp.view.widget.LabelAndTextItem
+        android:id="@+id/LT_companyTel"
+        app:labelText="对方物流公司电话"
+        app:needInput="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.jyt.baseapp.view.widget.LabelAndTextItem>
+    <com.jyt.baseapp.view.widget.LabelAndTextItem
+        android:id="@+id/LT_oddNumbers"
+        app:labelText="物流单号"
+        app:needInput="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.jyt.baseapp.view.widget.LabelAndTextItem>
+    <com.jyt.baseapp.view.widget.LabelAndTextItem
+        android:id="@+id/LT_beginTime"
+        app:labelText="发货时间"
+        app:needInput="false"
+        app:showRightArrow="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.jyt.baseapp.view.widget.LabelAndTextItem>
+    <com.jyt.baseapp.view.widget.LabelAndTextItem
+        android:id="@+id/LT_endTime"
+        app:labelText="预计到货时间"
+        app:needInput="false"
+        app:showRightArrow="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.jyt.baseapp.view.widget.LabelAndTextItem>
+</LinearLayout>
