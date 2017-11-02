@@ -39,14 +39,17 @@
         <activity android:name=".view.activity.LoginActivity">
         </activity>
         <activity android:name=".view.activity.ContentActivity">
+
+        </activity>
+        <activity android:name=".view.activity.BrowseImagesActivity" android:label="浏览图片" android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".view.activity.SelImageActivity" android:label="选择媒体文件" android:screenOrientation="portrait"></activity>
+        <activity android:name=".view.activity.ShopActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.BrowseImagesActivity" android:label="浏览图片" android:screenOrientation="portrait"></activity>
-
-        <activity android:name=".view.activity.SelImageActivity" android:label="选择媒体文件" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

@@ -25,7 +25,7 @@ public class MapSelector extends LinearLayout {
     RecyclerView rv_right;
     LinearLayout ll_parent;
     ImageView iv_back;
-    MapBean bean;
+
     private AreaAdapter mCityAdapter;
     private SingleTextAdapter mProvinceAdapter;
     public MapSelector(Context context) {
@@ -123,7 +123,6 @@ public class MapSelector extends LinearLayout {
     }
 
     public void notifyData(MapBean bean){
-        this.bean=bean;
         if (bean.mProvinces!=null && bean.mProvinces.size()>0 && mProvinceAdapter!=null){
             mProvinceAdapter.notifyData(bean);
         }
@@ -142,6 +141,19 @@ public class MapSelector extends LinearLayout {
     private OnMapClickListener listener;
     public void setOnMapClickListener(OnMapClickListener listener){
         this.listener=listener;
+    }
+
+    public int getRvHeight(){
+        rv_right.measure(0,0);
+        return rv_right.getMeasuredHeight();
+    }
+
+    public void setHideDeleteIV(boolean isHide){
+        if (isHide){
+            iv_back.setVisibility(GONE);
+        }else {
+            iv_back.setVisibility(VISIBLE);
+        }
     }
 
 }

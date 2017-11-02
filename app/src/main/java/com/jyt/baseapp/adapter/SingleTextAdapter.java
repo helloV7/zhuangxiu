@@ -15,7 +15,7 @@ import com.jyt.baseapp.view.viewholder.SingleTextViewHolder;
  * @author LinWei on 2017/11/1 14:14
  */
 public class SingleTextAdapter extends RecyclerView.Adapter<SingleTextViewHolder> {
-    public MapBean data ;
+    public MapBean data;
     private LayoutInflater mInflater;
     private android.content.Context context;
     public SingleTextAdapter(MapBean data , Context context){
