@@ -59,8 +59,68 @@ public class DeliverGoodsItem extends LinearLayout {
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
 
-        int batch  = getIndexInParent();
+        int batch  = getIndexInParent()+ 1;
         textBatch.setText(getResources().getString(R.string.batch, ArabicToChineseUtils.formatInteger(batch)));
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        imgDel.setVisibility(enabled?VISIBLE:GONE);
+        inputGoodsName.setEnabled(enabled);
+        LTCompanyName.setEnabled(enabled);
+        LTCompanyTel.setEnabled(enabled);
+        LTBeginTime.setEnabled(enabled);
+        LTEndTime.setEnabled(enabled);
+        LTOddNumbers.setEnabled(enabled);
+    }
+
+    public String getGoodsName(){
+        return inputGoodsName.getText().toString();
+    }
+
+    public void setGoodsName(String text){
+        inputGoodsName.setText(text);
+    }
+
+    public String getOddNumbers(){
+        return LTOddNumbers.getInputText();
+    }
+
+    public void setOddNumbers(String text){
+        LTOddNumbers.setInputText(text);
+    }
+
+    public void setCompanyTel(String text){
+        LTCompanyTel.setInputText(text);
+    }
+
+    public String getCompanyTel(){
+        return LTCompanyTel.getInputText();
+    }
+
+    public String getCompanyName(){
+        return LTCompanyName.getInputText();
+    }
+
+    public void setCompanyName(String text){
+        LTCompanyName.setInputText(text);
+    }
+
+    public void setBeginTime(String text){
+        LTBeginTime.setValueText(text);
+    }
+
+    public String getBeginTime(){
+        return LTBeginTime.getValueText();
+    }
+
+    public void setEndTime(String text){
+         LTEndTime.setValueText(text);
+    }
+
+    public String getEndTime(){
+        return LTEndTime.getValueText();
     }
 
     @OnClick(R.id.img_del)
@@ -82,7 +142,7 @@ public class DeliverGoodsItem extends LinearLayout {
     }
 
     public int getIndexInParent(){
-        return ((ViewGroup) getParent()).indexOfChild(this) + 1;
+        return ((ViewGroup) getParent()).indexOfChild(this) ;
     }
 
     public void setOnSelBeginTimeClick(OnSelBeginTimeClick onSelBeginTimeClick) {

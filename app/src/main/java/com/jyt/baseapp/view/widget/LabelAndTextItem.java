@@ -47,7 +47,6 @@ public class LabelAndTextItem extends LinearLayout {
 
     }
 
-
     private void ReadAttrs(Context context, AttributeSet attrs) {
         TypedArray attributes = context.obtainStyledAttributes(attrs, R.styleable.LabelAndTextItem);
         setLabelText(attributes.getString(R.styleable.LabelAndTextItem_labelText));
@@ -63,6 +62,13 @@ public class LabelAndTextItem extends LinearLayout {
         needInput(attributes.getBoolean(R.styleable.LabelAndTextItem_needInput, false));
 
         setHintText(attributes.getString(R.styleable.LabelAndTextItem_hintText));
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        inputValue.setEnabled(enabled);
+        imgArrow.setVisibility(enabled?VISIBLE:GONE);
     }
 
     public void setHintTextColor(@ColorInt int color){
@@ -110,6 +116,10 @@ public class LabelAndTextItem extends LinearLayout {
 
     public String getInputText(){
         return inputValue.getText().toString();
+    }
+
+    public void setInputText(String text){
+        inputValue.setText(text);
     }
 
     public String getValueText(){
