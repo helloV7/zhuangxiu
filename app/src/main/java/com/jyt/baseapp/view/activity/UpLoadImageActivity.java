@@ -38,7 +38,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * 上传测量图片
+ * 上传测量图片  所有材料已打包
  */
 @ActivityAnnotation(showBack = true)
 public class UpLoadImageActivity extends BaseActivity {
@@ -100,15 +100,11 @@ public class UpLoadImageActivity extends BaseActivity {
             @Override
             public void onClick(BaseViewHolder holder) {
                 if (holder.getData() instanceof Integer){
-
                     List images = new  ArrayList(Arrays.asList( new Integer[imageList.size()]));
-
                     Collections.copy(images,imageList);
-
                     L.e("size"+images.size());
                     images.remove(images.size()-1);
                     IntentHelper.openSelImageActivityForResult(getContext(),1,images);
-
 //                    int selCount = maxCount-currentCount;
 //                    if (selCount>0){
 //                        IntentHelper.openSelImageActivityForResult(getContext(),selCount);

@@ -19,8 +19,10 @@ import com.nex3z.flowlayout.FlowLayout;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
+ * 显示 标题 图标集合 控件
  * Created by chenweiqi on 2017/10/31.
  */
 
@@ -48,7 +50,7 @@ public class TitleAndFlowImages extends FrameLayout {
         super(context, attrs);
 
         LayoutInflater.from(context).inflate(R.layout.widget_title_and_flow_images, this, true);
-
+        ButterKnife.bind(this);
         windowWidth = ScreenUtils.getScreenWidth(getContext());
         imageMargin = (int) (windowWidth*marginPercent);
         imageWidth = (int) ((windowWidth-(imageMargin*(columnCount+1)))*0.1/columnCount);

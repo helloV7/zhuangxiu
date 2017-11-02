@@ -11,8 +11,10 @@ import android.widget.TextView;
 import com.jyt.baseapp.R;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
+ * 显示 上传员工 上传时间 控件
  * Created by chenweiqi on 2017/10/31.
  */
 
@@ -29,6 +31,7 @@ public class WorkerNameAndDateTime extends FrameLayout {
     public WorkerNameAndDateTime(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         LayoutInflater.from(context).inflate(R.layout.widget_worker_name_and_update_time, this, true);
+        ButterKnife.bind(this);
     }
 
     public void setWorkerText(String text){

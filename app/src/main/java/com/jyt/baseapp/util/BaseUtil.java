@@ -12,7 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.jyt.baseapp.GoglePlayApplication;
+import com.jyt.baseapp.App;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -28,16 +28,16 @@ import java.util.regex.Pattern;
  */
 public class BaseUtil {
     public static Context getContext(){
-        return GoglePlayApplication.getContext();
+        return App.getContext();
     }
     public static Handler getHandle(){
-        return GoglePlayApplication.getHandler();
+        return App.getHandler();
     }
     public static int geMainThreadId(){
-        return GoglePlayApplication.getMainThreadid();
+        return App.getMainThreadid();
     }
-//    public static Typeface getTypeFace(){return GoglePlayApplication.getTypeface();}//获取字体文件
-//    public static Gson getGson(){return GoglePlayApplication.getGson();}//返回Gson
+//    public static Typeface getTypeFace(){return App.getTypeface();}//获取字体文件
+//    public static Gson getGson(){return App.getGson();}//返回Gson
     ////////////////////////加载资源文件//////////////////////////////
 
     /**
