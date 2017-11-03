@@ -1,12 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:ym="http://schemas.android.com/apk/res/com.jyt.baseapp"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
     android:background="@color/colorPrimary">
-    <com.jyt.baseapp.view.widget.ProgressLine
-        android:id="@+id/progress_zhangliang"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </com.jyt.baseapp.view.widget.ProgressLine>
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.jyt.baseapp.view.widget.ProgressLine
+            android:id="@+id/progress_zhangliang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ym:progress="丈量中">
+        </com.jyt.baseapp.view.widget.ProgressLine>
+
+        <com.jyt.baseapp.view.widget.ProgressLine
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ym:progress="设计报价">
+        </com.jyt.baseapp.view.widget.ProgressLine>
+
+        <com.jyt.baseapp.view.widget.ProgressLine
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ym:progress="客户审批">
+        </com.jyt.baseapp.view.widget.ProgressLine>
+
+        <com.jyt.baseapp.view.widget.ProgressLine
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ym:progress="店主确认中">
+        </com.jyt.baseapp.view.widget.ProgressLine>
+
+        <com.jyt.baseapp.view.widget.ProgressLine
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ym:progress="备货中">
+        </com.jyt.baseapp.view.widget.ProgressLine>
+
+        <com.jyt.baseapp.view.widget.ProgressLine
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ym:progress="物流中">
+        </com.jyt.baseapp.view.widget.ProgressLine>
+
+        <com.jyt.baseapp.view.widget.ProgressLine
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ym:progress="进程施工中">
+        </com.jyt.baseapp.view.widget.ProgressLine>
+
+        <com.jyt.baseapp.view.widget.ProgressLine
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ym:progress="完成施工">
+        </com.jyt.baseapp.view.widget.ProgressLine>
+
+        <com.jyt.baseapp.view.widget.ProgressLine
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ym:progress="完成结算">
+        </com.jyt.baseapp.view.widget.ProgressLine>
+    </LinearLayout>
+
+</ScrollView>

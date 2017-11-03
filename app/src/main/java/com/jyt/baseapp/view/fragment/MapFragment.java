@@ -72,11 +72,13 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         init();
         initMap();
 //        initPopupWindow(mMapBean);
-        initProvince();
+        initData();
         initListener();
     }
 
     private void init(){
+        mMapBean=new MapBean();
+        mMapModel = new MapModel();
         WindowManager wm= (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
         mtotalWidth=wm.getDefaultDisplay().getWidth();
         mMapSelector.getLayoutParams().width= (int) (mtotalWidth*0.9);
@@ -89,25 +91,24 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         mBrandSelector.setHideDeleteIV(true);
         mMapSelector.setOnMapClickListener(new MapSelector.OnMapClickListener() {
             @Override
-            public void onClickProvince(int ProvinceID) {
+            public void onClickProvince(int ProvinceID, String ProvinceName) {
                 ChangeProvince(ProvinceID);
             }
 
             @Override
-            public void onClickArea(int CityIndex, int AreaIndex) {
+            public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
 
             }
 
             @Override
             public void onClickBack() {
-                pop_city.dismiss();
+
             }
         });
     }
 
     private void initMap(){
-        mMapBean=new MapBean();
-        mMapModel = new MapModel();
+
         AMap map=mMapView.getMap();
         map.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放按钮
     }
@@ -118,24 +119,6 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         mMapSelector = (MapSelector) view.findViewById(R.id.selector_city);
         mMapSelector.getLayoutParams().width= (int) (mtotalWidth*0.8);
         mMapSelector.requestLayout();
-        mMapSelector.setOnMapClickListener(new MapSelector.OnMapClickListener() {
-            @Override
-            public void onClickProvince(int ProvinceID) {
-                ChangeProvince(ProvinceID);
-            }
-
-            @Override
-            public void onClickArea(int CityIndex, int AreaIndex) {
-
-            }
-
-            @Override
-            public void onClickBack() {
-
-            }
-        });
-
-
 
     }
 
@@ -144,7 +127,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         tv_brand.setOnClickListener(this);
     }
 
-    private void initProvince(){
+    private void initData(){
         mMapModel.getProvinceData(new MapModel.onResultProvinceListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, ArrayList<MapBean.Province> data) {

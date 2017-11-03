@@ -1,10 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:ym="http://schemas.android.com/apk/res/com.jyt.baseapp"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:showDividers="middle"
+              android:divider="@drawable/linefull"
+              android:background="@color/colorPrimary">
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="more"/>
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="13dp"
+        android:gravity="center"
+        android:text="更多"
+        android:textSize="16dp"
+        android:textColor="@color/text_color1"/>
+    <com.jyt.baseapp.view.widget.JumpItem
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ym:title="个人资料">
+    </com.jyt.baseapp.view.widget.JumpItem>
+
+    <com.jyt.baseapp.view.widget.JumpItem
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ym:title="机动人员">
+    </com.jyt.baseapp.view.widget.JumpItem>
+
+    <com.jyt.baseapp.view.widget.JumpItem
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ym:title="查看定位">
+    </com.jyt.baseapp.view.widget.JumpItem>
+
+    <com.jyt.baseapp.view.widget.JumpItem
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ym:title="共享资料">
+    </com.jyt.baseapp.view.widget.JumpItem>
+
+    <com.jyt.baseapp.view.widget.JumpItem
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ym:title="关于我们">
+    </com.jyt.baseapp.view.widget.JumpItem>
+
+
 </LinearLayout>

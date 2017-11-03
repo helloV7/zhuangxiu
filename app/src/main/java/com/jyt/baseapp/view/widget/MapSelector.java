@@ -69,17 +69,19 @@ public class MapSelector extends LinearLayout {
                 @Override
                 public void onClick(int position, SingleTextViewHolder holder) {
                     int ProvinceID=0;
+                    String ProvinceName=null;
                     for (int i = 0; i < bean.mProvinces.size(); i++) {
                         if (position==i){
                             bean.mProvinces.get(i).isCheckProvince=true;
                             ProvinceID=  bean.mProvinces.get(i).ProvinceID;
+                            ProvinceName =   bean.mProvinces.get(i).ProvinceName;
                         }else {
                             bean.mProvinces.get(i).isCheckProvince=false;
                         }
                     }
                     mProvinceAdapter.notifyDataSetChanged();
                     if (listener!=null){
-                        listener.onClickProvince(ProvinceID);
+                        listener.onClickProvince(ProvinceID,ProvinceName);
                     }
                 }
             });
@@ -100,12 +102,16 @@ public class MapSelector extends LinearLayout {
                     //position-城市索引 AreaIndex-区域索引
                     int CityID=0;
                     int AreaID=0;
+                    String CityName=null;
+                    String AreaName=null;
                     for (int i = 0; i < bean.mCities.size(); i++) {
                         for (int j = 0; j < bean.mCities.get(i).mAreas.size(); j++) {
                             if (i==position && j==AreaIndex){
                                 bean.mCities.get(i).mAreas.get(j).isCheckArea=true;
-                                CityID=bean.mCities.get(i).CityID;
-                                AreaID= bean.mCities.get(i).mAreas.get(j).AreaID;
+                                CityID = bean.mCities.get(i).CityID;
+                                CityName = bean.mCities.get(i).CityName;
+                                AreaID = bean.mCities.get(i).mAreas.get(j).AreaID;
+                                AreaName = bean.mCities.get(i).mAreas.get(j).AreaName;
                             }else {
                                 bean.mCities.get(i).mAreas.get(j).isCheckArea=false;
                             }
@@ -114,7 +120,7 @@ public class MapSelector extends LinearLayout {
                     }
                     mCityAdapter.notifyDataSetChanged();
                     if (listener!=null){
-                        listener.onClickArea(CityID,AreaID);
+                        listener.onClickArea(CityID,CityName,AreaID,AreaName);
                     }
                 }
             });
@@ -134,8 +140,8 @@ public class MapSelector extends LinearLayout {
     }
 
     public interface OnMapClickListener{
-        void onClickProvince(int ProvinceID);
-        void onClickArea(int CityID,int AreaID);
+        void onClickProvince(int ProvinceID ,String ProvinceName);
+        void onClickArea(int CityID,String CityName,int AreaID,String AreaName);
         void onClickBack();
     }
     private OnMapClickListener listener;

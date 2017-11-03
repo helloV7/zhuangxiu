@@ -31,5 +31,6 @@ public class ShopProgressFragment extends BaseFragment {
         list.add("@1");
         list.add("@2");
         ll_append.setAppendData(list);
+        ll_append.setStation(true);
     }
 }
