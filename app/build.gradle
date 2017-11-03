@@ -34,6 +34,7 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.nex3z:flow-layout:0.1.2'
+    compile 'ch.ielse:switchbutton:1.0.0'
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:25.1.0'
     compile 'com.google.code.gson:gson:2.2.4'

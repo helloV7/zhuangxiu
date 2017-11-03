@@ -73,9 +73,9 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
         mAdapter=new FragmentViewPagerAdapter(getSupportFragmentManager());
         shopName=getIntent().getStringExtra("shopName");
         if (shopName==null){
-            shopName="点名";
+            shopName="店名";
         }
-        setFunctionText(shopName);
+        setTextTitle(shopName);
     }
 
     private void initVP(){

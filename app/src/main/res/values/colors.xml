@@ -23,4 +23,6 @@
     <color name="text_color2">#429BFF</color>
     <color name="map_text1">#949494</color>
     <color name="map_text2">#429BFF</color>
+    <color name="color_cancel">#BBBBBB</color>
+    <color name="color_submit">#65DE21</color>
 </resources>
