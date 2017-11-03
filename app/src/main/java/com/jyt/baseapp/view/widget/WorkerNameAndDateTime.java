@@ -25,7 +25,7 @@ public class WorkerNameAndDateTime extends FrameLayout {
     TextView textDateTime;
 
     public WorkerNameAndDateTime(@NonNull Context context) {
-        super(context, null);
+        this(context, null);
     }
 
     public WorkerNameAndDateTime(@NonNull Context context, @Nullable AttributeSet attrs) {

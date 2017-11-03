@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
 
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '25.0.3'
     sourceSets{
         main{
             jniLibs.srcDirs = ['libs']
@@ -50,4 +50,6 @@ dependencies {
     compile 'com.lcodecorex:tkrefreshlayout:1.0.4'
     compile 'org.jetbrains:annotations-java5:15.0'
     compile files('libs/Android_Map3D_SDK_V5.4.0_20170928.jar')
+    compile 'cn.aigestudio.datepicker:DatePicker:2.2.0'
+
 }
