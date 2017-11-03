@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="20dp"
+              android:layout_marginRight="20dp"
+              android:background="@drawable/bg_white">
+    <RelativeLayout
+        android:id="@+id/rl_progress_hide"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+        <com.jyt.baseapp.view.widget.CircleImageView
+            android:id="@+id/civ_light"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@color/color_submit"/>
+        <TextView
+            android:id="@+id/tv_progress_title"
+            android:layout_toRightOf="@+id/civ_light"
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="丈量中"
+            android:textSize="14dp"
+            android:textColor="@color/text_color1"/>
+        <TextView
+            android:id="@+id/tv_progress_station"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已完成 V"
+            android:textSize="12dp"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/ll_append"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    </LinearLayout>
+
+</LinearLayout>
