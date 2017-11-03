@@ -40,10 +40,7 @@
         </activity>
         <activity android:name=".view.activity.ContentActivity"
                   android:windowSoftInputMode="adjustPan|stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"></action>
-                <category android:name="android.intent.category.LAUNCHER"></category>
-            </intent-filter>
+
         </activity>
         <activity android:name=".view.activity.BrowseImagesActivity" android:label="浏览图片" android:screenOrientation="portrait"></activity>
 
@@ -57,6 +54,13 @@
         </activity>
         <activity android:name=".view.activity.DeliverGoodsActivity" android:screenOrientation="portrait">
 
+        </activity>
+        <activity android:name=".view.activity.PrepareConstructActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".view.activity.SelPeopleActivity" android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"></action>
+                <category android:name="android.intent.category.LAUNCHER"></category>
+            </intent-filter>
         </activity>
 
     </application>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+    <LinearLayout
+        android:orientation="vertical"
+        android:divider="@drawable/divider"
+        android:showDividers="middle|beginning|end"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.jyt.baseapp.view.widget.LabelAndTextItem
+            android:id="@+id/LT_estimateTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:labelText="预计到货日期"
+            app:needInput="false"></com.jyt.baseapp.view.widget.LabelAndTextItem>
+
+        <com.jyt.baseapp.view.widget.LabelAndTextItem
+            android:id="@+id/LT_actualTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:labelText="实际到货日期"
+            app:needInput="false"
+            app:showRightArrow="true"></com.jyt.baseapp.view.widget.LabelAndTextItem>
+
+        <com.jyt.baseapp.view.widget.LabelAndTextItem
+            android:id="@+id/LT_estimateInShopTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:labelText="预计到店时间"
+            app:needInput="false"
+            app:showRightArrow="true"></com.jyt.baseapp.view.widget.LabelAndTextItem>
+
+        <com.jyt.baseapp.view.widget.LabelAndTextItem
+            android:id="@+id/LT_worker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:labelText="施工人员"
+            app:needInput="false"
+            app:showRightArrow="true"></com.jyt.baseapp.view.widget.LabelAndTextItem>
+
+        <com.jyt.baseapp.view.widget.LabelAndTextItem
+            android:id="@+id/LT_monitor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:labelText="班长"
+            app:needInput="false"
+            app:showRightArrow="true"></com.jyt.baseapp.view.widget.LabelAndTextItem>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/text_confirm"
+        style="@style/bigButton"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
+        android:text="提交" />
+</RelativeLayout>

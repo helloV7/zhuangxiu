@@ -11,6 +11,7 @@ import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.view.activity.BaseActivity;
 import com.jyt.baseapp.view.activity.BrowseImagesActivity;
 import com.jyt.baseapp.view.activity.CommonProgressActivity;
+import com.jyt.baseapp.view.activity.DeliverGoodsActivity;
 import com.jyt.baseapp.view.activity.SelImageActivity;
 
 import java.util.ArrayList;
@@ -247,6 +248,24 @@ public class IntentHelper {
     }
     //endregion
 
+    //region 待发货 已发货
+    public static void openWaitSendActivity(Context context){
+        Intent intent = getIntent(context, DeliverGoodsActivity.class);
+        intent.putExtra(IntentKey.TYPE,DeliverGoodsActivity.TYPE_WAITE_SEND);
+        context.startActivity(intent);
+    }
+
+    public static void openSentActivity(Context context){
+        Intent intent = getIntent(context, DeliverGoodsActivity.class);
+        intent.putExtra(IntentKey.TYPE,DeliverGoodsActivity.TYPE_SENT);
+        context.startActivity(intent);
+    }
+
+    public static Tuple DeliverGoodsActivityGetPara(Intent intent){
+        int type = getIntent().getIntExtra(IntentKey.TYPE,0);
+        return new Tuple(type);
+    }
+    //endregion
 
 
     public static Intent getIntent(){
