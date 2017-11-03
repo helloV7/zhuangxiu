@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/v_mainView"
+    android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:background="@drawable/bg_search_view"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/input_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="false"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@null"
+        android:gravity="left|center"
+        android:textSize="13dp"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/v_hintContent"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/icon_seach" />
+
+        <TextView
+            android:id="@+id/text_hintText"
+            style="@style/defaultTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="搜索施工人员"
+            android:textColor="#868686" />
+    </LinearLayout>
+    <!--<RelativeLayout-->
+    <!--android:id="@+id/v_hintLayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_centerInParent="true"-->
+    <!--android:layout_centerVertical="false"-->
+    <!--&gt;-->
+
+
+    <!--</RelativeLayout>-->
+
+    <ImageView
+        android:id="@+id/img_clear"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:src="@mipmap/close_circled"
+        android:visibility="gone" />
+</RelativeLayout>

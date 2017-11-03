@@ -9,6 +9,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.jyt.baseapp.R;
+import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.view.dialog.DatePickerDialog;
 import com.jyt.baseapp.view.widget.DeliverGoodsItem;
@@ -35,10 +36,12 @@ public class DeliverGoodsActivity extends BaseActivity {
     public static final int TYPE_SENT = 2;
 
     private int type =0;
+    private boolean enableView = false;
 
     private DeliverGoodsItem.OnSelBeginTimeClick onSelBeginTimeClick;
     private DeliverGoodsItem.OnSelEndTimeClick onSelEndTimeClick;
     private DeliverGoodsItem.OnSelDelClick onSelDelClick;
+
 
     @Override
     protected int getLayoutId() {
@@ -54,7 +57,19 @@ public class DeliverGoodsActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        type = (int) IntentHelper.DeliverGoodsActivityGetPara(getIntent()).getItem1();
 
+        switch (type){
+            case TYPE_WAITE_SEND:
+                setTextTitle("待发货");
+                enableView = true;
+                break;
+            case TYPE_SENT:
+                setTextTitle("已发货");
+                enableView = false;
+                btnAddBatch.setVisibility(View.GONE);
+                break;
+        }
 
         vBatchLayout.removeAllViews();
 
@@ -100,7 +115,6 @@ public class DeliverGoodsActivity extends BaseActivity {
                 }
                 vScrollView.scrollTo(0, (int) vBatchLayout.getChildAt(scrollTo).getTop());
                 vBatchLayout.removeViewAt(indexInParent);
-
             }
         };
 
@@ -117,7 +131,7 @@ public class DeliverGoodsActivity extends BaseActivity {
         deliverGoodsItem.setOnSelBeginTimeClick(onSelBeginTimeClick);
         deliverGoodsItem.setOnSelEndTimeClick(onSelEndTimeClick);
         deliverGoodsItem.setOnSelDelClick(onSelDelClick);
-        deliverGoodsItem.setEnabled(false);
+        deliverGoodsItem.setEnabled(enableView);
         vBatchLayout.addView(deliverGoodsItem);
 
         deliverGoodsItem.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
