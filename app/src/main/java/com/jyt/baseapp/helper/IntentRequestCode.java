@@ -6,6 +6,8 @@ package com.jyt.baseapp.helper;
 
 public class IntentRequestCode {
     public static int CODE_SEL_IMAGES = 1;
-    public static int CODE_UPLOAD_IMAGES = 1;
+    public static int CODE_UPLOAD_IMAGES = 2;
+    public static int CODE_SEL_SINGLE_WORKER = 3;
+    public static int CODE_SEL_SINGLE_MONITOR = 4;
 
 }
