@@ -35,6 +35,14 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:textSize="14dp" />
+        <ImageView
+            android:id="@+id/iv_function"
+            android:visibility="gone"
+            android:layout_width="47dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"/>
     </RelativeLayout>
 
 </LinearLayout>

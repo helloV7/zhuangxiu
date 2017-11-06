@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ym="http://schemas.android.com/apk/res/com.jyt.baseapp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:showDividers="middle"
+    android:divider="@drawable/linefull"
+    tools:context="com.jyt.baseapp.view.activity.EvaluateActivity">
+    <com.jyt.baseapp.view.widget.JumpItem
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ym:title="项目经理"/>
+    <com.jyt.baseapp.view.widget.JumpItem
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ym:title="设计师"/>
+    <com.jyt.baseapp.view.widget.JumpItem
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ym:title="预算员"/>
+    <com.jyt.baseapp.view.widget.JumpItem
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ym:title="测量人员"/>
+
+    <RatingBar
+        android:id="@+id/ratingBarId1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/myStar"
+        android:isIndicator="false"
+        android:numStars="5"
+        android:rating="1.5" />
+</LinearLayout>

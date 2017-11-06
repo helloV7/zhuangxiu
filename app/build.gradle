@@ -1,11 +1,11 @@
- apply plugin: 'com.android.application'
+apply plugin: 'com.android.application'
 
 android {
 
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
-    sourceSets{
-        main{
+    sourceSets {
+        main {
             jniLibs.srcDirs = ['libs']
         }
     }
@@ -32,16 +32,16 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile files('libs/Android_Map3D_SDK_V5.4.0_20170928.jar')
+
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.nex3z:flow-layout:0.1.2'
     compile 'ch.ielse:switchbutton:1.0.0'
-    testCompile 'junit:junit:4.12'
     compile 'com.android.support:design:25.1.0'
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'com.zhy:okhttputils:2.6.2'
     compile 'com.jakewharton:butterknife:8.5.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.orhanobut:hawk:2.0.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
@@ -49,7 +49,8 @@ dependencies {
     compile 'cn.bingoogolapple:bga-banner:2.1.7@aar'
     compile 'com.lcodecorex:tkrefreshlayout:1.0.4'
     compile 'org.jetbrains:annotations-java5:15.0'
-    compile files('libs/Android_Map3D_SDK_V5.4.0_20170928.jar')
     compile 'cn.aigestudio.datepicker:DatePicker:2.2.0'
-
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

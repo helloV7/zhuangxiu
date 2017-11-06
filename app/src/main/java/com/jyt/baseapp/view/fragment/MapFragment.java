@@ -71,6 +71,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         mMapView.onCreate(savedInstanceState);
         init();
         initMap();
+        initSelecotr();
 //        initPopupWindow(mMapBean);
         initData();
         initListener();
@@ -81,6 +82,14 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         mMapModel = new MapModel();
         WindowManager wm= (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
         mtotalWidth=wm.getDefaultDisplay().getWidth();
+    }
+
+    private void initMap(){
+        AMap map=mMapView.getMap();
+        map.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放按钮
+    }
+
+    private void initSelecotr(){
         mMapSelector.getLayoutParams().width= (int) (mtotalWidth*0.9);
         mMapSelector.getLayoutParams().height= 0;
         mMapSelector.requestLayout();
@@ -105,12 +114,6 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
 
             }
         });
-    }
-
-    private void initMap(){
-
-        AMap map=mMapView.getMap();
-        map.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放按钮
     }
 
     private void initPopupWindow(MapBean bean){

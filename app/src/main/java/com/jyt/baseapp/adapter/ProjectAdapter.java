@@ -10,7 +10,8 @@ import com.jyt.baseapp.view.viewholder.ProjectHolder;
  */
 public class ProjectAdapter extends BaseRcvAdapter {
 
-    private BaseViewHolder.OnViewHolderClickListener listener;
+    BaseViewHolder.OnViewHolderClickListener listener;
+
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ProjectHolder holder=new ProjectHolder(parent);

@@ -20,13 +20,13 @@ public class BaseViewHolder<T> extends RecyclerView.ViewHolder {
 
     public BaseViewHolder(View itemView) {
         super(itemView);
-
         ButterKnife.bind(this,itemView);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onViewHolderClickListener!=null){
                     onViewHolderClickListener.onClick(BaseViewHolder.this);
+
                 }
             }
         });

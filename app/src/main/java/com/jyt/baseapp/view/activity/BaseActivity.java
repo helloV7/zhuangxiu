@@ -38,6 +38,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     TextView textTitle;
     @BindView(R.id.text_function)
     TextView textFunction;
+    @BindView(R.id.iv_function)
+    ImageView ivFunction;
     @BindView(R.id.v_actionBar)
     RelativeLayout vActionBar;
     @BindView(R.id.v_main)
@@ -74,6 +76,14 @@ public abstract class BaseActivity extends AppCompatActivity {
             textTitle.setText(getTitle());
         }
         manager.addActivity(this);
+        ivFunction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener!=null){
+                    listener.onClick();
+                }
+            }
+        });
 
     }
 
@@ -138,6 +148,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         textFunction.setVisibility(View.INVISIBLE);
     }
 
+    public void setIvFunction(int src){
+        textFunction.setVisibility(View.GONE);
+        ivFunction.setVisibility(View.VISIBLE);
+        ivFunction.setImageDrawable(getResources().getDrawable(src));
+    }
+
     @OnClick(R.id.img_back)
     public void onBackClick(){
         onBackPressed();
@@ -170,4 +186,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     abstract protected int getLayoutId();
 
     abstract protected View getContentView();
+
+    public interface OnClickFunctionListener{
+        void onClick();
+    }
+    private OnClickFunctionListener listener;
+    public void setOnClickFunctionListener(OnClickFunctionListener listener){
+        this.listener=listener;
+    }
 }

@@ -18,5 +18,8 @@
     <declare-styleable name="JumpItem">
         <attr name="title" format="string"/>
         <attr name="Jump" format="boolean"/>
+        <attr name="colortitle" format="color"/>
+        <attr name="colormsg" format="color"/>
+        <attr name="msg" format="string"/>
     </declare-styleable>
 </resources>

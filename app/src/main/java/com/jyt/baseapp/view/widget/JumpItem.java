@@ -28,9 +28,15 @@ public class JumpItem extends LinearLayout {
         init(context);
         TypedArray typedArray=context.obtainStyledAttributes(attrs, R.styleable.JumpItem);
         String title=typedArray.getString(R.styleable.JumpItem_title);
+        String msg=typedArray.getString(R.styleable.JumpItem_msg);
+        int color_left=typedArray.getColor(R.styleable.JumpItem_colortitle,getResources().getColor(R.color.map_text1));
+        int color_right=typedArray.getColor(R.styleable.JumpItem_colormsg,getResources().getColor(R.color.map_text1));
         boolean isJump=typedArray.getBoolean(R.styleable.JumpItem_Jump,false);
         if(title==null){
             title="";
+        }
+        if (msg==null){
+            msg="";
         }
         if (isJump){
             tv_msg.setVisibility(GONE);
@@ -40,6 +46,9 @@ public class JumpItem extends LinearLayout {
             tv_msg.setVisibility(VISIBLE);
         }
         tv_title.setText(title);
+        tv_title.setTextColor(color_left);
+        tv_msg.setText(msg);
+        tv_msg.setTextColor(color_right);
         iv_next.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,5 +81,16 @@ public class JumpItem extends LinearLayout {
 
     public void setMsg(String msg){
         tv_msg.setText(msg);
+    }
+
+    public void setNext(boolean isShow,String msg){
+        if(isShow){
+            iv_next.setVisibility(VISIBLE);
+            tv_msg.setVisibility(GONE);
+        }else {
+            iv_next.setVisibility(GONE);
+            tv_msg.setVisibility(VISIBLE);
+            tv_msg.setText(msg);
+        }
     }
 }

@@ -20,31 +20,36 @@
     <com.jyt.baseapp.view.widget.JumpItem
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ym:title="个人资料">
+        ym:title="个人资料"
+        ym:Jump="true">
     </com.jyt.baseapp.view.widget.JumpItem>
 
     <com.jyt.baseapp.view.widget.JumpItem
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ym:title="机动人员">
+        ym:title="机动人员"
+        ym:Jump="true">
     </com.jyt.baseapp.view.widget.JumpItem>
 
     <com.jyt.baseapp.view.widget.JumpItem
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ym:title="查看定位">
+        ym:title="查看定位"
+        ym:Jump="true">
     </com.jyt.baseapp.view.widget.JumpItem>
 
     <com.jyt.baseapp.view.widget.JumpItem
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ym:title="共享资料">
+        ym:title="共享资料"
+        ym:Jump="true">
     </com.jyt.baseapp.view.widget.JumpItem>
 
     <com.jyt.baseapp.view.widget.JumpItem
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ym:title="关于我们">
+        ym:title="关于我们"
+        ym:Jump="true">
     </com.jyt.baseapp.view.widget.JumpItem>
 
 

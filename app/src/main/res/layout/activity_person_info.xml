@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ym="http://schemas.android.com/apk/res/com.jyt.baseapp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jyt.baseapp.view.activity.PersonInfoActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:showDividers="middle"
+        android:divider="@drawable/linefull">
+        <com.jyt.baseapp.view.widget.JumpItem
+            android:layout_marginTop="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ym:title="姓名"
+            ym:msg="张三"
+            ym:colormsg="@color/text_color1"/>
+
+        <com.jyt.baseapp.view.widget.JumpItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ym:title="联系方式"
+            ym:msg="13800138000"
+            ym:colormsg="@color/text_color1"/>
+
+        <com.jyt.baseapp.view.widget.JumpItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ym:title="部门"
+            ym:msg="设计部"
+            ym:colormsg="@color/text_color1"/>
+
+        <com.jyt.baseapp.view.widget.JumpItem
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ym:title="岗位"
+            ym:msg="设计师"
+            ym:colormsg="@color/text_color1"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:text="退出登录"
+        android:textColor="@color/text_color1"
+        android:background="@drawable/btn_logout"/>
+
+</RelativeLayout>

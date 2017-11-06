@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/rl_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ym="http://schemas.android.com/apk/res/com.jyt.baseapp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jyt.baseapp.view.activity.AddPersonActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:showDividers="middle"
+        android:divider="@drawable/linefull">
+
+        <RelativeLayout
+            android:id="@+id/rl_upload"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:background="@color/white">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="上传头像"
+                android:textSize="13dp"
+                android:textColor="@color/map_text1"/>
+
+            <com.jyt.baseapp.view.widget.CircleImageView
+                android:id="@+id/civ_pic"
+                android:layout_alignParentRight="true"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
+                ym:border_color="@color/white"
+                android:src="@mipmap/icon_no"
+                xmlns:ym="http://schemas.android.com/apk/res/com.jyt.baseapp"/>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="姓名"
+                android:textSize="13dp"
+                android:textColor="@color/map_text1"/>
+            <EditText
+                android:id="@+id/et_name"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:hint="请输入人员姓名"
+                android:textSize="13dp"
+                android:textCursorDrawable="@drawable/et_cursor"
+                android:textColorHint="@color/map_text1"
+                android:background="@null"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="联系方式"
+                android:textSize="13dp"
+                android:textColor="@color/map_text1"/>
+            <EditText
+                android:id="@+id/et_phone"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:hint="请输入人员联系方式"
+                android:textSize="13dp"
+                android:textCursorDrawable="@drawable/et_cursor"
+                android:textColorHint="@color/map_text1"
+                android:background="@null"/>
+        </LinearLayout>
+
+        <com.jyt.baseapp.view.widget.JumpItem
+            android:id="@+id/jump_work"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ym:title="工种"
+            ym:Jump="true"/>
+
+        <com.jyt.baseapp.view.widget.JumpItem
+            android:id="@+id/jump_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            ym:title="城市"
+            ym:Jump="true"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/bg_meng"
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#cc000000"/>
+
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp"
+        android:layout_width="280dp"
+        android:layout_height="60dp"
+        android:text="提交"
+        android:textColor="@color/white"
+        android:background="@drawable/btn_add_off"/>
+
+</RelativeLayout>

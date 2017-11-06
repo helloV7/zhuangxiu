@@ -2,6 +2,7 @@ package com.jyt.baseapp.view.fragment;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,6 +23,8 @@ import com.jyt.baseapp.bean.ProjectBean;
 import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
+import com.jyt.baseapp.view.activity.ShopActivity;
+import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 import com.jyt.baseapp.view.widget.MapSelector;
 import com.jyt.baseapp.view.widget.SingleSelector;
 
@@ -66,10 +69,10 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     private boolean isHideCity;
     private boolean isHideBrand;
     private boolean isHideProgress;
-    private boolean isShowCity;
-    private boolean isShowBrand;
-    private boolean isShowProgress;
-
+    private boolean isShowCity=true;
+    private boolean isShowBrand=true;
+    private boolean isShowProgress=true;
+    private ProjectAdapter mProjectAdapter;
 
 
     @Override
@@ -89,6 +92,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     private void init(){
         mMapBean=new MapBean();
         mMapModel=new MapModel();
+        mProjectAdapter=new ProjectAdapter();
         WindowManager wm= (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
         mtotalWidth=wm.getDefaultDisplay().getWidth();
         List<ProjectBean> list = new ArrayList<>();
@@ -96,11 +100,16 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         list.add(new ProjectBean("A", "轮胎", "暂停中", "广州-天河区"));
         list.add(new ProjectBean("A", "轮胎", "暂停中", "广州-天河区"));
         list.add(new ProjectBean("A", "轮胎", "暂停中", "广州-天河区"));
-        ProjectAdapter adapter = new ProjectAdapter();
-        adapter.setDataList(list);
-        mRvShop.setAdapter(adapter);
         mRvShop.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRvShop.addItemDecoration(new SpacesItemDecoration(0, 3));
+        mProjectAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
+            @Override
+            public void onClick(BaseViewHolder holder) {
+                startActivity(new Intent(getActivity(), ShopActivity.class));
+            }
+        });
+        mProjectAdapter.setDataList(list);
+        mRvShop.setAdapter(mProjectAdapter);
     }
 
     private void initSelector(){

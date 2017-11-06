@@ -66,6 +66,8 @@ public class ProgressLine extends RelativeLayout {
     private int AppendHeight;
     private boolean isShowAppend;
     public void ToAnimation(){
+        ll_append.measure(0,0);
+        AppendHeight=ll_append.getMeasuredHeight()+10;//+10预留显示空间
         ValueAnimator animator;
         if (!isShowAppend){
             animator=ValueAnimator.ofInt(0,AppendHeight);
@@ -147,7 +149,11 @@ public class ProgressLine extends RelativeLayout {
                 }
             });
         }
-        ll_append.measure(0,0);
-        AppendHeight=ll_append.getMeasuredHeight()+10;//+10预留显示空间
+    }
+
+    public void addAppendItem(AppendItem item){
+        if (item!=null){
+            ll_append.addView(item);
+        }
     }
 }
