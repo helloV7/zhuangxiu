@@ -56,14 +56,19 @@
 
         </activity>
         <activity android:name=".view.activity.PrepareConstructActivity" android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".view.activity.SelPeopleActivity" android:screenOrientation="portrait"  android:label="选择人员">
+
+        </activity>
+        <activity android:name=".view.activity.ConstructionActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
                 <category android:name="android.intent.category.LAUNCHER"></category>
             </intent-filter>
         </activity>
-        <activity android:name=".view.activity.SelPeopleActivity" android:screenOrientation="portrait"  android:label="选择人员">
+        <activity android:name=".view.activity.FinishSteelHookActivity" android:screenOrientation="portrait" android:label="钢挂已完成"></activity>
 
-        </activity>
     </application>
 
 </manifest>

@@ -1,48 +1,44 @@
-package com.jyt.baseapp.view.activity;
-
-/**
- * Created by chenweiqi on 2017/10/30.
- */
+package com.jyt.baseapp.view.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.ShowImageAdapter;
-import com.jyt.baseapp.annotation.ActivityAnnotation;
 import com.jyt.baseapp.bean.Tuple;
 import com.jyt.baseapp.helper.IntentHelper;
-import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.helper.IntentRequestCode;
 import com.jyt.baseapp.itemDecoration.RcvGridSpaceItemDecoration;
 import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.util.ScreenUtils;
 import com.jyt.baseapp.util.T;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
-import com.lcodecore.tkrefreshlayout.utils.DensityUtil;
-
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
- * 上传测量图片  所有材料已打包
+ * Created by chenweiqi on 2017/11/6.
  */
-@ActivityAnnotation(showBack = true)
-public class UpLoadImageActivity extends BaseActivity {
 
+public class FinishConstructionFragment extends BaseFragment {
     @BindView(R.id.v_rcv)
     RecyclerView vRcv;
     @BindView(R.id.text_imageCount)
@@ -50,6 +46,8 @@ public class UpLoadImageActivity extends BaseActivity {
     @BindView(R.id.btn_submit)
     LinearLayout btnSubmit;
 
+
+    ShowImageAdapter adapter;
     //当前数量
     int currentCount;
     //上传最大数量
@@ -61,27 +59,17 @@ public class UpLoadImageActivity extends BaseActivity {
     //图片边距百分比
     final float imageMarginPercent = 0.011f;
 
-    ShowImageAdapter adapter;
-
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_up_load_image;
+        return R.layout.framgment_finish_construction;
     }
 
-    @Override
-    protected View getContentView() {
-        return null;
-    }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         int windowWidth = ScreenUtils.getScreenWidth(getContext());
-
-        Intent intent = getIntent();
-        imageList = intent.getStringArrayListExtra(IntentKey.IMAGES);
-//        maxCount = intent.getIntExtra(IntentKey.MAX_COUNT,0);
-
 
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(columnCount,StaggeredGridLayoutManager.VERTICAL);
         vRcv.setLayoutManager(gridLayoutManager);
@@ -94,7 +82,7 @@ public class UpLoadImageActivity extends BaseActivity {
             @Override
             public void onClick(BaseViewHolder holder) {
                 if (holder.getData() instanceof Integer){
-                    List images = new  ArrayList(Arrays.asList( new Integer[imageList.size()]));
+                    List images = new ArrayList(Arrays.asList( new Integer[imageList.size()]));
                     Collections.copy(images,imageList);
                     L.e("size"+images.size());
                     images.remove(images.size()-1);
@@ -123,15 +111,19 @@ public class UpLoadImageActivity extends BaseActivity {
         adapter.setDataList(imageList);
         upDateView();
     }
+
     public void upDateView(){
         currentCount = imageList.size()-1;
         textImageCount.setText(getString(R.string.uploadImages_finish_text,imageList.size()-1+"",maxCount+""));
     }
+    //上传图片
+    @OnClick(R.id.btn_submit)
+    public void onSubmitImageClick() {
+
+    }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == IntentRequestCode.CODE_SEL_IMAGES && resultCode == RESULT_OK){
             Tuple result = IntentHelper.SelImageActivityGetResult(data);
             imageList = (List) result.getItem1();

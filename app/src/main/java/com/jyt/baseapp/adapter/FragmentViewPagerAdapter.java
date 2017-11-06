@@ -25,6 +25,11 @@ public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
     public void addFragment(Fragment fragment){
         getFragments().add(fragment);
     }
+    public void addFragment(Fragment fragment,String title){
+        getFragments().add(fragment);
+        getTitles().add(title);
+    }
+
 
     public List getFragments() {
         if (fragments==null){
@@ -38,6 +43,9 @@ public class FragmentViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     public List<String> getTitles() {
+        if (titles == null){
+            titles = new ArrayList<>();
+        }
         return titles;
     }
 

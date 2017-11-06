@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:id="@+id/v_uploadImg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include  layout="@layout/activity_up_load_image"/>
+    </FrameLayout>
+    <RelativeLayout
+        android:id="@+id/v_setEndTime"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.jyt.baseapp.view.widget.LabelAndTextItem
+            app:labelText="预计完工日期"
+            app:showRightArrow="true"
+            app:needInput="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.jyt.baseapp.view.widget.LabelAndTextItem>
+
+
+        <TextView
+            android:id="@+id/btn_submitDate"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:text="提交"
+            style="@style/bigButton" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -4,8 +4,8 @@
     android:layout_height="match_parent">
     <android.support.design.widget.TabLayout
         android:id="@+id/v_tabLayout"
-        android:layout_height="match_parent"
-        android:layout_width="44dp">
+        android:layout_height="44dp"
+        android:layout_width="match_parent">
     </android.support.design.widget.TabLayout>
     <com.jyt.baseapp.view.widget.NoScrollViewPager
         android:id="@+id/v_viewPager"
