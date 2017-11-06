@@ -13,7 +13,7 @@ import com.jyt.baseapp.view.widget.WorkerNameAndDateTime;
 import butterknife.BindView;
 
 /**
- * 测量完毕 设计完毕 客户已审批 待店主确认 店主已确认 待审图纸 已审图纸 待生产招牌 待审材料 已审材料
+ * 测量完毕 设计完毕 客户已审批 待店主确认 店主已确认 待审图纸 已审图纸 待生产招牌 待审材料 已审材料 施工完毕
  * Created by chenweiqi on 2017/11/1.
  */
 
@@ -38,7 +38,7 @@ public class CommonProgressActivity extends BaseActivity {
     public static final int TYPE_WAIT_PRODUCE_SIGN = 8;
     public static final int TYPE_WAIT_VERIFY_MATERIAL = 9;
     public static final int TYPE_VERIFIED_MATERIAL = 10;
-
+    public static final int TYPE_CONSTRUCTION_COMPLETE = 11;
 
     private int type;
     private Object project;
@@ -92,6 +92,10 @@ public class CommonProgressActivity extends BaseActivity {
             case TYPE_VERIFIED_MATERIAL:
                 setTextTitle("已审材料");
                 break;
+            case TYPE_CONSTRUCTION_COMPLETE:
+                setTextTitle("施工完毕");
+                break;
+
             default:
                 finish();
 

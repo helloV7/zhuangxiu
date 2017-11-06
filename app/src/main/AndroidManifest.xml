@@ -1,33 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.jyt.baseapp">
+    package="com.jyt.baseapp">
 
-    <!-- 用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <!-- 用于访问GPS定位 -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <!-- 用于访问wifi网络信息，wifi信息会用于进行网络定位 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <!-- 用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <!-- 用于访问网络，网络定位需要上网 -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- 用于读取手机当前的状态 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <!-- 用于写入缓存数据到扩展存储卡 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <!-- 用于申请调用A-GPS模块 -->
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
-    <!-- 用于申请获取蓝牙信息进行室内定位 -->
-    <uses-permission android:name="android.permission.BLUETOOTH"/>
-    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <!--用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <!--用于访问GPS定位-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
+    <!--用于获取运营商信息，用于支持提供运营商信息相关的接口-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <!--用于访问wifi网络信息，wifi信息会用于进行网络定位-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+    <!--用于获取wifi的获取权限，wifi信息会用来进行网络定位-->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
+    <!--用于访问网络，网络定位需要上网-->
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <!--用于读取手机当前的状态-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <!--用于写入缓存数据到扩展存储卡-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <!--用于申请调用A-GPS模块-->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"></uses-permission>
+    <!--用于申请获取蓝牙信息进行室内定位-->
+    <uses-permission android:name="android.permission.BLUETOOTH"></uses-permission>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"></uses-permission>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
     <application
-        android:name=".App"
         android:allowBackup="true"
+        android:name=".App"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
@@ -35,34 +33,27 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="4e7f20c1b5d868348284cee64b0134e9"/>
+        <activity android:name=".view.activity.UpLoadImageActivity" android:label="上传测量图片">
 
-        <activity
-            android:name=".view.activity.UpLoadImageActivity"
-            android:label="上传测量图片">
         </activity>
         <activity android:name=".view.activity.LoginActivity">
         </activity>
-        <activity
-            android:name=".view.activity.ContentActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden">
+        <activity android:name=".view.activity.ContentActivity"
+                  android:windowSoftInputMode="adjustPan|stateHidden">
+
         </activity>
-        <activity
-            android:name=".view.activity.BrowseImagesActivity"
-            android:label="浏览图片"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".view.activity.SelImageActivity"
-            android:label="选择媒体文件"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".view.activity.BrowseImagesActivity" android:label="浏览图片" android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".view.activity.SelImageActivity" android:label="选择媒体文件" android:screenOrientation="portrait"></activity>
         <activity android:name=".view.activity.ShopActivity">
+
         </activity>
-        <activity
-            android:name=".view.activity.CommonProgressActivity"
-            android:screenOrientation="portrait">
+
+        <activity android:name=".view.activity.CommonProgressActivity" android:screenOrientation="portrait">
+
         </activity>
-        <activity
-            android:name=".view.activity.DeliverGoodsActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".view.activity.DeliverGoodsActivity" android:screenOrientation="portrait">
+
         </activity>
         <activity
             android:name=".view.activity.PrepareConstructActivity"
@@ -83,11 +74,21 @@
         <activity android:name=".view.activity.AboutUsActivity">
         </activity>
         <activity android:name=".view.activity.EvaluateActivity">
+        <activity android:name=".view.activity.PrepareConstructActivity" android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".view.activity.SelPeopleActivity" android:screenOrientation="portrait"  android:label="选择人员">
+
+        </activity>
+        <activity android:name=".view.activity.ConstructionActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".view.activity.FinishSteelHookActivity" android:screenOrientation="portrait" android:label="钢挂已完成"></activity>
+
         </activity>
     </application>
 

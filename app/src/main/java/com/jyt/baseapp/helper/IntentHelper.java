@@ -11,7 +11,9 @@ import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.view.activity.BaseActivity;
 import com.jyt.baseapp.view.activity.BrowseImagesActivity;
 import com.jyt.baseapp.view.activity.CommonProgressActivity;
+import com.jyt.baseapp.view.activity.ConstructionActivity;
 import com.jyt.baseapp.view.activity.DeliverGoodsActivity;
+import com.jyt.baseapp.view.activity.FinishSteelHookActivity;
 import com.jyt.baseapp.view.activity.SelImageActivity;
 import com.jyt.baseapp.view.activity.SelPeopleActivity;
 
@@ -74,7 +76,6 @@ public class IntentHelper {
 
     //endregion
 
-
     //region 浏览图片
     public static void openBrowseImagesActivity(Context context ,String image){
         List images = new ArrayList();
@@ -101,8 +102,7 @@ public class IntentHelper {
     }
     //endregion
 
-
-// region 上传图片
+    // region 测量中
     public static void openUploadImagesActivityForResult(Object context,List images,int maxCount){
         Intent intent = getIntent((Context) context, SelImageActivity.class);
         intent.putExtra(IntentKey.MAX_COUNT,maxCount);
@@ -114,9 +114,9 @@ public class IntentHelper {
         }
     }
 
-// endregion
+    // endregion
 
-    //region 测量完毕 设计完毕 客户已审批 待店主确认 店主已确认 待审图纸 已审图纸 待生产招牌 待审材料 已审材料
+    //region 测量完毕 设计完毕 客户已审批 待店主确认 店主已确认 待审图纸 已审图纸 待生产招牌 待审材料 已审材料 施工完毕
 
     /**
      * 测量完毕
@@ -230,13 +230,24 @@ public class IntentHelper {
      * @param context
      * @param project
      */
+    public static void openConstructionCompleteActivity(Context context,Parcelable project){
+        Intent intent = getIntent(context, CommonProgressActivity.class);
+        intent.putExtra(IntentKey.TYPE,CommonProgressActivity.TYPE_CONSTRUCTION_COMPLETE);
+        intent.putExtra(IntentKey.DATA,project);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 施工完毕
+     * @param context
+     * @param project
+     */
     public static void openVerifiedMaterialActivity(Context context,Parcelable project){
         Intent intent = getIntent(context, CommonProgressActivity.class);
         intent.putExtra(IntentKey.TYPE,CommonProgressActivity.TYPE_VERIFIED_MATERIAL);
         intent.putExtra(IntentKey.DATA,project);
         context.startActivity(intent);
     }
-
     /**
      * CommonProgressActivity 读取数据
      * @param intent
@@ -267,7 +278,6 @@ public class IntentHelper {
         return new Tuple(type);
     }
     //endregion
-
 
     //region 选择员工
 
@@ -302,7 +312,31 @@ public class IntentHelper {
         return new Tuple(people);
     }
 
-    //ENDREGION
+    //endregion
+
+    //region 施工中
+    public static void openConstructionActivity(Context context,Parcelable project){
+        Intent intent = getIntent(context, ConstructionActivity.class);
+        intent.putExtra(IntentKey.DATA,project);
+        context.startActivity(intent);
+    }
+    public static Tuple ConstructionActivityGetPara(Intent intent){
+        Parcelable project = intent.getParcelableExtra(IntentKey.DATA);
+        return new Tuple(project);
+    }
+    //endregion
+
+    //region 钢挂已完成
+    public static void openFinishSteelHookActivity(Context context,Parcelable project){
+        Intent intent = getIntent(context, FinishSteelHookActivity.class);
+        intent.putExtra(IntentKey.DATA,project);
+        context.startActivity(intent);
+    }
+    public static Tuple FinishSteelHookActivityGetPara(Intent intent){
+        Parcelable project = intent.getParcelableExtra(IntentKey.DATA);
+        return new Tuple(project);
+    }
+    //endregion
 
 
     public static Intent getIntent(){
