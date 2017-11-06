@@ -4,10 +4,10 @@ package com.jyt.baseapp.bean;
  * @author LinWei on 2017/11/3 15:42
  */
 public class ProjectBean {
-    private String shopName;
-    private String shopMsg;
-    private String station;
-    private String location;
+    private String shopName;//商店信息
+    private String shopMsg;//商店信息
+    private String station;//商店状态
+    private String location;//商店位置
     private boolean isStop;
     private boolean isNext;
 
