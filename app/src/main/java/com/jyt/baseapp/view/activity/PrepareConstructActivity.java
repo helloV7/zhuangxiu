@@ -1,15 +1,21 @@
 package com.jyt.baseapp.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.jyt.baseapp.R;
+import com.jyt.baseapp.bean.Person;
+import com.jyt.baseapp.bean.Tuple;
+import com.jyt.baseapp.helper.IntentHelper;
+import com.jyt.baseapp.helper.IntentRequestCode;
 import com.jyt.baseapp.view.dialog.DatePickerDialog;
 import com.jyt.baseapp.view.widget.LabelAndTextItem;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 货到待施工 安排施工人员完毕
@@ -35,7 +41,7 @@ public class PrepareConstructActivity extends BaseActivity {
     public static final int TYPE_PREPARE_FINISH =2;
 
     private int type;
-    private boolean enableView = false;
+    private boolean enableView = true;
 
     @Override
     protected int getLayoutId() {
@@ -50,7 +56,7 @@ public class PrepareConstructActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        switch (type){
+        switch (type) {
             case TYPE_PREPARE:
                 setTextTitle("货到待施工");
                 enableView = true;
@@ -61,35 +67,26 @@ public class PrepareConstructActivity extends BaseActivity {
                 break;
         }
         setEnable(enableView);
-
-        LTActualTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LTViewOpenDatePickerDialog(v);
-            }
-        });
-
-        LTEstimateInShopTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LTViewOpenDatePickerDialog(v);
-            }
-        });
-
-        LTWorker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
-        LTMonitor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
     }
+
+    @OnClick(R.id.LT_estimateInShopTime)
+    public void onEstimateInShopTimeClick(View v){
+        LTViewOpenDatePickerDialog(v);
+    }
+    @OnClick(R.id.LT_actualTime)
+    public void onEstimateTime(View v){
+        LTViewOpenDatePickerDialog(v);
+    }
+
+    @OnClick(R.id.LT_worker)
+    public void onSelWorkerClick(){
+        IntentHelper.openSelSingleWorkerActivityForResult(this);
+    }
+    @OnClick(R.id.LT_monitor)
+    public void onSelMonitorClick(){
+        IntentHelper.openSelSingleMonitorActivityForResult(this);
+    }
+
 
     public void LTViewOpenDatePickerDialog(final View v){
         DatePickerDialog datePickerDialog = new DatePickerDialog(getContext());
@@ -102,6 +99,16 @@ public class PrepareConstructActivity extends BaseActivity {
         datePickerDialog.show();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == IntentRequestCode.CODE_SEL_SINGLE_MONITOR && resultCode == RESULT_OK){
+//            Person person = (Person) IntentHelper.SelSinglePersonGetResult(data).getItem1();
+            //TODO 获取员工 保存并赋值
+        }else if (requestCode == IntentRequestCode.CODE_SEL_SINGLE_WORKER && resultCode == RESULT_OK){
+            //TODO 获取员工 保存并赋值
+        }
+    }
 
     private void setEnable(boolean enable){
          LTEstimateTime.setEnabled(enable);

@@ -13,6 +13,7 @@ import com.jyt.baseapp.view.activity.BrowseImagesActivity;
 import com.jyt.baseapp.view.activity.CommonProgressActivity;
 import com.jyt.baseapp.view.activity.DeliverGoodsActivity;
 import com.jyt.baseapp.view.activity.SelImageActivity;
+import com.jyt.baseapp.view.activity.SelPeopleActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -266,6 +267,42 @@ public class IntentHelper {
         return new Tuple(type);
     }
     //endregion
+
+
+    //region 选择员工
+
+    public static void openSelSingleWorkerActivityForResult(Object context){
+        Intent intent = getIntent();
+        if (context instanceof Activity){
+            intent.setClass((Context) context,SelPeopleActivity.class);
+            ((Activity) context).startActivityForResult(intent,IntentRequestCode.CODE_SEL_SINGLE_WORKER);
+        }else if (context instanceof Fragment){
+            intent.setClass(((Fragment) context).getContext(),SelPeopleActivity.class);
+            ((Fragment) context).startActivityForResult(intent,IntentRequestCode.CODE_SEL_SINGLE_WORKER);
+        }
+    }
+
+    public static void openSelSingleMonitorActivityForResult(Object context){
+        Intent intent = getIntent();
+        if (context instanceof Activity){
+            intent.setClass((Context) context,SelPeopleActivity.class);
+            ((Activity) context).startActivityForResult(intent,IntentRequestCode.CODE_SEL_SINGLE_MONITOR);
+        }else if (context instanceof Fragment){
+            intent.setClass(((Fragment) context).getContext(),SelPeopleActivity.class);
+            ((Fragment) context).startActivityForResult(intent,IntentRequestCode.CODE_SEL_SINGLE_MONITOR);
+        }
+    }
+    public static void SelSinglePersonSetResult(Activity activity,Parcelable data){
+        Intent intent = getIntent();
+        intent.putExtra(IntentKey.PEOPLE,data);
+        activity.setResult(Activity.RESULT_OK,intent);
+    }
+    public static Tuple SelSinglePersonGetResult(Intent intent){
+        Parcelable people = intent.getParcelableExtra(IntentKey.PEOPLE);
+        return new Tuple(people);
+    }
+
+    //ENDREGION
 
 
     public static Intent getIntent(){
