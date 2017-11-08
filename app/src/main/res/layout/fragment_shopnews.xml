@@ -161,6 +161,7 @@
             ym:rightcolor="@color/map_text2"/>
         <!--店主评价-->
         <com.jyt.baseapp.view.widget.ItemText
+            android:id="@+id/item_evaluate"
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

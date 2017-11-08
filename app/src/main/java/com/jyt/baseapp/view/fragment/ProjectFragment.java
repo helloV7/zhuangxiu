@@ -23,6 +23,7 @@ import com.jyt.baseapp.bean.ProjectBean;
 import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
+import com.jyt.baseapp.view.activity.InfoActivity;
 import com.jyt.baseapp.view.activity.ShopActivity;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 import com.jyt.baseapp.view.widget.MapSelector;
@@ -177,6 +178,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         mTvMapCity.setOnClickListener(this);
         mTvMapBrand.setOnClickListener(this);
         mTvMapProgress.setOnClickListener(this);
+        mIvNoti.setOnClickListener(this);
     }
 
     private void ChangeProvince(int ProcinveID){
@@ -280,6 +282,9 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                     isShowProgress=true;
                 }
                 setProgressSelector();
+                break;
+            case R.id.iv_noti:
+                getActivity().startActivity(new Intent(getActivity(), InfoActivity.class));
                 break;
 
             default:

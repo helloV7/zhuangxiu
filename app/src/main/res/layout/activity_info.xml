@@ -9,6 +9,7 @@
     tools:context="com.jyt.baseapp.view.activity.InfoActivity">
 
     <RelativeLayout
+        android:id="@+id/rl_progress"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -42,6 +43,7 @@
                 android:textColor="@color/map_text1"/>
         </LinearLayout>
         <TextView
+            android:id="@+id/tv_Rtime"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,6 +55,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_news"
         android:layout_marginTop="1dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -87,6 +90,7 @@
                 android:textColor="@color/map_text1"/>
         </LinearLayout>
         <TextView
+            android:id="@+id/tv_Ytime"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -98,6 +102,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_evaluation"
         android:layout_marginTop="1dp"
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -132,6 +137,7 @@
                 android:textColor="@color/map_text1"/>
         </LinearLayout>
         <TextView
+            android:id="@+id/tv_Gtime"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

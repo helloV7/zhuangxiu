@@ -4,4 +4,7 @@
     <string name="uploadImages_finish_text">图片数量(%1$s/%2$s)</string>
     <string name="batch">第%1$s批发货</string>
     <item name="tag_image_path" type="id"></item>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

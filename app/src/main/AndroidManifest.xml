@@ -44,7 +44,13 @@
         </activity>
         <activity
             android:name=".view.activity.ContentActivity"
+            android:label="主界面"
             android:windowSoftInputMode="adjustPan|stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".view.activity.BrowseImagesActivity"
@@ -73,15 +79,25 @@
             android:label="选择人员"
             android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".view.activity.PersonInfoActivity">
+        <activity
+            android:name=".view.activity.PersonInfoActivity"
+            android:label="个人信息">
         </activity>
-        <activity android:name=".view.activity.AddPersonActivity">
+        <activity
+            android:name=".view.activity.AddPersonActivity"
+            android:label="添加机动人员">
         </activity>
-        <activity android:name=".view.activity.ManeuverActivity">
+        <activity
+            android:name=".view.activity.ManeuverActivity"
+            android:label="选择人员">
         </activity>
-        <activity android:name=".view.activity.AboutUsActivity">
+        <activity
+            android:name=".view.activity.AboutUsActivity"
+            android:label="关于我们">
         </activity>
-        <activity android:name=".view.activity.EvaluateActivity">
+        <activity
+            android:name=".view.activity.EvaluateActivity"
+            android:label="评价">
         </activity>
         <activity
             android:name=".view.activity.ConstructionActivity"
@@ -91,17 +107,25 @@
             android:name=".view.activity.FinishSteelHookActivity"
             android:label="钢挂已完成"
             android:screenOrientation="portrait"/>
-        <activity android:name=".view.activity.EvaluateDetailActivity">
-        </activity>
-        <activity android:name=".view.activity.InfoActivity">
+        <activity
+            android:name=".view.activity.EvaluateDetailActivity"
+            android:label="评价详情">
 
         </activity>
-        <activity android:name=".view.activity.InfoDetailActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+        <activity
+            android:name=".view.activity.InfoActivity"
+            android:label="消息">
+        </activity>
+        <activity
+            android:name=".view.activity.InfoDetailActivity"
+            android:label="消息细节">
+        </activity>
+        <activity
+            android:name=".view.activity.ShareActivity"
+            android:label="共享资料">
+        </activity>
+        <activity android:name=".view.activity.SearchActivity">
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
     </application>
 

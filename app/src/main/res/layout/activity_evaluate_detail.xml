@@ -9,15 +9,13 @@
     tools:context="com.jyt.baseapp.view.activity.EvaluateDetailActivity"
     android:focusable="true"
     android:focusableInTouchMode="true">
-    <EditText
-        android:id="@+id/et_evaluate"
+    <TextView
+        android:id="@+id/tv_evaluate"
         android:gravity="left|top"
         android:layout_width="match_parent"
         android:layout_height="149dp"
-        android:hint="请输入您的评价"
-        android:textCursorDrawable="@drawable/et_cursor"
-        android:textColor="@color/text_color1"
         android:textSize="13dp"
+        android:textColor="@color/text_color1"
         android:background="@color/white"/>
 
     <RelativeLayout
@@ -41,15 +39,109 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/myStar"
-            android:isIndicator="false"
+            android:isIndicator="true"
             android:numStars="5"
             android:rating="0" />
     </RelativeLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_evaluates"
-        android:layout_marginTop="10dp"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"></android.support.v7.widget.RecyclerView>
+        android:layout_weight="1">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="客服评价回复"
+                        android:textSize="13dp"
+                        android:textColor="@color/map_text1"/>
+                    <TextView
+                        android:id="@+id/tv_Stime"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2017.08.10  13:01"
+                        android:textSize="13dp"
+                        android:textColor="@color/map_text1"/>
+                </RelativeLayout>
+                <View
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/linefull"/>
+                <TextView
+                    android:id="@+id/tv_Sevaluation"
+                    android:paddingBottom="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价评价内容评价内容评价评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价评价内容评价内容评价"
+                    android:textSize="13dp"
+                    android:textColor="@color/text_color1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp">
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="品牌方评价回复"
+                        android:textSize="13dp"
+                        android:textColor="@color/map_text1"/>
+                    <TextView
+                        android:id="@+id/tv_Btime"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2017.08.10  13:01"
+                        android:textSize="13dp"
+                        android:textColor="@color/map_text1"/>
+                </RelativeLayout>
+                <View
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@drawable/linefull"/>
+                <TextView
+                    android:id="@+id/tv_Bevaluation"
+                    android:paddingBottom="20dp"
+                    android:paddingRight="20dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价评价内容评价内容评价"
+                    android:textSize="13dp"
+                    android:textColor="@color/text_color1"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -3,11 +3,7 @@ package com.jyt.baseapp.view.widget;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.Shape;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jyt.baseapp.R;
-import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.util.SoftInputUtil;
 import com.lcodecore.tkrefreshlayout.utils.DensityUtil;
 
@@ -122,4 +117,10 @@ public class SearchView extends LinearLayout {
     public interface OnSearchViewTextChangedListener{
         void onTextChanged(String text);
     }
+
+    public void setHint(String hint){
+        inputText.setHint(hint);
+    }
+
+
 }

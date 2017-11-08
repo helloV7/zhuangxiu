@@ -67,7 +67,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         HideActionBar();
         init();
         initlistener();
-        setOffBg(0);
+        setTabBg(0);
     }
 
     private void init() {
@@ -96,13 +96,13 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_content_map:
-                setOffBg(0);
+                setTabBg(0);
                 break;
             case R.id.ll_content_project:
-                setOffBg(1);
+                setTabBg(1);
                 break;
             case R.id.ll_content_more:
-                setOffBg(2);
+                setTabBg(2);
                 break;
             default:
                 break;
@@ -113,7 +113,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
      * 下方Tab的点击处理
      * @param selecor
      */
-    public void setOffBg(int selecor){
+    public void setTabBg(int selecor){
         mIvMap.setImageDrawable(getResources().getDrawable(R.mipmap.map_off));
         mIvProject.setImageDrawable(getResources().getDrawable(R.mipmap.project_off));
         mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.more_off));

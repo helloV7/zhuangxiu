@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jyt.baseapp.view.activity.SearchActivity">
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:gravity="center_vertical"
+       android:paddingLeft="20dp"
+       android:paddingTop="10dp"
+       android:paddingBottom="10dp">
+       <com.jyt.baseapp.view.widget.SearchView
+           android:id="@+id/sv_search"
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"/>
+       <TextView
+           android:id="@+id/tv_cancel"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="取消"
+           android:textSize="14dp"
+           android:textColor="@color/text_color1"
+           android:layout_marginLeft="10dp"
+           android:layout_marginRight="10dp"/>
+   </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_after"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+        </android.support.v7.widget.RecyclerView>
+
+        <LinearLayout
+            android:id="@+id/ll_befor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="23dp"
+                android:text="历史搜索"
+                android:textColor="@color/map_text1"
+                android:textSize="13dp"/>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_befor"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+            </android.support.v7.widget.RecyclerView>
+            <Button
+                android:id="@+id/btn_claer"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:layout_gravity="center_horizontal"
+                android:text="清空历史搜索"
+                android:textSize="16dp"
+                android:textColor="@color/map_text1"
+                android:background="@drawable/bg_corner_gray"/>
+        </LinearLayout>
+
+    </FrameLayout>
+</LinearLayout>

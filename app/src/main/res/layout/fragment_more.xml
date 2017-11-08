@@ -18,6 +18,7 @@
         android:textSize="16dp"
         android:textColor="@color/text_color1"/>
     <com.jyt.baseapp.view.widget.JumpItem
+        android:id="@+id/item_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         ym:title="个人资料"
@@ -25,6 +26,7 @@
     </com.jyt.baseapp.view.widget.JumpItem>
 
     <com.jyt.baseapp.view.widget.JumpItem
+        android:id="@+id/item_maneuver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         ym:title="机动人员"
@@ -32,6 +34,7 @@
     </com.jyt.baseapp.view.widget.JumpItem>
 
     <com.jyt.baseapp.view.widget.JumpItem
+        android:id="@+id/item_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         ym:title="查看定位"
@@ -39,6 +42,7 @@
     </com.jyt.baseapp.view.widget.JumpItem>
 
     <com.jyt.baseapp.view.widget.JumpItem
+        android:id="@+id/item_share"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         ym:title="共享资料"
@@ -46,6 +50,7 @@
     </com.jyt.baseapp.view.widget.JumpItem>
 
     <com.jyt.baseapp.view.widget.JumpItem
+        android:id="@+id/item_about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         ym:title="关于我们"

@@ -1,6 +1,5 @@
 package com.jyt.baseapp.util;
 
-import com.jyt.baseapp.bean.AreaBean;
 import com.orhanobut.hawk.Hawk;
 
 import java.util.List;
@@ -11,10 +10,10 @@ import java.util.List;
 public class CacheUtil {
     private static final String KEY_PSD = "KEY_PSD";
 
-    public String getPsd(){
+    public List<String> getPsd(){
         return Hawk.get(KEY_PSD);
     }
-    public void setPsd(List<AreaBean> onj){
+    public void setPsd(List<String> onj){
         Hawk.put(KEY_PSD,onj);
     }
 

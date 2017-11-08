@@ -1,7 +1,6 @@
 package com.jyt.baseapp.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
 
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 
@@ -45,5 +44,10 @@ public abstract class BaseRcvAdapter extends RecyclerView.Adapter<BaseViewHolder
             return dataList.size();
         }
         return 0;
+    }
+
+    public void notifyData(List dataList){
+        this.dataList = dataList;
+        notifyDataSetChanged();
     }
 }

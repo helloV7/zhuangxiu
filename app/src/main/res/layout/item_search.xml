@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/ll_parent"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="50dp"
+              android:paddingTop="10dp"
+              android:paddingBottom="10dp">
+    <TextView
+        android:id="@+id/tv_result"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="23dp"
+        android:text="搜索结果"
+        android:textSize="14dp"
+        android:textColor="@color/map_text1"/>
+</LinearLayout>
