@@ -30,12 +30,5 @@
         android:layout_height="wrap_content"
         ym:title="测量人员"/>
 
-    <RatingBar
-        android:id="@+id/ratingBarId1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/myStar"
-        android:isIndicator="false"
-        android:numStars="5"
-        android:rating="1.5" />
+
 </LinearLayout>

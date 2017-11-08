@@ -6,7 +6,7 @@
     </item>
 
     <item android:id="@android:id/secondaryProgress"
-          android:drawable="@mipmap/icon_star_on">
+          android:drawable="@mipmap/icon_star_off">
     </item>
 
     <item android:id="@android:id/progress"
