@@ -168,6 +168,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
                 }
             }
         };
+
         AMapLocationClientOption option=new AMapLocationClientOption();
         option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         option.setOnceLocation(false);
