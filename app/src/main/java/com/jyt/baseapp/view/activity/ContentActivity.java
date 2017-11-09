@@ -68,6 +68,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         init();
         initlistener();
         setTabBg(0);
+
     }
 
     private void init() {
@@ -139,4 +140,6 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         mVpContainer.setCurrentItem(selecor);
 
     }
+
+
 }

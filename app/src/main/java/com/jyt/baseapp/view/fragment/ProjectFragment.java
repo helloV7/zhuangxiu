@@ -24,6 +24,7 @@ import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.activity.InfoActivity;
+import com.jyt.baseapp.view.activity.SearchActivity;
 import com.jyt.baseapp.view.activity.ShopActivity;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 import com.jyt.baseapp.view.widget.MapSelector;
@@ -41,6 +42,8 @@ import butterknife.Unbinder;
  */
 public class ProjectFragment extends BaseFragment implements View.OnClickListener {
 
+    @BindView(R.id.ll_input)
+    LinearLayout mLlInput;
     @BindView(R.id.et_input)
     EditText mEtInput;
     @BindView(R.id.iv_noti)
@@ -179,6 +182,8 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         mTvMapBrand.setOnClickListener(this);
         mTvMapProgress.setOnClickListener(this);
         mIvNoti.setOnClickListener(this);
+        mLlInput.setOnClickListener(this);
+        mEtInput.setOnClickListener(this);
     }
 
     private void ChangeProvince(int ProcinveID){
@@ -197,7 +202,6 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             }
         });
     }
-
 
 
     @Override
@@ -285,6 +289,10 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                 break;
             case R.id.iv_noti:
                 getActivity().startActivity(new Intent(getActivity(), InfoActivity.class));
+                break;
+            case R.id.et_input:
+            case R.id.ll_input:
+                getActivity().startActivity(new Intent(getActivity(), SearchActivity.class));
                 break;
 
             default:

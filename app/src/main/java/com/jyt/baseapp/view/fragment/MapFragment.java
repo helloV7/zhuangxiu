@@ -3,9 +3,11 @@ package com.jyt.baseapp.view.fragment;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,8 +16,17 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationClient;
+import com.amap.api.location.AMapLocationClientOption;
+import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.CameraPosition;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.MarkerOptions;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.bean.MapBean;
 import com.jyt.baseapp.model.MapModel;
@@ -34,6 +45,7 @@ import butterknife.BindView;
 public class MapFragment extends BaseFragment implements View.OnClickListener{
 
     private int mtotalWidth;
+    private int mtotalHeight;
     @BindView(R.id.mapview_map)
     MapView mMapView;
     @BindView(R.id.tv_map_city)
@@ -58,6 +70,9 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
     private boolean isHideBrandSelecotr;
     private boolean isShowMap=true;  //是否展开Map
     private boolean isShowBrand=true;    //是否展开Brand
+    public AMapLocationClient mLocationClient=null;
+    public AMapLocationListener mLocationListener;
+    private AMap mMap;
 
 
     @Override
@@ -74,6 +89,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         initSelecotr();
 //        initPopupWindow(mMapBean);
         initData();
+        initLocation();
         initListener();
     }
 
@@ -82,11 +98,28 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         mMapModel = new MapModel();
         WindowManager wm= (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
         mtotalWidth=wm.getDefaultDisplay().getWidth();
+        mtotalHeight=wm.getDefaultDisplay().getHeight();
     }
 
     private void initMap(){
-        AMap map=mMapView.getMap();
-        map.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放按钮
+        mMap = mMapView.getMap();
+        mMap.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放按钮
+        mMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+
+            }
+
+            @Override
+            public void onCameraChangeFinish(CameraPosition cameraPosition) {
+                LatLng latLng1=mMap.getProjection().fromScreenLocation(new Point(0,0));
+                LatLng latLng2=mMap.getProjection().fromScreenLocation(new Point(mtotalWidth,mtotalHeight));
+                Log.e("@#","longitude1="+latLng1.longitude+" latitude1="+latLng1.latitude);
+                Log.e("@#","longitude2="+latLng2.longitude+" latitude2="+latLng2.latitude);
+            }
+        });
+
+
     }
 
     private void initSelecotr(){
@@ -98,22 +131,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         mBrandSelector.getLayoutParams().height= 0;
         mBrandSelector.requestLayout();
         mBrandSelector.setHideDeleteIV(true);
-        mMapSelector.setOnMapClickListener(new MapSelector.OnMapClickListener() {
-            @Override
-            public void onClickProvince(int ProvinceID, String ProvinceName) {
-                ChangeProvince(ProvinceID);
-            }
 
-            @Override
-            public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
-
-            }
-
-            @Override
-            public void onClickBack() {
-
-            }
-        });
     }
 
     private void initPopupWindow(MapBean bean){
@@ -123,6 +141,46 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         mMapSelector.getLayoutParams().width= (int) (mtotalWidth*0.8);
         mMapSelector.requestLayout();
 
+    }
+    private boolean isLocation;
+    private void initLocation(){
+        mLocationClient=new AMapLocationClient(getContext().getApplicationContext());
+        mLocationListener=new AMapLocationListener() {
+            @Override
+            public void onLocationChanged(AMapLocation aMapLocation) {
+                if (aMapLocation!=null){
+
+                    if (aMapLocation.getErrorCode()==0){
+                        if (!isLocation){
+                            aMapLocation.getLocationType();
+                            double v=aMapLocation.getLatitude();//获取纬度
+                            double v1=aMapLocation.getLongitude();//获取经度
+                            LatLng latLng2=new LatLng(v,v1);
+                            mMap.addMarker(new MarkerOptions()
+                                    .position(latLng2)
+                                    .icon(BitmapDescriptorFactory
+                                            .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                            mMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng2));
+                            isLocation=true;
+                        }
+
+                    }
+                }
+            }
+        };
+        AMapLocationClientOption option=new AMapLocationClientOption();
+        option.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
+        option.setOnceLocation(false);
+        option.setNeedAddress(true);
+        option.setOnceLocation(false);
+        option.setHttpTimeOut(2000);
+        option.setWifiActiveScan(true);
+        option.setMockEnable(false);
+        //设置定位间隔,单位毫秒,默认为2000ms
+        option.setInterval(2000);
+        mLocationClient.setLocationListener(mLocationListener);
+        mLocationClient.setLocationOption(option);
+        mLocationClient.startLocation();
     }
 
     private void initListener(){
@@ -314,6 +372,8 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         super.onDestroy();
         mMapView.onDestroy();
     }
+
+
 
 
 

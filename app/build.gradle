@@ -1,7 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-
+    signingConfigs {
+        config {
+            keyAlias 'lin'
+            keyPassword '123456'
+            storeFile file('E:/key/zhuangxiu.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion '25.0.2'
     sourceSets {
@@ -16,15 +23,20 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        signingConfig signingConfigs.config
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+        debug {
+            signingConfig signingConfigs.config
         }
     }
-
+    productFlavors {
+    }
 }
 
 dependencies {
@@ -33,7 +45,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile files('libs/Android_Map3D_SDK_V5.4.0_20170928.jar')
-
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.nex3z:flow-layout:0.1.2'
     compile 'ch.ielse:switchbutton:1.0.0'

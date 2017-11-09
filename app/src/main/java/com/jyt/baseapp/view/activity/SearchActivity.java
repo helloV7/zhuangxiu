@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -28,8 +29,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     TextView mTvCancel;
     @BindView(R.id.rv_after)
     RecyclerView mRvAfter;
-    @BindView(R.id.rv_befor)
-    RecyclerView mRvBefor;
+    @BindView(R.id.rv_before)
+    RecyclerView mRvBefore;
     @BindView(R.id.btn_claer)
     Button mBtnClaer;
     @BindView(R.id.ll_befor)
@@ -69,6 +70,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 if (text.length()>0){
                     mLlBefor.setVisibility(View.GONE);
                     mRvAfter.setVisibility(View.VISIBLE);
+                    Log.e("@#","length="+text.length());
                 }else {
                     mLlBefor.setVisibility(View.VISIBLE);
                     mRvAfter.setVisibility(View.GONE);
@@ -81,11 +83,11 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private void initRv(){
         mBeforAdapter.setDataList(mList);
         mAfterAdapter.setDataList(mList);
-        mRvBefor.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        mRvBefore.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         mRvAfter.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        mRvBefor.setAdapter(mBeforAdapter);
+        mRvBefore.setAdapter(mBeforAdapter);
         mRvAfter.setAdapter(mAfterAdapter);
-        mRvBefor.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        mRvBefore.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
         mRvAfter.addItemDecoration(new SpacesItemDecoration(0,2));
     }
 
