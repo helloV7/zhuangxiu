@@ -15,9 +15,14 @@ public class MapBean {
             ProvinceName=name;
             this.ProvinceID=ProvinceID;
         }
+        public Province(String BrandName,String brandId){
+
+        }
         public String ProvinceName;
         public int ProvinceID;
         public boolean isCheckProvince;
+        public String brandId;
+        public String brandName;
     }
     //市
     public static class City {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="100dp"
+              android:layout_height="70dp"
+              android:background="@mipmap/sec_shop"
+              android:gravity="center_vertical|left"
+              android:paddingRight="20dp"
+              android:paddingLeft="20dp">
+        <TextView
+            android:id="@+id/tv_text"
+            android:textSize="10dp"
+            android:layout_marginBottom="8dp"
+            android:layout_width="90dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"/>
+</LinearLayout>

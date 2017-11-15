@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.BrandAdapter;
-import com.jyt.baseapp.bean.MapBean;
+import com.jyt.baseapp.bean.BrandBean;
 import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
 import com.jyt.baseapp.view.viewholder.SingleTextViewHolder;
 
@@ -25,6 +25,7 @@ public class SingleSelector extends LinearLayout {
     RecyclerView rv_right;
     LinearLayout ll_parent;
     ImageView iv_back;
+    private List<BrandBean> sonlist;
     private BrandAdapter LeftAdapter;
     private BrandAdapter RightAdapter;
 
@@ -59,68 +60,71 @@ public class SingleSelector extends LinearLayout {
         });
     }
 
-    private void setLeftAdapter(Context context, final List<MapBean.Province> data){
+    public void setLeftAdapter(Context context, final List<BrandBean> data){
         if (LeftAdapter==null){
-            LeftAdapter=new BrandAdapter(context,data);
+            LeftAdapter=new BrandAdapter(context,data,0);
             LeftAdapter.setCentenr(true);
         }
         rv_left.setAdapter(LeftAdapter);
         rv_left.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
+        rv_left.addItemDecoration(new SpacesItemDecoration(0,60));
         LeftAdapter.notifyDataSetChanged();
         LeftAdapter.setOnSingleClickListener(new BrandAdapter.OnSingleClickListener() {
             @Override
-            public void onClick(int position, SingleTextViewHolder holder) {
+            public void onClick(String BrandSonID, SingleTextViewHolder holder,int position) {
                 for (int i = 0; i < data.size(); i++) {
-                    if (position==i){
-                        data.get(i).isCheckProvince=true;
-                    }else {
-                        data.get(i).isCheckProvince=false;
+                    data.get(i).setCheck(false);
+                    if (i==position){
+                        data.get(position).setCheck(true);
+                        if (listener!=null){
+                            listener.onClickBrand(data.get(i).getBrandId(),data.get(i).getBrandName());
+                        }
                     }
                 }
                 LeftAdapter.notifyDataSetChanged();
-                if (listener!=null){
-                    listener.onClickBrand(position);
-                }
             }
         });
         LeftAdapter.notifyDataSetChanged();
-        rv_left.addItemDecoration(new SpacesItemDecoration(0,60));
     }
 
-    private void setRightAdapter(Context context, final List<MapBean.Province> data){
+    public void setRightAdapter(Context context, final List<BrandBean> data){
         if (RightAdapter==null){
-            RightAdapter=new BrandAdapter(context,data);
+            RightAdapter=new BrandAdapter(context,data,1);
             RightAdapter.setCentenr(false);
         }
+        sonlist=data;
         rv_right.setAdapter(RightAdapter);
         rv_right.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
-        RightAdapter.notifyDataSetChanged();
+        rv_right.addItemDecoration(new SpacesItemDecoration(0,60));
         RightAdapter.setOnSingleClickListener(new BrandAdapter.OnSingleClickListener() {
             @Override
-            public void onClick(int position, SingleTextViewHolder holder) {
-                for (int i = 0; i < data.size(); i++) {
-                    if (position==i){
-                        data.get(i).isCheckProvince=true;
-                    }else {
-                        data.get(i).isCheckProvince=false;
+            public void onClick(String BrandSonID, SingleTextViewHolder holder,int position) {
+                for (int i = 0; i < sonlist.size(); i++) {
+                    sonlist.get(i).setCheck(false);
+                    if (i==position){
+                        sonlist.get(position).setCheck(true);
                     }
                 }
-                RightAdapter.notifyDataSetChanged();
                 if (listener!=null){
-                    listener.onClickDetail(position);
+                    listener.onClickDetail(sonlist.get(position).getSubClassId(),sonlist.get(position).getSubClassName());
                 }
+                RightAdapter.notifyDataSetChanged();
             }
         });
         RightAdapter.notifyDataSetChanged();
-        rv_right.addItemDecoration(new SpacesItemDecoration(0,60));
+
     }
 
-    public void notifyData(final List<MapBean.Province> data){
+    public void notifyRightData(final List<BrandBean> data){
+        if (RightAdapter!=null && data!=null && data.size()>0){
+            sonlist=data;
+            RightAdapter.notifyData(data);
+        }
+    }
+
+    public void notifyLeftData(final List<BrandBean> data){
         if (LeftAdapter!=null && data!=null && data.size()>0){
             LeftAdapter.notifyData(data);
-        }
-        if (RightAdapter!=null && data!=null && data.size()>0){
-            RightAdapter.notifyData(data);
         }
     }
 
@@ -128,8 +132,8 @@ public class SingleSelector extends LinearLayout {
 
 
     public interface OnSingleClickListener{
-        void onClickBrand(int BrandID);
-        void onClickDetail(int Index);
+        void onClickBrand(String BrandID,String BrandName);
+        void onClickDetail(String BrandSonID,String BrandSonName);
         void onClickBack();
     }
     private OnSingleClickListener listener;

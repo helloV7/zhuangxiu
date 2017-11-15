@@ -26,8 +26,11 @@ import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.jyt.baseapp.R;
+import com.jyt.baseapp.bean.BrandBean;
+import com.jyt.baseapp.bean.LocationBean;
 import com.jyt.baseapp.bean.MapBean;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
@@ -35,6 +38,7 @@ import com.jyt.baseapp.view.widget.MapSelector;
 import com.jyt.baseapp.view.widget.SingleSelector;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -64,7 +68,8 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
     private PopupWindow pop_brand;
     private MapModel mMapModel;
     private MapBean mMapBean;
-//    private MapSelector mMapSelector;
+    private List<BrandBean> mBrandBeen;
+    private List<BrandBean> mBrandSonBeen;
     private int selecrotHeight=BaseUtil.dip2px(380);
     private boolean isHideMapSelecotr; //是否展开pop
     private boolean isHideBrandSelecotr;
@@ -73,6 +78,12 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
     public AMapLocationClient mLocationClient=null;
     public AMapLocationListener mLocationListener;
     private AMap mMap;
+    private boolean isLocation;
+    private boolean isFst;
+    private List<Marker> mMarkerList;
+    private String str_province="北京";
+    private String str_city;
+    private String str_area;
 
 
     @Override
@@ -87,14 +98,22 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         init();
         initMap();
         initSelecotr();
-//        initPopupWindow(mMapBean);
         initData();
         initLocation();
         initListener();
+//        mMapModel.getSearchData("", new MapModel.OnSearchResultListener() {
+//            @Override
+//            public void Result(boolean isSuccess, List<SearchBean> data) {
+//
+//            }
+//        });
     }
 
     private void init(){
         mMapBean=new MapBean();
+        mBrandBeen=new ArrayList<>();
+        mBrandSonBeen=new ArrayList<>();
+        mMarkerList = new ArrayList<>();
         mMapModel = new MapModel();
         WindowManager wm= (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
         mtotalWidth=wm.getDefaultDisplay().getWidth();
@@ -112,15 +131,27 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
 
             @Override
             public void onCameraChangeFinish(CameraPosition cameraPosition) {
-                LatLng latLng1=mMap.getProjection().fromScreenLocation(new Point(0,0));
-                LatLng latLng2=mMap.getProjection().fromScreenLocation(new Point(mtotalWidth,mtotalHeight));
-                Log.e("@#","longitude1="+latLng1.longitude+" latitude1="+latLng1.latitude);
-                Log.e("@#","longitude2="+latLng2.longitude+" latitude2="+latLng2.latitude);
+                LatLng l1=mMap.getProjection().fromScreenLocation(new Point(0,mtotalHeight));
+                LatLng l2=mMap.getProjection().fromScreenLocation(new Point(mtotalWidth,0));
+//                Log.e("@#","longitude1="+l1.longitude+" latitude1="+l1.latitude);
+//                Log.e("@#","longitude2="+l2.longitude+" latitude2="+l2.latitude);
+                if (!isFst){
+                    getLocationShop(l1,l2);
+                    isFst=true;
+                }
             }
         });
 
-
+        mMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                LocationBean localData= (LocationBean) marker.getObject();
+                Log.e("@#","local:"+localData.getProjectName());
+                return false;
+            }
+        });
     }
+
 
     private void initSelecotr(){
         mMapSelector.getLayoutParams().width= (int) (mtotalWidth*0.9);
@@ -142,7 +173,10 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         mMapSelector.requestLayout();
 
     }
-    private boolean isLocation;
+
+    /**
+     * 定位
+     */
     private void initLocation(){
         mLocationClient=new AMapLocationClient(getContext().getApplicationContext());
         mLocationListener=new AMapLocationListener() {
@@ -213,6 +247,66 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
                 }
             }
         });
+
+        mMapSelector.setOnMapClickListener(new MapSelector.OnMapClickListener() {
+            @Override
+            public void onClickProvince(int ProvinceID, String ProvinceName) {
+                ChangeProvince(ProvinceID);
+                str_province=ProvinceName;
+                Log.e("@#",str_province);
+            }
+
+            @Override
+            public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
+
+            }
+
+            @Override
+            public void onClickBack() {
+
+            }
+        });
+
+        mMapModel.getBrandData(new MapModel.OngetBrandResultListener() {
+            @Override
+            public void Result(boolean isSuccess, List<BrandBean> brandData) {
+                if (isSuccess){
+                    mBrandBeen=brandData;
+                    mBrandSelector.setLeftAdapter(getActivity(),mBrandBeen);
+                }
+            }
+        });
+
+        //6d78da2a-bd23-11e7-bb43-00ffaa44f255
+        mMapModel.getBrandSonData("9ef3c864-b53d-11e7-9b64-00ffaa44255a", new MapModel.OngetBrandResultListener() {
+            @Override
+            public void Result(boolean isSuccess, List<BrandBean> brandData) {
+                if (isSuccess){
+                    mBrandSonBeen=brandData;
+                    mBrandSelector.setRightAdapter(getActivity(),mBrandSonBeen);
+                }
+            }
+        });
+
+        mBrandSelector.setOnSingleClickListener(new SingleSelector.OnSingleClickListener() {
+
+            @Override
+            public void onClickBrand(String BrandID, String BrandName) {
+                ChangeBrand(BrandID);
+            }
+
+            @Override
+            public void onClickDetail(String BrandSonID, String BrandSonName) {
+
+            }
+
+            @Override
+            public void onClickBack() {
+
+            }
+        });
+
+
     }
 
     /**
@@ -232,6 +326,46 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
                         }
                     });
                 }
+            }
+        });
+    }
+
+    /**
+     * 改变品牌
+     * @param BrandID
+     */
+    private void ChangeBrand(String BrandID){
+        mMapModel.getBrandSonData(BrandID, new MapModel.OngetBrandResultListener() {
+            @Override
+            public void Result(boolean isSuccess, List<BrandBean> brandData) {
+                if (isSuccess){
+                    mBrandSonBeen=brandData;
+                    mBrandSelector.notifyRightData(mBrandSonBeen);
+                }
+            }
+        });
+    }
+
+    private void getLocationShop(LatLng l1,LatLng l2){
+        mMapModel.getLocationShop(l1, l2, new MapModel.OnLocationShopResultListener() {
+            @Override
+            public void Result(boolean isSuccess, List<LocationBean> shops) {
+                if (isSuccess){
+                    for (int i = 0; i < shops.size(); i++) {
+                        View view=View.inflate(getActivity(),R.layout.layout_infowindow,null);
+                        TextView tv= (TextView) view.findViewById(R.id.tv_text);
+                        tv.setText(shops.get(i).getProjectName());
+                        Bitmap b=convertViewToBitmap(view);
+                        LatLng l=new LatLng(Double.valueOf(shops.get(i).getLatitude()),Double.valueOf(shops.get(i).getLongitude()));
+                        Marker marker=mMap.addMarker(new MarkerOptions()
+                        .position(l)
+                        .infoWindowEnable(false)
+                        .icon(BitmapDescriptorFactory.fromBitmap(b)));
+                        marker.setObject(shops.get(i));
+                        mMarkerList.add(marker);
+                    }
+                }
+
             }
         });
     }
@@ -372,6 +506,20 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
     public void onDestroy() {
         super.onDestroy();
         mMapView.onDestroy();
+    }
+
+
+    /**
+     * 将view转为位图
+     * @param view
+     * @return
+     */
+    public static Bitmap convertViewToBitmap(View view) {
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+        return bitmap;
     }
 
 

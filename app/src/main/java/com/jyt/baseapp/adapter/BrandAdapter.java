@@ -6,9 +6,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.jyt.baseapp.R;
-import com.jyt.baseapp.bean.MapBean;
+import com.jyt.baseapp.bean.BrandBean;
 import com.jyt.baseapp.view.viewholder.SingleTextViewHolder;
 
 import java.util.List;
@@ -19,10 +20,12 @@ import java.util.List;
 public class BrandAdapter extends RecyclerView.Adapter<SingleTextViewHolder> {
     private Context context;
     private LayoutInflater mInflater;
-    private List<MapBean.Province> data;
-    public BrandAdapter(Context context, List<MapBean.Province> data){
+    private List<BrandBean> data;
+    private int state;
+    public BrandAdapter(Context context, List<BrandBean> data,int state){
         this.context=context;
         this.data=data;
+        this.state=state;
         mInflater=LayoutInflater.from(context);
     }
     @Override
@@ -34,24 +37,34 @@ public class BrandAdapter extends RecyclerView.Adapter<SingleTextViewHolder> {
 
     @Override
     public void onBindViewHolder(final SingleTextViewHolder holder, final int position) {
-        MapBean.Province singleData=data.get(position);
-        holder.tv_SingleText.setText(singleData.ProvinceName);
+        final BrandBean singleData=data.get(position);
+        holder.tv_SingleText.setText(singleData.getBrandName());
+        LinearLayout ll= (LinearLayout) holder.tv_SingleText.getParent();
         if (isCentenr){
-            holder.tv_SingleText.setGravity(Gravity.CENTER_HORIZONTAL);
+            ll.setGravity(Gravity.CENTER_HORIZONTAL);
         }else {
-            holder.tv_SingleText.setGravity(Gravity.LEFT);
+            ll.setGravity(Gravity.LEFT);
         }
-
-        if (singleData.isCheckProvince){
-            holder.tv_SingleText.setTextColor(context.getResources().getColor(R.color.map_text2));
-        }else {
-            holder.tv_SingleText.setTextColor(context.getResources().getColor(R.color.text_color1));
+        if (state==0){
+            if (singleData.isCheck()){
+                holder.tv_SingleText.setTextColor(context.getResources().getColor(R.color.map_text2));
+            }else {
+                holder.tv_SingleText.setTextColor(context.getResources().getColor(R.color.text_color1));
+            }
+        }else if (state==1){
+            if (singleData.isCheck()){
+                holder.tv_SingleText.setBackground(context.getResources().getDrawable(R.drawable.bg_corner_blue));
+                holder.tv_SingleText.setTextColor(context.getResources().getColor(R.color.map_text2));
+            }else {
+                holder.tv_SingleText.setBackground(context.getResources().getDrawable(R.drawable.bg_corner_trans));
+                holder.tv_SingleText.setTextColor(context.getResources().getColor(R.color.map_text1));
+            }
         }
         holder.tv_SingleText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (listener!=null){
-                    listener.onClick(position,holder);
+                    listener.onClick(singleData.getBrandId(),holder,position);
                 }
             }
         });
@@ -66,13 +79,13 @@ public class BrandAdapter extends RecyclerView.Adapter<SingleTextViewHolder> {
         return data.size();
     }
 
-    public void notifyData(List<MapBean.Province> data){
+    public void notifyData(List<BrandBean> data){
         this.data=data;
         notifyDataSetChanged();
     }
 
     public interface OnSingleClickListener{
-        void onClick(int position,SingleTextViewHolder holder);
+        void onClick(String BrandSonID,SingleTextViewHolder holder,int position);
     }
     public OnSingleClickListener listener;
     public void setOnSingleClickListener(OnSingleClickListener listener){
