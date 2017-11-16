@@ -1,9 +1,11 @@
 package com.jyt.baseapp.bean;
 
+import java.io.Serializable;
+
 /**
  * @author LinWei on 2017/11/14 18:24
  */
-public class SearchBean {
+public class SearchBean implements Serializable {
     private String projectId;
     private String brandName;
     private String subClassName;
@@ -18,6 +20,8 @@ public class SearchBean {
     public String getProjectId() {
         return projectId;
     }
+
+
 
     public void setProjectId(String projectId) {
         this.projectId = projectId;

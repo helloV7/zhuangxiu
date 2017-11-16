@@ -89,7 +89,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     private List<Marker> mMarkerList;
     private GeocodeSearch mGeocodeSearch;
     private int mCityID;
-    private String str_province="北京";
+    private String str_province="天津";
     private String str_city;
     private String str_area;
 
@@ -109,7 +109,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         initData();
         initLocation();
         initListener();
-
+        SearchShop("");
     }
 
     private void init(){
@@ -233,40 +233,39 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     private void initData(){
         mMapModel.getProvinceData(new MapModel.onResultProvinceListener() {
             @Override
-            public void ResultData(boolean isSuccess, Exception e, ArrayList<MapBean.Province> data) {
+            public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess){
                     mMapBean.mProvinces=data;
+                    mMapBean.mProvinces.get(0).isCheckProvince=true;
                     mMapSelector.setProvinceAdapter(mMapBean,getActivity());
                 }
             }
         });
-        mMapModel.getCityData(1, new MapModel.onResultCityListener() {
+
+        mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
             @Override
-            public void ResultData(boolean isSuccess, Exception e, final ArrayList<MapBean.City> data) {
+            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
                 if (isSuccess){
-                    BaseUtil.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mMapBean.mCities=data;
-                            mMapSelector.setCityAdapter(mMapBean,getActivity());
-                        }
-                    });
+                    mMapBean.mCities=data;
+                    mMapSelector.setCityAdapter(mMapBean,getActivity());
                 }
             }
         });
+
 
         mMapSelector.setOnMapClickListener(new MapSelector.OnMapClickListener() {
             @Override
             public void onClickProvince(int ProvinceID, String ProvinceName) {
                 ChangeProvince(ProvinceID);
-                if ("北京".equals(ProvinceName)
-                        || "上海".equals(ProvinceName)
-                        || "天津".equals(ProvinceName)
-                        || "重庆".equals(ProvinceName)){
-                    str_province=ProvinceName+"市";
-                }else {
-                    str_province=ProvinceName+"省";
-                }
+//                if ("北京".equals(ProvinceName)
+//                        || "上海".equals(ProvinceName)
+//                        || "天津".equals(ProvinceName)
+//                        || "重庆".equals(ProvinceName)){
+//                    str_province=ProvinceName+"市";
+//                }else {
+//                    str_province=ProvinceName+"省";
+//                }
+                str_province=ProvinceName;
 
 
             }
@@ -275,7 +274,16 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
                 str_city=CityName;
                 str_area=AreaName;
-                mCityID=CityID;
+                if ("北京".equals(str_province)
+                        || "上海".equals(str_province)
+                        || "天津".equals(str_province)
+                        || "重庆".equals(str_province)){
+                    str_city=str_province+"市";
+                    str_area=CityName+AreaName;
+                }else if ("台湾".equals(str_province)){
+                    str_city=AreaName;
+                    str_area=CityName+AreaName;
+                }
                 SearchShop(","+str_province+","+CityName+","+AreaName+",null,null,null");
                 tv_city.performClick();
             }
@@ -337,18 +345,12 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
      * @param ProcinveID
      */
     private void ChangeProvince(int ProcinveID){
-        mMapModel.getCityData(ProcinveID, new MapModel.onResultCityListener() {
+        mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {
             @Override
-            public void ResultData(boolean isSuccess, Exception e, final ArrayList<MapBean.City> data) {
+            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
                 if (isSuccess){
-                    BaseUtil.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.e("@#",data.size()+"");
-                            mMapBean.mCities=data;
-                            mMapSelector.notifyData(mMapBean);
-                        }
-                    });
+                    mMapBean.mCities=data;
+                    mMapSelector.notifyData(mMapBean);
                 }
             }
         });
@@ -401,7 +403,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             @Override
             public void Result(boolean isSuccess, List<SearchBean> data) {
                 if (isSuccess){
-                    Log.e("@#",data.size()+"");
+
                 }
             }
         });
@@ -567,6 +569,10 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
 
     @Override
     public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+        if ("钓鱼岛".equals(str_province)){
+            mMap.moveCamera(CameraUpdateFactory.changeLatLng(new LatLng(25.744676,123.476492)));
+            return;
+        }
         LatLonPoint point=geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint();
         LatLng latLng = new LatLng(point.getLatitude(),point.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));

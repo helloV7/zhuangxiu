@@ -33,7 +33,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -126,16 +126,17 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
         mCitySelector.setOnMapClickListener(new MapSelector.OnMapClickListener() {
             @Override
             public void onClickProvince(int ProvinceID, final String ProvinceName) {
-                mMapModel.getCityData(ProvinceID, new MapModel.onResultCityListener() {
+                mMapModel.getCityAreaData(ProvinceID, new MapModel.onResultCityListener() {
                     @Override
-                    public void ResultData(boolean isSuccess, Exception e, final ArrayList<MapBean.City> data) {
-                        if (isSuccess) {
-                            mMapBean.mCities = data;
+                    public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
+                        if (isSuccess){
+                            mMapBean.mCities=data;
                             mCitySelector.notifyData(mMapBean);
                             SProvince=ProvinceName;
                         }
                     }
                 });
+
             }
 
             @Override
@@ -167,24 +168,26 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
     private void initData() {
         mMapModel.getProvinceData(new MapModel.onResultProvinceListener() {
             @Override
-            public void ResultData(boolean isSuccess, Exception e, ArrayList<MapBean.Province> data) {
-                if (isSuccess) {
-                    mMapBean.mProvinces = data;
+            public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
+                if (isSuccess){
+                    mMapBean.mProvinces=data;
                     mMapBean.mProvinces.get(0).isCheckProvince=true;
-                    SProvince= mMapBean.mProvinces.get(0).ProvinceName;
                     mCitySelector.setProvinceAdapter(mMapBean, AddPersonActivity.this);
                 }
             }
         });
-        mMapModel.getCityData(1, new MapModel.onResultCityListener() {
+
+        mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
             @Override
-            public void ResultData(boolean isSuccess, Exception e, final ArrayList<MapBean.City> data) {
-                if (isSuccess) {
-                    mMapBean.mCities = data;
+            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
+                if (isSuccess){
+                    mMapBean.mCities=data;
                     mCitySelector.setCityAdapter(mMapBean, AddPersonActivity.this);
                 }
             }
         });
+
+
     }
 
     private void initListener(){

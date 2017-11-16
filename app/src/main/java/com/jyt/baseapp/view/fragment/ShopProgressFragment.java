@@ -7,8 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jyt.baseapp.R;
+import com.jyt.baseapp.bean.ProgressBean;
+import com.jyt.baseapp.bean.SearchBean;
+import com.jyt.baseapp.model.ShopModel;
 import com.jyt.baseapp.view.widget.AppendItem;
 import com.jyt.baseapp.view.widget.ProgressLine;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +43,8 @@ public class ShopProgressFragment extends BaseFragment {
     @BindView(R.id.pl_settlement)
     ProgressLine mPlSettlement;
     Unbinder unbinder;
+    private SearchBean mInfo;
+    private ShopModel mShopModel;
     private AppendItem at_Measure;
     private AppendItem at_Measured;
     private AppendItem at_Design;
@@ -72,6 +80,7 @@ public class ShopProgressFragment extends BaseFragment {
     private AppendItem at_Settlement2;
     private AppendItem at_Settlement3;
     private AppendItem at_Settlement4;
+    private List<AppendItem> mAppendList;
 
 
     @Override
@@ -95,20 +104,35 @@ public class ShopProgressFragment extends BaseFragment {
     }
 
     private void init() {
+        mInfo = (SearchBean) getArguments().getSerializable("shopinfo");
+        mShopModel = new ShopModel();
+        mAppendList = new ArrayList<>();
+
         at_Measure = new AppendItem(getActivity());
         at_Measured = new AppendItem(getActivity());
+        mAppendList.add(at_Measure);
+        mAppendList.add(at_Measured);
 
         at_Design = new AppendItem(getActivity());
         at_Designing = new AppendItem(getActivity());
         at_Designed = new AppendItem(getActivity());
         at_Offer = new AppendItem(getActivity());
         at_Offered = new AppendItem(getActivity());
+        mAppendList.add(at_Design);
+        mAppendList.add(at_Designing);
+        mAppendList.add(at_Designed);
+        mAppendList.add(at_Offer);
+        mAppendList.add(at_Offered);
 
         at_Approval = new AppendItem(getActivity());
         at_Approvaled = new AppendItem(getActivity());
+        mAppendList.add(at_Approval);
+        mAppendList.add(at_Approvaled);
 
         at_Confirm = new AppendItem(getActivity());
         at_Confirmed = new AppendItem(getActivity());
+        mAppendList.add(at_Confirm);
+        mAppendList.add(at_Confirmed);
 
         at_BudgetConfirm = new AppendItem(getActivity());
         at_Paper1 = new AppendItem(getActivity());
@@ -124,20 +148,67 @@ public class ShopProgressFragment extends BaseFragment {
         at_Material5 = new AppendItem(getActivity());
         at_Material6 = new AppendItem(getActivity());
         at_Material7 = new AppendItem(getActivity());
+        mAppendList.add(at_BudgetConfirm);
+        mAppendList.add(at_Paper1);
+        mAppendList.add(at_Paper2);
+        mAppendList.add(at_Paper3);
+        mAppendList.add(at_Paper4);
+        mAppendList.add(at_Paper5);
+        mAppendList.add(at_Paper6);
+        mAppendList.add(at_Material1);
+        mAppendList.add(at_Material2);
+        mAppendList.add(at_Material3);
+        mAppendList.add(at_Material4);
+        mAppendList.add(at_Material5);
+        mAppendList.add(at_Material6);
+        mAppendList.add(at_Material7);
 
         at_Logistics1 = new AppendItem(getActivity());
         at_Logistics2 = new AppendItem(getActivity());
         at_Logistics3 = new AppendItem(getActivity());
         at_Logistics4 = new AppendItem(getActivity());
+        mAppendList.add(at_Logistics1);
+        mAppendList.add(at_Logistics2);
+        mAppendList.add(at_Logistics3);
+        mAppendList.add(at_Logistics4);
 
         at_Construction = new AppendItem(getActivity());
+        mAppendList.add(at_Construction);
 
         at_Complete = new AppendItem(getActivity());
+        mAppendList.add(at_Complete);
 
         at_Settlement1 = new AppendItem(getActivity());
         at_Settlement2 = new AppendItem(getActivity());
         at_Settlement3 = new AppendItem(getActivity());
         at_Settlement4 = new AppendItem(getActivity());
+        mAppendList.add(at_Settlement1);
+        mAppendList.add(at_Settlement2);
+        mAppendList.add(at_Settlement3);
+        mAppendList.add(at_Settlement4);
+
+        mShopModel.getProjectProgress(mInfo.getProjectId(), new ShopModel.OnProgressResultListener() {
+            @Override
+            public void Result(boolean isSuccess, Exception e, List<ProgressBean> shopBean) {
+                if (isSuccess){
+                    setProgress(shopBean);
+                }
+            }
+        });
+    }
+
+    private boolean isIndex;
+    private void setProgress(List<ProgressBean> data){
+        for (int i = 0; i < data.size(); i++) {
+            if ("0".equals(data.get(0).getIsfinish())){
+                if (!isIndex){
+                    mAppendList.get(i).setEditor();
+                    isIndex=true;
+                }
+              //---------------------------------------------------
+            }
+        }
+
     }
 
     private void initMeasure() {
@@ -260,6 +331,7 @@ public class ShopProgressFragment extends BaseFragment {
         mPlSettlement.addAppendItem(at_Settlement3);
         mPlSettlement.addAppendItem(at_Settlement4);
     }
+
 
 
 

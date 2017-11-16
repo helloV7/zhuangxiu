@@ -7,14 +7,13 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jyt.baseapp.api.BeanCallback;
 import com.jyt.baseapp.api.Const;
+import com.jyt.baseapp.api.Path;
 import com.jyt.baseapp.bean.AreaBean;
 import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.bean.BrandBean;
 import com.jyt.baseapp.bean.CityBean;
 import com.jyt.baseapp.bean.LocationBean;
 import com.jyt.baseapp.bean.MapBean;
-import com.jyt.baseapp.api.Path;
-import com.jyt.baseapp.bean.ProvinceBean;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.util.BaseUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -34,12 +33,17 @@ import okhttp3.Call;
  */
 public class MapModel {
     public void getProvinceData(final onResultProvinceListener listener){
+
         OkHttpUtils
                 .get()
-                .url(Path.URL_PROVINCE)
-                .addParams("appkey","98a367c4465dd4efb99ca7b072033244")
+                .url(Path.URL_MapDatas)
+                .addParams("token", BaseUtil.getSpString(Const.UserToken))
+                .addParams("method","getAllProvice")
+                .addParams("page","0")
+                .addParams("keyWord",null)
+                .addParams("searchValue",null)
                 .build()
-                .execute(new BeanCallback<String>() {
+                .execute(new BeanCallback<BaseJson<List<MapBean.Province>>>() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         if (listener!=null){
@@ -48,36 +52,54 @@ public class MapModel {
                     }
 
                     @Override
-                    public void onResponse(String response, int id) {
+                    public void onResponse(BaseJson<List<MapBean.Province>> response, int id) {
                         if (listener!=null){
-                            try {
-                                JSONArray json=new JSONObject(response)
-                                        .getJSONObject("result")
-                                        .getJSONObject("jingdong_area_province_get_responce")
-                                        .getJSONArray("province_areas");
+                            if (response.ret){
+                                listener.ResultData(true,null,response.data);
+                            }else {
 
-                                ArrayList<ProvinceBean> provinceList = new Gson().fromJson(json.toString(),new TypeToken<List<ProvinceBean>>(){}.getType());
-                                ArrayList<MapBean.Province> data=new ArrayList<>();
-                                for (int i = 0; i < provinceList.size(); i++) {
-                                    MapBean.Province province=new MapBean.Province(provinceList.get(i).name,provinceList.get(i).id);
-                                    if (i==0){
-                                        province.isCheckProvince=true;
-                                    }
-                                    data.add(province);
-                                }
-                                listener.ResultData(true,null,data);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
                             }
-
                         }
                     }
                 });
     }
+
+    public void getCityAreaData(int ProvinceID,final onResultCityListener listener){
+        OkHttpUtils
+                .get()
+                .url(Path.URL_MapDatas)
+                .addParams("token", BaseUtil.getSpString(Const.UserToken))
+                .addParams("method","getAllCityAndArea")
+                .addParams("page","0")
+                .addParams("keyWord",null)
+                .addParams("searchValue",ProvinceID+"")
+                .build()
+                .execute(new BeanCallback<BaseJson<List<MapBean.City>>>() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        if (listener!=null){
+                            listener.ResultData(false,e,null);
+                        }
+                    }
+
+                    @Override
+                    public void onResponse(BaseJson<List<MapBean.City>> response, int id) {
+                        if (listener!=null){
+                            if (response.ret){
+                                listener.ResultData(true,null,response.data);
+                            }else {
+
+                            }
+                        }
+                    }
+                });
+    }
+
     AtomicInteger totalNum;
     public void getCityData(int ProvinceID, final onResultCityListener listener){
-        totalNum=new AtomicInteger(0);
 
+
+        totalNum=new AtomicInteger(0);
         OkHttpUtils
                 .get()
                 .url(Path.URL_CITY)
@@ -116,7 +138,7 @@ public class MapModel {
 
 
     public interface onResultCityListener{
-        void ResultData(boolean isSuccess,Exception e ,ArrayList<MapBean.City> data);
+        void ResultData(boolean isSuccess,Exception e ,List<MapBean.City> data);
     }
 
     public void getAreaData(final String CityName, final int CityID, final ArrayList<MapBean.City> result, final int num,final onResultCityListener listener){
@@ -162,7 +184,7 @@ public class MapModel {
     }
 
     public interface onResultProvinceListener{
-        void ResultData(boolean isSuccess,Exception e ,ArrayList<MapBean.Province> data);
+        void ResultData(boolean isSuccess,Exception e ,List<MapBean.Province> data);
     }
 
 

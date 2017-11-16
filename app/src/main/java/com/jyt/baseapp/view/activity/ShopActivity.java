@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.FragmentViewPagerAdapter;
+import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.view.fragment.BaseFragment;
 import com.jyt.baseapp.view.fragment.ShopNewsFragment;
 import com.jyt.baseapp.view.fragment.ShopProgressFragment;
@@ -42,7 +43,8 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
     private ShopNewsFragment mNewsFragment;
     private ShopProgressFragment mProgressFragment;
     private FragmentViewPagerAdapter mAdapter;
-    private String shopName;
+    private SearchBean mShopInfo;
+
 
     @Override
     protected int getLayoutId() {
@@ -64,21 +66,23 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
 
 
     private void init(){
+        mShopInfo = (SearchBean) getIntent().getSerializableExtra("shopinfo");
         flist=new ArrayList<>();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("shopinfo",mShopInfo);
         mNewsFragment=new ShopNewsFragment();
+        mNewsFragment.setArguments(bundle);
         mProgressFragment=new ShopProgressFragment();
+        mProgressFragment.setArguments(bundle);
         mAdapter=new FragmentViewPagerAdapter(getSupportFragmentManager());
-        shopName=getIntent().getStringExtra("shopName");
-        if (shopName==null){
-            shopName="店名";
-        }
-        setTextTitle(shopName);
+        setTextTitle(mShopInfo.getProjectName());
     }
 
     private void initVP(){
         flist.add(mNewsFragment);
         flist.add(mProgressFragment);
         mAdapter.setFragments(flist);
+        mVpContainer.setOffscreenPageLimit(1);
         mVpContainer.setAdapter(mAdapter);
         mVpContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -105,6 +109,10 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
 
             }
         });
+    }
+
+    public SearchBean getShopInfo(){
+        return mShopInfo;
     }
 
     private void initListener(){

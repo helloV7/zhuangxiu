@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,6 +78,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     private boolean isShowBrand=true;
     private boolean isShowProgress=true;
     private String str_province="北京";
+    private String str_BrandID;
     private ProjectAdapter mProjectAdapter;
     private List<BrandBean> ProgressList;
     private List<BrandBean> Pson1;
@@ -118,7 +118,10 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         mProjectAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
             @Override
             public void onClick(BaseViewHolder holder) {
-                startActivity(new Intent(getActivity(), ShopActivity.class));
+                Intent intent = new Intent(getActivity(),ShopActivity.class);
+                SearchBean ShopInfo = (SearchBean) holder.getData();
+                intent.putExtra("shopinfo",ShopInfo);
+                startActivity(intent);
             }
         });
         mProjectAdapter.setDataList(list);
@@ -210,19 +213,20 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onClickProvince(int ProvinceID, String ProvinceName) {
                 ChangeProvince(ProvinceID);
-                if ("北京".equals(ProvinceName)
-                        || "上海".equals(ProvinceName)
-                        || "天津".equals(ProvinceName)
-                        || "重庆".equals(ProvinceName)){
-                    str_province=ProvinceName+"市";
-                }else {
-                    str_province=ProvinceName+"省";
-                }
+//                if ("北京".equals(ProvinceName)
+//                        || "上海".equals(ProvinceName)
+//                        || "天津".equals(ProvinceName)
+//                        || "重庆".equals(ProvinceName)){
+//                    str_province=ProvinceName+"市";
+//                }else {
+//                    str_province=ProvinceName+"省";
+//                }
+                str_province=ProvinceName;
             }
 
             @Override
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
-                SearchMapShop(","+str_province+","+CityName+","+AreaName+",null,null,null");
+                SearchMapShop(str_province+","+CityName+","+AreaName);
                 mTvMapCity.performClick();
             }
 
@@ -232,31 +236,19 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             }
         });
 
-        mMapModel.getBrandData(new MapModel.OngetBrandResultListener() {
-            @Override
-            public void Result(boolean isSuccess, List<BrandBean> brandData) {
-                if (isSuccess){
-                    mSelectorBrand.setLeftAdapter(getActivity(),brandData);
-                }
-            }
-        });
-        mMapModel.getBrandSonData("9ef3c864-b53d-11e7-9b64-00ffaa44255a", new MapModel.OngetBrandResultListener() {
-            @Override
-            public void Result(boolean isSuccess, List<BrandBean> brandData) {
-                if (isSuccess){
-                    mSelectorBrand.setRightAdapter(getActivity(),brandData);
-                }
-            }
-        });
+
         mSelectorBrand.setOnSingleClickListener(new SingleSelector.OnSingleClickListener() {
             @Override
             public void onClickBrand(String BrandID, String BrandName) {
                 ChangeBrand(BrandID);
+                str_BrandID =BrandID;
             }
 
             @Override
             public void onClickDetail(String BrandSonID, String BrandSonName) {
+                SearchBrandShop(str_BrandID+","+BrandSonID);
                 mTvMapBrand.performClick();
+
             }
 
             @Override
@@ -303,7 +295,9 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onClickDetail(String BrandSonID, String BrandSonName) {
-                Log.e("@#","id="+BrandSonID);
+                mTvMapProgress.performClick();
+                SearchProgressShop(BrandSonID);
+
             }
 
             @Override
@@ -315,26 +309,42 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void initData(){
+
         mMapModel.getProvinceData(new MapModel.onResultProvinceListener() {
             @Override
-            public void ResultData(boolean isSuccess, Exception e, ArrayList<MapBean.Province> data) {
+            public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess){
                     mMapBean.mProvinces=data;
+                    mMapBean.mProvinces.get(0).isCheckProvince=true;
                     mSelectorCity.setProvinceAdapter(mMapBean,getActivity());
                 }
             }
         });
-        mMapModel.getCityData(1, new MapModel.onResultCityListener() {
+
+
+        mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
             @Override
-            public void ResultData(boolean isSuccess, Exception e, final ArrayList<MapBean.City> data) {
+            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
                 if (isSuccess){
-                    BaseUtil.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mMapBean.mCities=data;
-                            mSelectorCity.setCityAdapter(mMapBean,getActivity());
-                        }
-                    });
+                    mMapBean.mCities=data;
+                    mSelectorCity.setCityAdapter(mMapBean,getActivity());
+                }
+            }
+        });
+
+        mMapModel.getBrandData(new MapModel.OngetBrandResultListener() {
+            @Override
+            public void Result(boolean isSuccess, List<BrandBean> brandData) {
+                if (isSuccess){
+                    mSelectorBrand.setLeftAdapter(getActivity(),brandData);
+                }
+            }
+        });
+        mMapModel.getBrandSonData("9ef3c864-b53d-11e7-9b64-00ffaa44255a", new MapModel.OngetBrandResultListener() {
+            @Override
+            public void Result(boolean isSuccess, List<BrandBean> brandData) {
+                if (isSuccess){
+                    mSelectorBrand.setRightAdapter(getActivity(),brandData);
                 }
             }
         });
@@ -349,22 +359,18 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         mEtInput.setOnClickListener(this);
     }
 
+
     /**
      * 改变省
      * @param ProcinveID
      */
     private void ChangeProvince(int ProcinveID){
-        mMapModel.getCityData(ProcinveID, new MapModel.onResultCityListener() {
+        mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {
             @Override
-            public void ResultData(boolean isSuccess, Exception e, final ArrayList<MapBean.City> data) {
+            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
                 if (isSuccess){
-                    BaseUtil.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mMapBean.mCities=data;
-                            mSelectorCity.notifyData(mMapBean);
-                        }
-                    });
+                    mMapBean.mCities=data;
+                    mSelectorCity.notifyData(mMapBean);
                 }
             }
         });
@@ -385,24 +391,49 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         });
     }
 
+    /**
+     * 点击市内区域，获取信息
+     * @param condition
+     */
     private void  SearchMapShop(String condition){
-        mMapModel.getSearchData(condition, new MapModel.OnSearchResultListener() {
+        mMapModel.getSearchData(","+condition+",null,null,null", new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, List<SearchBean> data) {
                 if (isSuccess){
-                    Log.e("@#",data.size()+"");
                     mProjectAdapter.notifyData(data);
                 }
             }
         });
     }
 
+    /**
+     * 点击子品牌，获取信息
+     * @param condition
+     */
     private void SearchBrandShop(String condition){
-
+        mMapModel.getSearchData(",null,null,null,"+condition+",null", new MapModel.OnSearchResultListener() {
+            @Override
+            public void Result(boolean isSuccess, List<SearchBean> data) {
+                if (isSuccess){
+                    mProjectAdapter.notifyData(data);
+                }
+            }
+        });
     }
 
+    /**
+     * 点击进度，获取信息
+     * @param condition
+     */
     private void SearchProgressShop(String condition){
-
+        mMapModel.getSearchData(",null,null,null,null,null,"+condition, new MapModel.OnSearchResultListener() {
+            @Override
+            public void Result(boolean isSuccess, List<SearchBean> data) {
+                if (isSuccess){
+                    mProjectAdapter.notifyData(data);
+                }
+            }
+        });
     }
 
 

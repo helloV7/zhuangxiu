@@ -133,6 +133,7 @@ public class MapSelector extends LinearLayout {
             mProvinceAdapter.notifyData(bean);
         }
         mCityAdapter.notifyData(bean);
+        rv_right.scrollToPosition(0);
 
 
 

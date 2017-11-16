@@ -16,7 +16,7 @@ import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.widget.MapSelector;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -117,30 +117,28 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initData() {
+
         mMapModel.getProvinceData(new MapModel.onResultProvinceListener() {
             @Override
-            public void ResultData(boolean isSuccess, Exception e, ArrayList<MapBean.Province> data) {
-                if (isSuccess) {
-                    mMapBean.mProvinces = data;
-                    mMapBean.mProvinces.get(0).isCheckProvince = true;
+            public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
+                if (isSuccess){
+                    mMapBean.mProvinces=data;
+                    mMapBean.mProvinces.get(0).isCheckProvince=true;
                     mSelectorCity.setProvinceAdapter(mMapBean, ManeuverActivity.this);
                 }
             }
         });
-        mMapModel.getCityData(1, new MapModel.onResultCityListener() {
+
+        mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
             @Override
-            public void ResultData(boolean isSuccess, Exception e, final ArrayList<MapBean.City> data) {
-                if (isSuccess) {
-                    BaseUtil.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mMapBean.mCities = data;
-                            mSelectorCity.setCityAdapter(mMapBean, ManeuverActivity.this);
-                        }
-                    });
+            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
+                if (isSuccess){
+                    mMapBean.mCities=data;
+                    mSelectorCity.setCityAdapter(mMapBean, ManeuverActivity.this);
                 }
             }
         });
+
     }
 
     /**
@@ -149,17 +147,12 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
      * @param ProcinveID
      */
     private void ChangeProvince(int ProcinveID) {
-        mMapModel.getCityData(ProcinveID, new MapModel.onResultCityListener() {
+        mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {
             @Override
-            public void ResultData(boolean isSuccess, Exception e, final ArrayList<MapBean.City> data) {
-                if (isSuccess) {
-                    BaseUtil.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mMapBean.mCities = data;
-                            mSelectorCity.notifyData(mMapBean);
-                        }
-                    });
+            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
+                if (isSuccess){
+                    mMapBean.mCities=data;
+                    mSelectorCity.notifyData(mMapBean);
                 }
             }
         });
