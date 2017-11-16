@@ -148,7 +148,7 @@ public class MapModel {
                             }
                             result.add(new MapBean.City(CityName,CityID,AreaBean));
                             totalNum.set(totalNum.get()+1);
-                            if (totalNum.get()==num){
+                            if (totalNum.get()==num || num==0){
                                 if (listener!=null){
                                     listener.ResultData(true,null,result);
                                 }
@@ -286,7 +286,8 @@ public class MapModel {
                 .url(Path.URL_MapDatas)
                 .addParams("token", BaseUtil.getSpString(Const.UserToken))
                 .addParams("method","getProjectList")
-                .addParams("keyWord",null)
+                .addParams("page","1")
+                .addParams("keyWord",BaseUtil.getSpString(Const.PositionID))
                 .addParams("searchValue",condition)
                 .build()
                 .execute(new BeanCallback<BaseJson<List<SearchBean>>>() {

@@ -44,7 +44,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile files('libs/Android_Map3D_SDK_V5.4.0_20170928.jar')
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.nex3z:flow-layout:0.1.2'
     compile 'ch.ielse:switchbutton:1.0.0'
@@ -65,4 +64,5 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile files('libs/AMap3DMap_5.5.0_AMapSearch_5.5.0_20171107.jar')
 }

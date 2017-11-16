@@ -38,6 +38,7 @@ public class BrandAdapter extends RecyclerView.Adapter<SingleTextViewHolder> {
     @Override
     public void onBindViewHolder(final SingleTextViewHolder holder, final int position) {
         final BrandBean singleData=data.get(position);
+
         holder.tv_SingleText.setText(singleData.getBrandName());
         LinearLayout ll= (LinearLayout) holder.tv_SingleText.getParent();
         if (isCentenr){

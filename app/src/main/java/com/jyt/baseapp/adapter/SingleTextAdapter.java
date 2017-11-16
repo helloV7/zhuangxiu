@@ -6,6 +6,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.bean.MapBean;
@@ -34,6 +35,8 @@ public class SingleTextAdapter extends RecyclerView.Adapter<SingleTextViewHolder
     public void onBindViewHolder(final SingleTextViewHolder holder, final int position) {
 
         MapBean.Province province=data.mProvinces.get(position);
+        LinearLayout ll= (LinearLayout) holder.tv_SingleText.getParent();
+        ll.setGravity(Gravity.CENTER_HORIZONTAL);
         holder.tv_SingleText.setText(province.ProvinceName);
         holder.tv_SingleText.setGravity(Gravity.CENTER_HORIZONTAL);
         if (province.isCheckProvince){

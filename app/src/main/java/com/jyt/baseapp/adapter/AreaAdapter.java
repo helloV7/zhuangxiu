@@ -122,7 +122,11 @@ public class AreaAdapter extends RecyclerView.Adapter<AreaViewHolder> {
 
     @Override
     public int getItemCount() {
-        return data.mCities.size();
+        if (data.mCities==null){
+            return 0;
+        }else {
+            return data.mCities.size();
+        }
     }
 
     public interface onAreaClickListener{

@@ -6,9 +6,18 @@ package com.jyt.baseapp.bean;
 public class BrandBean {
     private String brandId;
     private String brandName;
-    private String subClassId;
-    private String subClassName;
+    private String subClassId;//子品牌ID
+    private String subClassName;//子品牌名称
     private boolean isCheck;
+
+    public BrandBean(){
+
+    }
+
+    public BrandBean(String brandName , String brandId){
+        this.brandId=brandId;
+        this.brandName=brandName;
+    }
 
     public String getBrandName() {
         return brandName;
@@ -50,8 +59,21 @@ public class BrandBean {
         isCheck = check;
     }
 
+    public BrandBean setChecks(boolean check){
+        isCheck = check;
+        return this;
+    }
+
     public void TransData(){
         brandId=subClassId;
         brandName=subClassName;
     }
+
+    public BrandBean TransDataThis(){
+        subClassId=brandId;
+        subClassName=brandName;
+        return this;
+    }
+
+
 }

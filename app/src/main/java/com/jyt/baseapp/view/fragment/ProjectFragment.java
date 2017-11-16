@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,9 @@ import android.widget.TextView;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.ProjectAdapter;
+import com.jyt.baseapp.bean.BrandBean;
 import com.jyt.baseapp.bean.MapBean;
-import com.jyt.baseapp.bean.ProjectBean;
+import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
@@ -76,7 +78,18 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     private boolean isShowCity=true;
     private boolean isShowBrand=true;
     private boolean isShowProgress=true;
+    private String str_province="北京";
     private ProjectAdapter mProjectAdapter;
+    private List<BrandBean> ProgressList;
+    private List<BrandBean> Pson1;
+    private List<BrandBean> Pson2;
+    private List<BrandBean> Pson3;
+    private List<BrandBean> Pson4;
+    private List<BrandBean> Pson5;
+    private List<BrandBean> Pson6;
+    private List<BrandBean> Pson7;
+    private List<BrandBean> Pson8;
+    private List<BrandBean> Pson9;
 
 
     @Override
@@ -99,11 +112,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         mProjectAdapter=new ProjectAdapter();
         WindowManager wm= (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
         mtotalWidth=wm.getDefaultDisplay().getWidth();
-        List<ProjectBean> list = new ArrayList<>();
-        list.add(new ProjectBean("A", "轮胎", "暂停中", "广州-天河区"));
-        list.add(new ProjectBean("A", "轮胎", "暂停中", "广州-天河区"));
-        list.add(new ProjectBean("A", "轮胎", "暂停中", "广州-天河区"));
-        list.add(new ProjectBean("A", "轮胎", "暂停中", "广州-天河区"));
+        List<SearchBean> list = new ArrayList<>();
         mRvShop.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRvShop.addItemDecoration(new SpacesItemDecoration(0, 3));
         mProjectAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
@@ -114,6 +123,71 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         });
         mProjectAdapter.setDataList(list);
         mRvShop.setAdapter(mProjectAdapter);
+        ProgressList = new ArrayList<>();
+        ProgressList.add(new BrandBean("丈量中","0").setChecks(true));
+        ProgressList.add(new BrandBean("设计报价","1"));
+        ProgressList.add(new BrandBean("客户审批","2"));
+        ProgressList.add(new BrandBean("店主确认中","3"));
+        ProgressList.add(new BrandBean("备货中","4"));
+        ProgressList.add(new BrandBean("物流中","5"));
+        ProgressList.add(new BrandBean("进程施工中","6"));
+        ProgressList.add(new BrandBean("完成施工","7"));
+        ProgressList.add(new BrandBean("完成结算","8"));
+
+        Pson1 = new ArrayList<>();
+        Pson1.add(new BrandBean("测量中","1").TransDataThis());
+        Pson1.add(new BrandBean("测量完毕","2").TransDataThis());
+
+        Pson2 = new ArrayList<>();
+        Pson2.add(new BrandBean("待设计","101").TransDataThis());
+        Pson2.add(new BrandBean("设计中","102").TransDataThis());
+        Pson2.add(new BrandBean("设计完毕","103").TransDataThis());
+        Pson2.add(new BrandBean("待报价","104").TransDataThis());
+        Pson2.add(new BrandBean("报价完毕","105").TransDataThis());
+
+        Pson3 = new ArrayList<>();
+        Pson3.add(new BrandBean("待客户审批","201").TransDataThis());
+        Pson3.add(new BrandBean("客户已审批","202").TransDataThis());
+
+        Pson4 = new ArrayList<>();
+        Pson4.add(new BrandBean("待店主确认","301").TransDataThis());
+        Pson4.add(new BrandBean("店主已确认","302").TransDataThis());
+
+        Pson5 = new ArrayList<>();
+        Pson5.add(new BrandBean("预算确认下单","401").TransDataThis());
+        Pson5.add(new BrandBean("待下图纸","402").TransDataThis());
+        Pson5.add(new BrandBean("图纸下单","403").TransDataThis());
+        Pson5.add(new BrandBean("待审图纸","404").TransDataThis());
+        Pson5.add(new BrandBean("已审图纸","405").TransDataThis());
+        Pson5.add(new BrandBean("待预算复核图纸","406").TransDataThis());
+        Pson5.add(new BrandBean("预算已复核纸","407").TransDataThis());
+        Pson5.add(new BrandBean("待⽣产招牌","408").TransDataThis());
+        Pson5.add(new BrandBean("待下材料单","409").TransDataThis());
+        Pson5.add(new BrandBean("待审材料单","410").TransDataThis());
+        Pson5.add(new BrandBean("已审材料单","411").TransDataThis());
+        Pson5.add(new BrandBean("待备料","412").TransDataThis());
+        Pson5.add(new BrandBean("钢挂已完成","413").TransDataThis());
+        Pson5.add(new BrandBean("所有材料已打包","414").TransDataThis());
+
+        Pson6 = new ArrayList<>();
+        Pson6.add(new BrandBean("待发货","501").TransDataThis());
+        Pson6.add(new BrandBean("已发货","502").TransDataThis());
+        Pson6.add(new BrandBean("货到待施⼯","503").TransDataThis());
+        Pson6.add(new BrandBean("安排施⼯⼈员完毕","504").TransDataThis());
+
+        Pson7 = new ArrayList<>();
+        Pson7.add(new BrandBean("施⼯中","601").TransDataThis());
+
+        Pson8 = new ArrayList<>();
+        Pson8.add(new BrandBean("施⼯完毕","701").TransDataThis());
+
+        Pson9 = new ArrayList<>();
+        Pson9.add(new BrandBean("预算审核照⽚并已回访","801").TransDataThis());
+        Pson9.add(new BrandBean("待寄报销资料","802").TransDataThis());
+        Pson9.add(new BrandBean("已寄报销资料","803").TransDataThis());
+        Pson9.add(new BrandBean("已收款","804").TransDataThis());
+
+
     }
 
     private void initSelector(){
@@ -136,11 +210,100 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onClickProvince(int ProvinceID, String ProvinceName) {
                 ChangeProvince(ProvinceID);
+                if ("北京".equals(ProvinceName)
+                        || "上海".equals(ProvinceName)
+                        || "天津".equals(ProvinceName)
+                        || "重庆".equals(ProvinceName)){
+                    str_province=ProvinceName+"市";
+                }else {
+                    str_province=ProvinceName+"省";
+                }
             }
 
             @Override
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
+                SearchMapShop(","+str_province+","+CityName+","+AreaName+",null,null,null");
+                mTvMapCity.performClick();
+            }
 
+            @Override
+            public void onClickBack() {
+
+            }
+        });
+
+        mMapModel.getBrandData(new MapModel.OngetBrandResultListener() {
+            @Override
+            public void Result(boolean isSuccess, List<BrandBean> brandData) {
+                if (isSuccess){
+                    mSelectorBrand.setLeftAdapter(getActivity(),brandData);
+                }
+            }
+        });
+        mMapModel.getBrandSonData("9ef3c864-b53d-11e7-9b64-00ffaa44255a", new MapModel.OngetBrandResultListener() {
+            @Override
+            public void Result(boolean isSuccess, List<BrandBean> brandData) {
+                if (isSuccess){
+                    mSelectorBrand.setRightAdapter(getActivity(),brandData);
+                }
+            }
+        });
+        mSelectorBrand.setOnSingleClickListener(new SingleSelector.OnSingleClickListener() {
+            @Override
+            public void onClickBrand(String BrandID, String BrandName) {
+                ChangeBrand(BrandID);
+            }
+
+            @Override
+            public void onClickDetail(String BrandSonID, String BrandSonName) {
+                mTvMapBrand.performClick();
+            }
+
+            @Override
+            public void onClickBack() {
+
+            }
+        });
+
+        mSelectorProgress.setLeftAdapter(getActivity(),ProgressList);
+        mSelectorProgress.setRightAdapter(getActivity(),Pson1);
+        mSelectorProgress.setOnSingleClickListener(new SingleSelector.OnSingleClickListener() {
+            @Override
+            public void onClickBrand(String BrandID, String BrandName) {
+                switch (BrandID){
+                    case "0":
+                        mSelectorProgress.notifyRightData(Pson1);
+                        break;
+                    case "1":
+                        mSelectorProgress.notifyRightData(Pson2);
+                        break;
+                    case "2":
+                        mSelectorProgress.notifyRightData(Pson3);
+                        break;
+                    case "3":
+                        mSelectorProgress.notifyRightData(Pson4);
+                        break;
+                    case "4":
+                        mSelectorProgress.notifyRightData(Pson5);
+                        break;
+                    case "5":
+                        mSelectorProgress.notifyRightData(Pson6);
+                        break;
+                    case "6":
+                        mSelectorProgress.notifyRightData(Pson7);
+                        break;
+                    case "7":
+                        mSelectorProgress.notifyRightData(Pson8);
+                        break;
+                    case "8":
+                        mSelectorProgress.notifyRightData(Pson9);
+                        break;
+                }
+            }
+
+            @Override
+            public void onClickDetail(String BrandSonID, String BrandSonName) {
+                Log.e("@#","id="+BrandSonID);
             }
 
             @Override
@@ -186,6 +349,10 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         mEtInput.setOnClickListener(this);
     }
 
+    /**
+     * 改变省
+     * @param ProcinveID
+     */
     private void ChangeProvince(int ProcinveID){
         mMapModel.getCityData(ProcinveID, new MapModel.onResultCityListener() {
             @Override
@@ -201,6 +368,41 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                 }
             }
         });
+    }
+
+    /**
+     * 改变品牌
+     * @param BrandID
+     */
+    private void ChangeBrand(String BrandID){
+        mMapModel.getBrandSonData(BrandID, new MapModel.OngetBrandResultListener() {
+            @Override
+            public void Result(boolean isSuccess, List<BrandBean> brandData) {
+                if (isSuccess){
+                    mSelectorBrand.notifyRightData(brandData);
+                }
+            }
+        });
+    }
+
+    private void  SearchMapShop(String condition){
+        mMapModel.getSearchData(condition, new MapModel.OnSearchResultListener() {
+            @Override
+            public void Result(boolean isSuccess, List<SearchBean> data) {
+                if (isSuccess){
+                    Log.e("@#",data.size()+"");
+                    mProjectAdapter.notifyData(data);
+                }
+            }
+        });
+    }
+
+    private void SearchBrandShop(String condition){
+
+    }
+
+    private void SearchProgressShop(String condition){
+
     }
 
 

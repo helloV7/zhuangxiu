@@ -58,11 +58,7 @@ public class AppendItem extends RelativeLayout {
     }
 
 
-    public void setComplete(boolean isComplete){
-        if (isComplete){
 
-        }
-    }
 
     public void setTv_msg(String msg){
         tv_msg.setText(msg);
@@ -77,7 +73,7 @@ public class AppendItem extends RelativeLayout {
         if (isNext){
             iv_next.setVisibility(VISIBLE);
         }else {
-            iv_next.setVisibility(GONE);
+            iv_next.setVisibility(INVISIBLE);
         }
     }
 
@@ -86,6 +82,18 @@ public class AppendItem extends RelativeLayout {
             tv_estimate.setVisibility(VISIBLE);
         }else {
             tv_estimate.setVisibility(GONE);
+        }
+    }
+
+    public void setEditor(){
+        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.icon_edit));
+    }
+
+    public void setComplete(boolean isComplete){
+        if (isComplete){
+            iv_complete.setImageDrawable(getResources().getDrawable(R.mipmap.icon_check));
+        }else {
+            iv_complete.setImageDrawable(getResources().getDrawable(R.mipmap.icon_check));
         }
     }
 

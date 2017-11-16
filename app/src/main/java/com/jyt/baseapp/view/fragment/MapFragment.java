@@ -28,10 +28,16 @@ import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.geocoder.GeocodeQuery;
+import com.amap.api.services.geocoder.GeocodeResult;
+import com.amap.api.services.geocoder.GeocodeSearch;
+import com.amap.api.services.geocoder.RegeocodeResult;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.bean.BrandBean;
 import com.jyt.baseapp.bean.LocationBean;
 import com.jyt.baseapp.bean.MapBean;
+import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.widget.MapSelector;
@@ -46,7 +52,7 @@ import butterknife.BindView;
 /**
  * @author LinWei on 2017/10/30 15:04
  */
-public class MapFragment extends BaseFragment implements View.OnClickListener{
+public class MapFragment extends BaseFragment implements View.OnClickListener, GeocodeSearch.OnGeocodeSearchListener {
 
     private int mtotalWidth;
     private int mtotalHeight;
@@ -81,6 +87,8 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
     private boolean isLocation;
     private boolean isFst;
     private List<Marker> mMarkerList;
+    private GeocodeSearch mGeocodeSearch;
+    private int mCityID;
     private String str_province="北京";
     private String str_city;
     private String str_area;
@@ -101,12 +109,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         initData();
         initLocation();
         initListener();
-//        mMapModel.getSearchData("", new MapModel.OnSearchResultListener() {
-//            @Override
-//            public void Result(boolean isSuccess, List<SearchBean> data) {
-//
-//            }
-//        });
+
     }
 
     private void init(){
@@ -122,6 +125,8 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
 
     private void initMap(){
         mMap = mMapView.getMap();
+        mGeocodeSearch = new GeocodeSearch(getActivity());
+        mGeocodeSearch.setOnGeocodeSearchListener(this);
         mMap.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放按钮
         mMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
             @Override
@@ -135,10 +140,10 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
                 LatLng l2=mMap.getProjection().fromScreenLocation(new Point(mtotalWidth,0));
 //                Log.e("@#","longitude1="+l1.longitude+" latitude1="+l1.latitude);
 //                Log.e("@#","longitude2="+l2.longitude+" latitude2="+l2.latitude);
-                if (!isFst){
-                    getLocationShop(l1,l2);
-                    isFst=true;
-                }
+//                if (!isFst){
+//                    getLocationShop(l1,l2);
+//                    isFst=true;
+//                }
             }
         });
 
@@ -147,9 +152,11 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
             public boolean onMarkerClick(Marker marker) {
                 LocationBean localData= (LocationBean) marker.getObject();
                 Log.e("@#","local:"+localData.getProjectName());
-                return false;
+                return true;
             }
         });
+
+
     }
 
 
@@ -252,13 +259,25 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
             @Override
             public void onClickProvince(int ProvinceID, String ProvinceName) {
                 ChangeProvince(ProvinceID);
-                str_province=ProvinceName;
-                Log.e("@#",str_province);
+                if ("北京".equals(ProvinceName)
+                        || "上海".equals(ProvinceName)
+                        || "天津".equals(ProvinceName)
+                        || "重庆".equals(ProvinceName)){
+                    str_province=ProvinceName+"市";
+                }else {
+                    str_province=ProvinceName+"省";
+                }
+
+
             }
 
             @Override
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
-
+                str_city=CityName;
+                str_area=AreaName;
+                mCityID=CityID;
+                SearchShop(","+str_province+","+CityName+","+AreaName+",null,null,null");
+                tv_city.performClick();
             }
 
             @Override
@@ -297,7 +316,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
 
             @Override
             public void onClickDetail(String BrandSonID, String BrandSonName) {
-
+                tv_brand.performClick();
             }
 
             @Override
@@ -307,7 +326,11 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
         });
 
 
+
+
     }
+
+
 
     /**
      * 点击省，改变市级列表
@@ -321,6 +344,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
                     BaseUtil.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            Log.e("@#",data.size()+"");
                             mMapBean.mCities=data;
                             mMapSelector.notifyData(mMapBean);
                         }
@@ -366,6 +390,19 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
                     }
                 }
 
+            }
+        });
+    }
+
+    private void SearchShop(String condition){
+        GeocodeQuery query=new GeocodeQuery(str_area,str_city);
+        mGeocodeSearch.getFromLocationNameAsyn(query);
+        mMapModel.getSearchData(condition, new MapModel.OnSearchResultListener() {
+            @Override
+            public void Result(boolean isSuccess, List<SearchBean> data) {
+                if (isSuccess){
+                    Log.e("@#",data.size()+"");
+                }
             }
         });
     }
@@ -523,9 +560,15 @@ public class MapFragment extends BaseFragment implements View.OnClickListener{
     }
 
 
+    @Override
+    public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
 
+    }
 
-
-
-
+    @Override
+    public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+        LatLonPoint point=geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint();
+        LatLng latLng = new LatLng(point.getLatitude(),point.getLongitude());
+        mMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
+    }
 }

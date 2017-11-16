@@ -132,9 +132,8 @@ public class MapSelector extends LinearLayout {
         if (bean.mProvinces!=null && bean.mProvinces.size()>0 && mProvinceAdapter!=null){
             mProvinceAdapter.notifyData(bean);
         }
-        if (bean.mCities!=null && bean.mCities.size()>0 && mCityAdapter!=null){
-            mCityAdapter.notifyData(bean);
-        }
+        mCityAdapter.notifyData(bean);
+
 
 
     }

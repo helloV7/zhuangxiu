@@ -1,20 +1,19 @@
 package com.jyt.baseapp.view.viewholder;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.jyt.baseapp.R;
-import com.jyt.baseapp.bean.ProjectBean;
+import com.jyt.baseapp.bean.SearchBean;
 
 import butterknife.BindView;
 
 /**
  * @author LinWei on 2017/11/3 15:42
  */
-public class ProjectHolder extends BaseViewHolder<ProjectBean> {
+public class ProjectHolder extends BaseViewHolder<SearchBean> {
 
     @BindView(R.id.tv_shopName)
     TextView mTvShopName;
@@ -32,25 +31,25 @@ public class ProjectHolder extends BaseViewHolder<ProjectBean> {
     }
 
     @Override
-    public void setData(ProjectBean data) {
+    public void setData(SearchBean data) {
         super.setData(data);
-        mTvShopName.setText(data.getShopName());
-        mTvShopMsg.setText(data.getShopMsg());
-        mTvShopStation.setText(data.getStation());
-        mTvShopLocation.setText(data.getLocation());
-        if (data.isStop()){
-            mTvShopStation.setTextColor(itemView.getResources().getColor(R.color.color_stop));
-        }else {
-            mTvShopStation.setTextColor(itemView.getResources().getColor(R.color.map_text2));
-        }
-        if (data.isNext()){
-            mIvNext.setVisibility(View.VISIBLE);
-            mTvShopStation.setVisibility(View.GONE);
-            mTvShopLocation.setVisibility(View.GONE);
-        }else {
-            mIvNext.setVisibility(View.GONE);
-            mTvShopStation.setVisibility(View.VISIBLE);
-            mTvShopLocation.setVisibility(View.VISIBLE);
-        }
+        mTvShopName.setText(data.getProjectName());
+        mTvShopMsg.setText(data.getBrandName()+" "+data.getSubClassName());
+        mTvShopStation.setText(data.getSchedule());
+        mTvShopLocation.setText(data.getAddress());
+//        if (data.isStop()){
+//            mTvShopStation.setTextColor(itemView.getResources().getColor(R.color.color_stop));
+//        }else {
+//            mTvShopStation.setTextColor(itemView.getResources().getColor(R.color.map_text2));
+//        }
+//        if (data.isNext()){
+//            mIvNext.setVisibility(View.VISIBLE);
+//            mTvShopStation.setVisibility(View.GONE);
+//            mTvShopLocation.setVisibility(View.GONE);
+//        }else {
+//            mIvNext.setVisibility(View.GONE);
+//            mTvShopStation.setVisibility(View.VISIBLE);
+//            mTvShopLocation.setVisibility(View.VISIBLE);
+//        }
     }
 }
