@@ -96,6 +96,8 @@ public class ShopNewsFragment extends BaseFragment {
     }
 
     private void setInfo(ShopBean data) {
+        //暂停原因设置
+        //如果工程暂停了，就显示原因，否则隐藏
         if ("0".equals(data.getIsfrozen())){
             mLlReason.setVisibility(View.GONE);
         }else {

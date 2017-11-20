@@ -56,5 +56,5 @@
         android:layout_width="15dp"
         android:layout_marginTop="1dp"
         android:layout_height="15dp"
-        android:src="@mipmap/next_little_white"/>
+        android:src="@mipmap/icon_next"/>
 </LinearLayout>

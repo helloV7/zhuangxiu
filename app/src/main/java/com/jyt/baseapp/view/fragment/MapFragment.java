@@ -2,6 +2,7 @@ package com.jyt.baseapp.view.fragment;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -35,11 +36,11 @@ import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.bean.BrandBean;
-import com.jyt.baseapp.bean.LocationBean;
 import com.jyt.baseapp.bean.MapBean;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
+import com.jyt.baseapp.view.activity.ShopActivity;
 import com.jyt.baseapp.view.widget.MapSelector;
 import com.jyt.baseapp.view.widget.SingleSelector;
 
@@ -85,10 +86,8 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     public AMapLocationListener mLocationListener;
     private AMap mMap;
     private boolean isLocation;
-    private boolean isFst;
     private List<Marker> mMarkerList;
     private GeocodeSearch mGeocodeSearch;
-    private int mCityID;
     private String str_province="天津";
     private String str_city;
     private String str_area;
@@ -109,7 +108,6 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         initData();
         initLocation();
         initListener();
-        SearchShop("");
     }
 
     private void init(){
@@ -150,8 +148,11 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         mMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                LocationBean localData= (LocationBean) marker.getObject();
+                SearchBean localData= (SearchBean) marker.getObject();
                 Log.e("@#","local:"+localData.getProjectName());
+                Intent intent = new Intent(getActivity(),ShopActivity.class);
+                intent.putExtra("shopinfo",localData);
+                startActivity(intent);
                 return true;
             }
         });
@@ -172,14 +173,6 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
 
     }
 
-    private void initPopupWindow(MapBean bean){
-        View view=View.inflate(getActivity(),R.layout.pop_city,null);
-        pop_city=CreatePopWindow(view);
-        mMapSelector = (MapSelector) view.findViewById(R.id.selector_city);
-        mMapSelector.getLayoutParams().width= (int) (mtotalWidth*0.8);
-        mMapSelector.requestLayout();
-
-    }
 
     /**
      * 定位
@@ -373,9 +366,17 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     }
 
     private void getLocationShop(LatLng l1,LatLng l2){
+        if (mMarkerList!=null &&mMarkerList.size()>0){
+            //清除原有的数据
+            for (Marker marker:mMarkerList){
+                marker.destroy();
+            }
+            mMarkerList.clear();
+        }
+        //添加后续新的数据
         mMapModel.getLocationShop(l1, l2, new MapModel.OnLocationShopResultListener() {
             @Override
-            public void Result(boolean isSuccess, List<LocationBean> shops) {
+            public void Result(boolean isSuccess, List<SearchBean> shops) {
                 if (isSuccess){
                     for (int i = 0; i < shops.size(); i++) {
                         View view=View.inflate(getActivity(),R.layout.layout_infowindow,null);
@@ -396,17 +397,47 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         });
     }
 
+
+
     private void SearchShop(String condition){
+        //地理编码 定位到该位置
         GeocodeQuery query=new GeocodeQuery(str_area,str_city);
         mGeocodeSearch.getFromLocationNameAsyn(query);
+        //搜索该定位附近的店
         mMapModel.getSearchData(condition, new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, List<SearchBean> data) {
                 if (isSuccess){
-
+                    setSearchShop(data);
                 }
             }
         });
+    }
+
+    private void setSearchShop(List<SearchBean> data){
+        if (mMarkerList!=null &&mMarkerList.size()>0){
+            //清除原有的数据
+            for (Marker marker:mMarkerList){
+                marker.destroy();
+            }
+            mMarkerList.clear();
+        }
+        for (int i=0;i<data.size();i++){
+            SearchBean shop =data.get(i);
+            View view=View.inflate(getActivity(),R.layout.layout_infowindow,null);
+            TextView tv= (TextView) view.findViewById(R.id.tv_text);
+            tv.setText(shop.getProjectName());
+            Bitmap b=convertViewToBitmap(view);
+            LatLng l=new LatLng(Double.valueOf(shop.getLatitude()),Double.valueOf(shop.getLongitude()));
+            Marker marker=mMap.addMarker(new MarkerOptions()
+                    .position(l)
+                    .anchor(0,0)
+                    .infoWindowEnable(false)
+                    .icon(BitmapDescriptorFactory.fromBitmap(b)));
+            marker.setObject(shop);
+            mMarkerList.add(marker);
+        }
+
     }
 
 

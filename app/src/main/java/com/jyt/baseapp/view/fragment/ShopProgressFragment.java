@@ -14,7 +14,9 @@ import com.jyt.baseapp.view.widget.AppendItem;
 import com.jyt.baseapp.view.widget.ProgressLine;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -81,6 +83,7 @@ public class ShopProgressFragment extends BaseFragment {
     private AppendItem at_Settlement3;
     private AppendItem at_Settlement4;
     private List<AppendItem> mAppendList;
+    private HashMap<Integer,ProgressLine> mProgressMap;
 
 
     @Override
@@ -101,17 +104,20 @@ public class ShopProgressFragment extends BaseFragment {
         initConstruction();
         initComplete();
         initSettlement();
+        mShopModel.getStationRole();
     }
 
     private void init() {
         mInfo = (SearchBean) getArguments().getSerializable("shopinfo");
         mShopModel = new ShopModel();
+        mProgressMap = new HashMap<>();
         mAppendList = new ArrayList<>();
 
         at_Measure = new AppendItem(getActivity());
         at_Measured = new AppendItem(getActivity());
         mAppendList.add(at_Measure);
         mAppendList.add(at_Measured);
+        mProgressMap.put(0,mPlMeasure);
 
         at_Design = new AppendItem(getActivity());
         at_Designing = new AppendItem(getActivity());
@@ -123,16 +129,19 @@ public class ShopProgressFragment extends BaseFragment {
         mAppendList.add(at_Designed);
         mAppendList.add(at_Offer);
         mAppendList.add(at_Offered);
+        mProgressMap.put(100,mPlOffer);
 
         at_Approval = new AppendItem(getActivity());
         at_Approvaled = new AppendItem(getActivity());
         mAppendList.add(at_Approval);
         mAppendList.add(at_Approvaled);
+        mProgressMap.put(200,mPlApproval);
 
         at_Confirm = new AppendItem(getActivity());
         at_Confirmed = new AppendItem(getActivity());
         mAppendList.add(at_Confirm);
         mAppendList.add(at_Confirmed);
+        mProgressMap.put(300,mPlConfirm);
 
         at_BudgetConfirm = new AppendItem(getActivity());
         at_Paper1 = new AppendItem(getActivity());
@@ -162,6 +171,7 @@ public class ShopProgressFragment extends BaseFragment {
         mAppendList.add(at_Material5);
         mAppendList.add(at_Material6);
         mAppendList.add(at_Material7);
+        mProgressMap.put(400,mPlStocking);
 
         at_Logistics1 = new AppendItem(getActivity());
         at_Logistics2 = new AppendItem(getActivity());
@@ -171,12 +181,15 @@ public class ShopProgressFragment extends BaseFragment {
         mAppendList.add(at_Logistics2);
         mAppendList.add(at_Logistics3);
         mAppendList.add(at_Logistics4);
+        mProgressMap.put(500,mPlLogistics);
 
         at_Construction = new AppendItem(getActivity());
         mAppendList.add(at_Construction);
+        mProgressMap.put(600,mPlConstruction);
 
         at_Complete = new AppendItem(getActivity());
         mAppendList.add(at_Complete);
+        mProgressMap.put(700,mPlComplete);
 
         at_Settlement1 = new AppendItem(getActivity());
         at_Settlement2 = new AppendItem(getActivity());
@@ -186,6 +199,7 @@ public class ShopProgressFragment extends BaseFragment {
         mAppendList.add(at_Settlement2);
         mAppendList.add(at_Settlement3);
         mAppendList.add(at_Settlement4);
+        mProgressMap.put(800,mPlSettlement);
 
         mShopModel.getProjectProgress(mInfo.getProjectId(), new ShopModel.OnProgressResultListener() {
             @Override
@@ -197,16 +211,40 @@ public class ShopProgressFragment extends BaseFragment {
         });
     }
 
+    //遍历全部的子节点，根据0/1权限设置是否可见完成勾选的img，当且仅当遇到第一个0（即当前进行到的位置）
+    //需要设置可见，且将img改为白色圆，此节点所在的大点要改为蓝色背景白色字体，且内部子节点都改为白色字体
     private boolean isIndex;
     private void setProgress(List<ProgressBean> data){
         for (int i = 0; i < data.size(); i++) {
-            if ("0".equals(data.get(0).getIsfinish())){
+            if (!"0".equals(data.get(i).getIsfinish())){
+               //完成
+                mAppendList.get(i).setComplete(true);
+            }else {
+                //未完成
+                mAppendList.get(i).setComplete(false);
                 if (!isIndex){
-                    mAppendList.get(i).setEditor();
+                    for (Map.Entry<Integer,ProgressLine> entry : mProgressMap.entrySet()) {
+                        int index=entry.getKey();
+                        if (data.get(i).getSpeedUpCode()>index){
+                            //完成
+                            entry.getValue().setFinishStation(true);
+                        }else if (data.get(i).getSpeedUpCode()<index){
+                            //未完成
+                            entry.getValue().setFinishStation(false);
+                        }else {
+                            //当前进度
+                            entry.getValue().setCurrent();
+                        }
+                    }
+                    //用于标记进度目前到达的位置
+                    mAppendList.get(i).setEstimate(true);
+                    mAppendList.get(i).setCurrent();
                     isIndex=true;
                 }
-              //---------------------------------------------------
+                //---------------------------------------------------
+//                mAppendList.get(i).setTv_msg(data.get(i));
             }
+
         }
 
     }

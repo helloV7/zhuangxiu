@@ -12,7 +12,6 @@ import com.jyt.baseapp.bean.AreaBean;
 import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.bean.BrandBean;
 import com.jyt.baseapp.bean.CityBean;
-import com.jyt.baseapp.bean.LocationBean;
 import com.jyt.baseapp.bean.MapBean;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.util.BaseUtil;
@@ -275,7 +274,7 @@ public class MapModel {
                 .addParams("page","0")
                 .addParams("searchValue",l1.latitude+","+l2.latitude+","+l1.longitude+","+l2.longitude)
                 .build()
-                .execute(new BeanCallback<BaseJson<List<LocationBean>>>() {
+                .execute(new BeanCallback<BaseJson<List<SearchBean>>>() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         if (listener!=null){
@@ -285,7 +284,7 @@ public class MapModel {
                     }
 
                     @Override
-                    public void onResponse(BaseJson<List<LocationBean>> response, int id) {
+                    public void onResponse(BaseJson<List<SearchBean>> response, int id) {
                         if (listener!=null){
                             if (response.ret ){
                                 listener.Result(true,response.data);
@@ -298,7 +297,7 @@ public class MapModel {
     }
 
     public interface OnLocationShopResultListener{
-        void Result(boolean isSuccess,List<LocationBean> shops);
+        void Result(boolean isSuccess,List<SearchBean> shops);
     }
 
 

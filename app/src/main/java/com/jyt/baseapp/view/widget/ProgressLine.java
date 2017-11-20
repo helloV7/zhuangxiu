@@ -1,6 +1,5 @@
 package com.jyt.baseapp.view.widget;
 
-import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 import com.jyt.baseapp.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +24,7 @@ public class ProgressLine extends RelativeLayout {
     private TextView tv_title;
     private TextView tv_station;
     private LinearLayout ll_append;
+    private List<AppendItem> appendList;
     public ProgressLine(Context context) {
         super(context);
         init(context);
@@ -46,6 +47,7 @@ public class ProgressLine extends RelativeLayout {
     }
 
     private void init(Context context){
+        appendList=new ArrayList<>();
         View.inflate(context, R.layout.layout_progressline,this);
         ll_parent= (LinearLayout) this.findViewById(R.id.ll_parent);
         rl_hide= (RelativeLayout) this.findViewById(R.id.rl_progress_hide);
@@ -76,31 +78,33 @@ public class ProgressLine extends RelativeLayout {
             animator=ValueAnimator.ofInt(AppendHeight,0);
             isShowAppend=false;
         }
-        animator.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (isShowAppend){
-                    ll_parent.setBackground(getResources().getDrawable(R.drawable.bg_blue));
-                }else {
-                    ll_parent.setBackground(getResources().getDrawable(R.drawable.bg_white));
-                }
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-
-            }
-        });
+//        animator.addListener(new Animator.AnimatorListener() {
+//            @Override
+//            public void onAnimationStart(Animator animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animator animation) {
+//                if (isShowAppend){
+//                    ll_parent.setBackground(getResources().getDrawable(R.drawable.bg_blue));
+//                }else {
+//                    if (!isCurrent){
+//                        ll_parent.setBackground(getResources().getDrawable(R.drawable.bg_white));
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onAnimationCancel(Animator animation) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animator animation) {
+//
+//            }
+//        });
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -116,13 +120,28 @@ public class ProgressLine extends RelativeLayout {
         tv_title.setText(title);
     }
 
-    public void setStation(boolean station){
+    public void setFinishStation(boolean station){
         if (station){
-            civ_light.setImageResource(R.color.color_cancel);
-            tv_station.setText("已完成 V");
-        }else {
             civ_light.setImageResource(R.color.color_submit);
-            tv_station.setText("未完成 V");
+            tv_station.setText("已完成 ∨");
+        }else {
+
+            civ_light.setImageResource(R.color.color_cancel);
+            tv_station.setText("未完成 ∨");
+        }
+    }
+    //当前进行到的位置 字体白色 背景蓝色 圆标白色
+    //内部AppendItem同样
+    private boolean isCurrent=false;
+    public void setCurrent(){
+        isCurrent=true;
+        tv_station.setText("未完成 ∨");
+        tv_title.setTextColor(getResources().getColor(R.color.white));
+        tv_station.setTextColor(getResources().getColor(R.color.white));
+        civ_light.setImageResource(R.color.white);
+        ll_parent.setBackground(getResources().getDrawable(R.drawable.bg_blue));
+        for (AppendItem item: appendList) {
+            item.setCurrentColor();
         }
     }
 
@@ -134,26 +153,13 @@ public class ProgressLine extends RelativeLayout {
 //        this.listener=listener;
 //    }
 
-    public void setAppendData(List<String> data){
-        for (int i = 0; i < data.size(); i++) {
-            AppendItem item=new AppendItem(getContext());
-            if (i==1){
-                item.setEstimate(true);
-            }
-            item.setTv_msg(data.get(i));
-            ll_append.addView(item);
-            item.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
-                @Override
-                public void onClick() {
 
-                }
-            });
-        }
-    }
+
 
     public void addAppendItem(AppendItem item){
         if (item!=null){
             ll_append.addView(item);
+            appendList.add(item);
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.jyt.baseapp.model;
 
+import android.util.Log;
+
 import com.jyt.baseapp.api.BeanCallback;
 import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.api.Path;
@@ -9,6 +11,11 @@ import com.jyt.baseapp.bean.ShopBean;
 import com.jyt.baseapp.util.BaseUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -84,5 +91,38 @@ public class ShopModel {
     }
     public interface OnProgressResultListener{
         void Result(boolean isSuccess , Exception e , List<ProgressBean> shopBean);
+    }
+
+    public void getStationRole(){
+        OkHttpUtils
+                .get()
+                .url(Path.URL_MapDatas)
+                .addParams("token", BaseUtil.getSpString(Const.UserToken))
+                .addParams("method","getStationRole")
+                .addParams("page","0")
+                .addParams("keyWord",null)
+                .addParams("searchValue",BaseUtil.getSpString(Const.PositionID))
+                .build()
+                .execute(new BeanCallback<String>() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        Log.e("@#","onError");
+                    }
+
+                    @Override
+                    public void onResponse(String response, int id) {
+                        try {
+                            List<Integer> data= new ArrayList<Integer>();
+                            JSONObject jsondata=new JSONObject(response);
+                            JSONArray jsonArray=new JSONArray(jsondata.getString("data"));
+                            data.add(jsonArray.getJSONObject(1).getJSONArray("role").getJSONObject(0).getInt("测量中"));
+                            data.add(jsonArray.getJSONObject(1).getJSONArray("role").getJSONObject(1).getInt("测量完毕"));
+                            data.add(jsonArray.getJSONObject(2).getJSONArray("role").getJSONObject(1).getInt("测量完毕"));
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 }

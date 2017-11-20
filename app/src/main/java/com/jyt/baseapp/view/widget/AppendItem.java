@@ -21,6 +21,10 @@ public class AppendItem extends RelativeLayout {
     private TextView tv_estimate;
     private TextView tv_time;
     private boolean isNext;
+    private int index;
+    private int i1;
+    private boolean isContainer;
+    private boolean isOperate;
     public AppendItem(Context context) {
         super(context);
         init(context);
@@ -84,17 +88,63 @@ public class AppendItem extends RelativeLayout {
             tv_estimate.setVisibility(GONE);
         }
     }
-
+    private boolean isEditor;
     public void setEditor(){
-        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.icon_edit));
+        isEditor=true;
+        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.icon_edit_gay));
     }
 
     public void setComplete(boolean isComplete){
         if (isComplete){
-            iv_complete.setImageDrawable(getResources().getDrawable(R.mipmap.icon_check));
+            iv_complete.setVisibility(VISIBLE);
         }else {
-            iv_complete.setImageDrawable(getResources().getDrawable(R.mipmap.icon_check));
+            iv_complete.setVisibility(INVISIBLE);
         }
+    }
+
+    public void setCurrent(){
+        iv_complete.setVisibility(VISIBLE);
+        iv_complete.setImageDrawable(getResources().getDrawable(R.mipmap.icon_ring_white));
+    }
+
+    public void setCurrentColor(){
+        isContainer=true;
+        tv_msg.setTextColor(getResources().getColor(R.color.white));
+        tv_estimate.setTextColor(getResources().getColor(R.color.white));
+        tv_time.setTextColor(getResources().getColor(R.color.white));
+        iv_complete.setImageDrawable(getResources().getDrawable(R.mipmap.icon_check_white));
+        if (isEditor){
+            iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.icon_edit));
+        }else {
+            iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.next_little_white));
+        }
+    }
+
+    public void setOperate(int currentIndex){
+        if (isOperate){
+            if (currentIndex>index){
+                //已完成
+                if(i1==0){
+                    //本身不具备操作观看性
+                    iv_next.setVisibility(INVISIBLE);
+                } else if (i1==1){
+                    //操作完不能看
+                    iv_next.setVisibility(INVISIBLE);
+                } else if (i1==2){
+                    //操作完能看
+                    iv_next.setVisibility(VISIBLE);
+                    if (isContainer){
+                        //与当前进度点处于同一个父节点内
+                        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.next_little_white));
+                    }else {
+                        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.icon_next));
+                    }
+                }
+            }
+        }else {
+
+        }
+
     }
 
     public interface OnAppendOnclickListener{
