@@ -6,15 +6,13 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.jyt.baseapp.R;
-import com.jyt.baseapp.bean.Person;
-import com.jyt.baseapp.bean.Tuple;
 import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.helper.IntentRequestCode;
 import com.jyt.baseapp.view.dialog.DatePickerDialog;
+import com.jyt.baseapp.view.widget.FreeDialog;
 import com.jyt.baseapp.view.widget.LabelAndTextItem;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -84,7 +82,9 @@ public class PrepareConstructActivity extends BaseActivity {
     }
     @OnClick(R.id.LT_monitor)
     public void onSelMonitorClick(){
-        IntentHelper.openSelSingleMonitorActivityForResult(this);
+//        IntentHelper.openSelSingleMonitorActivityForResult(this);
+        FreeDialog dialog =new FreeDialog(this, R.layout.dialog_input);
+        dialog.show();
     }
 
 

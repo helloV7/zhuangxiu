@@ -7,6 +7,7 @@ import com.jyt.baseapp.util.BaseUtil;
  */
 public class Const {
     public final static String DepartmentId="departmentId";
+    public final static String Tel ="tel";
     public final static String NickName="nickName";
     public final static String PositionID ="positionId";
     public final static String UserToken="token";

@@ -93,7 +93,7 @@ public class ShopModel {
         void Result(boolean isSuccess , Exception e , List<ProgressBean> shopBean);
     }
 
-    public void getStationRole(){
+    public void getStationRole(final OngetStationRoleListener listener){
         OkHttpUtils
                 .get()
                 .url(Path.URL_MapDatas)
@@ -107,6 +107,9 @@ public class ShopModel {
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         Log.e("@#","onError");
+                        if (listener!=null){
+                            listener.Result(false,e,null);
+                        }
                     }
 
                     @Override
@@ -115,14 +118,37 @@ public class ShopModel {
                             List<Integer> data= new ArrayList<Integer>();
                             JSONObject jsondata=new JSONObject(response);
                             JSONArray jsonArray=new JSONArray(jsondata.getString("data"));
+                            //   0/1(无权限/有权限)
                             data.add(jsonArray.getJSONObject(1).getJSONArray("role").getJSONObject(0).getInt("测量中"));
-                            data.add(jsonArray.getJSONObject(1).getJSONArray("role").getJSONObject(1).getInt("测量完毕"));
-                            data.add(jsonArray.getJSONObject(2).getJSONArray("role").getJSONObject(1).getInt("测量完毕"));
-
+//                            data.add(jsonArray.getJSONObject(1).getJSONArray("role").getJSONObject(1).getInt("测量完毕"));
+//                            data.add(jsonArray.getJSONObject(2).getJSONArray("role").getJSONObject(2).getInt("设计完毕"));
+//                            data.add(jsonArray.getJSONObject(3).getJSONArray("role").getJSONObject(1).getInt("客户已审阅"));
+//                            data.add(jsonArray.getJSONObject(4).getJSONArray("role").getJSONObject(0).getInt("待店主确认"));
+//                            data.add(jsonArray.getJSONObject(4).getJSONArray("role").getJSONObject(1).getInt("店主已确认"));
+//                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(3).getInt("待审图纸"));
+//                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(4).getInt("已审图纸"));
+//                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(7).getInt("待生产品牌"));
+//                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(9).getInt("待审材料单"));
+//                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(10).getInt("已审材料单"));
+//                            data.add(jsonArray.getJSONObject(8).getJSONArray("role").getJSONObject(0).getInt("施工完毕"));
+                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(12).getInt("钢挂已完成"));
+                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(13).getInt("所有材料已打包"));
+                            data.add(jsonArray.getJSONObject(6).getJSONArray("role").getJSONObject(0).getInt("待发货"));
+                            data.add(jsonArray.getJSONObject(6).getJSONArray("role").getJSONObject(1).getInt("已发货"));
+                            data.add(jsonArray.getJSONObject(6).getJSONArray("role").getJSONObject(2).getInt("货到待施工"));
+                            data.add(jsonArray.getJSONObject(6).getJSONArray("role").getJSONObject(3).getInt("安排施工人员完毕"));
+                            data.add(jsonArray.getJSONObject(7).getJSONArray("role").getJSONObject(0).getInt("施工中"));
+                            if (listener!=null){
+                                listener.Result(true,null,data);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 });
+    }
+
+    public interface OngetStationRoleListener{
+        void Result(boolean isSuccess,Exception e,List<Integer> data);
     }
 }

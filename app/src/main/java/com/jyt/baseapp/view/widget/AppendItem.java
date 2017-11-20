@@ -9,22 +9,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jyt.baseapp.R;
+import com.jyt.baseapp.bean.ProgressBean;
 
 /**
  * @author LinWei on 2017/11/2 18:57
  */
 public class AppendItem extends RelativeLayout {
+    private ProgressBean mProgressBean;
     private LinearLayout ll_item;
     private ImageView iv_complete;
     private ImageView iv_next;
     private TextView tv_msg;
     private TextView tv_estimate;
     private TextView tv_time;
+    private int Operate;
     private boolean isNext;
-    private int index;
-    private int i1;
-    private boolean isContainer;
-    private boolean isOperate;
+    private boolean isComplete;//是否已经操作完毕
+    private int state;//0无任何操作 1操作完显示可见 2操作完显示不可见
     public AppendItem(Context context) {
         super(context);
         init(context);
@@ -51,10 +52,12 @@ public class AppendItem extends RelativeLayout {
         ll_item.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isNext){
-                    if (listener!=null){
-                        listener.onClick();
+                if (listener!=null){
+                    if (mProgressBean!=null){
+                        mProgressBean.setPermissionState(Operate);
+                        listener.onClick(mProgressBean);
                     }
+
                 }
             }
         });
@@ -70,6 +73,10 @@ public class AppendItem extends RelativeLayout {
 
     public void setTv_time(String time){
         tv_time.setText(time);
+    }
+
+    public void setState(int state){
+        this.state=state;
     }
 
     public void setNext(boolean isNext){
@@ -95,60 +102,82 @@ public class AppendItem extends RelativeLayout {
     }
 
     public void setComplete(boolean isComplete){
+        this.isComplete=isComplete;
         if (isComplete){
             iv_complete.setVisibility(VISIBLE);
+            switch (state) {
+                case 0:
+                    iv_next.setVisibility(INVISIBLE);
+                    break;
+                case 1:
+                    iv_next.setVisibility(VISIBLE);
+                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.icon_next));
+                    break;
+                case 2:
+                    iv_next.setVisibility(INVISIBLE);
+                    break;
+                default:
+                    break;
+            }
         }else {
             iv_complete.setVisibility(INVISIBLE);
         }
     }
 
+    //设置当前的进度点
     public void setCurrent(){
+        isComplete=true; //特殊操作，当前进度处于未完成和完成之间，需要赋予点击事件
         iv_complete.setVisibility(VISIBLE);
         iv_complete.setImageDrawable(getResources().getDrawable(R.mipmap.icon_ring_white));
-    }
-
-    public void setCurrentColor(){
-        isContainer=true;
         tv_msg.setTextColor(getResources().getColor(R.color.white));
         tv_estimate.setTextColor(getResources().getColor(R.color.white));
         tv_time.setTextColor(getResources().getColor(R.color.white));
+        switch (state) {
+            case 0:
+                iv_next.setVisibility(INVISIBLE);
+                break;
+            case 1:
+                iv_next.setVisibility(VISIBLE);
+                iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.next_little_white));
+                break;
+            case 2:
+                iv_next.setVisibility(INVISIBLE);
+                break;
+            default:
+                break;
+        }
+    }
+    //设置当前进度点相同父类下的其他进度点
+    public void setCurrentColor(){
+        tv_msg.setTextColor(getResources().getColor(R.color.white_half));
+        tv_estimate.setTextColor(getResources().getColor(R.color.white_half));
+        tv_time.setTextColor(getResources().getColor(R.color.white_half));
         iv_complete.setImageDrawable(getResources().getDrawable(R.mipmap.icon_check_white));
-        if (isEditor){
-            iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.icon_edit));
-        }else {
+        if (isComplete){
             iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.next_little_white));
+        }else {
+            iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.icon_edit));
         }
     }
 
-    public void setOperate(int currentIndex){
-        if (isOperate){
-            if (currentIndex>index){
-                //已完成
-                if(i1==0){
-                    //本身不具备操作观看性
-                    iv_next.setVisibility(INVISIBLE);
-                } else if (i1==1){
-                    //操作完不能看
-                    iv_next.setVisibility(INVISIBLE);
-                } else if (i1==2){
-                    //操作完能看
-                    iv_next.setVisibility(VISIBLE);
-                    if (isContainer){
-                        //与当前进度点处于同一个父节点内
-                        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.next_little_white));
-                    }else {
-                        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.icon_next));
-                    }
-                }
-            }
-        }else {
+    public ProgressBean getProgressBean() {
+        return mProgressBean;
+    }
 
-        }
+    public void setProgressBean(ProgressBean progressBean) {
+        mProgressBean = progressBean;
+    }
 
+    public int getOperate() {
+        return Operate;
+    }
+
+    public void setOperate(int operate) {
+        Operate = operate;
     }
 
     public interface OnAppendOnclickListener{
-        void onClick();
+        void onClick(ProgressBean bean);
     }
     private OnAppendOnclickListener listener;
     public void setOnAppendOnclickListener(OnAppendOnclickListener listener){

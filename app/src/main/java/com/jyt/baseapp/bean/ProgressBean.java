@@ -11,6 +11,7 @@ public class ProgressBean {
     private String isfinish;
     private int speedUpCode;
     private String finishTime;
+    private int PermissionState; //0无权限
 
     public String getSpeedId() {
         return speedId;
@@ -66,5 +67,13 @@ public class ProgressBean {
 
     public void setFinishTime(String finishTime) {
         this.finishTime = finishTime;
+    }
+
+    public int getPermissionState() {
+        return PermissionState;
+    }
+
+    public void setPermissionState(int permissionState) {
+        PermissionState = permissionState;
     }
 }

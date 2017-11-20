@@ -39,7 +39,7 @@
             android:id="@+id/LT_worker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:labelText="施工人员"
+            app:labelText="经理"
             app:needInput="false"
             app:showRightArrow="true"></com.jyt.baseapp.view.widget.LabelAndTextItem>
 
