@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,7 +48,12 @@ public abstract class BaseRcvAdapter extends RecyclerView.Adapter<BaseViewHolder
     }
 
     public void notifyData(List dataList){
+        if (dataList==null){
+            dataList= new ArrayList();
+        }
         this.dataList = dataList;
         notifyDataSetChanged();
     }
+
+
 }

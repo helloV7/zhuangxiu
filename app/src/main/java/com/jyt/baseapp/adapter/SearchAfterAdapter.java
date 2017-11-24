@@ -22,4 +22,5 @@ public class SearchAfterAdapter extends BaseRcvAdapter {
     public void setOnViewHolderClickListener(BaseViewHolder.OnViewHolderClickListener listener){
         this.listener=listener;
     }
+
 }

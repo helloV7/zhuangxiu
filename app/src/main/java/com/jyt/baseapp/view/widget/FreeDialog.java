@@ -1,10 +1,10 @@
 package com.jyt.baseapp.view.widget;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.view.View;
 
 import com.jyt.baseapp.R;
@@ -12,7 +12,7 @@ import com.jyt.baseapp.R;
 /**
  * @author LinWei on 2017/9/7 14:41
  */
-public class FreeDialog extends AlertDialog {
+public class FreeDialog extends Dialog {
 
     private Context context;
     private View mView;
@@ -23,7 +23,7 @@ public class FreeDialog extends AlertDialog {
     }
 
     public FreeDialog(@NonNull Context context, int layoutID) {
-        super(context, R.style.customDialog);
+        super(context, R.style.IPhoneDialog);
         this.context=context;
         layoutId = layoutID;
         mView= View.inflate(context, layoutID,null);
@@ -36,7 +36,7 @@ public class FreeDialog extends AlertDialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layoutId);
+        setContentView(mView);
 
 //        final WindowManager.LayoutParams params = new WindowManager.LayoutParams();
 //        params.gravity= Gravity.LEFT;//设置对齐方式

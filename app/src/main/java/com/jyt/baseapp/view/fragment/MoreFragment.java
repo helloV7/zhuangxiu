@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.view.activity.AboutUsActivity;
+import com.jyt.baseapp.view.activity.LocationActivity;
 import com.jyt.baseapp.view.activity.ManeuverActivity;
 import com.jyt.baseapp.view.activity.PersonInfoActivity;
 import com.jyt.baseapp.view.activity.ShareActivity;
@@ -78,7 +79,7 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
                 getActivity().startActivity(new Intent(getActivity(), ManeuverActivity.class));
                 break;
             case R.id.item_location:
-
+                getActivity().startActivity(new Intent(getActivity(), LocationActivity.class));
                 break;
             case R.id.item_share:
                 getActivity().startActivity(new Intent(getActivity(), ShareActivity.class));

@@ -2,7 +2,9 @@ package com.jyt.baseapp.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.jyt.baseapp.R;
@@ -34,12 +36,17 @@ public class PrepareConstructActivity extends BaseActivity {
     LabelAndTextItem LTMonitor;
     @BindView(R.id.text_confirm)
     TextView textConfirm;
+    private EditText EtInput;
+    private TextView TvSubmit;
+    private TextView TvCancel;
 
     public static final  int TYPE_PREPARE = 1;
     public static final int TYPE_PREPARE_FINISH =2;
 
     private int type;
     private boolean enableView = true;
+    private String str_monitor;
+    private FreeDialog mDialog;
 
     @Override
     protected int getLayoutId() {
@@ -65,6 +72,38 @@ public class PrepareConstructActivity extends BaseActivity {
                 break;
         }
         setEnable(enableView);
+        mDialog = new FreeDialog(this, R.layout.dialog_input);
+        EtInput = (EditText) mDialog.getView().findViewById(R.id.et_input);
+        TvSubmit = (TextView) mDialog.getView().findViewById(R.id.tv_submit);
+        TvCancel = (TextView) mDialog.getView().findViewById(R.id.tv_cancel);
+        TvSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String value = EtInput.getText().toString().trim();
+                if (!TextUtils.isEmpty(value)){
+                    str_monitor=value;
+                    LTMonitor.isShowRightArrow(false);
+                    LTMonitor.setValueText(value);
+
+                }
+                mDialog.dismiss();
+
+            }
+        });
+        EtInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        TvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EtInput.setText("");
+                mDialog.dismiss();
+            }
+        });
     }
 
     @OnClick(R.id.LT_estimateInShopTime)
@@ -83,8 +122,7 @@ public class PrepareConstructActivity extends BaseActivity {
     @OnClick(R.id.LT_monitor)
     public void onSelMonitorClick(){
 //        IntentHelper.openSelSingleMonitorActivityForResult(this);
-        FreeDialog dialog =new FreeDialog(this, R.layout.dialog_input);
-        dialog.show();
+        mDialog.show();
     }
 
 

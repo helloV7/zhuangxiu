@@ -16,6 +16,7 @@ public class SearchBean implements Serializable {
     private String area;
     private String address;
     private String schedule;
+    private String time;
 
     public String getProjectId() {
         return projectId;
@@ -98,4 +99,6 @@ public class SearchBean implements Serializable {
     public void setSchedule(String schedule) {
         this.schedule = schedule;
     }
+
+
 }

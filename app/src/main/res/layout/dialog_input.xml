@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:clickable="true"
               android:layout_width="200dp"
               android:layout_height="wrap_content"
-              android:background="@color/colorPrimary"
-    android:focusable="true">
+              android:background="@drawable/bg_dialog_input">
         <TextView
             android:padding="8dp"
             android:layout_width="200dp"
@@ -14,14 +12,54 @@
             android:textSize="14dp"
             android:gravity="center_horizontal"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/text_color1"
-            android:background="@color/white"/>
+            android:textColor="@color/text_color1"/>
         <EditText
+            android:id="@+id/et_input"
             android:clickable="true"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center_horizontal"
+            android:paddingLeft="3dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:singleLine="true"
+            android:textSize="14dp"
+            android:textColor="@color/text_color1"
+            android:textCursorDrawable="@drawable/et_cursor"
+            android:background="@drawable/bg_rectangle"/>
+        <View
+            android:layout_width="200dp"
+            android:layout_height="0.2dp"
+            android:background="@color/map_text1"/>
+        <LinearLayout
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:singleLine="true"
-            android:textSize="14dp"/>
+            android:orientation="horizontal">
+                <TextView
+                    android:id="@+id/tv_submit"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="确定"
+                    android:textColor="@drawable/sl_tv"/>
+                <View
+                    android:layout_width="0.2dp"
+                    android:layout_height="30dp"
+                    android:background="@color/map_text1"/>
+                <TextView
+                    android:id="@+id/tv_cancel"
+                    android:layout_width="0dp"
+                    android:gravity="center"
+                    android:layout_height="30dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:text="取消"
+                    android:textColor="@drawable/sl_tv"/>
+        </LinearLayout>
 </LinearLayout>

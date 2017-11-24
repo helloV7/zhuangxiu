@@ -6,9 +6,8 @@ import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 
+import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.bean.Tuple;
-import com.jyt.baseapp.util.L;
-import com.jyt.baseapp.view.activity.BaseActivity;
 import com.jyt.baseapp.view.activity.BrowseImagesActivity;
 import com.jyt.baseapp.view.activity.CommonProgressActivity;
 import com.jyt.baseapp.view.activity.ConstructionActivity;
@@ -16,6 +15,7 @@ import com.jyt.baseapp.view.activity.DeliverGoodsActivity;
 import com.jyt.baseapp.view.activity.FinishSteelHookActivity;
 import com.jyt.baseapp.view.activity.SelImageActivity;
 import com.jyt.baseapp.view.activity.SelPeopleActivity;
+import com.jyt.baseapp.view.activity.ShopActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -257,6 +257,12 @@ public class IntentHelper {
         int type = intent.getIntExtra(IntentKey.TYPE,0);
         Parcelable data = intent.getParcelableExtra(IntentKey.DATA);
         return new Tuple(type,data);
+    }
+
+    public static void openShopActivity(Context context, SearchBean bean){
+        Intent intent = new Intent(context,ShopActivity.class);
+        intent.putExtra("shopinfo",bean);
+        context.startActivity(intent);
     }
     //endregion
 

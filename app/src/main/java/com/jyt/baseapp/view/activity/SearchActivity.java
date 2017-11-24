@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -13,15 +12,19 @@ import android.widget.TextView;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.SearchAfterAdapter;
 import com.jyt.baseapp.adapter.SearchBeforAdapter;
+import com.jyt.baseapp.bean.SearchBean;
+import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
+import com.jyt.baseapp.model.SearchModel;
+import com.jyt.baseapp.util.CacheUtil;
+import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 import com.jyt.baseapp.view.widget.SearchView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 
-public class SearchActivity extends BaseActivity implements View.OnClickListener {
+public class SearchActivity extends BaseActivity  {
 
     @BindView(R.id.sv_search)
     SearchView mSvSearch;
@@ -37,7 +40,9 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     LinearLayout mLlBefor;
     private SearchBeforAdapter mBeforAdapter;
     private SearchAfterAdapter mAfterAdapter;
-    private List<String> mList;
+    private List<SearchBean> mList;
+    private SearchModel mSearchModel;
+    private CacheUtil mCacheUtil;
 
     @Override
     protected int getLayoutId() {
@@ -58,22 +63,31 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     }
     private void init(){
         HideActionBar();
+        mCacheUtil = new CacheUtil();
+        mSearchModel = new SearchModel();
         mBeforAdapter=new SearchBeforAdapter();
         mAfterAdapter=new SearchAfterAdapter();
-        mList = new ArrayList<>();
-        mList.add("青花陶瓷");
-        mList.add("景德窑");
-        mList.add("粗陶");
+        mList=mCacheUtil.getPsd();
         mSvSearch.setOnSearchViewTextChangedListener(new SearchView.OnSearchViewTextChangedListener() {
             @Override
             public void onTextChanged(String text) {
                 if (text.length()>0){
                     mLlBefor.setVisibility(View.GONE);
                     mRvAfter.setVisibility(View.VISIBLE);
-                    Log.e("@#","length="+text.length());
+                    String condition=text+",null,null,null,null,null,null";
+                    mSearchModel.getSearchData(condition, new SearchModel.OnSearchResultListener() {
+                        @Override
+                        public void Result(boolean isSuccess, List<SearchBean> data) {
+                            if (isSuccess){
+                                mList = data;
+                                mAfterAdapter.notifyData(data);
+                            }
+                        }
+                    });
                 }else {
                     mLlBefor.setVisibility(View.VISIBLE);
                     mRvAfter.setVisibility(View.GONE);
+                    mAfterAdapter.notifyData(null);
                 }
             }
         });
@@ -92,23 +106,52 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void initListener(){
-        mTvCancel.setOnClickListener(this);
-        mBtnClaer.setOnClickListener(this);
+        mTvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        mBtnClaer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCacheUtil.clearData();
+                mBeforAdapter.notifyData(mCacheUtil.getPsd());
+            }
+        });
+
+        mBeforAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
+            @Override
+            public void onClick(BaseViewHolder holder) {
+                SearchBean bean = (SearchBean) holder.getData();
+                IntentHelper.openShopActivity(SearchActivity.this,bean);
+                finish();
+            }
+        });
+
+        mAfterAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
+            @Override
+            public void onClick(BaseViewHolder holder) {
+                SearchBean bean =(SearchBean) holder.getData();
+                boolean isNoContain=true;
+                for (SearchBean shop:mCacheUtil.getPsd()) {
+                    if (shop.getProjectId().equals(bean.getProjectId())){
+                        isNoContain=false;
+                    }
+                }
+                if (isNoContain){
+                    mCacheUtil.setPsd(bean);
+                }
+                mBeforAdapter.notifyData(mCacheUtil.getPsd());
+                IntentHelper.openShopActivity(SearchActivity.this,(SearchBean) holder.getData());
+                finish();
+            }
+        });
     }
 
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tv_cancel:
-                break;
-            case R.id.btn_claer:
-                List<String> l=new ArrayList<>();
-                mBeforAdapter.notifyData(l);
-                break;
 
-            default:
-                break;
-        }
-    }
+
+
 }

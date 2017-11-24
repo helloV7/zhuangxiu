@@ -41,17 +41,16 @@
             android:label="上传测量图片">
         </activity>
         <activity android:name=".view.activity.LoginActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".view.activity.ContentActivity"
             android:label="主界面"
             android:windowSoftInputMode="adjustPan|stateHidden">
-
         </activity>
         <activity
             android:name=".view.activity.BrowseImagesActivity"
@@ -73,13 +72,14 @@
         </activity>
         <activity
             android:name=".view.activity.PrepareConstructActivity"
-            android:screenOrientation="portrait"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+            android:screenOrientation="portrait">
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN"/> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".view.activity.SelPeopleActivity"
@@ -117,7 +117,6 @@
         <activity
             android:name=".view.activity.EvaluateDetailActivity"
             android:label="评价详情">
-
         </activity>
         <activity
             android:name=".view.activity.InfoActivity"
@@ -132,9 +131,12 @@
             android:label="共享资料">
         </activity>
         <activity android:name=".view.activity.SearchActivity">
-
         </activity>
-        <service android:name="com.amap.api.location.APSService"></service>
+
+        <service android:name="com.amap.api.location.APSService"/>
+
+        <activity android:name=".view.activity.LocationActivity">
+        </activity>
     </application>
 
 </manifest>
