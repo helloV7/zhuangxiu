@@ -11,6 +11,7 @@ import com.jyt.baseapp.R;
 import com.jyt.baseapp.bean.ProgressBean;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.model.ShopModel;
+import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.widget.AppendItem;
 import com.jyt.baseapp.view.widget.ProgressLine;
 
@@ -260,8 +261,14 @@ public class ShopProgressFragment extends BaseFragment {
                     mAppendList.get(i).setCurrent();
                     isIndex=true;
                 }
-                //---------------------------------------------------
-//                mAppendList.get(i).setTv_msg(data.get(i));
+
+            }
+            //---------------------------------------------------
+            Log.e("@#",""+i+" == "+data.get(i).getFinishTime());
+            if (data.get(i).getFinishTime()!=null){
+                mAppendList.get(i).setTv_time(BaseUtil.getTime(data.get(i).getFinishTime()));
+            }else {
+//                Log.e("@#","ASD");
             }
 
         }
