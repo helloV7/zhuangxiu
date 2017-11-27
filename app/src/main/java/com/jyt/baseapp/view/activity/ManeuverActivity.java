@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.WindowManager;
@@ -11,11 +12,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jyt.baseapp.R;
+import com.jyt.baseapp.adapter.ManeuverAdapter;
 import com.jyt.baseapp.bean.MapBean;
+import com.jyt.baseapp.bean.WorkBean;
+import com.jyt.baseapp.itemDecoration.RecycleViewDivider;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
+import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 import com.jyt.baseapp.view.widget.MapSelector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,27 +32,22 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
     TextView mTvCity;
     @BindView(R.id.tv_work)
     TextView mTvWork;
-    @BindView(R.id.rv_people)
-    RecyclerView mRvPeople;
     @BindView(R.id.selector_city)
     MapSelector mSelectorCity;
     @BindView(R.id.ll_work)
     LinearLayout mLlWork;
-    @BindView(R.id.tv_hydropower)
-    TextView mTvHydropower;
-    @BindView(R.id.tv_carpentry)
-    TextView mTvCarpentry;
-    @BindView(R.id.tv_civil)
-    TextView mTvCivil;
-    @BindView(R.id.tv_welder)
-    TextView mTvWelder;
+    @BindView(R.id.rv_work)
+    RecyclerView mRvWork;
+
     private MapModel mMapModel;
     private MapBean mMapBean;
+    private ManeuverAdapter mManeuverAdapter;
     private int mtotalWidth;
     private int selecrotHeight = BaseUtil.dip2px(380);
-    private int selecrotWorkHeight = BaseUtil.dip2px(240);
+    private int selecrotWorkHeight ;
     private boolean isHideCity;
     private boolean isHideWork;
+    private List<WorkBean> mWorkList;
     private boolean isShowCity = true;
     private boolean isShowWork = true;
 
@@ -63,8 +64,17 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
+        initSelector();
+        initData();
+        initListener();
+    }
+
+    private void init(){
         mMapBean = new MapBean();
         mMapModel = new MapModel();
+        mWorkList = new ArrayList<>();
+        mManeuverAdapter = new ManeuverAdapter();
         WindowManager wm = (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
         mtotalWidth = wm.getDefaultDisplay().getWidth();
         setTextTitle("机动人员");
@@ -75,9 +85,7 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
                 startActivity(new Intent(ManeuverActivity.this, AddPersonActivity.class));
             }
         });
-        initSelector();
-        initData();
-        initListener();
+
     }
 
     private void initSelector() {
@@ -87,6 +95,7 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
         mLlWork.getLayoutParams().height = 0;
         mLlWork.getLayoutParams().width = (int) (mtotalWidth * 0.9);
         mLlWork.requestLayout();
+        mSelectorCity.setHideDeleteIV(true);
         mSelectorCity.setOnMapClickListener(new MapSelector.OnMapClickListener() {
             @Override
             public void onClickProvince(int ProvinceID, String ProvinceName) {
@@ -107,23 +116,14 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    private void initListener() {
-        mTvCity.setOnClickListener(this);
-        mTvWork.setOnClickListener(this);
-        mTvHydropower.setOnClickListener(this);
-        mTvCarpentry.setOnClickListener(this);
-        mTvCivil.setOnClickListener(this);
-        mTvWelder.setOnClickListener(this);
-    }
-
     private void initData() {
 
         mMapModel.getProvinceData(new MapModel.onResultProvinceListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
-                if (isSuccess){
-                    mMapBean.mProvinces=data;
-                    mMapBean.mProvinces.get(0).isCheckProvince=true;
+                if (isSuccess) {
+                    mMapBean.mProvinces = data;
+                    mMapBean.mProvinces.get(0).isCheckProvince = true;
                     mSelectorCity.setProvinceAdapter(mMapBean, ManeuverActivity.this);
                 }
             }
@@ -132,13 +132,42 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
         mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
-                if (isSuccess){
-                    mMapBean.mCities=data;
+                if (isSuccess) {
+                    mMapBean.mCities = data;
                     mSelectorCity.setCityAdapter(mMapBean, ManeuverActivity.this);
                 }
             }
         });
+        mWorkList.add(new WorkBean("水电工"));
+        mWorkList.add(new WorkBean("木工"));
+        mWorkList.add(new WorkBean("土建"));
+        mWorkList.add(new WorkBean("焊工"));
 
+        mManeuverAdapter.setDataList(mWorkList);
+        mRvWork.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        mRvWork.addItemDecoration(new RecycleViewDivider(this,LinearLayoutManager.VERTICAL));
+        mRvWork.setAdapter(mManeuverAdapter);
+
+    }
+
+    private void initListener() {
+        mTvCity.setOnClickListener(this);
+        mTvWork.setOnClickListener(this);
+        mManeuverAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
+            @Override
+            public void onClick(BaseViewHolder holder) {
+                //点击切换选中的工种颜色
+                for (int i = 0; i <mWorkList.size() ; i++) {
+                    if (i==holder.getPosition()){
+                        mWorkList.get(i).setCheck(true);
+                        continue;
+                    }
+                    mWorkList.get(i).setCheck(false);
+                }
+                mManeuverAdapter.notifyData(mWorkList);
+                mTvWork.performClick();
+            }
+        });
     }
 
     /**
@@ -150,8 +179,8 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
         mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
-                if (isSuccess){
-                    mMapBean.mCities=data;
+                if (isSuccess) {
+                    mMapBean.mCities = data;
                     mSelectorCity.notifyData(mMapBean);
                 }
             }
@@ -198,46 +227,11 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
                 }
                 setWorkSelector();
                 break;
-            case R.id.tv_hydropower:
-                setWork(0);
-                break;
-            case R.id.tv_carpentry:
-                setWork(1);
-                break;
-            case R.id.tv_civil:
-                setWork(2);
-                break;
-            case R.id.tv_welder:
-                setWork(3);
-                break;
             default:
                 break;
         }
     }
 
-    public void setWork(int index){
-        mTvHydropower.setTextColor(getResources().getColor(R.color.text_color1));
-        mTvCarpentry.setTextColor(getResources().getColor(R.color.text_color1));
-        mTvCivil.setTextColor(getResources().getColor(R.color.text_color1));
-        mTvWelder.setTextColor(getResources().getColor(R.color.text_color1));
-        switch (index) {
-            case 0:
-                mTvHydropower.setTextColor(getResources().getColor(R.color.map_text2));
-                break;
-            case 1:
-                mTvCarpentry.setTextColor(getResources().getColor(R.color.map_text2));
-                break;
-            case 2:
-                mTvCivil.setTextColor(getResources().getColor(R.color.map_text2));
-                break;
-            case 3:
-                mTvWelder.setTextColor(getResources().getColor(R.color.map_text2));
-                break;
-            default:
-                break;
-        }
-        mTvWork.performClick();
-    }
 
     /**
      * 地图的选择器动画
@@ -267,6 +261,8 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
      */
     private void setWorkSelector() {
         ValueAnimator animator = null;
+        mLlWork.measure(0,0);
+        selecrotWorkHeight =  mLlWork.getMeasuredHeight();
         if (!isHideWork) {
             animator = ValueAnimator.ofInt(0, selecrotWorkHeight);
             isHideWork = true;

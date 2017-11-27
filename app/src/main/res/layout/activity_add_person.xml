@@ -84,6 +84,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp"
+                android:inputType="number"
                 android:hint="请输入人员联系方式"
                 android:textSize="13dp"
                 android:textCursorDrawable="@drawable/et_cursor"

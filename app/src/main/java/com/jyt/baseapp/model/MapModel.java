@@ -266,8 +266,10 @@ public class MapModel {
     }
 
     public void getLocationShop(LatLng l1,LatLng l2, final OnLocationShopResultListener listener){
+        OkHttpUtils.getInstance().cancelTag(Const.Tag_LocationShop);
         OkHttpUtils
                 .get()
+                .tag(Const.Tag_LocationShop)
                 .url(Path.URL_MapDatas)
                 .addParams("token", BaseUtil.getSpString(Const.UserToken))
                 .addParams("method","getAreaProject")

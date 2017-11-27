@@ -1,14 +1,11 @@
 package com.jyt.baseapp.view.activity;
 
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -17,22 +14,21 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
-import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.jyt.baseapp.R;
-import com.jyt.baseapp.bean.SearchBean;
+import com.jyt.baseapp.adapter.InfoAdapter;
+import com.jyt.baseapp.bean.LocationBean;
 import com.jyt.baseapp.model.MapModel;
+import com.jyt.baseapp.model.WorkerModel;
 import com.jyt.baseapp.util.BaseUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-
-import static com.jyt.baseapp.view.fragment.MapFragment.convertViewToBitmap;
 
 public class LocationActivity extends BaseActivity {
 
@@ -44,6 +40,7 @@ public class LocationActivity extends BaseActivity {
     private boolean isLocation;
     private boolean isFst;
     private MapModel mMapModel;
+    private WorkerModel mWorkerModel;
     private List<Marker> mMarkerList;
     public AMapLocationClient mLocationClient=null;
     public AMapLocationListener mLocationListener;
@@ -72,9 +69,8 @@ public class LocationActivity extends BaseActivity {
     }
 
     private void init(){
-
         setTextTitle("查看定位");
-        mMapModel = new MapModel();
+        mWorkerModel = new WorkerModel();
         mMarkerList = new ArrayList<>();
         WindowManager wm= (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
         mtotalWidth=wm.getDefaultDisplay().getWidth();
@@ -105,17 +101,8 @@ public class LocationActivity extends BaseActivity {
             }
         });
 
-        mMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                SearchBean localData= (SearchBean) marker.getObject();
-                Log.e("@#","local:"+localData.getProjectName());
-                Intent intent = new Intent(LocationActivity.this,ShopActivity.class);
-                intent.putExtra("shopinfo",localData);
-                startActivity(intent);
-                return true;
-            }
-        });
+
+//        mMap.setInfoWindowAdapter(new InfoAdapter(this));
     }
 
     /**
@@ -134,10 +121,10 @@ public class LocationActivity extends BaseActivity {
                             double v=aMapLocation.getLatitude();//获取纬度
                             double v1=aMapLocation.getLongitude();//获取经度
                             LatLng latLng2=new LatLng(v,v1);
-                            //                            mMap.addMarker(new MarkerOptions()
-                            //                                    .position(latLng2)
-                            //                                    .icon(BitmapDescriptorFactory
-                            //                                            .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                            //创建定位Marker
+//                            mMap.addMarker(new MarkerOptions()
+//                                    .position(latLng2)
+//                                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                             mMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng2));
                             isLocation=true;
                         }
@@ -176,27 +163,23 @@ public class LocationActivity extends BaseActivity {
             mMarkerList.clear();
         }
         //添加后续新的数据
-        mMapModel.getLocationShop(l1, l2, new MapModel.OnLocationShopResultListener() {
-            @Override
-            public void Result(boolean isSuccess, List<SearchBean> shops) {
-                if (isSuccess){
-                    for (int i = 0; i < shops.size(); i++) {
-                        View view=View.inflate(LocationActivity.this,R.layout.layout_infowindow,null);
-                        TextView tv= (TextView) view.findViewById(R.id.tv_text);
-                        tv.setText(shops.get(i).getProjectName());
-                        Bitmap b=convertViewToBitmap(view);
-                        LatLng l=new LatLng(Double.valueOf(shops.get(i).getLatitude()),Double.valueOf(shops.get(i).getLongitude()));
-                        Marker marker=mMap.addMarker(new MarkerOptions()
-                                .position(l)
-                                .infoWindowEnable(false)
-                                .icon(BitmapDescriptorFactory.fromBitmap(b)));
-                        marker.setObject(shops.get(i));
-                        mMarkerList.add(marker);
-                    }
-                }
-
-            }
-        });
+       mWorkerModel.LocationWork(l1, l2, new WorkerModel.OngetWorkerListener() {
+           @Override
+           public void Result(boolean isSuccess, List<LocationBean> workers) {
+               if (isSuccess){
+                   for (int i = 0; i < workers.size(); i++) {
+                       LatLng l=new LatLng(Double.valueOf(workers.get(i).getLatitude()),Double.valueOf(workers.get(i).getLongitude()));
+                       Marker marker=mMap.addMarker(new MarkerOptions()
+                               .position(l)
+                               .setInfoWindowOffset(50,48)
+                               .title(workers.get(i).getNickName()));
+                       mMarkerList.add(marker);
+                       marker.showInfoWindow();
+                   }
+                   mMap.setInfoWindowAdapter(new InfoAdapter(LocationActivity.this));
+               }
+           }
+       });
     }
 
     @Override

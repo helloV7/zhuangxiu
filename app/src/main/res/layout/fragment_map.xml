@@ -20,7 +20,7 @@
             android:layout_height="48dp"
             android:orientation="horizontal"
             android:gravity="center"
-            android:background="@mipmap/bg_corner">
+            android:background="@drawable/bg_corner_whites">
             <TextView
                 android:id="@+id/tv_map_city"
                 android:layout_width="0dp"
@@ -48,6 +48,7 @@
         <FrameLayout
             android:id="@+id/fl_selector"
             android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
             android:layout_height="380dp"
             android:layout_gravity="center_horizontal">
             <com.jyt.baseapp.view.widget.MapSelector

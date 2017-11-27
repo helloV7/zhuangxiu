@@ -29,10 +29,21 @@
             android:textSize="14dp"
             android:textColor="@color/map_text1"/>
     </LinearLayout>
-    <ImageView
+    <FrameLayout
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:src="@mipmap/icon_next"/>
+        android:layout_centerVertical="true">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:src="@mipmap/icon_next"/>
+        <TextView
+            android:id="@+id/tv_tel"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+
 </RelativeLayout>

@@ -15,6 +15,8 @@ public class LocationBean {
     private String subClassName;
     private String address;
     private String schedule;
+    private String nickName;
+    private String userId;
 
     public String getLatitude() {
         return latitude;
@@ -102,5 +104,21 @@ public class LocationBean {
 
     public void setSchedule(String schedule) {
         this.schedule = schedule;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

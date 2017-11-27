@@ -90,6 +90,9 @@ public class RecycleViewDivider extends RecyclerView.ItemDecoration {
         final int right = parent.getMeasuredWidth() - parent.getPaddingRight();
         final int childSize = parent.getChildCount();
         for (int i = 0; i < childSize; i++) {
+            if (i==childSize-1){
+                continue;
+            }
             final View child = parent.getChildAt(i);
             RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) child.getLayoutParams();
             final int top = child.getBottom() + layoutParams.bottomMargin;

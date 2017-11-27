@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.jyt.baseapp.view.activity.EvaluateDetailActivity"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
+    <EditText
+        android:id="@+id/tv_evaluate"
+        android:gravity="left|top"
+        android:layout_width="match_parent"
+        android:layout_height="149dp"
+        android:hint="请输入您的评价"
+        android:textSize="13dp"
+        android:textColor="@color/text_color1"
+        android:background="@color/white"/>
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:background="@color/white">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="评星"
+            android:textSize="13dp"
+            android:textColor="@color/map_text1"/>
+        <RatingBar
+            android:id="@+id/rb_evaluate"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/myStar"
+            android:isIndicator="false"
+            android:numStars="5"
+            android:rating="0" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <Button
+            android:id="@+id/btn_submit"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="35dp"
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_add_off"/>
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -7,6 +7,8 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,13 +18,16 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jyt.baseapp.R;
+import com.jyt.baseapp.adapter.ManeuverAdapter;
 import com.jyt.baseapp.bean.MapBean;
+import com.jyt.baseapp.bean.WorkBean;
+import com.jyt.baseapp.itemDecoration.RecycleViewDivider;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
+import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 import com.jyt.baseapp.view.widget.CircleImageView;
 import com.jyt.baseapp.view.widget.JumpItem;
 import com.jyt.baseapp.view.widget.MapSelector;
@@ -33,6 +38,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -67,14 +73,14 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
     private MapBean mMapBean;
     public StringBuilder Scity;//城市区域
     public String SProvince;//省
+    private ManeuverAdapter mManeuverAdapter;
+    private List<WorkBean> mWorkList;
     public String SWork;//工种
     public String SName;//姓名
     public String SPhone;//联系方式
     private MapSelector mCitySelector;
-    private TextView tv_hydropower;
-    private TextView tv_carpentry;
-    private TextView tv_civil;
-    private TextView tv_welder;
+    private RecyclerView mRv_work;
+
 
     @Override
     protected int getLayoutId() {
@@ -89,16 +95,22 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTextTitle("添加机动人员");
-        WindowManager wm = (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
-        mtotalWidth = wm.getDefaultDisplay().getWidth();
-        mMapBean=new MapBean();
-        mMapModel = new MapModel();
-        Scity=new StringBuilder();
+        init();
         initFile();
         initDialog();
         initData();
         initListener();
+    }
+
+    private void init(){
+        setTextTitle("添加机动人员");
+        mManeuverAdapter = new ManeuverAdapter();
+        mWorkList =new ArrayList<>();
+        mMapModel =new MapModel();
+        WindowManager wm = (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
+        mtotalWidth = wm.getDefaultDisplay().getWidth();
+        mMapBean=new MapBean();
+        Scity=new StringBuilder();
     }
 
     /**
@@ -157,10 +169,7 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
         mDialog_work=new MyDialog(this,R.layout.pop_work);
         View view_work=mDialog_work.getView();
         LinearLayout ll= (LinearLayout) view_work.findViewById(R.id.ll_work);
-        tv_hydropower = (TextView) view_work.findViewById(R.id.btn_hydropower);
-        tv_carpentry = (TextView) view_work.findViewById(R.id.btn_carpentry);
-        tv_civil = (TextView) view_work.findViewById(R.id.btn_civil);
-        tv_welder = (TextView) view_work.findViewById(R.id.btn_welder);
+        mRv_work = (RecyclerView) view_work.findViewById(R.id.rv_work);
         ll.getLayoutParams().width=(int) (mtotalWidth * 0.8);
         ll.requestLayout();
     }
@@ -171,6 +180,7 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess){
                     mMapBean.mProvinces=data;
+                    SProvince=mMapBean.mProvinces.get(0).ProvinceName;
                     mMapBean.mProvinces.get(0).isCheckProvince=true;
                     mCitySelector.setProvinceAdapter(mMapBean, AddPersonActivity.this);
                 }
@@ -187,16 +197,38 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
             }
         });
 
+        mWorkList.add(new WorkBean("水电工"));
+        mWorkList.add(new WorkBean("木工"));
+        mWorkList.add(new WorkBean("土建"));
+        mWorkList.add(new WorkBean("焊工"));
+        mManeuverAdapter.setDataList(mWorkList);
+        mRv_work.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        mRv_work.addItemDecoration(new RecycleViewDivider(this,LinearLayoutManager.VERTICAL));
+        mRv_work.setAdapter(mManeuverAdapter);
 
     }
 
     private void initListener(){
         mJumpCity.setOnClickListener(this);
         mJumpWork.setOnClickListener(this);
-        tv_hydropower.setOnClickListener(this);
-        tv_carpentry.setOnClickListener(this);
-        tv_civil.setOnClickListener(this);
-        tv_welder.setOnClickListener(this);
+        mManeuverAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
+            @Override
+            public void onClick(BaseViewHolder holder) {
+                //点击切换选中的工种颜色
+                for (int i = 0; i <mWorkList.size() ; i++) {
+                    if (i==holder.getPosition()){
+                        mWorkList.get(i).setCheck(true);
+                        SWork=mWorkList.get(i).getType();
+                        mJumpWork.setNext(false,SWork);
+                        continue;
+                    }
+                    mWorkList.get(i).setCheck(false);
+                }
+                mManeuverAdapter.notifyData(mWorkList);
+
+                mDialog_work.dismiss();
+            }
+        });
     }
 
 
@@ -335,52 +367,14 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
                     mDialog_work.show();
                 }
                 break;
-            case R.id.btn_hydropower:
-                setPopWork(0);
-                break;
-            case R.id.btn_carpentry:
-                setPopWork(1);
-                break;
-            case R.id.btn_civil:
-                setPopWork(2);
-                break;
-            case R.id.btn_welder:
-                setPopWork(3);
-                break;
+
 
             default:
                 break;
         }
     }
 
-    public void setPopWork(int index){
-        tv_hydropower.setTextColor(getResources().getColor(R.color.text_color1));
-        tv_carpentry.setTextColor(getResources().getColor(R.color.text_color1));
-        tv_civil.setTextColor(getResources().getColor(R.color.text_color1));
-        tv_welder.setTextColor(getResources().getColor(R.color.text_color1));
-        switch (index) {
-            case 0:
-                tv_hydropower.setTextColor(getResources().getColor(R.color.map_text2));
-                SWork= tv_hydropower.getText().toString();
-                break;
-            case 1:
-                tv_carpentry.setTextColor(getResources().getColor(R.color.map_text2));
-                SWork= tv_carpentry.getText().toString();
-                break;
-            case 2:
-                tv_civil.setTextColor(getResources().getColor(R.color.map_text2));
-                SWork= tv_civil.getText().toString();
-                break;
-            case 3:
-                tv_welder.setTextColor(getResources().getColor(R.color.map_text2));
-                SWork= tv_welder.getText().toString();
-                break;
-            default:
-                break;
-        }
-        mJumpWork.setNext(false,SWork);
-        mDialog_work.dismiss();
-    }
+
 
     @Override
     protected void onDestroy() {

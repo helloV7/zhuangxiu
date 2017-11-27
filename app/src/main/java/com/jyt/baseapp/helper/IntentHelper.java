@@ -13,6 +13,8 @@ import com.jyt.baseapp.view.activity.CommonProgressActivity;
 import com.jyt.baseapp.view.activity.ConstructionActivity;
 import com.jyt.baseapp.view.activity.DeliverGoodsActivity;
 import com.jyt.baseapp.view.activity.FinishSteelHookActivity;
+import com.jyt.baseapp.view.activity.InfoDetailActivity;
+import com.jyt.baseapp.view.activity.LoginActivity;
 import com.jyt.baseapp.view.activity.SelImageActivity;
 import com.jyt.baseapp.view.activity.SelPeopleActivity;
 import com.jyt.baseapp.view.activity.ShopActivity;
@@ -259,9 +261,34 @@ public class IntentHelper {
         return new Tuple(type,data);
     }
 
+    /**
+     * 商店信息页
+     * @param context
+     * @param bean 商店的请求信息
+     */
     public static void openShopActivity(Context context, SearchBean bean){
         Intent intent = new Intent(context,ShopActivity.class);
         intent.putExtra("shopinfo",bean);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 登出操作，跳转到登录界面
+     * @param context
+     */
+    public static void DoLogout(Context context){
+        Intent intent = new Intent(context,LoginActivity.class);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 打开InfoDetailActivity
+     * @param context
+     * @param state 0/1/2 界面一致，消息数据分三种来源
+     */
+    public static void OpenInfoDetailActivity(Context context , int state){
+        Intent intent = new Intent(context,InfoDetailActivity.class);
+        intent.putExtra("state",state);
         context.startActivity(intent);
     }
     //endregion

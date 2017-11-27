@@ -71,8 +71,6 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     SingleSelector mBrandSelector;
     @BindView(R.id.fl_selector)
     FrameLayout fl_selector;
-    private PopupWindow pop_city;
-    private PopupWindow pop_brand;
     private MapModel mMapModel;
     private MapBean mMapBean;
     private List<BrandBean> mBrandBeen;
@@ -279,7 +277,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                     str_city=AreaName;
                     str_area=CityName+AreaName;
                 }
-                SearchShop(","+str_province+","+CityName+","+AreaName+",null,null,null");
+                SearchShop("null,"+str_province+","+CityName+","+AreaName+",null,null,null");
                 tv_city.performClick();
             }
 
@@ -323,7 +321,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             public void onClickDetail(String BrandSonID, String BrandSonName) {
                 isByMap=false;
                 tv_brand.performClick();
-                SearchShop(",null,null,null,"+ str_brandID +","+BrandSonID+",null");
+                SearchShop("null,null,null,null,"+ str_brandID +","+BrandSonID+",null");
             }
 
             @Override

@@ -3,46 +3,20 @@
 
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="240dp"
+              android:layout_height="wrap_content"
               android:background="@drawable/bg_selector">
     <LinearLayout
         android:id="@+id/ll_work"
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:showDividers="middle"
         android:divider="@drawable/linefull">
-        <TextView
-            android:id="@+id/btn_hydropower"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_work"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center"
-            android:text="水电工"
-            android:textSize="14dp"
-            android:textColor="@color/text_color1"/>
-        <TextView
-            android:id="@+id/btn_carpentry"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center"
-            android:text="木工"
-            android:textSize="14dp"
-            android:textColor="@color/text_color1"/>
-        <TextView
-            android:id="@+id/btn_civil"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center"
-            android:text="土建"
-            android:textSize="14dp"
-            android:textColor="@color/text_color1"/>
-        <TextView
-            android:id="@+id/btn_welder"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:gravity="center"
-            android:text="焊工"
-            android:textSize="14dp"
-            android:textColor="@color/text_color1"/>
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp">
+        </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 </LinearLayout>

@@ -47,7 +47,8 @@ public class PersonInfoActivity extends BaseActivity {
         mBtnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Const.Logout(PersonInfoActivity.this);
+                finish();
             }
         });
     }

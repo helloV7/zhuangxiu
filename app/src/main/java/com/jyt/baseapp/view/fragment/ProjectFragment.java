@@ -396,7 +396,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
      * @param condition
      */
     private void  SearchMapShop(String condition){
-        mMapModel.getSearchData(","+condition+",null,null,null", new MapModel.OnSearchResultListener() {
+        mMapModel.getSearchData("null,"+condition+",null,null,null", new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, List<SearchBean> data) {
                 if (isSuccess){
@@ -411,7 +411,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
      * @param condition
      */
     private void SearchBrandShop(String condition){
-        mMapModel.getSearchData(",null,null,null,"+condition+",null", new MapModel.OnSearchResultListener() {
+        mMapModel.getSearchData("null,null,null,null,"+condition+",null", new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, List<SearchBean> data) {
                 if (isSuccess){
@@ -426,7 +426,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
      * @param condition
      */
     private void SearchProgressShop(String condition){
-        mMapModel.getSearchData(",null,null,null,null,null,"+condition, new MapModel.OnSearchResultListener() {
+        mMapModel.getSearchData("null,null,null,null,null,null,"+condition, new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, List<SearchBean> data) {
                 if (isSuccess){

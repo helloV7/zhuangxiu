@@ -41,7 +41,8 @@
                 android:id="@+id/rv_select_right"
                 android:paddingLeft="4dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:paddingBottom="10dp">
             </android.support.v7.widget.RecyclerView>
         </LinearLayout>
     </LinearLayout>
