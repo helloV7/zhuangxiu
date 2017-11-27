@@ -10,7 +10,9 @@
     android:focusable="true"
     android:focusableInTouchMode="true">
     <TextView
-        android:id="@+id/tv_evaluate"
+        android:id="@+id/tv_HostEvaluate"
+        android:padding="15dp"
+        android:hint="店主未填写"
         android:gravity="left|top"
         android:layout_width="match_parent"
         android:layout_height="149dp"
@@ -87,12 +89,12 @@
                     android:layout_height="1dp"
                     android:background="@drawable/linefull"/>
                 <TextView
-                    android:id="@+id/tv_Sevaluation"
+                    android:id="@+id/tv_SEvaluation"
                     android:paddingBottom="20dp"
                     android:paddingRight="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价评价内容评价内容评价评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价评价内容评价内容评价"
+                    android:hint="客服未填写"
                     android:textSize="13dp"
                     android:textColor="@color/text_color1"/>
             </LinearLayout>
@@ -111,7 +113,6 @@
                     android:layout_height="wrap_content"
                     android:paddingRight="10dp">
                     <TextView
-
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="品牌方评价回复"
@@ -133,12 +134,12 @@
                     android:layout_height="1dp"
                     android:background="@drawable/linefull"/>
                 <TextView
-                    android:id="@+id/tv_Bevaluation"
+                    android:id="@+id/tv_BEvaluation"
                     android:paddingBottom="20dp"
                     android:paddingRight="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价内容评价评价内容评价内容评价"
+                    android:hint="品牌方未填写"
                     android:textSize="13dp"
                     android:textColor="@color/text_color1"/>
             </LinearLayout>

@@ -169,6 +169,15 @@ public class BaseUtil {
         return format.format(date);
     }
 
+    public static String getTime(String time){
+        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm");//"yyyy-MM-dd HH:mm:ss"
+        return format.format(Long.parseLong(time));
+    }
+
+    public static void LogE(Class clazz){
+        Log.e("@#",clazz.getName()+" error");
+    }
+
 
 
     /**

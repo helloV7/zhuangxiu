@@ -98,11 +98,17 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv_shop"
+        <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+            android:id="@+id/trl_lore"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        </android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_shop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </android.support.v7.widget.RecyclerView>
+        </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
 
         <com.jyt.baseapp.view.widget.MapSelector
             android:id="@+id/selector_city"

@@ -1,5 +1,6 @@
 package com.jyt.baseapp.view.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import com.jyt.baseapp.R;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.bean.ShopBean;
 import com.jyt.baseapp.model.ShopModel;
+import com.jyt.baseapp.view.activity.EvaluateDetailActivity;
 import com.jyt.baseapp.view.widget.ItemText;
 
 import java.util.List;
@@ -77,6 +79,7 @@ public class ShopNewsFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         init();
         initData();
+        initListener();
     }
 
     private void init() {
@@ -129,6 +132,17 @@ public class ShopNewsFragment extends BaseFragment {
         mItForecaster4.setLeftText(data.getProstationName());
         mItForecaster4.setAppendrText(data.getPronickName());
         mItForecaster4.setRightText(data.getProtel());
+    }
+
+    private void initListener(){
+        mItemEvaluate.setOnClickItemListener(new ItemText.OnClickItemListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), EvaluateDetailActivity.class);
+                intent.putExtra("ProjectId",mInfo.getProjectId());
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

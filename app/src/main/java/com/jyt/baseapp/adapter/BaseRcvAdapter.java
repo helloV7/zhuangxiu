@@ -55,5 +55,12 @@ public abstract class BaseRcvAdapter extends RecyclerView.Adapter<BaseViewHolder
         notifyDataSetChanged();
     }
 
+    public void LoadMoreData(List moreData){
+        if (moreData!=null){
+            dataList.addAll(moreData);
+            notifyDataSetChanged();
+        }
+    }
+
 
 }
