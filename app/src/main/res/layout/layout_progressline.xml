@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/ll_parent"
-              xmlns:ym="http://schemas.android.com/apk/res/com.jyt.baseapp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:src="@color/color_submit"
-            ym:border_color="@color/white"/>
+            app:border_color="@color/white"/>
         <TextView
             android:id="@+id/tv_progress_title"
             android:layout_toRightOf="@+id/civ_light"

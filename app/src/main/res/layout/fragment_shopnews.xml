@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:ym="http://schemas.android.com/apk/res/com.jyt.baseapp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -48,49 +48,49 @@
             android:layout_marginTop="7dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ym:leftText="店名"
-            ym:rightText="店名店名"
-            ym:rightcolor="@color/text_color1"/>
+            app:leftText="店名"
+            app:rightText="店名店名"
+            app:rightcolor="@color/text_color1"/>
         <com.jyt.baseapp.view.widget.ItemText
             android:id="@+id/it_Number"
             android:layout_marginTop="1.5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ym:leftText="编号"
-            ym:rightText="0000001"
-            ym:rightcolor="@color/text_color1"/>
+            app:leftText="编号"
+            app:rightText="0000001"
+            app:rightcolor="@color/text_color1"/>
         <com.jyt.baseapp.view.widget.ItemText
             android:id="@+id/it_UserName"
             android:layout_marginTop="1.5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ym:leftText="店主姓名"
-            ym:rightText="张三"
-            ym:rightcolor="@color/text_color1"/>
+            app:leftText="店主姓名"
+            app:rightText="张三"
+            app:rightcolor="@color/text_color1"/>
         <com.jyt.baseapp.view.widget.ItemText
             android:id="@+id/it_ShopPhone"
             android:layout_marginTop="1.5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ym:leftText="联系电话"
-            ym:rightText="13800138000"
-            ym:rightcolor="@color/map_text2"/>
+            app:leftText="联系电话"
+            app:rightText="13800138000"
+            app:rightcolor="@color/map_text2"/>
         <com.jyt.baseapp.view.widget.ItemText
             android:id="@+id/it_Address"
             android:layout_marginTop="1.5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ym:leftText="地址"
-            ym:rightText="广东省广州市天河区天河北路1号"
-            ym:rightcolor="@color/text_color1"/>
+            app:leftText="地址"
+            app:rightText="广东省广州市天河区天河北路1号"
+            app:rightcolor="@color/text_color1"/>
         <com.jyt.baseapp.view.widget.ItemText
             android:id="@+id/it_Time"
             android:layout_marginTop="1.5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ym:leftText="启动时间"
-            ym:rightText="2017-07-26"
-            ym:rightcolor="@color/text_color1"/>
+            app:leftText="启动时间"
+            app:rightText="2017-07-26"
+            app:rightcolor="@color/text_color1"/>
         <!--装修员工信息-->
         <TextView
             android:layout_marginTop="30dp"
@@ -104,33 +104,33 @@
             android:layout_marginTop="1.5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ym:leftText="装修品牌"
-            ym:rightText="品牌品牌"
-            ym:rightcolor="@color/text_color1"/>
+            app:leftText="装修品牌"
+            app:rightText="品牌品牌"
+            app:rightcolor="@color/text_color1"/>
         <com.jyt.baseapp.view.widget.ItemText
             android:id="@+id/it_BrandLevel"
             android:layout_marginTop="1.5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ym:leftText="品牌级别"
-            ym:rightText="PC4年期-B级"
-            ym:rightcolor="@color/text_color1"/>
+            app:leftText="品牌级别"
+            app:rightText="PC4年期-B级"
+            app:rightcolor="@color/text_color1"/>
         <com.jyt.baseapp.view.widget.ItemText
             android:id="@+id/it_Commissioner"
             android:layout_marginTop="1.5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ym:leftText="装修专员"
-            ym:rightText="张三"
-            ym:rightcolor="@color/text_color1"/>
+            app:leftText="装修专员"
+            app:rightText="张三"
+            app:rightcolor="@color/text_color1"/>
         <com.jyt.baseapp.view.widget.ItemText
             android:id="@+id/it_CPhone"
             android:layout_marginTop="1.5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ym:leftText="联系电话"
-            ym:rightText="13800138000"
-            ym:rightcolor="@color/map_text2"/>
+            app:leftText="联系电话"
+            app:rightText="13800138000"
+            app:rightcolor="@color/map_text2"/>
         <!--跟进人员信息-->
         <TextView
             android:layout_marginTop="30dp"
@@ -144,45 +144,45 @@
             android:layout_marginTop="1.5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ym:leftText="预测员"
-            ym:apppendText="李小四"
-            ym:rightText="13800138000"
-            ym:rightcolor="@color/map_text2"/>
+            app:leftText="预测员"
+            app:apppendText="李小四"
+            app:rightText="13800138000"
+            app:rightcolor="@color/map_text2"/>
         <com.jyt.baseapp.view.widget.ItemText
             android:id="@+id/it_Forecaster2"
             android:layout_marginTop="1.5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ym:leftText="预测员"
-            ym:apppendText="李四"
-            ym:rightText="13800138000"
-            ym:rightcolor="@color/map_text2"/>
+            app:leftText="预测员"
+            app:apppendText="李四"
+            app:rightText="13800138000"
+            app:rightcolor="@color/map_text2"/>
         <com.jyt.baseapp.view.widget.ItemText
             android:id="@+id/it_Forecaster3"
             android:layout_marginTop="1.5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ym:leftText="预测员"
-            ym:apppendText="李四"
-            ym:rightText="13800138000"
-            ym:rightcolor="@color/map_text2"/>
+            app:leftText="预测员"
+            app:apppendText="李四"
+            app:rightText="13800138000"
+            app:rightcolor="@color/map_text2"/>
         <com.jyt.baseapp.view.widget.ItemText
             android:id="@+id/it_Forecaster4"
             android:layout_marginTop="1.5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ym:leftText="预测员"
-            ym:apppendText="李四"
-            ym:rightText="13800138000"
-            ym:rightcolor="@color/map_text2"/>
+            app:leftText="预测员"
+            app:apppendText="李四"
+            app:rightText="13800138000"
+            app:rightcolor="@color/map_text2"/>
         <!--店主评价-->
         <com.jyt.baseapp.view.widget.ItemText
             android:id="@+id/item_Evaluate"
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            ym:leftText="店主评价"
-            ym:showIV="true"/>
+            app:leftText="店主评价"
+            app:showIV="true"/>
         <RelativeLayout
             android:layout_marginTop="1.5dp"
             android:layout_marginBottom="15dp"

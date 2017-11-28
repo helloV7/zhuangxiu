@@ -2,7 +2,7 @@
 <RelativeLayout
     android:id="@+id/rl_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ym="http://schemas.android.com/apk/res/com.jyt.baseapp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,9 +35,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_width="54dp"
                 android:layout_height="54dp"
-                ym:border_color="@color/white"
+                app:border_color="@color/white"
                 android:src="@mipmap/icon_no"
-                xmlns:ym="http://schemas.android.com/apk/res/com.jyt.baseapp"/>
+                />
 
         </RelativeLayout>
 
@@ -96,15 +96,15 @@
             android:id="@+id/jump_work"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ym:title="工种"
-            ym:Jump="true"/>
+            app:title="工种"
+            app:Jump="true"/>
 
         <com.jyt.baseapp.view.widget.JumpItem
             android:id="@+id/jump_city"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            ym:title="城市"
-            ym:Jump="true"/>
+            app:title="城市"
+            app:Jump="true"/>
     </LinearLayout>
 
     <View

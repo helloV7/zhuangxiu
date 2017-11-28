@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:ym="http://schemas.android.com/apk/res/com.jyt.baseapp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -21,40 +21,40 @@
         android:id="@+id/item_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ym:title="个人资料"
-        ym:Jump="true">
+        app:title="个人资料"
+        app:Jump="true">
     </com.jyt.baseapp.view.widget.JumpItem>
 
     <com.jyt.baseapp.view.widget.JumpItem
         android:id="@+id/item_maneuver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ym:title="机动人员"
-        ym:Jump="true">
+        app:title="机动人员"
+        app:Jump="true">
     </com.jyt.baseapp.view.widget.JumpItem>
 
     <com.jyt.baseapp.view.widget.JumpItem
         android:id="@+id/item_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ym:title="查看定位"
-        ym:Jump="true">
+        app:title="查看定位"
+        app:Jump="true">
     </com.jyt.baseapp.view.widget.JumpItem>
 
     <com.jyt.baseapp.view.widget.JumpItem
         android:id="@+id/item_share"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ym:title="共享资料"
-        ym:Jump="true">
+        app:title="共享资料"
+        app:Jump="true">
     </com.jyt.baseapp.view.widget.JumpItem>
 
     <com.jyt.baseapp.view.widget.JumpItem
         android:id="@+id/item_about"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ym:title="关于我们"
-        ym:Jump="true">
+        app:title="关于我们"
+        app:Jump="true">
     </com.jyt.baseapp.view.widget.JumpItem>
 
 

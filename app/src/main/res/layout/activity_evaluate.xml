@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ym="http://schemas.android.com/apk/res/com.jyt.baseapp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -13,22 +13,22 @@
         android:layout_marginTop="6dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ym:title="项目经理"/>
+        app:title="项目经理"/>
     <com.jyt.baseapp.view.widget.JumpItem
         android:layout_marginTop="6dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ym:title="设计师"/>
+        app:title="设计师"/>
     <com.jyt.baseapp.view.widget.JumpItem
         android:layout_marginTop="6dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ym:title="预算员"/>
+        app:title="预算员"/>
     <com.jyt.baseapp.view.widget.JumpItem
         android:layout_marginTop="6dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        ym:title="测量人员"/>
+        app:title="测量人员"/>
 
 
 </LinearLayout>
