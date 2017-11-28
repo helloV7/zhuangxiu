@@ -48,7 +48,7 @@
         android:layout_marginRight="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2017-08-09 13:00"
+        android:text=""
         android:textSize="13dp"/>
     <ImageView
         android:id="@+id/iv_progress_next"

@@ -3,12 +3,12 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="80dp"
-              android:padding="20dp">
-    <ImageView
+              android:padding="10dp"
+              android:background="@color/white">
+    <com.jyt.baseapp.view.widget.CircleImageView
         android:id="@+id/iv_logo"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:src="@mipmap/icon_ai"/>
+        android:layout_width="50dp"
+        android:layout_height="50dp"/>
     <LinearLayout
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/iv_logo"
@@ -17,15 +17,15 @@
         android:layout_centerVertical="true"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/tv_msg1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="设计资料.dox"
             android:textSize="16dp"
             android:textColor="@color/text_color1"/>
         <TextView
+            android:id="@+id/tv_msg2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5.5M  2017.08.10"
             android:textSize="14dp"
             android:textColor="@color/map_text1"/>
     </LinearLayout>
@@ -35,9 +35,9 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true">
         <ImageView
+            android:id="@+id/iv_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:src="@mipmap/icon_next"/>
         <TextView
             android:id="@+id/tv_tel"

@@ -4,6 +4,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,13 +14,19 @@ import android.widget.TextView;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.ManeuverAdapter;
+import com.jyt.baseapp.adapter.WorkAdapter;
+import com.jyt.baseapp.bean.ManeuverBean;
 import com.jyt.baseapp.bean.MapBean;
 import com.jyt.baseapp.bean.WorkBean;
 import com.jyt.baseapp.itemDecoration.RecycleViewDivider;
+import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
+import com.jyt.baseapp.model.ManeuverModel;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 import com.jyt.baseapp.view.widget.MapSelector;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,15 +45,21 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
     LinearLayout mLlWork;
     @BindView(R.id.rv_work)
     RecyclerView mRvWork;
+    @BindView(R.id.rv_container)
+    RecyclerView mRvContainer;
+    @BindView(R.id.trl_lore)
+    TwinklingRefreshLayout mTrlLore;
 
     private MapModel mMapModel;
+    private ManeuverModel mManeuverModel;
     private MapBean mMapBean;
     private ManeuverAdapter mManeuverAdapter;
     private int mtotalWidth;
     private int selecrotHeight = BaseUtil.dip2px(380);
-    private int selecrotWorkHeight ;
+    private int selecrotWorkHeight;
     private boolean isHideCity;
     private boolean isHideWork;
+    private WorkAdapter mWorkAdapter;
     private List<WorkBean> mWorkList;
     private boolean isShowCity = true;
     private boolean isShowWork = true;
@@ -70,11 +83,13 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
         initListener();
     }
 
-    private void init(){
+    private void init() {
         mMapBean = new MapBean();
         mMapModel = new MapModel();
+        mManeuverModel = new ManeuverModel();
         mWorkList = new ArrayList<>();
         mManeuverAdapter = new ManeuverAdapter();
+        mWorkAdapter = new WorkAdapter();
         WindowManager wm = (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
         mtotalWidth = wm.getDefaultDisplay().getWidth();
         setTextTitle("机动人员");
@@ -85,6 +100,7 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
                 startActivity(new Intent(ManeuverActivity.this, AddPersonActivity.class));
             }
         });
+
 
     }
 
@@ -117,6 +133,15 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initData() {
+        mRvContainer.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRvContainer.setAdapter(mWorkAdapter);
+        mRvContainer.addItemDecoration(new SpacesItemDecoration(0,5));
+        getAllPersonal(true,"null,null,null,null,null");
+
+
+        mRvWork.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRvWork.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.VERTICAL));
+        mRvWork.setAdapter(mManeuverAdapter);
 
         mMapModel.getProvinceData(new MapModel.onResultProvinceListener() {
             @Override
@@ -138,15 +163,24 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
                 }
             }
         });
-        mWorkList.add(new WorkBean("水电工"));
-        mWorkList.add(new WorkBean("木工"));
-        mWorkList.add(new WorkBean("土建"));
-        mWorkList.add(new WorkBean("焊工"));
 
-        mManeuverAdapter.setDataList(mWorkList);
-        mRvWork.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        mRvWork.addItemDecoration(new RecycleViewDivider(this,LinearLayoutManager.VERTICAL));
-        mRvWork.setAdapter(mManeuverAdapter);
+        mManeuverModel.getAllWorkType(new ManeuverModel.OngetAllWorkTypeListener() {
+            @Override
+            public void Result(boolean isSuccess, List<WorkBean> data) {
+                if (isSuccess) {
+                    mWorkList = data;
+                    mManeuverAdapter.notifyData(mWorkList);
+                }
+            }
+        });
+        //        mWorkList.add(new WorkBean("水电工"));
+        //        mWorkList.add(new WorkBean("木工"));
+        //        mWorkList.add(new WorkBean("土建"));
+        //        mWorkList.add(new WorkBean("焊工"));
+
+
+
+
 
     }
 
@@ -157,15 +191,57 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClick(BaseViewHolder holder) {
                 //点击切换选中的工种颜色
-                for (int i = 0; i <mWorkList.size() ; i++) {
-                    if (i==holder.getPosition()){
+                for (int i = 0; i < mWorkList.size(); i++) {
+                    if (i == holder.getPosition()) {
                         mWorkList.get(i).setCheck(true);
+                        //                        Log.e("@#",mWorkList.get(i).)
                         continue;
                     }
                     mWorkList.get(i).setCheck(false);
                 }
                 mManeuverAdapter.notifyData(mWorkList);
                 mTvWork.performClick();
+            }
+        });
+
+        mTrlLore.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                getAllPersonal(true,"null,null,null,null,null");
+            }
+
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                getAllPersonal(false,"null,null,null,null,null");
+            }
+        });
+    }
+    private int mPage=1;
+    private void getAllPersonal(final  boolean isRefresh,String condition){
+
+        if (isRefresh){
+            mPage=1;
+        }
+        mManeuverModel.getAllPersonal(condition, mPage, new ManeuverModel.OngetAllPersonalListener() {
+            @Override
+            public void Result(boolean isSuccess, final List<ManeuverBean> data) {
+                if (isSuccess){
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isRefresh){
+                                //刷新
+                                mWorkAdapter.notifyData(data);
+                                mTrlLore.finishRefreshing();
+                            }else {
+                                //加载更多
+                                mWorkAdapter.LoadMoreData(data);
+                                mTrlLore.finishLoadmore();
+                            }
+                            mPage++;
+                        }
+                    }, 1500);
+                }
             }
         });
     }
@@ -261,8 +337,8 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
      */
     private void setWorkSelector() {
         ValueAnimator animator = null;
-        mLlWork.measure(0,0);
-        selecrotWorkHeight =  mLlWork.getMeasuredHeight();
+        mLlWork.measure(0, 0);
+        selecrotWorkHeight = mLlWork.getMeasuredHeight();
         if (!isHideWork) {
             animator = ValueAnimator.ofInt(0, selecrotWorkHeight);
             isHideWork = true;

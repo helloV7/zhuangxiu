@@ -57,7 +57,7 @@ public class EvaluateDetailActivity extends BaseActivity {
         mEvaluateModel.getEvaluateData(BaseUtil.getSpString(Const.PositionID), ProjectID, new EvaluateModel.OngetEvaluateDataListener() {
             @Override
             public void Result(boolean isSuccess , List<EvaluateBean> data) {
-                if (isSuccess){
+                if (isSuccess && data.size()>0){
                     EvaluateBean bean =data.get(0);
                     mTvHostEvaluate.setText(bean.getEvalk());
                     mRbEvaluate.setRating(Integer.valueOf(bean.getStar()));
@@ -65,8 +65,6 @@ public class EvaluateDetailActivity extends BaseActivity {
                     mTvStime.setText(BaseUtil.getTime(bean.getTimes()));
                     mTvBEvaluation.setText(bean.getEvalb());
                     mTvBtime.setText(BaseUtil.getTime(bean.getTimeb()));
-
-
                 }
             }
         });
