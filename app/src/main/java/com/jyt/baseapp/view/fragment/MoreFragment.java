@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jyt.baseapp.R;
+import com.jyt.baseapp.bean.InfoBean;
+import com.jyt.baseapp.model.PersonModel;
 import com.jyt.baseapp.view.activity.AboutUsActivity;
 import com.jyt.baseapp.view.activity.LocationActivity;
 import com.jyt.baseapp.view.activity.ManeuverActivity;
@@ -36,6 +38,11 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
     JumpItem mItemAbout;
     Unbinder unbinder;
 
+    private PersonModel mPersonModel;
+    private InfoBean mInfoBean;
+
+
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_more;
@@ -44,6 +51,15 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mPersonModel = new PersonModel();
+        mPersonModel.getPersonInfo(new PersonModel.OngetPersonInfoListener() {
+            @Override
+            public void Result(boolean isSuccess, InfoBean data) {
+                if (isSuccess){
+                    mInfoBean = data;
+                }
+            }
+        });
         initListener();
     }
 
@@ -73,7 +89,11 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.item_info:
-                getActivity().startActivity(new Intent(getActivity(), PersonInfoActivity.class));
+                if (mInfoBean!=null){
+                    Intent intent = new Intent(getActivity(), PersonInfoActivity.class);
+                    intent.putExtra("Personinfo",mInfoBean);
+                    startActivity(intent);
+                }
                 break;
             case R.id.item_maneuver:
                 getActivity().startActivity(new Intent(getActivity(), ManeuverActivity.class));

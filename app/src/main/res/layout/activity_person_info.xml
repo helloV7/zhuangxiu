@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="姓名"
-            app:msg="张三"
+            app:msg=""
             app:colormsg="@color/text_color1"/>
 
         <com.jyt.baseapp.view.widget.JumpItem
@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="联系方式"
-            app:msg="13800138000"
+            app:msg=""
             app:colormsg="@color/text_color1"/>
 
         <com.jyt.baseapp.view.widget.JumpItem
@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="部门"
-            app:msg="设计部"
+            app:msg=""
             app:colormsg="@color/text_color1"/>
 
         <com.jyt.baseapp.view.widget.JumpItem
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:title="岗位"
-            app:msg="设计师"
+            app:msg=""
             app:colormsg="@color/text_color1"/>
     </LinearLayout>
 

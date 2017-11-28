@@ -10,6 +10,9 @@ import android.os.Parcelable;
 public class Person implements Parcelable {
     private String id;
     private String name;
+    private String mobile;
+    private String dept;
+    private String post;
 
     public Person() {
     }
@@ -45,6 +48,30 @@ public class Person implements Parcelable {
 
     public String getName() {
         return name;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getDept() {
+        return dept;
+    }
+
+    public void setDept(String dept) {
+        this.dept = dept;
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post;
     }
 
     @Override

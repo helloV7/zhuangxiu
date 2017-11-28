@@ -48,4 +48,7 @@ public class FileFragment extends BaseFragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
+
+
 }

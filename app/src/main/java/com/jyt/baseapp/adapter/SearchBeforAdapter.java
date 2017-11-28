@@ -10,14 +10,14 @@ import com.jyt.baseapp.view.viewholder.SearchBeforViewHolder;
  */
 public class SearchBeforAdapter extends BaseRcvAdapter {
 
-    BaseViewHolder.OnViewHolderClickListener listener;
+
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         SearchBeforViewHolder holder=new SearchBeforViewHolder(parent);
         holder.setOnViewHolderClickListener(listener);
         return holder;
     }
-
+    BaseViewHolder.OnViewHolderClickListener listener;
     public void setOnViewHolderClickListener(BaseViewHolder.OnViewHolderClickListener listener){
         this.listener=listener;
     }

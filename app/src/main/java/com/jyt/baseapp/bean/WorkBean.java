@@ -2,7 +2,7 @@ package com.jyt.baseapp.bean;
 
 import com.google.gson.annotations.SerializedName;
 
-/**
+/**工种
  * @author LinWei on 2017/11/24 13:44
  */
 public class WorkBean {

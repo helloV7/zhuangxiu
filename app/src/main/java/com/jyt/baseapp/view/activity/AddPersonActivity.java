@@ -3,28 +3,27 @@ package com.jyt.baseapp.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.KeyEvent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 import com.jyt.baseapp.R;
-import com.jyt.baseapp.adapter.ManeuverAdapter;
+import com.jyt.baseapp.adapter.WorkAdapter;
 import com.jyt.baseapp.bean.MapBean;
 import com.jyt.baseapp.bean.WorkBean;
 import com.jyt.baseapp.itemDecoration.RecycleViewDivider;
+import com.jyt.baseapp.model.ManeuverModel;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
@@ -65,19 +64,25 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
     private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
     private static final int PHOTO_REQUEST_CUT = 3;// 结果
     private int mtotalWidth;
-    private CircleImageView mCiv;
+
 
     private MyDialog mDialog_city;
     private MyDialog mDialog_work;
+    private ManeuverModel mManeuverModel;
     private MapModel mMapModel;
     private MapBean mMapBean;
-    public StringBuilder Scity;//城市区域
-    public String SProvince;//省
-    private ManeuverAdapter mManeuverAdapter;
+    public StringBuilder SPCA;//省市区
+    private WorkAdapter mWorkAdapter;
     private List<WorkBean> mWorkList;
-    public String SWork;//工种
-    public String SName;//姓名
-    public String SPhone;//联系方式
+    private boolean isUpload;
+    public String SProvince="";//省
+    public String SCity="";//市
+    public String SArea="";//区
+    private String SName="";//姓名
+    private String STel="";
+    private String SWork="";//工种
+    private String SWorkID="";//工种ID
+
     private MapSelector mCitySelector;
     private RecyclerView mRv_work;
 
@@ -104,13 +109,14 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
 
     private void init(){
         setTextTitle("添加机动人员");
-        mManeuverAdapter = new ManeuverAdapter();
+        mManeuverModel=new ManeuverModel();
+        mWorkAdapter = new WorkAdapter();
         mWorkList =new ArrayList<>();
         mMapModel =new MapModel();
         WindowManager wm = (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
         mtotalWidth = wm.getDefaultDisplay().getWidth();
         mMapBean=new MapBean();
-        Scity=new StringBuilder();
+        SPCA =new StringBuilder();
     }
 
     /**
@@ -153,10 +159,12 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
 
             @Override
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
-                Scity.setLength(0);
-                Scity.append(SProvince+CityName+AreaName);
-                Log.e("@#", "=" + Scity.toString());
-                mJumpCity.setNext(false,Scity.toString());
+                SPCA.setLength(0);
+                SPCA.append(SProvince+CityName+AreaName);
+                mJumpCity.setNext(false, SPCA.toString());
+                SCity=CityName;
+                SArea=AreaName;
+                isCanUpLoad();
                 mDialog_city.dismiss();
             }
 
@@ -197,21 +205,28 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
             }
         });
 
-        mWorkList.add(new WorkBean("水电工"));
-        mWorkList.add(new WorkBean("木工"));
-        mWorkList.add(new WorkBean("土建"));
-        mWorkList.add(new WorkBean("焊工"));
-        mManeuverAdapter.setDataList(mWorkList);
+        mManeuverModel.getAllWorkType(new ManeuverModel.OngetAllWorkTypeListener() {
+            @Override
+            public void Result(boolean isSuccess, List<WorkBean> data) {
+                if (isSuccess) {
+                    mWorkList = data;
+                    mWorkAdapter.notifyData(mWorkList);
+                }
+            }
+        });
+
         mRv_work.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         mRv_work.addItemDecoration(new RecycleViewDivider(this,LinearLayoutManager.VERTICAL));
-        mRv_work.setAdapter(mManeuverAdapter);
+        mRv_work.setAdapter(mWorkAdapter);
 
     }
 
     private void initListener(){
         mJumpCity.setOnClickListener(this);
         mJumpWork.setOnClickListener(this);
-        mManeuverAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
+        mCivPic.setOnClickListener(this);
+        mBtnSubmit.setOnClickListener(this);
+        mWorkAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
             @Override
             public void onClick(BaseViewHolder holder) {
                 //点击切换选中的工种颜色
@@ -219,49 +234,56 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
                     if (i==holder.getPosition()){
                         mWorkList.get(i).setCheck(true);
                         SWork=mWorkList.get(i).getType();
+                        SWorkID=mWorkList.get(i).getId();
                         mJumpWork.setNext(false,SWork);
+                        isCanUpLoad();
                         continue;
                     }
                     mWorkList.get(i).setCheck(false);
                 }
-                mManeuverAdapter.notifyData(mWorkList);
+                mWorkAdapter.notifyData(mWorkList);
 
                 mDialog_work.dismiss();
             }
         });
-    }
 
-
-    /**
-     * 生产PopupWindow
-     *
-     * @param popView
-     * @return
-     */
-    private PopupWindow CreatePopWindow(View popView) {
-        final PopupWindow popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.setTouchable(true);
-        popupWindow.setFocusable(false);
-        popupWindow.setOutsideTouchable(false);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
-//        popupWindow.setAnimationStyle(R.style.popAnim);
-        popupWindow.getContentView().setFocusableInTouchMode(false);
-        popupWindow.getContentView().setFocusable(true);
-        popupWindow.getContentView().setOnKeyListener(new View.OnKeyListener() {
+        mEtName.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                Log.e("@#",keyCode+"");
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    if (popupWindow != null && popupWindow.isShowing()) {
-                        popupWindow.dismiss();
-                    }
-                    return true;
-                }
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                isCanUpLoad();
             }
         });
-        return popupWindow;
+
+        mEtPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                isCanUpLoad();
+            }
+        });
+
     }
+
+
 
 
     /**
@@ -333,7 +355,7 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ops);
             Glide.with(AddPersonActivity.this)
                     .load(picture)
-                    .into(mCiv);
+                    .into(mCivPic);
             ops.flush();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -367,10 +389,48 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
                     mDialog_work.show();
                 }
                 break;
+            case R.id.civ_pic:
+                gallery();
+                break;
+            case R.id.btn_submit:
+                if (!isUpload){
+                    BaseUtil.makeText("参数缺失");
+                    return;
+                }
+                mManeuverModel.addManeuver("", SName, STel, SWorkID, SProvince, SCity, SCity, new ManeuverModel.OnaddManeuverListener() {
+                    @Override
+                    public void Result(boolean isSuccess) {
+                        if (isSuccess){
+                            BaseUtil.makeText("新增机动人员成功");
+                            finish();
+                        }
+                    }
+                });
+
+                break;
 
 
             default:
                 break;
+        }
+    }
+
+    private void isCanUpLoad(){
+        SName=mEtName.getText().toString();
+        STel=mEtPhone.getText().toString();
+//        pictureFile!=null
+//                &&
+        if ( SName.length()>0
+                && STel.length()>0
+                && SWorkID.length()>0
+                && SProvince.length()>0
+                && SCity.length()>0
+                && SArea.length()>0){
+            mBtnSubmit.setBackground(getResources().getDrawable(R.drawable.bg_corner_blue2));
+            isUpload=true;
+        }else {
+            mBtnSubmit.setBackground(getResources().getDrawable(R.drawable. btn_add_off));
+            isUpload=false;
         }
     }
 

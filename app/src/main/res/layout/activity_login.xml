@@ -30,6 +30,7 @@
             android:singleLine="true"
             android:imeOptions="actionDone"
             android:hint="请输入密码"
+            android:inputType="numberPassword"
             android:paddingLeft="15dp"
             android:textColorHint="@color/et_login_hint"
             android:background="@drawable/input_login"/>

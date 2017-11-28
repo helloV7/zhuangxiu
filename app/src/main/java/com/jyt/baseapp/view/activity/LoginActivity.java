@@ -49,6 +49,7 @@ public class LoginActivity extends BaseActivity {
             finish();
         }
         mLoginModel=new LoginModel();
+        Const.createFileMkdirs();
     }
 
     @OnClick(R.id.btn_submit)
@@ -66,6 +67,9 @@ public class LoginActivity extends BaseActivity {
                     Const.KeepLoginState(user.getDepartmentId(),user.getNickName(),user.getPositionId(),user.getTokenSession());
                     startActivity(new Intent(LoginActivity.this,ContentActivity.class));
                     finish();
+                    BaseUtil.makeText("登录成功");
+                }else {
+                    BaseUtil.makeText("登录失败");
                 }
             }
         });

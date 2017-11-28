@@ -24,6 +24,7 @@ import com.jyt.baseapp.model.ManeuverModel;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
+import com.jyt.baseapp.view.widget.LoadingDialog;
 import com.jyt.baseapp.view.widget.MapSelector;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
@@ -52,15 +53,17 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
 
     private MapModel mMapModel;
     private ManeuverModel mManeuverModel;
+    private LoadingDialog mLoadingDialog;
     private MapBean mMapBean;
+    private WorkAdapter mWorkAdapter;
     private ManeuverAdapter mManeuverAdapter;
     private int mtotalWidth;
     private int selecrotHeight = BaseUtil.dip2px(380);
     private int selecrotWorkHeight;
     private boolean isHideCity;
     private boolean isHideWork;
-    private WorkAdapter mWorkAdapter;
     private List<WorkBean> mWorkList;
+    private String str_province;
     private boolean isShowCity = true;
     private boolean isShowWork = true;
 
@@ -87,20 +90,15 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
         mMapBean = new MapBean();
         mMapModel = new MapModel();
         mManeuverModel = new ManeuverModel();
+        mLoadingDialog=new LoadingDialog(this);
         mWorkList = new ArrayList<>();
-        mManeuverAdapter = new ManeuverAdapter();
-        mWorkAdapter = new WorkAdapter();
+        mWorkAdapter = new WorkAdapter();//工种
+        mManeuverAdapter = new ManeuverAdapter();//机动人员
         WindowManager wm = (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
         mtotalWidth = wm.getDefaultDisplay().getWidth();
         setTextTitle("机动人员");
         setIvFunction(R.mipmap.btn_add);
-        setOnClickFunctionListener(new OnClickFunctionListener() {
-            @Override
-            public void onClick() {
-                startActivity(new Intent(ManeuverActivity.this, AddPersonActivity.class));
-            }
-        });
-
+        mLoadingDialog.show();
 
     }
 
@@ -116,11 +114,13 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClickProvince(int ProvinceID, String ProvinceName) {
                 ChangeProvince(ProvinceID);
+                str_province=ProvinceName;
             }
 
             @Override
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
-
+                NotifySearchType(str_province+","+CityName+","+AreaName+",null,null");
+                mTvCity.performClick();
             }
 
             @Override
@@ -130,18 +130,20 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
         });
 
 
+
+
     }
 
     private void initData() {
         mRvContainer.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        mRvContainer.setAdapter(mWorkAdapter);
+        mRvContainer.setAdapter(mManeuverAdapter);
         mRvContainer.addItemDecoration(new SpacesItemDecoration(0,5));
-        getAllPersonal(true,"null,null,null,null,null");
+        getAllPersonal(true);
 
 
         mRvWork.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         mRvWork.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.VERTICAL));
-        mRvWork.setAdapter(mManeuverAdapter);
+        mRvWork.setAdapter(mWorkAdapter);
 
         mMapModel.getProvinceData(new MapModel.onResultProvinceListener() {
             @Override
@@ -149,6 +151,7 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
                 if (isSuccess) {
                     mMapBean.mProvinces = data;
                     mMapBean.mProvinces.get(0).isCheckProvince = true;
+                    str_province= mMapBean.mProvinces.get(0).ProvinceName;//默认第一个
                     mSelectorCity.setProvinceAdapter(mMapBean, ManeuverActivity.this);
                 }
             }
@@ -169,17 +172,10 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
             public void Result(boolean isSuccess, List<WorkBean> data) {
                 if (isSuccess) {
                     mWorkList = data;
-                    mManeuverAdapter.notifyData(mWorkList);
+                    mWorkAdapter.notifyData(mWorkList);
                 }
             }
         });
-        //        mWorkList.add(new WorkBean("水电工"));
-        //        mWorkList.add(new WorkBean("木工"));
-        //        mWorkList.add(new WorkBean("土建"));
-        //        mWorkList.add(new WorkBean("焊工"));
-
-
-
 
 
     }
@@ -187,19 +183,19 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
     private void initListener() {
         mTvCity.setOnClickListener(this);
         mTvWork.setOnClickListener(this);
-        mManeuverAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
+        mWorkAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
             @Override
             public void onClick(BaseViewHolder holder) {
                 //点击切换选中的工种颜色
                 for (int i = 0; i < mWorkList.size(); i++) {
                     if (i == holder.getPosition()) {
                         mWorkList.get(i).setCheck(true);
-                        //                        Log.e("@#",mWorkList.get(i).)
+                        NotifySearchType("null,null,null,"+mWorkList.get(i).getId()+",null");
                         continue;
                     }
                     mWorkList.get(i).setCheck(false);
                 }
-                mManeuverAdapter.notifyData(mWorkList);
+                mWorkAdapter.notifyData(mWorkList);
                 mTvWork.performClick();
             }
         });
@@ -207,22 +203,30 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
         mTrlLore.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
-                getAllPersonal(true,"null,null,null,null,null");
+                getAllPersonal(true);
             }
 
             @Override
             public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
-                getAllPersonal(false,"null,null,null,null,null");
+                getAllPersonal(false);
             }
         });
+
+        setOnClickFunctionListener(new OnClickFunctionListener() {
+            @Override
+            public void onClick() {
+                startActivity(new Intent(ManeuverActivity.this, AddPersonActivity.class));
+            }
+        });
+
     }
     private int mPage=1;
-    private void getAllPersonal(final  boolean isRefresh,String condition){
+    private void getAllPersonal(final  boolean isRefresh){
 
         if (isRefresh){
             mPage=1;
         }
-        mManeuverModel.getAllPersonal(condition, mPage, new ManeuverModel.OngetAllPersonalListener() {
+        mManeuverModel.getAllPersonal("null,null,null,null,null", mPage, new ManeuverModel.OngetAllPersonalListener() {
             @Override
             public void Result(boolean isSuccess, final List<ManeuverBean> data) {
                 if (isSuccess){
@@ -231,11 +235,14 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
                         public void run() {
                             if (isRefresh){
                                 //刷新
-                                mWorkAdapter.notifyData(data);
+                                if (mLoadingDialog.isShowing()){
+                                    mLoadingDialog.dismiss();
+                                }
+                                mManeuverAdapter.notifyData(data);
                                 mTrlLore.finishRefreshing();
                             }else {
                                 //加载更多
-                                mWorkAdapter.LoadMoreData(data);
+                                mManeuverAdapter.LoadMoreData(data);
                                 mTrlLore.finishLoadmore();
                             }
                             mPage++;
@@ -258,6 +265,21 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
                 if (isSuccess) {
                     mMapBean.mCities = data;
                     mSelectorCity.notifyData(mMapBean);
+                }
+            }
+        });
+    }
+
+    /**
+     * 改变地点、工种类型进行搜索
+     * @param condition
+     */
+    private void NotifySearchType(String condition){
+        mManeuverModel.getAllPersonal(condition, 1, new ManeuverModel.OngetAllPersonalListener() {
+            @Override
+            public void Result(boolean isSuccess, final List<ManeuverBean> data) {
+                if (isSuccess){
+                    mManeuverAdapter.notifyData(data);
                 }
             }
         });

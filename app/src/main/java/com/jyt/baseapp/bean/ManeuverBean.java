@@ -1,6 +1,6 @@
 package com.jyt.baseapp.bean;
 
-/**
+/**机动人员
  * @author LinWei on 2017/11/27 16:58
  */
 public class ManeuverBean {

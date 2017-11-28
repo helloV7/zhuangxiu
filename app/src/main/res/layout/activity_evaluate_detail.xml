@@ -78,7 +78,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2017.08.10  13:01"
+                        android:text=""
                         android:textSize="13dp"
                         android:textColor="@color/map_text1"/>
                 </RelativeLayout>
@@ -123,7 +123,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="2017.08.10  13:01"
+                        android:text=""
                         android:textSize="13dp"
                         android:textColor="@color/map_text1"/>
                 </RelativeLayout>

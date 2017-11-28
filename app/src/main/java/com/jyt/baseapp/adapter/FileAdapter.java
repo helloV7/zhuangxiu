@@ -3,18 +3,16 @@ package com.jyt.baseapp.adapter;
 import android.view.ViewGroup;
 
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
-import com.jyt.baseapp.view.viewholder.ManeuverViewHolder;
+import com.jyt.baseapp.view.viewholder.FileViewHolder;
 
 /**
- * @author LinWei on 2017/11/27 17:43
+ * @author LinWei on 2017/11/28 11:24
  */
-public class ManeuverAdapter extends BaseRcvAdapter{
+public class FileAdapter extends BaseRcvAdapter{
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        ManeuverViewHolder holder = new ManeuverViewHolder(parent);
+        FileViewHolder holder =new FileViewHolder(parent);
         holder.setOnViewHolderClickListener(onViewHolderClickListener);
         return holder;
     }
-
-
 }

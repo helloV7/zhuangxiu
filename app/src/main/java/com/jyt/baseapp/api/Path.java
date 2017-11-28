@@ -27,4 +27,6 @@ public class Path {
      */
     public final static String URL_MapDatas = BasePath+"getList";
 
+    public final static String URL_UploadData=BasePath+"typework/personalIOE";
+
 }

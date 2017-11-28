@@ -4,8 +4,8 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:layout_gravity="center"
-    android:background="@mipmap/trip_bg_toast" >
-
+    >
+//android:background="@mipmap/trip_bg_toast"
     <View
         android:layout_width="100dp"
         android:layout_height="100dp"

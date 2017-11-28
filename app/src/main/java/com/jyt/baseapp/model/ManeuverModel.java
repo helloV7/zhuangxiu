@@ -18,6 +18,10 @@ import okhttp3.Call;
  */
 public class ManeuverModel {
 
+    /**
+     * 获取全部的工种
+     * @param listener
+     */
     public void getAllWorkType(final OngetAllWorkTypeListener listener){
         OkHttpUtils
                 .get()
@@ -48,6 +52,12 @@ public class ManeuverModel {
         void Result(boolean isSuccess, List<WorkBean> data);
     }
 
+    /**
+     * 获取指定条件的工人
+     * @param condition
+     * @param page
+     * @param listener
+     */
     public void getAllPersonal(String condition,
                                int page,
                                final OngetAllPersonalListener listener){
@@ -62,7 +72,9 @@ public class ManeuverModel {
                 .execute(new BeanCallback<BaseJson<List<ManeuverBean>>>() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
-
+                        if (listener!=null){
+                            listener.Result(false,null);
+                        }
                     }
 
                     @Override
@@ -80,5 +92,40 @@ public class ManeuverModel {
 
     public interface OngetAllPersonalListener{
         void Result(boolean isSuccess, List<ManeuverBean> data);
+    }
+
+    public void addManeuver(String image,String name ,String tel ,String workId ,String province ,String city ,String area,final OnaddManeuverListener listener){
+        OkHttpUtils
+                .post()
+                .url(Path.URL_UploadData)
+                .addParams("token", BaseUtil.getSpString(Const.UserToken))
+                .addParams("personalname",name)
+                .addParams("tel",tel)
+                .addParams("province",province)
+                .addParams("city",city)
+                .addParams("area",area)
+                .addParams("workTypeId",workId)
+                .addParams("image",image)
+                .build()
+                .execute(new BeanCallback<BaseJson<String>>() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(BaseJson<String> response, int id) {
+                        if (response.ret){
+                            if (listener!=null){
+                                listener.Result(true);
+                            }
+                        }
+                    }
+                });
+
+    }
+
+    public interface OnaddManeuverListener{
+        void Result(boolean isSuccess);
     }
 }
