@@ -1,7 +1,5 @@
 package com.jyt.baseapp.model;
 
-import android.util.Log;
-
 import com.jyt.baseapp.api.Const;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.FileCallBack;
