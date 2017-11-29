@@ -5,11 +5,13 @@
               android:layout_height="match_parent"
               android:gravity="center_horizontal">
     <ImageView
+        android:id="@+id/iv_fileLogo"
         android:layout_marginTop="100dp"
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:src="@mipmap/icon_word"/>
     <TextView
+        android:id="@+id/tv_fileName"
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,47 +19,58 @@
         android:textSize="16dp"
         android:textColor="@color/text_color1"/>
     <LinearLayout
+        android:visibility="invisible"
+        android:id="@+id/ll_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
-        <ProgressBar
-            android:id="@+id/pb_download"
-            android:layout_marginTop="16dp"
-            android:layout_width="256dp"
-            android:layout_height="10dp"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:max="100"
-            android:progress="40"
-            android:progressDrawable="@drawable/progress_bar_drawable"/>
-        <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="5dp"
-            android:src="@mipmap/icon_sel"
-            android:layout_gravity="bottom"/>
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+            <ProgressBar
+                android:id="@+id/pb_download"
+                android:layout_marginTop="16dp"
+                android:layout_width="256dp"
+                android:layout_height="10dp"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/progress_bar_drawable"/>
+            <ImageView
+                android:id="@+id/iv_pause"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="5dp"
+                android:src="@mipmap/icon_sel"
+                android:layout_gravity="bottom"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_progress"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0/100"
+            android:textSize="13dp"
+            android:textColor="@color/map_text2"/>
     </LinearLayout>
-    <TextView
-        android:id="@+id/tv_progress"
-        android:layout_marginTop="5dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0/100"
-        android:textSize="13dp"
-        android:textColor="@color/map_text2"/>
+
 
     <View
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
     <Button
+        android:id="@+id/btn_download"
         android:layout_marginLeft="47dp"
         android:layout_marginRight="47dp"
         android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
-        android:text="开始下载"
+        android:text="用其他应用打开"
         android:textColor="@color/white"
         android:layout_height="60dp"
         android:background="@drawable/bg_corner_blue2"/>

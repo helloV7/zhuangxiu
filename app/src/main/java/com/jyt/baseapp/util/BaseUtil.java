@@ -7,13 +7,17 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.os.Handler;
+import android.os.StatFs;
+import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.jyt.baseapp.App;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -229,6 +233,86 @@ public class BaseUtil {
         Pattern p = Pattern.compile(regExp);
         Matcher m = p.matcher(value);
         return m.find();//boolean
+    }
+
+    /**
+     * 获得SD卡总大小
+     *
+     * @return
+     */
+    public static String getSDTotalSize() {
+        File path = Environment.getExternalStorageDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long totalBlocks = stat.getBlockCount();
+        return Formatter.formatFileSize(getContext(), blockSize * totalBlocks);
+    }
+
+    /**
+     * 获得sd卡剩余容量，即可用大小
+     *
+     * @return
+     */
+    public static String getSDAvailableSize() {
+        File path = Environment.getExternalStorageDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long availableBlocks = stat.getAvailableBlocks();
+        return Formatter.formatFileSize(getContext(), blockSize * availableBlocks);
+    }
+
+    /**
+     * 获得sd卡剩余容量，即可用大小
+     *
+     * @return
+     */
+    public static long getSDAvailableSizeNum() {
+        File path = Environment.getExternalStorageDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long availableBlocks = stat.getAvailableBlocks();
+        return availableBlocks*blockSize;
+    }
+
+
+
+    /**
+     * 获得机身内存总大小
+     *
+     * @return
+     */
+    public static String getRomTotalSize() {
+        File path = Environment.getDataDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long totalBlocks = stat.getBlockCount();
+        return Formatter.formatFileSize(getContext(), blockSize * totalBlocks);
+    }
+
+    /**
+     * 获得机身可用内存
+     *
+     * @return
+     */
+    public static String getRomAvailableSize() {
+        File path = Environment.getDataDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long availableBlocks = stat.getAvailableBlocks();
+        return Formatter.formatFileSize(getContext(), blockSize * availableBlocks);
+    }
+
+    /**
+     * 获得机身可用内存
+     *
+     * @return
+     */
+    public static long getRomAvailableSizeNum() {
+        File path = Environment.getDataDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long availableBlocks = stat.getAvailableBlocks();
+        return availableBlocks*blockSize;
     }
 
 }
