@@ -67,6 +67,8 @@ public class ShopNewsFragment extends BaseFragment {
     LinearLayout mLlReason;
     private SearchBean mInfo;
     private ShopModel mShopModel;
+    private boolean isPush;
+    private boolean CanChange=true;
     Unbinder unbinder;
 
     @Override
@@ -108,6 +110,14 @@ public class ShopNewsFragment extends BaseFragment {
             mTvReason.setText(data.getReason());
         }
 
+        if ("0".equals(data.getIspush())){
+            mSvPush.setOpened(false);
+            isPush=false;
+        }else {
+            isPush=true;
+            mSvPush.setOpened(true);
+        }
+
         mItShopName.setRightText(data.getProjectName());
         mItNumber.setRightText(data.getProjectCode());
         mItUserName.setRightText(data.getShopkeeperName());
@@ -141,6 +151,38 @@ public class ShopNewsFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), EvaluateDetailActivity.class);
                 intent.putExtra("ProjectId",mInfo.getProjectId());
                 startActivity(intent);
+            }
+        });
+
+        mSvPush.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (CanChange){
+                    if (isPush){
+                        ChangePushState("0");
+                    }else {
+                        ChangePushState("1");
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void ChangePushState(String state){
+        mShopModel.ChangePushState(mInfo.getProjectId(), state, new ShopModel.OnChangeStateListener() {
+            @Override
+            public void Result(boolean isSuccess) {
+                CanChange=true;
+                if (isSuccess){
+                    if (isPush){
+                        isPush=false;
+                        mSvPush.setOpened(false);
+                    }else {
+                        mSvPush.setOpened(true);
+                        isPush=true;
+                    }
+                }
             }
         });
     }

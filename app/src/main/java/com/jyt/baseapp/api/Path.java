@@ -26,7 +26,11 @@ public class Path {
      * 获取品牌信息
      */
     public final static String URL_MapDatas = BasePath+"getList";
-
+    /**
+     * 上传新增人员信息
+     */
     public final static String URL_UploadData=BasePath+"typework/personalIOE";
+
+    public final static String URL_ChangeState=BasePath+"project/push";
 
 }

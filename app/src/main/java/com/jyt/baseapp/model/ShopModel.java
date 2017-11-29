@@ -151,4 +151,35 @@ public class ShopModel {
     public interface OngetStationRoleListener{
         void Result(boolean isSuccess,Exception e,List<Integer> data);
     }
+
+    public void ChangePushState(String ProjectID,String state,final OnChangeStateListener listener){
+        OkHttpUtils
+                .post()
+                .url(Path.URL_ChangeState)
+                .addParams("token", BaseUtil.getSpString(Const.UserToken))
+                .addParams("projectId",ProjectID)
+                .addParams("ispush",state)
+                .build()
+                .execute(new BeanCallback<BaseJson<String>>() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        if (listener != null){
+                            listener.Result(false);
+                        }
+                    }
+
+                    @Override
+                    public void onResponse(BaseJson<String> response, int id) {
+                        if (listener != null){
+                            listener.Result(true);
+                        }else {
+                            listener.Result(false);
+                        }
+                    }
+                });
+    }
+
+    public interface OnChangeStateListener{
+        void Result(boolean isSuccess);
+    }
 }

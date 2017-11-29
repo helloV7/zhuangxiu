@@ -32,6 +32,7 @@ public class ShopBean {
     private String protel;
     private String isfrozen;//0 没暂停
     private String reason;
+    private String ispush;
 
     public int getSchedule() {
         return schedule;
@@ -255,5 +256,13 @@ public class ShopBean {
 
     public void setMeastel(String meastel) {
         this.meastel = meastel;
+    }
+
+    public String getIspush() {
+        return ispush;
+    }
+
+    public void setIspush(String ispush) {
+        this.ispush = ispush;
     }
 }
