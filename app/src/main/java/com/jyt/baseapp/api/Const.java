@@ -22,7 +22,8 @@ public class Const {
     public final static String Tag_LocationShop ="location";
     public final static String Tag_LocationWorker="worker";
     public final static String Tag_Download="download";
-    public final static String endpoint ="oss-cn-shenzhen.aliyuncs.com";
+    public final static String endpoint ="http://oss-cn-shenzhen.aliyuncs.com";
+    public final static String BucketName="mingya-oss";
     public final static String AccessKeyId="LTAIfx2tgz94DBbX";
     public final static String SecretKeyId="oKrkinHaJf3CbIrgQIrPhcK3ejgCcW";
     public final static String mMainFile = Environment.getExternalStorageDirectory().getPath() + File.separator + "mingya";

@@ -5,6 +5,7 @@ import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.api.Path;
 import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.bean.ManeuverBean;
+import com.jyt.baseapp.bean.OssBean;
 import com.jyt.baseapp.bean.WorkBean;
 import com.jyt.baseapp.util.BaseUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -128,4 +129,31 @@ public class ManeuverModel {
     public interface OnaddManeuverListener{
         void Result(boolean isSuccess);
     }
+
+    public void getOssAliyunKey( final OngetOssAliyunListener listener){
+        OkHttpUtils
+                .get()
+                .url(Path.URL_StsKey)
+                .addParams("token", BaseUtil.getSpString(Const.UserToken))
+                .build()
+                .execute(new BeanCallback<BaseJson<OssBean>>() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(BaseJson<OssBean> response, int id) {
+                        if(listener!=null && response.ret){
+                            listener.Result(true,response.data);
+                        }
+                    }
+                });
+    }
+
+    public interface OngetOssAliyunListener{
+        void Result(boolean isSuccess , OssBean bean);
+    }
+
+
 }

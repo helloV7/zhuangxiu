@@ -33,4 +33,8 @@ public class Path {
 
     public final static String URL_ChangeState=BasePath+"project/push";
 
+    public final static String URL_StsKey=BasePath+"typework/getsts";
+
+    public final static String URL_Ayiyun="http://mingya-oss.oss-cn-shenzhen.aliyuncs.com/";
+
 }

@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,10 +18,24 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.alibaba.sdk.android.oss.ClientConfiguration;
+import com.alibaba.sdk.android.oss.ClientException;
+import com.alibaba.sdk.android.oss.OSS;
+import com.alibaba.sdk.android.oss.OSSClient;
+import com.alibaba.sdk.android.oss.ServiceException;
+import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
+import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider;
+import com.alibaba.sdk.android.oss.model.PutObjectRequest;
+import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.bumptech.glide.Glide;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.WorkAdapter;
+import com.jyt.baseapp.api.Const;
+import com.jyt.baseapp.api.Path;
+import com.jyt.baseapp.api.ProgressCallback;
+import com.jyt.baseapp.api.PutObjectSamples;
 import com.jyt.baseapp.bean.MapBean;
+import com.jyt.baseapp.bean.OssBean;
 import com.jyt.baseapp.bean.WorkBean;
 import com.jyt.baseapp.itemDecoration.RecycleViewDivider;
 import com.jyt.baseapp.model.ManeuverModel;
@@ -38,6 +53,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -82,9 +98,12 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
     private String STel="";
     private String SWork="";//工种
     private String SWorkID="";//工种ID
+    private String SPic="";
+    private String mFileName;//
 
     private MapSelector mCitySelector;
     private RecyclerView mRv_work;
+    private OSS mOSS;
 
 
     @Override
@@ -117,21 +136,38 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
         mtotalWidth = wm.getDefaultDisplay().getWidth();
         mMapBean=new MapBean();
         SPCA =new StringBuilder();
+        //初始化OSS
+        mManeuverModel.getOssAliyunKey(new ManeuverModel.OngetOssAliyunListener() {
+            @Override
+            public void Result(boolean isSuccess, OssBean bean) {
+                if (isSuccess){
+                    Log.e("@#",bean.getAccessKeyId());
+                    Log.e("@#",bean.getAccessKeySecret());
+                    Log.e("@#",bean.getSecurityToken());
+                    String AccessKeyId = bean.getAccessKeyId();
+                    String SecretId = bean.getAccessKeySecret();
+                    String token = bean.getSecurityToken();
+//                    OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(mOssBean.getAccessKeyId().trim(),mOssBean.getAccessKeySecret().trim(),mOssBean.getAccessKeySecret().trim());
+                    OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(AccessKeyId,SecretId,token);
+                    ClientConfiguration conf = new ClientConfiguration();
+                    conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
+                    conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒
+                    conf.setMaxConcurrentRequest(5); // 最大并发请求数，默认5个
+                    conf.setMaxErrorRetry(2); // 失败后最大重试次数，默认2次
+                    mOSS = new OSSClient(getApplicationContext(), Const.endpoint,credentialProvider,conf);
+                }
+            }
+        });
+
+
     }
 
     /**
      * 创建pic文件
      */
     private void initFile() {
-        pictureFile = new File(getCacheDir(), "pic.jpg");
-        if (!pictureFile.exists()) {
-            try {
-                pictureFile.getParentFile().mkdirs();
-                pictureFile.createNewFile();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+
+
     }
 
     private void initDialog() {
@@ -301,6 +337,7 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
     private void Logigallery(Intent data) {
         if (data != null) {
             Uri uri = data.getData();
+            mFileName=BaseUtil.getRealFilePath(uri);
             crop(uri);
 
         }
@@ -315,7 +352,41 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
             case PHOTO_REQUEST_CUT:
                 if (data != null) {
                     Bitmap bitmap = data.getParcelableExtra("data");
+                    pictureFile = new File(Const.mMainFile, new Date().getTime()+mFileName);
                     savePicture(bitmap, pictureFile);
+                    PutObjectSamples putObjectSamples = new PutObjectSamples(mOSS,Const.BucketName,pictureFile.getName(),pictureFile.getAbsolutePath());
+                    putObjectSamples.asyncPutObjectFromLocalFile(new ProgressCallback<PutObjectRequest, PutObjectResult>() {
+                        @Override
+                        public void onProgress(PutObjectRequest putObjectRequest, long currentSize, long totalSize) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(PutObjectRequest putObjectRequest, PutObjectResult putObjectResult) {
+                            Log.e("@#","Success");
+                            SPic= Path.URL_Ayiyun+putObjectRequest.getObjectKey();
+                            Log.e("@#",SPic);
+                        }
+
+                        @Override
+                        public void onFailure(PutObjectRequest putObjectRequest, ClientException clientException, ServiceException serviceException) {
+                            if (clientException != null) {
+                                // 本地异常如网络异常等
+                                clientException.printStackTrace();
+                                Log.e("clientMsg",clientException.getMessage());
+                            }
+                            if (serviceException != null) {
+                                // 服务异常
+                                Log.e("StatusCode",serviceException.getStatusCode()+"");
+                                Log.e("ErrorCode", serviceException.getErrorCode());
+                                Log.e("RequestId", serviceException.getRequestId());
+                                Log.e("HostId", serviceException.getHostId());
+                                Log.e("RawMessage", serviceException.getRawMessage());
+                            }
+                        }
+                    });
+
+
                 }
                 break;
         }
@@ -355,6 +426,7 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ops);
             Glide.with(AddPersonActivity.this)
                     .load(picture)
+//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(mCivPic);
             ops.flush();
         } catch (FileNotFoundException e) {
@@ -397,7 +469,7 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
                     BaseUtil.makeText("参数缺失");
                     return;
                 }
-                mManeuverModel.addManeuver("", SName, STel, SWorkID, SProvince, SCity, SCity, new ManeuverModel.OnaddManeuverListener() {
+                mManeuverModel.addManeuver(SPic, SName, STel, SWorkID, SProvince, SCity, SCity, new ManeuverModel.OnaddManeuverListener() {
                     @Override
                     public void Result(boolean isSuccess) {
                         if (isSuccess){
@@ -408,8 +480,6 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
                 });
 
                 break;
-
-
             default:
                 break;
         }
@@ -418,9 +488,10 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
     private void isCanUpLoad(){
         SName=mEtName.getText().toString();
         STel=mEtPhone.getText().toString();
-//        pictureFile!=null
-//                &&
-        if ( SName.length()>0
+
+
+        if (SPic.length()>0
+                &&SName.length()>0
                 && STel.length()>0
                 && SWorkID.length()>0
                 && SProvince.length()>0
