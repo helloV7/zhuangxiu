@@ -3,10 +3,19 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              >
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
     </android.support.v7.widget.RecyclerView>
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/trl_lore"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
 
 </FrameLayout>

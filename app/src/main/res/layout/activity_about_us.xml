@@ -10,7 +10,7 @@
     android:padding="45dp">
     <TextView
         android:id="@+id/tv_msg"
-        android:text="哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈"
+        android:text=""
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

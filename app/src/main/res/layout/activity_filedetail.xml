@@ -19,7 +19,7 @@
         android:textSize="16dp"
         android:textColor="@color/text_color1"/>
     <LinearLayout
-        android:visibility="invisible"
+        android:visibility="visible"
         android:id="@+id/ll_progress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,6 +35,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_width="256dp"
                 android:layout_height="10dp"
+                android:layout_marginBottom="5dp"
                 style="?android:attr/progressBarStyleHorizontal"
                 android:max="100"
                 android:progress="0"

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -53,15 +54,19 @@ public class TitleAndFlowImages extends FrameLayout {
         ButterKnife.bind(this);
         windowWidth = ScreenUtils.getScreenWidth(getContext());
         imageMargin = (int) (windowWidth*marginPercent);
-        imageWidth = (int) ((windowWidth-(imageMargin*(columnCount+1)))*0.1/columnCount);
+        imageWidth = (int) ((windowWidth-(imageMargin*(columnCount+1)))/columnCount);
 
         vFlowLayout.setChildSpacing(imageMargin);
         vFlowLayout.setRowSpacing(imageMargin);
+        vFlowLayout.setPadding(imageMargin,0,imageMargin,0);
 
         onClickListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
                 L.e(v.getTag(R.id.tag_image_path).toString());
+                if (onImageClickListener !=null){
+                    onImageClickListener.onImaegClick(v.getTag(R.id.tag_image_path).toString());
+                }
             }
         };
     }
@@ -73,7 +78,8 @@ public class TitleAndFlowImages extends FrameLayout {
     public void setImages(List<String> images){
         this.images = images;
         vFlowLayout.removeAllViews();
-        for(int i=0;i<images.size();i++){
+        int num=0;
+        for(int i=0;i<images.size();i++,num++){
             ImageView imageView = new ImageView(getContext());
             FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(imageWidth,imageWidth);
             imageView.setLayoutParams(params);
@@ -83,6 +89,10 @@ public class TitleAndFlowImages extends FrameLayout {
             imageView.setOnClickListener(onClickListener);
             vFlowLayout.addView(imageView);
         }
+        num=num/3+1;
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) vFlowLayout.getLayoutParams();
+        params.height=num*imageWidth +3;
+        vFlowLayout.setLayoutParams(params);
     }
 
     public void setOnImageClickListener(OnImageClickListener onImageClickListener) {
@@ -93,4 +103,6 @@ public class TitleAndFlowImages extends FrameLayout {
     public interface OnImageClickListener{
         void onImaegClick(String imagPath);
     }
+
+
 }

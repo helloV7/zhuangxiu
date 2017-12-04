@@ -171,9 +171,9 @@ public class BaseUtil {
      * 返回系统当前时间
      * @return
      */
-    public static String currentTime(String time){
+    public static String currentTime(String type){
         Date date=new Date();
-        SimpleDateFormat format=new SimpleDateFormat(time);//"yyyy-MM-dd HH:mm:ss"
+        SimpleDateFormat format=new SimpleDateFormat(type);//"yyyy-MM-dd HH:mm:ss"
         return format.format(date);
     }
 

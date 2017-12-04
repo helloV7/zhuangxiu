@@ -1,5 +1,7 @@
 package com.jyt.baseapp.model;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 
 import com.amap.api.maps.model.LatLng;
@@ -15,6 +17,7 @@ import com.jyt.baseapp.bean.CityBean;
 import com.jyt.baseapp.bean.MapBean;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.util.BaseUtil;
+import com.jyt.baseapp.view.activity.LoginActivity;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import org.json.JSONArray;
@@ -31,7 +34,7 @@ import okhttp3.Call;
  * @author LinWei on 2017/11/1 15:22
  */
 public class MapModel {
-    public void getProvinceData(final onResultProvinceListener listener){
+    public void getProvinceData(final Activity activity, final onResultProvinceListener listener){
 
         OkHttpUtils
                 .get()
@@ -56,7 +59,10 @@ public class MapModel {
                             if (response.ret){
                                 listener.ResultData(true,null,response.data);
                             }else {
-
+                                activity.finish();
+                                activity.startActivity(new Intent(activity, LoginActivity.class));
+                                Const.Logout(activity);
+                                BaseUtil.makeText("登录失效，请重新登录");
                             }
                         }
                     }

@@ -64,7 +64,7 @@ public class ProjectFileInfo extends LinearLayout {
         fileType = fileName.substring(fileTypeIndex+1,fileName.length()).toLowerCase();
         switch (fileType){
             case "ai":
-                imgTypeImg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_ai));
+                imgTypeImg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_ai2));
                 break;
             case "xls":
             case "xlsx":
@@ -77,6 +77,10 @@ public class ProjectFileInfo extends LinearLayout {
             case "ppt":
             case "pptx":
                 imgTypeImg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_power2));
+                break;
+            case "doc":
+            case "docx":
+                imgTypeImg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_word2));
                 break;
             case "psd":
                 imgTypeImg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_ps2));
