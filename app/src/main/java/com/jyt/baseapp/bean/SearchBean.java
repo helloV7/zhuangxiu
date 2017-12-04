@@ -1,11 +1,14 @@
 package com.jyt.baseapp.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.io.Serializable;
 
 /**
  * @author LinWei on 2017/11/14 18:24
  */
-public class SearchBean implements Serializable {
+public class SearchBean implements Serializable,Parcelable {
     private String projectId;
     private String brandName;
     private String subClassName;
@@ -17,6 +20,52 @@ public class SearchBean implements Serializable {
     private String address;
     private String schedule;
     private String time;
+
+    protected SearchBean(Parcel in) {
+        projectId = in.readString();
+        brandName = in.readString();
+        subClassName = in.readString();
+        projectName = in.readString();
+        longitude = in.readString();
+        latitude = in.readString();
+        city = in.readString();
+        area = in.readString();
+        address = in.readString();
+        schedule = in.readString();
+        time = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(projectId);
+        dest.writeString(brandName);
+        dest.writeString(subClassName);
+        dest.writeString(projectName);
+        dest.writeString(longitude);
+        dest.writeString(latitude);
+        dest.writeString(city);
+        dest.writeString(area);
+        dest.writeString(address);
+        dest.writeString(schedule);
+        dest.writeString(time);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<SearchBean> CREATOR = new Creator<SearchBean>() {
+        @Override
+        public SearchBean createFromParcel(Parcel in) {
+            return new SearchBean(in);
+        }
+
+        @Override
+        public SearchBean[] newArray(int size) {
+            return new SearchBean[size];
+        }
+    };
 
     public String getProjectId() {
         return projectId;

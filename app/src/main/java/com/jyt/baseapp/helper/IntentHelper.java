@@ -18,7 +18,9 @@ import com.jyt.baseapp.view.activity.LoginActivity;
 import com.jyt.baseapp.view.activity.SelImageActivity;
 import com.jyt.baseapp.view.activity.SelPeopleActivity;
 import com.jyt.baseapp.view.activity.ShopActivity;
+import com.jyt.baseapp.view.activity.UpLoadImageActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,10 +107,9 @@ public class IntentHelper {
     //endregion
 
     // region 测量中
-    public static void openUploadImagesActivityForResult(Object context,List images,int maxCount){
-        Intent intent = getIntent((Context) context, SelImageActivity.class);
-        intent.putExtra(IntentKey.MAX_COUNT,maxCount);
-        intent.putStringArrayListExtra(IntentKey.IMAGES, (ArrayList<String>) images);
+    public static void openUploadImagesActivityForResult(Object context,Parcelable project){
+        Intent intent = getIntent((Context) context, UpLoadImageActivity.class);
+        intent.putExtra(IntentKey.PROJECT,project);
         if (context instanceof Activity) {
             ((Activity) context).startActivityForResult(intent, IntentRequestCode.CODE_UPLOAD_IMAGES);
         }else if (context instanceof Fragment){
@@ -250,6 +251,15 @@ public class IntentHelper {
         intent.putExtra(IntentKey.DATA,project);
         context.startActivity(intent);
     }
+
+    public static void openCommonProgressActivity(Context context,Parcelable project ,Parcelable beforeProject) {
+        Intent intent = getIntent(context, CommonProgressActivity.class);
+//        intent.putExtra(IntentKey.TYPE,CommonProgressActivity.TYPE_VERIFIED_MATERIAL);
+        intent.putExtra(IntentKey.DATA,project);
+        intent.putExtra(IntentKey.DATA2,beforeProject);
+
+        context.startActivity(intent);
+    }
     /**
      * CommonProgressActivity 读取数据
      * @param intent
@@ -258,7 +268,9 @@ public class IntentHelper {
     public static Tuple CommonProgressActivityGetPara(Intent intent){
         int type = intent.getIntExtra(IntentKey.TYPE,0);
         Parcelable data = intent.getParcelableExtra(IntentKey.DATA);
-        return new Tuple(type,data);
+        Parcelable data2 = intent.getParcelableExtra(IntentKey.DATA2);
+
+        return new Tuple(type,data,data2);
     }
 
     /**
@@ -268,7 +280,7 @@ public class IntentHelper {
      */
     public static void openShopActivity(Context context, SearchBean bean){
         Intent intent = new Intent(context,ShopActivity.class);
-        intent.putExtra("shopinfo",bean);
+        intent.putExtra("shopinfo",(Serializable) bean);
         context.startActivity(intent);
     }
 
@@ -294,13 +306,13 @@ public class IntentHelper {
     //endregion
 
     //region 待发货 已发货
-    public static void openWaitSendActivity(Context context){
+    public static void openWaitSendActivity(Context context,Parcelable project){
         Intent intent = getIntent(context, DeliverGoodsActivity.class);
         intent.putExtra(IntentKey.TYPE,DeliverGoodsActivity.TYPE_WAITE_SEND);
         context.startActivity(intent);
     }
 
-    public static void openSentActivity(Context context){
+    public static void openSentActivity(Context context,Parcelable project){
         Intent intent = getIntent(context, DeliverGoodsActivity.class);
         intent.putExtra(IntentKey.TYPE,DeliverGoodsActivity.TYPE_SENT);
         context.startActivity(intent);

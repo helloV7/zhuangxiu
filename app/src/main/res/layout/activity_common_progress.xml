@@ -30,16 +30,19 @@
         android:divider="@drawable/divider"
         android:orientation="vertical"
         android:showDividers="beginning|middle"
+        android:background="@color/white"
         android:visibility="gone">
 
     </LinearLayout>
 
-    <LinearLayout
+    <com.nex3z.flowlayout.FlowLayout
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
         android:visibility="gone"
         android:id="@+id/v_imageLayout"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </LinearLayout>
+    </com.nex3z.flowlayout.FlowLayout>
 </LinearLayout>

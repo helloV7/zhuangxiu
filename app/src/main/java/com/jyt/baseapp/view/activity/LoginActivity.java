@@ -64,7 +64,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void Result(boolean isSuccess, UserBean user) {
                 if (isSuccess){
-                    Const.KeepLoginState(user.getDepartmentId(),user.getNickName(),user.getPositionId(),user.getTokenSession());
+                    Const.KeepLoginState(user.getDepartmentId(),user.getNickName(),user.getPositionId(),user.getTokenSession(),user.getUserId());
                     startActivity(new Intent(LoginActivity.this,ContentActivity.class));
                     finish();
                     BaseUtil.makeText("登录成功");

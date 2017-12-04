@@ -1,9 +1,12 @@
 package com.jyt.baseapp.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * @author LinWei on 2017/11/16 18:37
  */
-public class ProgressBean {
+public class ProgressBean implements Parcelable{
     private String speedId;
     private String projectId;
     private String speedName;
@@ -12,6 +15,46 @@ public class ProgressBean {
     private int speedUpCode;
     private String finishTime;
     private int PermissionState; //0无权限
+
+    protected ProgressBean(Parcel in) {
+        speedId = in.readString();
+        projectId = in.readString();
+        speedName = in.readString();
+        speedCode = in.readInt();
+        isfinish = in.readString();
+        speedUpCode = in.readInt();
+        finishTime = in.readString();
+        PermissionState = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(speedId);
+        dest.writeString(projectId);
+        dest.writeString(speedName);
+        dest.writeInt(speedCode);
+        dest.writeString(isfinish);
+        dest.writeInt(speedUpCode);
+        dest.writeString(finishTime);
+        dest.writeInt(PermissionState);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<ProgressBean> CREATOR = new Creator<ProgressBean>() {
+        @Override
+        public ProgressBean createFromParcel(Parcel in) {
+            return new ProgressBean(in);
+        }
+
+        @Override
+        public ProgressBean[] newArray(int size) {
+            return new ProgressBean[size];
+        }
+    };
 
     public String getSpeedId() {
         return speedId;

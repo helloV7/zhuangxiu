@@ -34,6 +34,7 @@ import com.jyt.baseapp.view.widget.SingleSelector;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -126,7 +127,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             public void onClick(BaseViewHolder holder) {
                 Intent intent = new Intent(getActivity(), ShopActivity.class);
                 SearchBean ShopInfo = (SearchBean) holder.getData();
-                intent.putExtra("shopinfo", ShopInfo);
+                intent.putExtra("shopinfo", (Serializable) ShopInfo);
                 startActivity(intent);
             }
         });

@@ -24,6 +24,8 @@ public class WorkerNameAndDateTime extends FrameLayout {
     @BindView(R.id.text_dateTime)
     TextView textDateTime;
 
+    String workerInfo;
+    String time;
     public WorkerNameAndDateTime(@NonNull Context context) {
         this(context, null);
     }
@@ -32,13 +34,29 @@ public class WorkerNameAndDateTime extends FrameLayout {
         super(context, attrs);
         LayoutInflater.from(context).inflate(R.layout.widget_worker_name_and_update_time, this, true);
         ButterKnife.bind(this);
+
+        if (workerInfo!=null){
+            setWorkerText(workerInfo);
+        }
+
+        if (time != null){
+            setUpdateTime(time);
+        }
     }
 
     public void setWorkerText(String text){
-        textWorkerInfo.setText(text);
+        if (textWorkerInfo!=null) {
+            textWorkerInfo.setText(text);
+        }else {
+            workerInfo = text;
+        }
     }
 
     public void setUpdateTime(String text){
-        textDateTime.setText(text);
+        if (textDateTime!=null){
+            textDateTime.setText(text);
+        }else {
+            time = text;
+        }
     }
 }

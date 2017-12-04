@@ -8,6 +8,18 @@ public class UserBean {
     private String nickName;
     private String positionId;
     private String tokenSession;
+    private String userId;
+    private String stationName;
+    private String departmentName;
+    private String tel;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getDepartmentId() {
         return departmentId;
@@ -39,5 +51,29 @@ public class UserBean {
 
     public void setTokenSession(String tokenSession) {
         this.tokenSession = tokenSession;
+    }
+
+    public String getStationName() {
+        return stationName;
+    }
+
+    public void setStationName(String stationName) {
+        this.stationName = stationName;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 }

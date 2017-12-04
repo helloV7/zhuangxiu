@@ -2,15 +2,32 @@ package com.jyt.baseapp.view.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jyt.baseapp.R;
+import com.jyt.baseapp.api.BeanCallback;
+import com.jyt.baseapp.bean.BaseJson;
+import com.jyt.baseapp.bean.ProgressBean;
+import com.jyt.baseapp.bean.ProjectFileBean;
 import com.jyt.baseapp.bean.Tuple;
+import com.jyt.baseapp.bean.UserBean;
 import com.jyt.baseapp.helper.IntentHelper;
+import com.jyt.baseapp.model.ProjectDetailModel;
+import com.jyt.baseapp.model.impl.ProjectDetailModelImpl;
+import com.jyt.baseapp.util.ScreenUtils;
+import com.jyt.baseapp.util.T;
 import com.jyt.baseapp.view.widget.WorkerNameAndDateTime;
+import com.nex3z.flowlayout.FlowLayout;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.BindView;
+import okhttp3.Call;
 
 /**
  * 测量完毕 设计完毕 客户已审批 待店主确认 店主已确认 待审图纸 已审图纸 待生产招牌 待审材料 已审材料 施工完毕
@@ -25,7 +42,7 @@ public class CommonProgressActivity extends BaseActivity {
     @BindView(R.id.v_fileLayout)
     LinearLayout vFileLayout;
     @BindView(R.id.v_imageLayout)
-    LinearLayout vImageLayout;
+    FlowLayout vImageLayout;
 
 
     public static final int TYPE_MEASURE_FINISH = 1;
@@ -41,7 +58,10 @@ public class CommonProgressActivity extends BaseActivity {
     public static final int TYPE_CONSTRUCTION_COMPLETE = 11;
 
     private int type;
-    private Object project;
+    private ProgressBean project;
+    private ProgressBean beforeProject;
+
+    ProjectDetailModel projectDetailModel;
 
     @Override
     protected int getLayoutId() {
@@ -58,47 +78,132 @@ public class CommonProgressActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Tuple data = IntentHelper.CommonProgressActivityGetPara(getIntent());
         type = (int) data.getItem1();
-        project = data.getItem2();
-        switch (type){
-            case TYPE_MEASURE_FINISH:
-                setTextTitle("测量完毕");
-                break;
-            case TYPE_DESIGN_FINISH :
-                setTextTitle("设计完毕");
-                break;
-            case TYPE_CUSTOMER_VERIFIED :
-                setTextTitle("客户已审批");
-                break;
-            case TYPE_WAIT_SHOPKEEPER_CONFIRM:
-                setTextTitle("待店主确认");
-                break;
-            case TYPE_SHOPKEEPER_CONFIRMED:
-                setTextTitle("店主已确认");
-                break;
-            case TYPE_WAIT_VERIFIED_DRAWING:
-                setTextTitle("待审图纸");
-                break;
-            case TYPE_VERIFIED_DRAWING:
-                setTextTitle("已审图纸");
+        project = (ProgressBean) data.getItem2();
+        beforeProject = (ProgressBean) data.getItem3();
+        setTextTitle(project.getSpeedName());
 
-                break;
-            case TYPE_WAIT_PRODUCE_SIGN:
-                setTextTitle("待生产招牌");
+        if (beforeProject==null){
+            beforeProject = project;
+        }
 
-                break;
-            case TYPE_WAIT_VERIFY_MATERIAL:
-                setTextTitle("待审材料");
-                break;
-            case TYPE_VERIFIED_MATERIAL:
-                setTextTitle("已审材料");
-                break;
-            case TYPE_CONSTRUCTION_COMPLETE:
-                setTextTitle("施工完毕");
-                break;
+        projectDetailModel = new ProjectDetailModelImpl();
+        projectDetailModel.onCreate(getContext());
+        //region 根据type 设置标题
+//        switch (type){
+//            case TYPE_MEASURE_FINISH:
+//                setTextTitle("测量完毕");
+//                break;
+//            case TYPE_DESIGN_FINISH :
+//                setTextTitle("设计完毕");
+//                break;
+//            case TYPE_CUSTOMER_VERIFIED :
+//                setTextTitle("客户已审批");
+//                break;
+//            case TYPE_WAIT_SHOPKEEPER_CONFIRM:
+//                setTextTitle("待店主确认");
+//                break;
+//            case TYPE_SHOPKEEPER_CONFIRMED:
+//                setTextTitle("店主已确认");
+//                break;
+//            case TYPE_WAIT_VERIFIED_DRAWING:
+//                setTextTitle("待审图纸");
+//                break;
+//            case TYPE_VERIFIED_DRAWING:
+//                setTextTitle("已审图纸");
+//
+//                break;
+//            case TYPE_WAIT_PRODUCE_SIGN:
+//                setTextTitle("待生产招牌");
+//
+//                break;
+//            case TYPE_WAIT_VERIFY_MATERIAL:
+//                setTextTitle("待审材料");
+//                break;
+//            case TYPE_VERIFIED_MATERIAL:
+//                setTextTitle("已审材料");
+//                break;
+//            case TYPE_CONSTRUCTION_COMPLETE:
+//                setTextTitle("施工完毕");
+//                break;
+//
+//            default:
+//                finish();
+//
+//        }
+        //endregion
 
-            default:
-                finish();
+        vWorkerAndTime.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.valueOf(beforeProject.getFinishTime()))));
 
+        projectDetailModel.getProgressDetail(beforeProject.getSpeedId(), new BeanCallback<BaseJson<List<ProjectFileBean>>>() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+                T.showShort(getContext(),e.getMessage());
+            }
+
+            @Override
+            public void onResponse(BaseJson<List<ProjectFileBean>> response, int id) {
+                if (response!=null && response.ret){
+                    createView(response.data);
+                    if (response.data!=null && response.data.size()!=0){
+                        ProjectFileBean lastObj = response.data.get(response.data.size()-1);
+                        projectDetailModel.getPersonById(lastObj.getUserId(), new BeanCallback<BaseJson<UserBean>>() {
+                            @Override
+                            public void onError(Call call, Exception e, int id) {
+
+                            }
+
+                            @Override
+                            public void onResponse(BaseJson<UserBean> response, int id) {
+                                vWorkerAndTime.setWorkerText(response.data.getStationName()+" "+response.data.getNickName());
+                            }
+                        });
+                    }
+
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        projectDetailModel.onDestroy();
+
+    }
+
+
+    private void createView(List<ProjectFileBean> files)
+    {
+        vFileLayout.removeAllViews();
+        vImageLayout.removeAllViews();
+
+        int windowWidth = ScreenUtils.getScreenWidth(getContext());
+        int columnCount = 3;
+        float marginPercent = 0.01f;
+
+
+        int imageMargin = (int) (windowWidth*marginPercent);
+        int imageWidth = (int) ((windowWidth-(imageMargin*(columnCount+1)))*1.0/columnCount);
+
+        vImageLayout.setPadding(imageMargin,0,0,0);
+        vImageLayout.setChildSpacing(imageMargin);
+        vImageLayout.setRowSpacing(0);
+        vImageLayout.setRowSpacing(imageMargin);
+
+        files.addAll(files);
+        for (ProjectFileBean projectFileBean : files) {
+            if (projectFileBean.getContentSuffix().toLowerCase().equals("jpg") || projectFileBean.getContentSuffix().toLowerCase().equals("png") ){
+                ImageView img = new ImageView(getContext());
+                FlowLayout.LayoutParams param = new FlowLayout.LayoutParams(imageWidth,imageWidth);
+                img.setLayoutParams(param);
+                Glide.with(getContext()).load(projectFileBean.getContentUrl()).centerCrop().into(img);
+                vImageLayout.addView(img);
+                vImageLayout.setVisibility(View.VISIBLE);
+            }else {
+                vFileLayout.setVisibility(View.VISIBLE);
+            }
         }
     }
+
+
 }

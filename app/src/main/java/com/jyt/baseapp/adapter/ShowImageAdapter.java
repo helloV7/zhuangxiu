@@ -14,6 +14,7 @@ public class ShowImageAdapter  extends BaseRcvAdapter{
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ShowImageViewHolder holder = new ShowImageViewHolder(parent);
         holder.setOnViewHolderClickListener(onViewHolderClickListener);
+        holder.setOnViewHolderLongClickListener(onViewHolderLongClickListener);
         return holder;
     }
 }

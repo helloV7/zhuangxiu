@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.bean.ProgressBean;
 import com.jyt.baseapp.bean.SearchBean;
+import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.model.ShopModel;
 import com.jyt.baseapp.util.BaseUtil;
+import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.view.widget.AppendItem;
 import com.jyt.baseapp.view.widget.ProgressLine;
 
@@ -86,7 +88,7 @@ public class ShopProgressFragment extends BaseFragment {
     private AppendItem at_Settlement4;
     private List<AppendItem> mAppendList;
     private HashMap<Integer,ProgressLine> mProgressMap;
-
+    List<ProgressBean> progressBeanList;
 
     @Override
     protected int getLayoutId() {
@@ -224,6 +226,7 @@ public class ShopProgressFragment extends BaseFragment {
             @Override
             public void Result(boolean isSuccess, Exception e, List<ProgressBean> shopBean) {
                 if (isSuccess){
+                    progressBeanList = shopBean;
                     setProgress(shopBean);
                 }
             }
@@ -435,6 +438,56 @@ public class ShopProgressFragment extends BaseFragment {
             @Override
             public void onClick(ProgressBean bean) {
                 Log.e("@#",bean.getPermissionState()+"");
+                if ("0".equals(bean.getIsfinish())) {
+                    IntentHelper.openUploadImagesActivityForResult(getContext(), bean);
+                }
+            }
+        });
+        AppendItem.OnAppendOnclickListener browserSimpleContent = new AppendItem.OnAppendOnclickListener() {
+            @Override
+            public void onClick(ProgressBean bean) {
+                L.e("click ");
+                ProgressBean beforeFinish = beforeItemIsFinish(bean);
+               if (beforeFinish!=null){
+                   IntentHelper.openCommonProgressActivity(getContext(), bean,beforeFinish);
+               }
+
+
+            }
+        };
+        at_Measured.setOnAppendOnclickListener(browserSimpleContent);
+        at_Designed.setOnAppendOnclickListener(browserSimpleContent);
+        at_Approvaled.setOnAppendOnclickListener(browserSimpleContent);
+        at_Confirm.setOnAppendOnclickListener(browserSimpleContent);
+        at_Confirmed.setOnAppendOnclickListener(browserSimpleContent);
+        at_Paper3.setOnAppendOnclickListener(browserSimpleContent);
+        at_Paper4.setOnAppendOnclickListener(browserSimpleContent);
+        at_Material1.setOnAppendOnclickListener(browserSimpleContent);
+        at_Material3.setOnAppendOnclickListener(browserSimpleContent);
+        at_Material4.setOnAppendOnclickListener(browserSimpleContent);
+        at_Complete.setOnAppendOnclickListener(browserSimpleContent);
+
+
+        at_Logistics1.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
+            @Override
+            public void onClick(ProgressBean bean) {
+                IntentHelper.openWaitSendActivity(getContext(),bean);
+            }
+        });
+        at_Logistics2.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
+            @Override
+            public void onClick(ProgressBean bean) {
+                IntentHelper.openSentActivity(getContext(),bean);
+            }
+        });
+
+        at_Material6.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
+            @Override
+            public void onClick(ProgressBean bean) {
+                ProgressBean beforeFinish = beforeItemIsFinish(bean);
+//                if (beforeFinish!=null) {
+                    IntentHelper.openFinishSteelHookActivity(getContext(), bean);
+//                }
             }
         });
     }
@@ -442,7 +495,17 @@ public class ShopProgressFragment extends BaseFragment {
 
 
 
-
+private ProgressBean beforeItemIsFinish(ProgressBean current){
+    for (int i = 0; i < progressBeanList.size();i++){
+        if ( progressBeanList.get(i).getSpeedCode()==current.getSpeedCode()){
+            if (i!=0 && "0".equals(progressBeanList.get(i-1).getIsfinish())){
+                return null;
+            }
+            return  progressBeanList.get(i-1);
+        }
+    }
+    return null;
+}
 
 
 

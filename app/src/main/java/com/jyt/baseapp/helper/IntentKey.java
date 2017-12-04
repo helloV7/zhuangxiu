@@ -10,6 +10,9 @@ public class IntentKey {
     public static String MAX_COUNT = "MAX_COUNT";
     public static String TYPE = "TYPE";
     public static String DATA = "DATA";
+    public static String DATA2 = "DATA2";
+
     public static String PEOPLE = "PEOPLE";
+    public static String PROJECT = "PROJECT";
 
 }
