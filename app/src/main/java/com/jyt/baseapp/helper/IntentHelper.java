@@ -6,12 +6,14 @@ import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 
+import com.jyt.baseapp.bean.FileBean;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.bean.Tuple;
 import com.jyt.baseapp.view.activity.BrowseImagesActivity;
 import com.jyt.baseapp.view.activity.CommonProgressActivity;
 import com.jyt.baseapp.view.activity.ConstructionActivity;
 import com.jyt.baseapp.view.activity.DeliverGoodsActivity;
+import com.jyt.baseapp.view.activity.FileDetailActivity;
 import com.jyt.baseapp.view.activity.FinishSteelHookActivity;
 import com.jyt.baseapp.view.activity.InfoDetailActivity;
 import com.jyt.baseapp.view.activity.LoginActivity;
@@ -383,6 +385,12 @@ public class IntentHelper {
     }
     //endregion
 
+    public static void openFileDetailActivity(Context context, FileBean fileBean) {
+        Intent intent = getIntent(context, FileDetailActivity.class);
+        intent.putExtra("ShareFile",fileBean);
+        context.startActivity(intent);
+
+    }
 
     public static Intent getIntent(){
         return new Intent();

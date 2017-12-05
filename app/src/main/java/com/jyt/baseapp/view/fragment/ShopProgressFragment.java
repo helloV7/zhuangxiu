@@ -485,9 +485,9 @@ public class ShopProgressFragment extends BaseFragment {
             @Override
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-//                if (beforeFinish!=null) {
+                if (beforeFinish!=null) {
                     IntentHelper.openFinishSteelHookActivity(getContext(), bean);
-//                }
+                }
             }
         });
     }

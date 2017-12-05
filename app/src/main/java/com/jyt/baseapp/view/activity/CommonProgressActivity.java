@@ -2,6 +2,7 @@ package com.jyt.baseapp.view.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.api.BeanCallback;
 import com.jyt.baseapp.bean.BaseJson;
+import com.jyt.baseapp.bean.FileBean;
 import com.jyt.baseapp.bean.ProgressBean;
 import com.jyt.baseapp.bean.ProjectFileBean;
 import com.jyt.baseapp.bean.Tuple;
@@ -19,6 +21,7 @@ import com.jyt.baseapp.model.ProjectDetailModel;
 import com.jyt.baseapp.model.impl.ProjectDetailModelImpl;
 import com.jyt.baseapp.util.ScreenUtils;
 import com.jyt.baseapp.util.T;
+import com.jyt.baseapp.view.widget.ProjectFileInfo;
 import com.jyt.baseapp.view.widget.WorkerNameAndDateTime;
 import com.nex3z.flowlayout.FlowLayout;
 
@@ -185,24 +188,53 @@ public class CommonProgressActivity extends BaseActivity {
         int imageMargin = (int) (windowWidth*marginPercent);
         int imageWidth = (int) ((windowWidth-(imageMargin*(columnCount+1)))*1.0/columnCount);
 
-        vImageLayout.setPadding(imageMargin,0,0,0);
+        vImageLayout.setPadding(imageMargin,imageMargin,0,imageMargin);
         vImageLayout.setChildSpacing(imageMargin);
         vImageLayout.setRowSpacing(0);
         vImageLayout.setRowSpacing(imageMargin);
 
-        files.addAll(files);
+        View.OnClickListener onImageClickToBrowserListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                IntentHelper.openBrowseImagesActivity(getContext(), (String) v.getTag(R.id.tag_imgUrl));
+            }
+        };
+
+        View.OnClickListener onFileClickToOpenFileDetailActivityListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentHelper.openFileDetailActivity(getContext(), (FileBean) v.getTag(R.id.tag_data));
+            }
+        };
+
+//        files.addAll(files);
         for (ProjectFileBean projectFileBean : files) {
             if (projectFileBean.getContentSuffix().toLowerCase().equals("jpg") || projectFileBean.getContentSuffix().toLowerCase().equals("png") ){
                 ImageView img = new ImageView(getContext());
                 FlowLayout.LayoutParams param = new FlowLayout.LayoutParams(imageWidth,imageWidth);
                 img.setLayoutParams(param);
                 Glide.with(getContext()).load(projectFileBean.getContentUrl()).centerCrop().into(img);
+                img.setTag(R.id.tag_imgUrl,projectFileBean.getContentUrl());
+                img.setOnClickListener(onImageClickToBrowserListener);
                 vImageLayout.addView(img);
                 vImageLayout.setVisibility(View.VISIBLE);
             }else {
+                ProjectFileInfo projectFile = new ProjectFileInfo(getContext());
+                projectFile.setFileUrl(projectFileBean.getContentUrl());
+                projectFile.setTag(R.id.tag_data,projectFileBean.toFileBean());
+                projectFile.setOnClickListener(onFileClickToOpenFileDetailActivityListener);
+                vFileLayout.addView(projectFile);
                 vFileLayout.setVisibility(View.VISIBLE);
             }
         }
+
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) vImageLayout.getLayoutParams();
+        if (params == null){
+            params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        }
+        params.height = (int) (vImageLayout.getChildCount()*1f/columnCount +0.9f) * (imageWidth + imageMargin)  + imageMargin*2;
+        vImageLayout.setLayoutParams(params);
     }
 
 

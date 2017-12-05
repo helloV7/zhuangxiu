@@ -4,7 +4,7 @@ package com.jyt.baseapp.bean;
  * Created by chenweiqi on 2017/12/4.
  */
 
-public class ProjectFileBean {
+public class ProjectFileBean{
     private String contentId;//主键
     private String contentUrl;//文件或者图片路径
     private String detailId;//详细的id
@@ -67,5 +67,16 @@ public class ProjectFileBean {
 
     public void setIsdel(String isdel) {
         this.isdel = isdel;
+    }
+
+    public FileBean toFileBean(){
+        FileBean fileBean = new FileBean();
+        fileBean.setIsdel(getIsdel());
+        fileBean.setShareDate(null);
+        fileBean.setShareId(getContentId());
+        fileBean.setShareName(getContentName());
+        fileBean.setShareSuffix(getContentSuffix());
+        fileBean.setShareUrl(getContentUrl());
+        return fileBean;
     }
 }

@@ -72,7 +72,15 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
         mFileBean= (FileBean) getIntent().getSerializableExtra("ShareFile");
         setTextTitle(mFileBean.getShareName());
         mTvFileName.setText(mFileBean.getShareName());
-        switch (mFileBean.getShareSuffix()){
+        String type ;
+        int dian = mFileBean.getShareUrl().lastIndexOf(".");
+        if (dian!=-1){
+            type = mFileBean.getShareUrl().substring(dian+1);
+        }else {
+            type = mFileBean.getShareSuffix();
+        }
+
+        switch (type){
             case "ai":
                 mIvFileLogo.setImageDrawable(getResources().getDrawable(R.mipmap.icon_ai));
                 break;
@@ -105,7 +113,9 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
                 break;
         }
 
-        mFile = new File(Const.mMainFile,mFileBean.getShareName()+"."+mFileBean.getShareSuffix());
+        int xiegang = mFileBean.getShareUrl().lastIndexOf("/");
+        String fileNameAndType = mFileBean.getShareUrl().substring(xiegang+1);
+        mFile = new File(Const.mMainFile+"/"+fileNameAndType);
         File files = new File(Const.mMainFile);
         if (!files.exists()){
             //目录不存在
@@ -151,7 +161,7 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
                     //未下载状态
                     if (CanDownload){
                         mBtnDownload.setVisibility(View.INVISIBLE);
-                        downLoadFile(mFileBean.getShareUrl(),mFileBean.getShareName()+"."+mFileBean.getShareSuffix());
+                        downLoadFile(mFileBean.getShareUrl(),mFile.getName());
                         mBtnDownload.setEnabled(false);
                     }else {
                         BaseUtil.makeText("内存不足");
@@ -273,6 +283,12 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setAction(android.content.Intent.ACTION_VIEW);
             intent.setDataAndType(Uri.fromFile(new File(filepath)),  "application/x-gzip");
+            startActivity(intent);
+        }else {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setData(Uri.fromFile(new File(filepath)));
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
             startActivity(intent);
         }
     }

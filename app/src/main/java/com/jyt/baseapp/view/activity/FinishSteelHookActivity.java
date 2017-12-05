@@ -3,6 +3,7 @@ package com.jyt.baseapp.view.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,7 +11,9 @@ import com.jyt.baseapp.R;
 import com.jyt.baseapp.api.BeanCallback;
 import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.bean.ProgressBean;
+import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.ProjectDetailModel;
+import com.jyt.baseapp.model.impl.ProjectDetailModelImpl;
 import com.jyt.baseapp.util.T;
 
 import butterknife.BindView;
@@ -39,7 +42,20 @@ public class FinishSteelHookActivity extends BaseActivity {
     }
 
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
+        progressBean = getIntent().getParcelableExtra(IntentKey.DATA);
+        projectDetailModel = new ProjectDetailModelImpl();
+        projectDetailModel.onCreate(getContext());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        projectDetailModel.onDestroy();
+    }
 
     @OnClick(R.id.btn_submit)
     public void onBtnSubmitClicked() {

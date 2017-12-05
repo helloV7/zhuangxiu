@@ -2,17 +2,22 @@ package com.jyt.baseapp.view.widget;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jyt.baseapp.R;
+import com.jyt.baseapp.api.Const;
 
+import java.io.File;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,10 +38,11 @@ public class ProjectFileInfo extends LinearLayout {
     TextView textIsHad;
 
 
+    Thread getSizeThread;
     String fileUrl;
     String fileType;
     public ProjectFileInfo(Context context) {
-        super(context, null);
+        this(context, null);
     }
 
     public ProjectFileInfo(Context context, @Nullable AttributeSet attrs) {
@@ -45,13 +51,27 @@ public class ProjectFileInfo extends LinearLayout {
         ButterKnife.bind(this);
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
+        if (getSizeThread !=null && !hasWindowFocus){
+            try {
+                getSizeThread.interrupt();
+                getSizeThread.stop();
+                getSizeThread = null;
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
+    }
+
 
     public void setFileUrl(String fileUrl){
         this.fileUrl = fileUrl;
-
+        getFileSize();
         setUrlType();
         textIsHad.setText(isFileExist()?"已下载":"未下载");
-        getFileSize();
     }
 
     private void setUrlType(){
@@ -99,12 +119,16 @@ public class ProjectFileInfo extends LinearLayout {
     }
 
     private boolean isFileExist(){
-        return false;
+        int xiegang = fileUrl.lastIndexOf("/");
+//        int dian =fileUrl.lastIndexOf(".");
+        String fileNameAndType = fileUrl.substring(xiegang+1);
+        File file = new File(Const.mMainFile+"/"+fileNameAndType);
+        return file.exists();
     }
 
 
     private void getFileSize(){
-            new Thread(){
+        getSizeThread = new Thread(){
                 @Override
                 public void run() {
                     super.run();
@@ -121,13 +145,14 @@ public class ProjectFileInfo extends LinearLayout {
                     }
                     urlConnection.disconnect();
 
-                        setFileSizeText(displaySize+unitArray[unit]);
+                        setFileSizeText(new DecimalFormat("0.00").format(displaySize)+unitArray[unit]);
                 }catch (Exception e){
                     e.printStackTrace();
+                        setFileSizeText("未知大小");
+                    }
                 }
-                    setFileSizeText("未知大小");
-                }
-            }.start();
+            };
+        getSizeThread.start();
 
     }
 
@@ -140,6 +165,7 @@ public class ProjectFileInfo extends LinearLayout {
             }
         });
     }
+
 
 
 
