@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.api.Const;
+import com.jyt.baseapp.bean.FileBean;
 import com.jyt.baseapp.model.ShareModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -44,9 +45,8 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
     @BindView(R.id.btn_download)
     Button mBtnDownload;
     private ShareModel mShareModel;
-    private String mFileName="http://mingya-oss.oss-cn-shenzhen.aliyuncs.com/upload-file//%E9%98%BF%E9%87%8C%E7%9F%AD%E4%BF%A1demo%E5%8F%8Asdk20171128191132zip";
+    private FileBean mFileBean;
     private File mFile;
-    private String mFileType;
     private boolean isDownload;//能否下载
     private boolean CanDownload;//是否已经下载
 
@@ -69,47 +69,73 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
 
     private void init() {
         mShareModel = new ShareModel();
-//        mFileName = getIntent().getStringExtra("FileName");
+        mFileBean= (FileBean) getIntent().getSerializableExtra("ShareFile");
+        setTextTitle(mFileBean.getShareName());
+        mTvFileName.setText(mFileBean.getShareName());
+        switch (mFileBean.getShareSuffix()){
+            case "ai":
+                mIvFileLogo.setImageDrawable(getResources().getDrawable(R.mipmap.icon_ai));
+                break;
+            case "doc":
+            case "docx":
+                mIvFileLogo.setImageDrawable(getResources().getDrawable(R.mipmap.icon_word));
+                break;
+            case "ppt":
+            case "pptx":
+                mIvFileLogo.setImageDrawable(getResources().getDrawable(R.mipmap.icon_power));
+                break;
+            case "pdf":
+                mIvFileLogo.setImageDrawable(getResources().getDrawable(R.mipmap.icon_pdf));
+                break;
+            case "xls":
+            case "xlsx":
+            case "xlsm":
+                mIvFileLogo.setImageDrawable(getResources().getDrawable(R.mipmap.icon_excel));
+                break;
+            case "psd":
+                mIvFileLogo.setImageDrawable(getResources().getDrawable(R.mipmap.icon_ps));
+            case "rar":
+            case "zip":
+            case "arj":
+            case "z":
+                mIvFileLogo.setImageDrawable(getResources().getDrawable(R.mipmap.icon_rar));
+                break;
+            default:
+                mIvFileLogo.setImageDrawable(getResources().getDrawable(R.mipmap.icon_unknow));
+                break;
+        }
+
+        mFile = new File(Const.mMainFile,mFileBean.getShareName()+"."+mFileBean.getShareSuffix());
         File files = new File(Const.mMainFile);
         if (!files.exists()){
             //目录不存在
             files.mkdirs();
         }
+
         //判断文件是否已下载
-        File[] list = files.listFiles();
-        if (list.length==0){
+        if (mFile.exists()){
+            //已下载，隐藏下载进度框
+            Log.e("@#","exit");
+            isDownload=true;
+            mBtnDownload.setText("用其他应用打开");
+            mBtnDownload.setBackground(getResources().getDrawable(R.drawable.bg_corner_blue2));
+            mLlProgress.setVisibility(View.INVISIBLE);
+        }else {
+            Log.e("@#","unexit");
+            //未下载，显示下载进度框
             mBtnDownload.setText("开始下载");
             mBtnDownload.setBackground(getResources().getDrawable(R.drawable.bg_corner_blue2));
             mLlProgress.setVisibility(View.VISIBLE);
             isDownload=false;
-            getFileSize(mFileName);
+            getFileSize(mFileBean.getShareUrl());
         }
-        for (File f:files.listFiles()) {
-            if ("A.rar".equals(f.getName())){
-                //已下载，隐藏下载进度框
-                Log.e("@#","exit");
-                mFile=f;
-                isDownload=true;
-                mBtnDownload.setText("用其他应用打开");
-                mBtnDownload.setBackground(getResources().getDrawable(R.drawable.bg_corner_blue2));
-                mLlProgress.setVisibility(View.INVISIBLE);
-                break;
-            }else {
-                Log.e("@#","unexit");
-                //未下载，显示下载进度框
-                mBtnDownload.setText("开始下载");
-                mBtnDownload.setBackground(getResources().getDrawable(R.drawable.bg_corner_blue2));
-                mLlProgress.setVisibility(View.VISIBLE);
-                isDownload=false;
-                getFileSize(mFileName);
-            }
 
-        }
 
     }
 
     private void initListener(){
         mBtnDownload.setOnClickListener(this);
+        mIvPause.setOnClickListener(this);
     }
 
 
@@ -120,11 +146,12 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
             case R.id.btn_download:
                 if (isDownload){
                     //已下载状态
-                    showAttachment("rar",Const.mMainFile+File.separator+"A.rar");
+                    showAttachment(mFileBean.getShareSuffix(),mFile.getAbsolutePath());
                 }else {
                     //未下载状态
                     if (CanDownload){
-                        downLoadFile(mFileName,"A.rar");
+                        mBtnDownload.setVisibility(View.INVISIBLE);
+                        downLoadFile(mFileBean.getShareUrl(),mFileBean.getShareName()+"."+mFileBean.getShareSuffix());
                         mBtnDownload.setEnabled(false);
                     }else {
                         BaseUtil.makeText("内存不足");
@@ -161,8 +188,10 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
             @Override
             public void Result(boolean isSuccess) {
                 mBtnDownload.setEnabled(true);
+                mBtnDownload.setVisibility(View.VISIBLE);
                 if (isSuccess){
                     isDownload=true;
+                    mIvPause.setVisibility(View.GONE);
                     mBtnDownload.setText("用其他应用打开");
                     mBtnDownload.setBackground(getResources().getDrawable(R.drawable.bg_corner_blue2));
                 }
@@ -186,7 +215,6 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
                     URL url = new URL(fileUrl);
                     HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                     int fileSize = urlConnection.getContentLength();
-                    Log.e("@#",""+BaseUtil.getRomAvailableSizeNum());
                     if (BaseUtil.getRomAvailableSizeNum()>fileSize){
                         //内存足够
                         CanDownload=true;

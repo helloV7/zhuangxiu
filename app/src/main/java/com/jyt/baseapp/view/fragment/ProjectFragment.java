@@ -88,6 +88,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     private String str_BrandID;
     private ProjectAdapter mProjectAdapter;
     private List<BrandBean> ProgressList;
+    private List<BrandBean> Pson0;
     private List<BrandBean> Pson1;
     private List<BrandBean> Pson2;
     private List<BrandBean> Pson3;
@@ -134,7 +135,8 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         mProjectAdapter.setDataList(list);
         mRvShop.setAdapter(mProjectAdapter);
         ProgressList = new ArrayList<>();
-        ProgressList.add(new BrandBean("丈量中", "0").setChecks(true));
+        ProgressList.add(new BrandBean("全部", "-1").setChecks(true));
+        ProgressList.add(new BrandBean("丈量中", "0"));
         ProgressList.add(new BrandBean("设计报价", "1"));
         ProgressList.add(new BrandBean("客户审批", "2"));
         ProgressList.add(new BrandBean("店主确认中", "3"));
@@ -143,6 +145,9 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         ProgressList.add(new BrandBean("进程施工中", "6"));
         ProgressList.add(new BrandBean("完成施工", "7"));
         ProgressList.add(new BrandBean("完成结算", "8"));
+
+        Pson0 = new ArrayList<>();
+        Pson0.add(new BrandBean("", "-1").TransDataThis());
 
         Pson1 = new ArrayList<>();
         Pson1.add(new BrandBean("测量中", "1").TransDataThis());
@@ -249,6 +254,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             public void onClickBrand(String BrandID, String BrandName) {
                 ChangeBrand(BrandID);
                 str_BrandID = BrandID;
+                SearchBrandShop(str_BrandID + ",null");
             }
 
             @Override
@@ -265,37 +271,50 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         });
 
         mSelectorProgress.setLeftAdapter(getActivity(), ProgressList);
-        mSelectorProgress.setRightAdapter(getActivity(), Pson1);
+        mSelectorProgress.setRightAdapter(getActivity(), Pson0);
         mSelectorProgress.setOnSingleClickListener(new SingleSelector.OnSingleClickListener() {
             @Override
             public void onClickBrand(String BrandID, String BrandName) {
                 switch (BrandID) {
+                    case "-1":
+                        mSelectorProgress.notifyRightData(Pson0);
+                        SearchProgressShop("null");
+                        break;
                     case "0":
                         mSelectorProgress.notifyRightData(Pson1);
+                        SearchProgressShop("0");
                         break;
                     case "1":
                         mSelectorProgress.notifyRightData(Pson2);
+                        SearchProgressShop("100");
                         break;
                     case "2":
                         mSelectorProgress.notifyRightData(Pson3);
+                        SearchProgressShop("200");
                         break;
                     case "3":
                         mSelectorProgress.notifyRightData(Pson4);
+                        SearchProgressShop("300");
                         break;
                     case "4":
                         mSelectorProgress.notifyRightData(Pson5);
+                        SearchProgressShop("400");
                         break;
                     case "5":
                         mSelectorProgress.notifyRightData(Pson6);
+                        SearchProgressShop("500");
                         break;
                     case "6":
                         mSelectorProgress.notifyRightData(Pson7);
+                        SearchProgressShop("600");
                         break;
                     case "7":
                         mSelectorProgress.notifyRightData(Pson8);
+                        SearchProgressShop("700");
                         break;
                     case "8":
                         mSelectorProgress.notifyRightData(Pson9);
+                        SearchProgressShop("800");
                         break;
                 }
             }
@@ -319,7 +338,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
 
         getLRData(true);
 
-        mMapModel.getProvinceData(new MapModel.onResultProvinceListener() {
+        mMapModel.getProvinceData(getActivity(),new MapModel.onResultProvinceListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess) {
@@ -635,7 +654,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     }
 
     /**
-     * 地图的选择器动画
+     * 进度的选择器动画
      */
     private void setProgressSelector() {
         ValueAnimator animator = null;

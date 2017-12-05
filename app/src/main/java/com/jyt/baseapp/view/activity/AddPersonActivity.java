@@ -219,7 +219,7 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initData() {
-        mMapModel.getProvinceData(new MapModel.onResultProvinceListener() {
+        mMapModel.getProvinceData(this,new MapModel.onResultProvinceListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess){
@@ -510,7 +510,9 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        pictureFile.delete();
+        if (pictureFile!=null){
+            pictureFile.delete();
+        }
     }
 
 

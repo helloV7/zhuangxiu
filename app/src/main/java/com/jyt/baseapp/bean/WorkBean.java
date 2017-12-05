@@ -15,6 +15,13 @@ public class WorkBean {
         this.type = type;
     }
 
+    public WorkBean(String type,String id){
+        this.type = type;
+        this.id = id;
+    }
+
+
+
     public String getType() {
         return type;
     }
@@ -37,5 +44,10 @@ public class WorkBean {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public WorkBean firstCheck(){
+        isCheck=true;
+        return this;
     }
 }

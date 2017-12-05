@@ -222,7 +222,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     }
 
     private void initData(){
-        mMapModel.getProvinceData(new MapModel.onResultProvinceListener() {
+        mMapModel.getProvinceData(getActivity(),new MapModel.onResultProvinceListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess){

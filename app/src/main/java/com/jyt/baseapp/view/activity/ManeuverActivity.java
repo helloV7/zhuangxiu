@@ -145,7 +145,7 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
         mRvWork.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.VERTICAL));
         mRvWork.setAdapter(mWorkAdapter);
 
-        mMapModel.getProvinceData(new MapModel.onResultProvinceListener() {
+        mMapModel.getProvinceData( this,new MapModel.onResultProvinceListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess) {

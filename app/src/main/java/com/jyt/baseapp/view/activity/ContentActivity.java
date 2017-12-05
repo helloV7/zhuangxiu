@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.FragmentViewPagerAdapter;
 import com.jyt.baseapp.view.fragment.BaseFragment;
+import com.jyt.baseapp.view.fragment.BrandFragment;
 import com.jyt.baseapp.view.fragment.MapFragment;
 import com.jyt.baseapp.view.fragment.MoreFragment;
 import com.jyt.baseapp.view.fragment.ProjectFragment;
@@ -50,6 +51,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     private ProjectFragment mProjectFragment;
     private MoreFragment mMoreFragment;
     private FragmentViewPagerAdapter vpAdapter;
+    private BrandFragment mBrandFragment;
 
     @Override
     protected int getLayoutId() {
@@ -76,8 +78,10 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         mMapFragment=new MapFragment();
         mProjectFragment=new ProjectFragment();
         mMoreFragment=new MoreFragment();
+        mBrandFragment = new BrandFragment();
         flist.add(mMapFragment);
         flist.add(mProjectFragment);
+//        flist.add(mBrandFragment);
         flist.add(mMoreFragment);
         vpAdapter=new FragmentViewPagerAdapter(getSupportFragmentManager());
         vpAdapter.setFragments(flist);
