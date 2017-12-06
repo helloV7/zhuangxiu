@@ -115,6 +115,7 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
             public void onClickProvince(int ProvinceID, String ProvinceName) {
                 ChangeProvince(ProvinceID);
                 str_province=ProvinceName;
+                NotifySearchType(str_province+",null,null,null,null");
             }
 
             @Override

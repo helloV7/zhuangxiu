@@ -126,6 +126,8 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         mGeocodeSearch = new GeocodeSearch(getActivity());
         mGeocodeSearch.setOnGeocodeSearchListener(this);
         mMap.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放按钮
+        mMap.getUiSettings().setRotateGesturesEnabled(false);//旋转
+        mMap.getUiSettings().setTiltGesturesEnabled(false);//倾斜
         mMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
@@ -142,6 +144,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
 //                    getLocationShop(l1,l2);
 //                    isFst=true;
 //                }
+                getLocationShop(l1,l2);
             }
         });
 
@@ -249,14 +252,6 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             @Override
             public void onClickProvince(int ProvinceID, String ProvinceName) {
                 ChangeProvince(ProvinceID);
-//                if ("北京".equals(ProvinceName)
-//                        || "上海".equals(ProvinceName)
-//                        || "天津".equals(ProvinceName)
-//                        || "重庆".equals(ProvinceName)){
-//                    str_province=ProvinceName+"市";
-//                }else {
-//                    str_province=ProvinceName+"省";
-//                }
                 str_province=ProvinceName;
 
 
@@ -387,6 +382,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             @Override
             public void Result(boolean isSuccess, List<SearchBean> shops) {
                 if (isSuccess){
+                    Log.e("@#","size="+shops.size());
                     for (int i = 0; i < shops.size(); i++) {
                         View view=View.inflate(getActivity(),R.layout.layout_infowindow,null);
                         TextView tv= (TextView) view.findViewById(R.id.tv_text);

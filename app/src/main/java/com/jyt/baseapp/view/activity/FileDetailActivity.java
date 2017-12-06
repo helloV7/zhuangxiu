@@ -47,8 +47,8 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
     private ShareModel mShareModel;
     private FileBean mFileBean;
     private File mFile;
-    private boolean isDownload;//能否下载
-    private boolean CanDownload;//是否已经下载
+    private boolean isDownload;//能否是否已经下载
+    private boolean CanDownload;//能否下载
 
     @Override
     protected int getLayoutId() {

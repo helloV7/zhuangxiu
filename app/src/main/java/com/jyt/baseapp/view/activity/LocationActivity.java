@@ -81,6 +81,8 @@ public class LocationActivity extends BaseActivity {
     private void initMap(){
         mMap = mMapView.getMap();
         mMap.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放按钮
+        mMap.getUiSettings().setRotateGesturesEnabled(false);//旋转
+        mMap.getUiSettings().setTiltGesturesEnabled(false);//倾斜
         mMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {
@@ -150,7 +152,7 @@ public class LocationActivity extends BaseActivity {
     }
 
     /**
-     * 屏幕滑动，通过左下右上两角找寻当前界面内的商店数据
+     * 屏幕滑动，通过左下、右上两角找寻当前界面内的工作人员位置
      * @param l1
      * @param l2
      */

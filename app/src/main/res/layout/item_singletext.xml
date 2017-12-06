@@ -8,11 +8,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
             android:id="@+id/tv_left_province"
-            android:layout_width="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_width="match_parent"
             android:layout_gravity="center_horizontal"
             android:layout_height="wrap_content"
-            android:textSize="13dp"
+            android:background="@color/Yellow"
             android:textColor="@color/text_color1"/>
     </LinearLayout>
 

@@ -224,15 +224,8 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onClickProvince(int ProvinceID, String ProvinceName) {
                 ChangeProvince(ProvinceID);
-                //                if ("北京".equals(ProvinceName)
-                //                        || "上海".equals(ProvinceName)
-                //                        || "天津".equals(ProvinceName)
-                //                        || "重庆".equals(ProvinceName)){
-                //                    str_province=ProvinceName+"市";
-                //                }else {
-                //                    str_province=ProvinceName+"省";
-                //                }
                 str_province = ProvinceName;
+                SearchMapShop(str_province + ",null,null" );
             }
 
             @Override

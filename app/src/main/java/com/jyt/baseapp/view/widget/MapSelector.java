@@ -86,7 +86,7 @@ public class MapSelector extends LinearLayout {
                 }
             });
             mProvinceAdapter.notifyDataSetChanged();
-            rv_left.addItemDecoration(new SpacesItemDecoration(0,60));
+            rv_left.addItemDecoration(new SpacesItemDecoration(0,40));
         }
     }
 
