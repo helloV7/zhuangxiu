@@ -69,4 +69,6 @@
         <item name="android:background">@drawable/btn_big_sel</item>
         <item name="android:clickable">true</item>
     </style>
+
+
 </resources>

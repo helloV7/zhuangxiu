@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.view.ViewConfiguration;
 
+import com.jyt.baseapp.api.OkHttpPostInterceptor;
 import com.jyt.baseapp.util.L;
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.hawk.LogInterceptor;
@@ -77,6 +78,7 @@ public class App  extends Application{
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         LoggerInterceptor interceptor = new LoggerInterceptor("--HTTP--",true);
+        builder.addInterceptor(new OkHttpPostInterceptor());
         builder.addInterceptor(interceptor ).hostnameVerifier(new HostnameVerifier() {
             @Override
             public boolean verify(String hostname, SSLSession session) {

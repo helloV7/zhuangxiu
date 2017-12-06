@@ -49,7 +49,7 @@ dependencies {
     compile 'com.aliyun.dpa:oss-android-sdk:2.4.5'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.squareup.okio:okio:1.9.0'
-    compile 'com.nex3z:flow-layout:0.1.2'
+    compile 'com.nex3z:flow-layout:1.1.0'
     compile 'ch.ielse:switchbutton:1.0.0'
     compile 'com.android.support:design:25.1.0'
     compile 'com.google.code.gson:gson:2.2.4'

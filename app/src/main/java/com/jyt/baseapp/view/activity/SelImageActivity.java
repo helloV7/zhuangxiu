@@ -45,6 +45,8 @@ public class SelImageActivity extends BaseActivity {
     int currentSelCount = 0;
     int maxSelCount = 0;
 
+
+
     @Override
     protected int getLayoutId() {
         return R.layout.layout_only_viewpager;

@@ -44,6 +44,7 @@ import com.jyt.baseapp.view.activity.ShopActivity;
 import com.jyt.baseapp.view.widget.MapSelector;
 import com.jyt.baseapp.view.widget.SingleSelector;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -154,7 +155,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                 SearchBean localData= (SearchBean) marker.getObject();
                 Log.e("@#","local:"+localData.getProjectName());
                 Intent intent = new Intent(getActivity(),ShopActivity.class);
-                intent.putExtra("shopinfo",localData);
+                intent.putExtra("shopinfo", (Serializable) localData);
                 startActivity(intent);
                 return true;
             }

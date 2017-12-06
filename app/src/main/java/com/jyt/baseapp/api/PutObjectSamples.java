@@ -37,7 +37,7 @@ public class PutObjectSamples extends BaseSamples{
     }
 
     // Upload from local files. Use synchronous API
-    public void putObjectFromLocalFile() {
+    public PutObjectRequest putObjectFromLocalFile() {
         // Creates the upload request
         PutObjectRequest put = new PutObjectRequest(testBucket, testObject, uploadFilePath);
 
@@ -46,6 +46,8 @@ public class PutObjectSamples extends BaseSamples{
             OSSLog.logError("PutObject", "UploadSuccess");
             OSSLog.logError("ETag", putResult.getETag());
             OSSLog.logError("RequestId", putResult.getRequestId());
+            return  put;
+
         } catch (ClientException e) {
             // client side exception,  such as network exception
             e.printStackTrace();
@@ -56,6 +58,7 @@ public class PutObjectSamples extends BaseSamples{
             OSSLog.logError("HostId", e.getHostId());
             OSSLog.logError("RawMessage", e.getRawMessage());
         }
+        return null;
     }
 
     // Upload from local files. Use asynchronous API

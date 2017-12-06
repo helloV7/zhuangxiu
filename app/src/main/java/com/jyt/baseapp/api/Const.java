@@ -18,6 +18,7 @@ public class Const {
     public final static String PositionID ="positionId";
     public final static String UserToken="token";
     public final static String UserLoginState="LoginState";
+    public static final String USERID = "userId";
 
     public final static String Tag_LocationShop ="location";
     public final static String Tag_LocationWorker="worker";
@@ -28,12 +29,13 @@ public class Const {
     public final static String SecretKeyId="oKrkinHaJf3CbIrgQIrPhcK3ejgCcW";
     public final static String mMainFile = Environment.getExternalStorageDirectory().getPath() + File.separator + "mingya";
 
-    public static void KeepLoginState(String departmentId,String nickName,String positionId,String userToken){
+    public static void KeepLoginState(String departmentId,String nickName,String positionId,String userToken,String userId){
         BaseUtil.setSpString(DepartmentId,departmentId);
         BaseUtil.setSpString(NickName,nickName);
         BaseUtil.setSpString(PositionID,positionId);
         BaseUtil.setSpString(UserToken,userToken);
         BaseUtil.setSpBoolean(UserLoginState,true);
+        BaseUtil.setSpString(USERID,userId);
     }
 
     public static void Logout(Context context){
@@ -42,6 +44,7 @@ public class Const {
         BaseUtil.setSpString(PositionID,null);
         BaseUtil.setSpString(UserToken,null);
         BaseUtil.setSpBoolean(UserLoginState,false);
+        BaseUtil.setSpString(USERID,null);
         IntentHelper.DoLogout(context);
     }
 

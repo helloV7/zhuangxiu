@@ -37,4 +37,16 @@ public class Path {
 
     public final static String URL_Ayiyun="http://mingya-oss.oss-cn-shenzhen.aliyuncs.com/";
 
+    //上传项目节点内容
+    public static final String URL_ADD_PROJECT_CONTENT = "project/detailSpeed";
+
+    //读取项目节点内容
+    public static final String URL_GET_PROJECT_CONTENT = "getList";
+
+    //根据用户id获取用户详细
+    public static final String URL_GET_USER_SUB_INFO = "user/getUserDetailA";
+
+    //
+    public static final String URL_PROGRESS_NEXT = "content/clickNext";
+
 }
