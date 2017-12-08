@@ -8,7 +8,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <item type="id" name="tag_imgUrl">
+    <item name="tag_imgUrl" type="id">
     </item>
-    <item type="id" name="tag_data">
-    </item>  </resources>
+    <item name="tag_data" type="id">
+    </item>
+</resources>

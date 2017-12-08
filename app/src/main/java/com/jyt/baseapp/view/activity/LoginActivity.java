@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.api.Const;
@@ -44,10 +45,6 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         HideActionBar();
-        if (BaseUtil.getSpBoolean(Const.UserLoginState)){
-            startActivity(new Intent(LoginActivity.this,ContentActivity.class));
-            finish();
-        }
         mLoginModel=new LoginModel();
         Const.createFileMkdirs();
     }
@@ -73,6 +70,24 @@ public class LoginActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+
+    /**
+     * 双击退出
+     */
+    private long mPressedTime = 0;
+    @Override
+    public void onBackPressed() {
+        long mNowTime = System.currentTimeMillis();//获取第一次按键时间
+        if((mNowTime - mPressedTime) > 2000){//比较两次按键时间差
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            mPressedTime = mNowTime;
+        }
+        else{//退出程序
+            this.finish();
+            System.exit(0);
+        }
     }
 
 }
