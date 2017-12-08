@@ -36,20 +36,11 @@ public class ProjectHolder extends BaseViewHolder<SearchBean> {
         mTvShopName.setText(data.getProjectName());
         mTvShopMsg.setText(data.getBrandName()+" "+data.getSubClassName());
         mTvShopStation.setText(data.getSchedule());
+        if("暂停中".equals(data.getAddress())){
+            mTvShopStation.setTextColor(itemView.getResources().getColor(R.color.color_stop));
+        }else {
+            mTvShopStation.setTextColor(itemView.getResources().getColor(R.color.map_text2));
+        }
         mTvShopLocation.setText(data.getAddress());
-//        if (data.isStop()){
-//            mTvShopStation.setTextColor(itemView.getResources().getColor(R.color.color_stop));
-//        }else {
-//            mTvShopStation.setTextColor(itemView.getResources().getColor(R.color.map_text2));
-//        }
-//        if (data.isNext()){
-//            mIvNext.setVisibility(View.VISIBLE);
-//            mTvShopStation.setVisibility(View.GONE);
-//            mTvShopLocation.setVisibility(View.GONE);
-//        }else {
-//            mIvNext.setVisibility(View.GONE);
-//            mTvShopStation.setVisibility(View.VISIBLE);
-//            mTvShopLocation.setVisibility(View.VISIBLE);
-//        }
     }
 }

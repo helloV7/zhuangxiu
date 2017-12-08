@@ -43,7 +43,8 @@
             style="@style/myStar"
             android:isIndicator="true"
             android:numStars="5"
-            android:rating="0" />
+            android:rating="0"
+            android:stepSize="1.0"/>
     </RelativeLayout>
 
     <ScrollView

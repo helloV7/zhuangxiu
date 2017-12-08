@@ -11,6 +11,7 @@ import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.FragmentViewPagerAdapter;
 import com.jyt.baseapp.view.fragment.BaseFragment;
 import com.jyt.baseapp.view.fragment.BrandFragment;
+import com.jyt.baseapp.view.fragment.InfoFragment;
 import com.jyt.baseapp.view.fragment.MapFragment;
 import com.jyt.baseapp.view.fragment.MoreFragment;
 import com.jyt.baseapp.view.fragment.ProjectFragment;
@@ -52,6 +53,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     private MoreFragment mMoreFragment;
     private FragmentViewPagerAdapter vpAdapter;
     private BrandFragment mBrandFragment;
+    private InfoFragment mInfoFragment;
 
     @Override
     protected int getLayoutId() {
@@ -79,10 +81,12 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         mProjectFragment=new ProjectFragment();
         mMoreFragment=new MoreFragment();
         mBrandFragment = new BrandFragment();
+        mInfoFragment = new InfoFragment();
         flist.add(mMapFragment);
         flist.add(mProjectFragment);
-//        flist.add(mBrandFragment);
+//        flist.add(mBrandFragment);//品牌方
         flist.add(mMoreFragment);
+//        flist.add(mInfoFragment);//品牌方
         vpAdapter=new FragmentViewPagerAdapter(getSupportFragmentManager());
         vpAdapter.setFragments(flist);
         mVpContainer.setAdapter(vpAdapter);

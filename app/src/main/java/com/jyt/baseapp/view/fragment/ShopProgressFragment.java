@@ -246,6 +246,7 @@ public class ShopProgressFragment extends BaseFragment {
                 //未完成
                 mAppendList.get(i).setComplete(false);
                 if (!isIndex){
+                    //只触发一次，即当前进度点触发
                     for (Map.Entry<Integer,ProgressLine> entry : mProgressMap.entrySet()) {
                         int index=entry.getKey();
                         if (data.get(i).getSpeedUpCode()>index){
