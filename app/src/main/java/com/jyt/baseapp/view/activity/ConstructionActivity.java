@@ -7,6 +7,8 @@ import android.view.View;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.FragmentViewPagerAdapter;
+import com.jyt.baseapp.api.BeanCallback;
+import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.bean.ProgressBean;
 import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.ProjectDetailModel;
@@ -17,6 +19,7 @@ import com.jyt.baseapp.view.fragment.ViewConstructFragment;
 import com.jyt.baseapp.view.widget.NoScrollViewPager;
 
 import butterknife.BindView;
+import okhttp3.Call;
 
 /**
  * 有权限操作对页面
@@ -67,15 +70,17 @@ public class ConstructionActivity extends BaseActivity {
         adapter.addFragment(underConstructionFragment = new UnderConstructionFragment(),"施工中");
         adapter.addFragment(finishConstructionFragment = new FinishConstructionFragment(),"施工完毕");
 
-
         Bundle bundle = new Bundle();
-        bundle.putParcelable("progress",progressBean);
+        bundle.putParcelable(IntentKey.PROGRESS,progressBean);
         viewConstructFragment.setProjectDetailModel(projectDetailModel);
         viewConstructFragment.setArguments(bundle);
         underConstructionFragment.setProjectDetailModel(projectDetailModel);
         underConstructionFragment.setArguments(bundle);
         finishConstructionFragment.setProjectDetailModel(projectDetailModel);
         finishConstructionFragment.setArguments(bundle);
+
+
+
 
         adapter.notifyDataSetChanged();
 
@@ -96,12 +101,38 @@ public class ConstructionActivity extends BaseActivity {
             }
         });
         vViewPager.setCurrentItem(0);
-        //权限设置
+
+        //权限判断
         if (canEdit){
             vTabLayout.setVisibility(View.VISIBLE);
+
         }else {
             vTabLayout.setVisibility(View.GONE);
         }
+        notifyPage();
+
+    }
+
+    /**
+     *是否第一次进入
+     */
+    public void notifyPage(){
+
+        projectDetailModel.getStatus(progressBean.getProjectId(), "1", new BeanCallback<BaseJson<String>>() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(BaseJson<String> response, int id) {
+                if (!"0".equals(response.data)){
+                    vTabLayout.setVisibility(View.VISIBLE);
+                }else {
+                    vTabLayout.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @Override
@@ -109,4 +140,6 @@ public class ConstructionActivity extends BaseActivity {
         super.onDestroy();
         projectDetailModel.onDestroy();
     }
+
+
 }

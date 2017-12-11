@@ -3,7 +3,6 @@ package com.jyt.baseapp.model.impl;
 import android.content.Context;
 
 import com.google.gson.Gson;
-import com.jyt.baseapp.api.BeanCallback;
 import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.api.Path;
 import com.jyt.baseapp.bean.DeliverGoods;
@@ -93,13 +92,51 @@ public class ProjectDetailModelImpl implements ProjectDetailModel {
                 .build().execute(callback);
     }
 
+    /**
+     * 获取项目信息
+     * 1获取是否第一次进入施工中（0是第一次1不是第一次），2获取是否完工（0没有完工1已经完工）3获取今天已经上传的次数（今天上传的次数）
+     * @param ProjectID
+     * @param value
+     * @param callback
+     */
     @Override
     public void getStatus(String ProjectID , String value, Callback callback) {
-        OkHttpUtils.get().url(Path.BasePath)
-                .addParams("tokenSession",Const.gettokenSession())
+        OkHttpUtils.get().url(Path.URL_MapDatas)
+                .addParams("token",Const.gettokenSession())
+                .addParams("method","getStatus")
                 .addParams("page","0")
                 .addParams("keyWord",ProjectID)
                 .addParams("searchValue",value)
+                .build().execute(callback);
+    }
+
+    /**
+     * 获取施工中的信息
+     * @param ProjectID
+     * @param callback
+     */
+    @Override
+    public void getConstructionData(String ProjectID, Callback callback) {
+        OkHttpUtils.get().url(Path.URL_MapDatas)
+                .addParams("token",Const.gettokenSession())
+                .addParams("method","selectConstructioniList")
+                .addParams("page","0")
+                .addParams("searchValue",ProjectID)
+                .build().execute(callback);
+    }
+
+    /**
+     * 设置施工中的预计完成时间
+     * @param ProjectID
+     * @param FinishTime
+     * @param callback
+     */
+    @Override
+    public void setFinishTime(String ProjectID, String FinishTime, Callback callback) {
+        OkHttpUtils.post().url(Path.URL_SetFinishTime)
+                .addParams("token",Const.gettokenSession())
+                .addParams("projectId",ProjectID)
+                .addParams("finishDate",FinishTime)
                 .build().execute(callback);
     }
 

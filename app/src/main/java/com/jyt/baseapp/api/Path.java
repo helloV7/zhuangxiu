@@ -37,6 +37,8 @@ public class Path {
 
     public final static String URL_Ayiyun="http://mingya-oss.oss-cn-shenzhen.aliyuncs.com/";
 
+    public final static String URL_SetFinishTime=BasePath+"constructioni/setFinishTime";
+
     //上传项目节点内容
     public static final String URL_ADD_PROJECT_CONTENT = "project/detailSpeed";
 

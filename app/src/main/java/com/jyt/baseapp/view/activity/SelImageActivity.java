@@ -4,7 +4,6 @@ package com.jyt.baseapp.view.activity;
  * Created by chenweiqi on 2017/10/31.
  */
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -14,9 +13,7 @@ import com.jyt.baseapp.bean.LocalMedia;
 import com.jyt.baseapp.bean.LocalMediaFolder;
 import com.jyt.baseapp.bean.Tuple;
 import com.jyt.baseapp.helper.IntentHelper;
-import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.util.LocalMediaLoader;
-import com.jyt.baseapp.util.ScreenUtils;
 import com.jyt.baseapp.view.fragment.ImgFolderFragment;
 import com.jyt.baseapp.view.fragment.ImgListFragment;
 import com.jyt.baseapp.view.widget.NoScrollViewPager;

@@ -2,7 +2,6 @@ package com.jyt.baseapp.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -268,7 +267,6 @@ public class ShopProgressFragment extends BaseFragment {
 
             }
             //---------------------------------------------------
-            Log.e("@#",""+i+" == "+data.get(i).getFinishTime());
             if (data.get(i).getFinishTime()!=null){
                 mAppendList.get(i).setTv_time(BaseUtil.getTime(data.get(i).getFinishTime()));
             }else {
@@ -466,6 +464,17 @@ public class ShopProgressFragment extends BaseFragment {
             }
         });
 
+        at_Construction.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
+            @Override
+            public void onClick(ProgressBean bean) {
+                boolean canEdit = false;
+                if(0!=bean.getPermissionState()){
+                    canEdit=true;
+                }
+                IntentHelper.openConstructionActivity(getContext(),bean,canEdit);
+            }
+        });
+
         at_Designed.setOnAppendOnclickListener(browserSimpleContent);
         at_Approvaled.setOnAppendOnclickListener(browserSimpleContent);
         at_Confirm.setOnAppendOnclickListener(browserSimpleContent);
@@ -476,6 +485,8 @@ public class ShopProgressFragment extends BaseFragment {
         at_Material3.setOnAppendOnclickListener(browserSimpleContent);
         at_Material4.setOnAppendOnclickListener(browserSimpleContent);
         at_Complete.setOnAppendOnclickListener(browserSimpleContent);
+
+
 
 
         at_Logistics1.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {

@@ -2,6 +2,7 @@ package com.jyt.baseapp.model;
 
 import android.content.Context;
 
+import com.jyt.baseapp.bean.DeliverGoods;
 import com.zhy.http.okhttp.callback.Callback;
 
 import java.util.List;
@@ -48,5 +49,12 @@ public interface ProjectDetailModel {
      */
     void getConstrictionComplete(String projectId,Callback callback);
 
+
     void getStatus(String ProjectID , String value ,Callback callback );
+
+    void getConstructionData(String ProjectID , Callback callback);
+
+    void setFinishTime(String ProjectID , String FinishTime ,Callback callback);
+
+
 }

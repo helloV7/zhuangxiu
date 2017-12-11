@@ -5,9 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -15,11 +14,16 @@ import android.widget.TextView;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.ShowImageAdapter;
+import com.jyt.baseapp.api.BeanCallback;
+import com.jyt.baseapp.bean.BaseJson;
+import com.jyt.baseapp.bean.ProgressBean;
 import com.jyt.baseapp.bean.Tuple;
 import com.jyt.baseapp.helper.IntentHelper;
+import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.helper.IntentRequestCode;
 import com.jyt.baseapp.itemDecoration.RcvGridSpaceItemDecoration;
 import com.jyt.baseapp.model.ProjectDetailModel;
+import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.util.ScreenUtils;
 import com.jyt.baseapp.util.T;
@@ -31,9 +35,8 @@ import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
+import okhttp3.Call;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -67,8 +70,11 @@ public class UnderConstructionFragment extends BaseFragment {
     final int columnCount = 4;
     //图片边距百分比
     final float imageMarginPercent = 0.011f;
+    //是否超出最大限制
+    boolean isMax;
 
     ProjectDetailModel projectDetailModel;
+    private ProgressBean mBean;
 
     @Override
     protected int getLayoutId() {
@@ -81,6 +87,13 @@ public class UnderConstructionFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         hadSetEndTime(true);
+        init();
+
+    }
+
+    private void init() {
+        mBean = getArguments().getParcelable(IntentKey.PROGRESS);
+
     }
 
     /**
@@ -112,7 +125,7 @@ public class UnderConstructionFragment extends BaseFragment {
                         images.remove(images.size()-1);
                         int selCount = maxCount-currentCount;
                         if (selCount>0){
-                            IntentHelper.openSelImageActivityForResult(getContext(),selCount);
+                            IntentHelper.openSelImageActivityForResult(UnderConstructionFragment.this,selCount);
 
                         }else {
                             T.showShort(getContext(),"已达到限制，无法继续添加");
@@ -145,7 +158,30 @@ public class UnderConstructionFragment extends BaseFragment {
     //上传图片
     @OnClick(R.id.btn_submit)
     public void onSubmitImageClick() {
+        if (isMax){
+            BaseUtil.makeText("已超出当天最大上传次数");
+            return;
+        }
+        if (imageList.size()<=1){
+            BaseUtil.makeText("请添加上传的工程图片");
+            return;
+        }
+        projectDetailModel.getStatus(mBean.getProjectId(), "3", new BeanCallback<BaseJson<String>>() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
 
+            }
+
+            @Override
+            public void onResponse(BaseJson<String> response, int id) {
+                Log.e("@#",response.data.toString());
+                int max = Integer.valueOf(response.data.toString().trim());
+                if (max>=3){
+                    isMax=true;
+                    BaseUtil.makeText("已超出当天最大上传次数");
+                }
+            }
+        });
     }
 
     //提交时间
@@ -163,6 +199,7 @@ public class UnderConstructionFragment extends BaseFragment {
         if (requestCode == IntentRequestCode.CODE_SEL_IMAGES && resultCode == RESULT_OK){
             Tuple result = IntentHelper.SelImageActivityGetResult(data);
             imageList = (List) result.getItem1();
+            Log.e("@#",imageList.size()+"");
             imageList.add(imageList.size(),new Integer(0));
             adapter.setDataList(imageList);
             adapter.notifyDataSetChanged();

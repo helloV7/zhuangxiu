@@ -35,11 +35,14 @@ public class IntentHelper {
 
     //region 选择图片
     public static void openSelImageActivityForResult(Object context, int maxSelCount){
-        Intent intent = getIntent((Context) context, SelImageActivity.class);
-        intent.putExtra(IntentKey.MAX_COUNT,maxSelCount);
+
         if (context instanceof  Activity){
+            Intent intent = getIntent((Context) context, SelImageActivity.class);
+            intent.putExtra(IntentKey.MAX_COUNT,maxSelCount);
             ((Activity) context).startActivityForResult(intent,IntentRequestCode.CODE_SEL_IMAGES);
         }else if (context instanceof Fragment){
+            Intent intent = getIntent(((Fragment) context).getContext(), SelImageActivity.class);
+            intent.putExtra(IntentKey.MAX_COUNT,maxSelCount);
             ((Fragment) context).startActivityForResult(intent,IntentRequestCode.CODE_SEL_IMAGES);
         }
     }

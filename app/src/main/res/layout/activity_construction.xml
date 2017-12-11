@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
     <android.support.design.widget.TabLayout
         android:id="@+id/v_tabLayout"
+        android:visibility="gone"
+        app:tabIndicatorColor="@color/map_text2"
+        app:tabSelectedTextColor="@color/map_text2"
+        app:tabTextColor="@color/map_text1"
         android:layout_height="44dp"
         android:layout_width="match_parent">
     </android.support.design.widget.TabLayout>
