@@ -46,7 +46,14 @@ public class Path {
     //根据用户id获取用户详细
     public static final String URL_GET_USER_SUB_INFO = "user/getUserDetailA";
 
-    //
+    //项目进度直接+1
     public static final String URL_PROGRESS_NEXT = "content/clickNext";
+
+    //新增物流信息
+    public static final String URL_ADD_DELIVER_GOODS_INFO="logist/ioeApp";
+
+    //提交货到待施工
+    public static final String URL_ADD_CONSTRICTION = "logist/con";
+
 
 }

@@ -89,11 +89,11 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.item_info:
-                if (mInfoBean!=null){
+//                if (mInfoBean!=null){
                     Intent intent = new Intent(getActivity(), PersonInfoActivity.class);
                     intent.putExtra("Personinfo",mInfoBean);
                     startActivity(intent);
-                }
+//                }
                 break;
             case R.id.item_maneuver:
                 getActivity().startActivity(new Intent(getActivity(), ManeuverActivity.class));

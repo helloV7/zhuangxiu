@@ -2,14 +2,23 @@ package com.jyt.baseapp.model.impl;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+import com.jyt.baseapp.api.BeanCallback;
 import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.api.Path;
+import com.jyt.baseapp.bean.DeliverGoods;
 import com.jyt.baseapp.model.ProjectDetailModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.Callback;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
+
+import okhttp3.MediaType;
 
 /**
  * Created by chenweiqi on 2017/12/1.
@@ -82,5 +91,45 @@ public class ProjectDetailModelImpl implements ProjectDetailModel {
                 .addParams("userId",BaseUtil.getSpString(Const.USERID))
                 .tag(mContext)
                 .build().execute(callback);
+    }
+
+    @Override
+    public void addDeliverGoodsInfo(String projectId, List<DeliverGoods> logList, Callback callback) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("projectId",projectId);
+            jsonObject.put("logList",new JSONArray(new Gson().toJson(logList)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpUtils.postString().addHeader("contentType","application/json").url(Path.BasePath+Path.URL_ADD_DELIVER_GOODS_INFO+"?token="+BaseUtil.getSpString(Const.UserToken))
+                .content(jsonObject.toString())
+                .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                .tag(mContext)
+                .build().execute(callback);
+    }
+
+    @Override
+    public void getAllDeliverGoodsInfo(String projectId, Callback callback) {
+        OkHttpUtils.get().url(Path.BasePath+Path.URL_GET_PROJECT_CONTENT+"?token="+BaseUtil.getSpString(Const.UserToken)+"&searchValue="+projectId+"&method=getAllLogPage&page=0")
+        .tag(mContext)
+        .build().execute(callback);
+    }
+
+    @Override
+    public void addConstriction(String constructionTime, String constructionArr, String constructionStart, String projectManId, String mpersonalId, String projectId, Callback callback) {
+        OkHttpUtils.post().url(Path.BasePath+Path.URL_ADD_CONSTRICTION+"?token="+BaseUtil.getSpString(Const.UserToken))
+                .addParams("constructionTime",constructionTime)
+                .addParams("constructionArr",constructionArr)
+                .addParams("constructionStart",constructionStart)
+                .addParams("projectManId",projectManId)
+                .addParams("mpersonalId",mpersonalId)
+                .addParams("projectId",projectId)
+                .tag(mContext).build().execute(callback);
+    }
+
+    @Override
+    public void getConstrictionComplete(String projectId, Callback callback) {
+        OkHttpUtils.get().url(Path.BasePath+Path.URL_GET_PROJECT_CONTENT+"?method=getDetailConstruction&&token="+BaseUtil.getSpString(Const.UserToken)+"&searchValue="+projectId).build().execute(callback);
     }
 }
