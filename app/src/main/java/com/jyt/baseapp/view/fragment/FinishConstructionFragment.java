@@ -17,6 +17,7 @@ import com.jyt.baseapp.bean.Tuple;
 import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.helper.IntentRequestCode;
 import com.jyt.baseapp.itemDecoration.RcvGridSpaceItemDecoration;
+import com.jyt.baseapp.model.ProjectDetailModel;
 import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.util.ScreenUtils;
 import com.jyt.baseapp.util.T;
@@ -58,6 +59,8 @@ public class FinishConstructionFragment extends BaseFragment {
     final int columnCount = 4;
     //图片边距百分比
     final float imageMarginPercent = 0.011f;
+
+    ProjectDetailModel projectDetailModel;
 
     @Override
     protected int getLayoutId() {
@@ -120,6 +123,10 @@ public class FinishConstructionFragment extends BaseFragment {
     @OnClick(R.id.btn_submit)
     public void onSubmitImageClick() {
 
+    }
+
+    public void setProjectDetailModel(ProjectDetailModel projectDetailModel) {
+        this.projectDetailModel = projectDetailModel;
     }
 
     @Override

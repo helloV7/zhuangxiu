@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import com.jyt.baseapp.R;
+import com.jyt.baseapp.model.ProjectDetailModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,6 +31,7 @@ public class ViewConstructFragment extends BaseFragment {
 
 
 
+    ProjectDetailModel projectDetailModel;
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_view_construct;
@@ -43,5 +45,7 @@ public class ViewConstructFragment extends BaseFragment {
 
     }
 
-
+    public void setProjectDetailModel(ProjectDetailModel projectDetailModel) {
+        this.projectDetailModel = projectDetailModel;
+    }
 }

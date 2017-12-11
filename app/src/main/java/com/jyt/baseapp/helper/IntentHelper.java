@@ -17,6 +17,7 @@ import com.jyt.baseapp.view.activity.FileDetailActivity;
 import com.jyt.baseapp.view.activity.FinishSteelHookActivity;
 import com.jyt.baseapp.view.activity.InfoDetailActivity;
 import com.jyt.baseapp.view.activity.LoginActivity;
+import com.jyt.baseapp.view.activity.PrepareConstructActivity;
 import com.jyt.baseapp.view.activity.SelImageActivity;
 import com.jyt.baseapp.view.activity.SelPeopleActivity;
 import com.jyt.baseapp.view.activity.ShopActivity;
@@ -311,25 +312,30 @@ public class IntentHelper {
     public static void openWaitSendActivity(Context context,Parcelable project){
         Intent intent = getIntent(context, DeliverGoodsActivity.class);
         intent.putExtra(IntentKey.TYPE,DeliverGoodsActivity.TYPE_WAITE_SEND);
+        intent.putExtra(IntentKey.PEOPLE,project);
         context.startActivity(intent);
     }
 
     public static void openSentActivity(Context context,Parcelable project){
         Intent intent = getIntent(context, DeliverGoodsActivity.class);
         intent.putExtra(IntentKey.TYPE,DeliverGoodsActivity.TYPE_SENT);
+        intent.putExtra(IntentKey.PEOPLE,project);
         context.startActivity(intent);
     }
 
     public static Tuple DeliverGoodsActivityGetPara(Intent intent){
-        int type = getIntent().getIntExtra(IntentKey.TYPE,0);
-        return new Tuple(type);
+        int type = intent.getIntExtra(IntentKey.TYPE,0);
+        Parcelable project = intent.getParcelableExtra(IntentKey.PEOPLE);
+        return new Tuple(type,project);
     }
     //endregion
 
     //region 选择员工
 
-    public static void openSelSingleWorkerActivityForResult(Object context){
+    public static void openSelSingleManagerActivityForResult(Object context){
         Intent intent = getIntent();
+        intent.putExtra(IntentKey.TYPE,SelPeopleActivity.TYPE_PROJECT_MANAGER);
+
         if (context instanceof Activity){
             intent.setClass((Context) context,SelPeopleActivity.class);
             ((Activity) context).startActivityForResult(intent,IntentRequestCode.CODE_SEL_SINGLE_WORKER);
@@ -339,8 +345,18 @@ public class IntentHelper {
         }
     }
 
-    public static void openSelSingleMonitorActivityForResult(Object context){
+    public static Tuple SelSingleWorkerGetPara(Intent intent){
+        int type = intent.getIntExtra(IntentKey.TYPE,0);
+        String parentId = intent.getStringExtra(IntentKey.ID);
+
+        return new Tuple(type,parentId);
+    }
+
+    public static void openSelSingleMonitorActivityForResult(Object context,String parentId){
         Intent intent = getIntent();
+        intent.putExtra(IntentKey.TYPE,SelPeopleActivity.TYPE_PROJECT_MONITOR);
+        intent.putExtra(IntentKey.ID,parentId);
+
         if (context instanceof Activity){
             intent.setClass((Context) context,SelPeopleActivity.class);
             ((Activity) context).startActivityForResult(intent,IntentRequestCode.CODE_SEL_SINGLE_MONITOR);
@@ -361,10 +377,34 @@ public class IntentHelper {
 
     //endregion
 
+    //region 货到待施工 安排施工人员完毕
+    public static void openWaitingConstructActivity(Context context,Parcelable  project) {
+        Intent intent = getIntent(context, PrepareConstructActivity.class);
+        intent.putExtra(IntentKey.TYPE,PrepareConstructActivity.TYPE_PREPARE);
+        intent.putExtra(IntentKey.PEOPLE,project);
+        context.startActivity(intent);
+    }
+    public static void openPrepareConstructCompleteActivity(Context context,Parcelable  project) {
+        Intent intent = getIntent(context, PrepareConstructActivity.class);
+        intent.putExtra(IntentKey.TYPE,PrepareConstructActivity.TYPE_PREPARE_FINISH);
+        intent.putExtra(IntentKey.PEOPLE,project);
+        context.startActivity(intent);
+    }
+
+    public static Tuple ConstructCompleteActivityGetPara(Intent intent){
+        int type = intent.getIntExtra(IntentKey.TYPE,0);
+        Parcelable project = intent.getParcelableExtra(IntentKey.PEOPLE);
+        return new Tuple(type,project);
+    }
+
+
+    //endregion
+
     //region 施工中
-    public static void openConstructionActivity(Context context,Parcelable project){
+    public static void openConstructionActivity(Context context,Parcelable project,boolean canEdit){
         Intent intent = getIntent(context, ConstructionActivity.class);
         intent.putExtra(IntentKey.DATA,project);
+        intent.putExtra(IntentKey.EDITABLE,canEdit);
         context.startActivity(intent);
     }
     public static Tuple ConstructionActivityGetPara(Intent intent){
