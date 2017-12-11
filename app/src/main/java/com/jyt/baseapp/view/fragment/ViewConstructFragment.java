@@ -2,9 +2,7 @@ package com.jyt.baseapp.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -13,8 +11,6 @@ import com.jyt.baseapp.R;
 import com.jyt.baseapp.model.ProjectDetailModel;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 /**
  * 查看施工
@@ -42,6 +38,11 @@ public class ViewConstructFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        init();
+
+    }
+
+    private void init() {
 
     }
 

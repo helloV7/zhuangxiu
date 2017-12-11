@@ -16,10 +16,7 @@ import com.jyt.baseapp.view.fragment.UnderConstructionFragment;
 import com.jyt.baseapp.view.fragment.ViewConstructFragment;
 import com.jyt.baseapp.view.widget.NoScrollViewPager;
 
-import java.util.List;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 有权限操作对页面
@@ -69,6 +66,17 @@ public class ConstructionActivity extends BaseActivity {
         adapter.addFragment(viewConstructFragment = new ViewConstructFragment(),"查看施工");
         adapter.addFragment(underConstructionFragment = new UnderConstructionFragment(),"施工中");
         adapter.addFragment(finishConstructionFragment = new FinishConstructionFragment(),"施工完毕");
+
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("progress",progressBean);
+        viewConstructFragment.setProjectDetailModel(projectDetailModel);
+        viewConstructFragment.setArguments(bundle);
+        underConstructionFragment.setProjectDetailModel(projectDetailModel);
+        underConstructionFragment.setArguments(bundle);
+        finishConstructionFragment.setProjectDetailModel(projectDetailModel);
+        finishConstructionFragment.setArguments(bundle);
+
         adapter.notifyDataSetChanged();
 
         vViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -88,6 +96,12 @@ public class ConstructionActivity extends BaseActivity {
             }
         });
         vViewPager.setCurrentItem(0);
+        //权限设置
+        if (canEdit){
+            vTabLayout.setVisibility(View.VISIBLE);
+        }else {
+            vTabLayout.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -19,7 +19,10 @@ public interface ProjectDetailModel {
 
     public void getProgressDetail(String detailId,Callback callback);
 
+
     void  getPersonById(String userId,Callback callback);
 
     void clickToNextStep(String detailId,String projectId,String sc,Callback callback);
+
+    void getStatus(String ProjectID , String value ,Callback callback );
 }

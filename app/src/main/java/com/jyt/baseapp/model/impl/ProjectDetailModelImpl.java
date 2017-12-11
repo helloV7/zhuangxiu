@@ -83,4 +83,14 @@ public class ProjectDetailModelImpl implements ProjectDetailModel {
                 .tag(mContext)
                 .build().execute(callback);
     }
+
+    @Override
+    public void getStatus(String ProjectID , String value, Callback callback) {
+        OkHttpUtils.get().url(Path.BasePath)
+                .addParams("tokenSession",Const.gettokenSession())
+                .addParams("page","0")
+                .addParams("keyWord",ProjectID)
+                .addParams("searchValue",value)
+                .build().execute(callback);
+    }
 }

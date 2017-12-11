@@ -61,4 +61,8 @@ public class Const {
         }
     }
 
+    public static String gettokenSession(){
+        return BaseUtil.getSpString(UserToken);
+    }
+
 }
