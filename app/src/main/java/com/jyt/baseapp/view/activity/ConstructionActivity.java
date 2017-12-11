@@ -7,6 +7,10 @@ import android.view.View;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.FragmentViewPagerAdapter;
+import com.jyt.baseapp.bean.ProgressBean;
+import com.jyt.baseapp.helper.IntentKey;
+import com.jyt.baseapp.model.ProjectDetailModel;
+import com.jyt.baseapp.model.impl.ProjectDetailModelImpl;
 import com.jyt.baseapp.view.fragment.FinishConstructionFragment;
 import com.jyt.baseapp.view.fragment.UnderConstructionFragment;
 import com.jyt.baseapp.view.fragment.ViewConstructFragment;
@@ -34,6 +38,11 @@ public class ConstructionActivity extends BaseActivity {
     ViewConstructFragment viewConstructFragment;
     UnderConstructionFragment underConstructionFragment;
     FinishConstructionFragment finishConstructionFragment;
+
+    ProjectDetailModel projectDetailModel;
+
+    boolean canEdit;
+    ProgressBean progressBean;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_construction;
@@ -47,7 +56,11 @@ public class ConstructionActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        projectDetailModel = new ProjectDetailModelImpl();
+        projectDetailModel.onCreate(getContext());
 
+        canEdit = getIntent().getBooleanExtra(IntentKey.EDITABLE,false);
+        progressBean = getIntent().getParcelableExtra(IntentKey.DATA);
 
         vViewPager.setAdapter(adapter = new FragmentViewPagerAdapter(getSupportFragmentManager()));
         vViewPager.setOffscreenPageLimit(3);
@@ -77,4 +90,9 @@ public class ConstructionActivity extends BaseActivity {
         vViewPager.setCurrentItem(0);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        projectDetailModel.onDestroy();
+    }
 }
