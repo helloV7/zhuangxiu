@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BaseApp</string>
+    <string name="app_name">铭雅</string>
     <string name="selImages_finish_text">完成(%1$s/%2$s)</string>
     <string name="uploadImages_finish_text">图片数量(%1$s/%2$s)</string>
     <string name="batch">第%1$s批发货</string>

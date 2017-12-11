@@ -116,20 +116,21 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
         int xiegang = mFileBean.getShareUrl().lastIndexOf("/");
         String fileNameAndType = mFileBean.getShareUrl().substring(xiegang+1);
         mFile = new File(Const.mMainFile+"/"+fileNameAndType);
+        //0 判断目录是否存在
         File files = new File(Const.mMainFile);
         if (!files.exists()){
             //目录不存在
             files.mkdirs();
         }
 
-        //判断文件是否已下载
+        //1 判断文件是否已下载
         if (mFile.exists()){
             //已下载，隐藏下载进度框
             Log.e("@#","exit");
-            isDownload=true;
             mBtnDownload.setText("用其他应用打开");
             mBtnDownload.setBackground(getResources().getDrawable(R.drawable.bg_corner_blue2));
             mLlProgress.setVisibility(View.INVISIBLE);
+            isDownload=true;
         }else {
             Log.e("@#","unexit");
             //未下载，显示下载进度框
@@ -137,6 +138,7 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
             mBtnDownload.setBackground(getResources().getDrawable(R.drawable.bg_corner_blue2));
             mLlProgress.setVisibility(View.VISIBLE);
             isDownload=false;
+            //2 判断内存是否足够
             getFileSize(mFileBean.getShareUrl());
         }
 
@@ -155,10 +157,10 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.btn_download:
                 if (isDownload){
-                    //已下载状态
+                    //4 已下载状态
                     showAttachment(mFileBean.getShareSuffix(),mFile.getAbsolutePath());
                 }else {
-                    //未下载状态
+                    //3 未下载状态
                     if (CanDownload){
                         mBtnDownload.setVisibility(View.INVISIBLE);
                         downLoadFile(mFileBean.getShareUrl(),mFile.getName());
@@ -186,7 +188,7 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
         mShareModel.DownloadFile(url,FileName , new ShareModel.OnDownloadFileListener() {
             @Override
             public void Before(  String tag) {
-//
+                mIvPause.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -247,7 +249,6 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
 
             }
         }.start();
-
     }
 
     private void showAttachment(String fileType, String filepath) {
