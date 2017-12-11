@@ -137,6 +137,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
 
             @Override
             public void onCameraChangeFinish(CameraPosition cameraPosition) {
+
                 LatLng l1=mMap.getProjection().fromScreenLocation(new Point(0,mtotalHeight));
                 LatLng l2=mMap.getProjection().fromScreenLocation(new Point(mtotalWidth,0));
 //                Log.e("@#","longitude1="+l1.longitude+" latitude1="+l1.latitude);
@@ -404,12 +405,16 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     }
 
 
-
+    private boolean isBrandChange;
     private void SearchShop(String condition){
         if (isByMap){
             //地理编码 定位到该位置
             GeocodeQuery query=new GeocodeQuery(str_area,str_city);
             mGeocodeSearch.getFromLocationNameAsyn(query);
+            isBrandChange=false;
+        }else {
+            isBrandChange=true;
+            mMap.moveCamera(CameraUpdateFactory.zoomTo(4));
         }
         //搜索该定位附近的店
         mMapModel.getSearchData(condition, new MapModel.OnSearchResultListener() {
@@ -417,6 +422,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             public void Result(boolean isSuccess, List<SearchBean> data) {
                 if (isSuccess){
                     setSearchShop(data);
+
                 }
             }
         });
@@ -437,9 +443,9 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             tv.setText(shop.getProjectName());
             Bitmap b=convertViewToBitmap(view);
             LatLng l=new LatLng(Double.valueOf(shop.getLatitude()),Double.valueOf(shop.getLongitude()));
+            Log.e("@#","la: "+shop.getLatitude()+" lo: "+shop.getLongitude());
             Marker marker=mMap.addMarker(new MarkerOptions()
                     .position(l)
-                    .anchor(0,0)
                     .infoWindowEnable(false)
                     .icon(BitmapDescriptorFactory.fromBitmap(b)));
             marker.setObject(shop);

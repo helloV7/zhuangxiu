@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.FragmentViewPagerAdapter;
@@ -147,6 +148,24 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         }
         mVpContainer.setCurrentItem(selecor);
 
+    }
+
+
+    /**
+     * 双击退出
+     */
+    private long mPressedTime = 0;
+    @Override
+    public void onBackPressed() {
+        long mNowTime = System.currentTimeMillis();//获取第一次按键时间
+        if((mNowTime - mPressedTime) > 2000){//比较两次按键时间差
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            mPressedTime = mNowTime;
+        }
+        else{//退出程序
+            this.finish();
+            System.exit(0);
+        }
     }
 
 

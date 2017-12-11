@@ -123,19 +123,12 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         List<SearchBean> list = new ArrayList<>();
         mRvShop.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         mRvShop.addItemDecoration(new SpacesItemDecoration(0, 3));
-        mProjectAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
-            @Override
-            public void onClick(BaseViewHolder holder) {
-                Intent intent = new Intent(getActivity(), ShopActivity.class);
-                SearchBean ShopInfo = (SearchBean) holder.getData();
-                intent.putExtra("shopinfo", (Serializable) ShopInfo);
-                startActivity(intent);
-            }
-        });
+
         mProjectAdapter.setDataList(list);
         mRvShop.setAdapter(mProjectAdapter);
         ProgressList = new ArrayList<>();
-        ProgressList.add(new BrandBean("全部", "-1").setChecks(true));
+//        ProgressList.add(new BrandBean("全部", "-1").setChecks(true));
+        ProgressList.add(new BrandBean("全部", "-1"));
         ProgressList.add(new BrandBean("丈量中", "0"));
         ProgressList.add(new BrandBean("设计报价", "1"));
         ProgressList.add(new BrandBean("客户审批", "2"));
@@ -336,7 +329,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess) {
                     mMapBean.mProvinces = data;
-                    mMapBean.mProvinces.get(0).isCheckProvince = true;
+//                    mMapBean.mProvinces.get(0).isCheckProvince = true;
                     mSelectorCity.setProvinceAdapter(mMapBean, getActivity());
                 }
             }
@@ -388,6 +381,16 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
                 getLRData(false);
+            }
+        });
+
+        mProjectAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
+            @Override
+            public void onClick(BaseViewHolder holder) {
+                Intent intent = new Intent(getActivity(), ShopActivity.class);
+                SearchBean ShopInfo = (SearchBean) holder.getData();
+                intent.putExtra("shopinfo", (Serializable) ShopInfo);
+                startActivity(intent);
             }
         });
     }
