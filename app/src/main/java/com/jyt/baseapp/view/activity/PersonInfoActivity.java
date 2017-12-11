@@ -45,10 +45,13 @@ public class PersonInfoActivity extends BaseActivity {
         setTextTitle("个人资料");
         InfoBean bean= (InfoBean) getIntent().getSerializableExtra("Personinfo");
 
-        mJtName.setMsg(bean.getNickName());
-        mJtPhone.setMsg(bean.getTel());
-        mJtPosition.setMsg(bean.getStationName());
-        mJtDepartment.setMsg(bean.getDeparementName());
+        if (bean!=null){
+            mJtName.setMsg(bean.getNickName());
+            mJtPhone.setMsg(bean.getTel());
+            mJtPosition.setMsg(bean.getStationName());
+            mJtDepartment.setMsg(bean.getDeparementName());
+        }
+
 
         mBtnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
