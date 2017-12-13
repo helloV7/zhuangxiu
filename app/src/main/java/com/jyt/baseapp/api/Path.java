@@ -39,6 +39,8 @@ public class Path {
 
     public final static String URL_SetFinishTime=BasePath+"constructioni/setFinishTime";
 
+    public final static String URL_PushImgList=BasePath+"constructioni/AppInsert";
+
     //上传项目节点内容
     public static final String URL_ADD_PROJECT_CONTENT = "project/detailSpeed";
 

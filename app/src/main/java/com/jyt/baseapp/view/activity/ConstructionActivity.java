@@ -110,7 +110,7 @@ public class ConstructionActivity extends BaseActivity {
             vTabLayout.setVisibility(View.GONE);
         }
         notifyPage();
-
+        finishSet();
     }
 
     /**
@@ -133,6 +133,14 @@ public class ConstructionActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    private void finishSet(){
+        if ("1".equals(progressBean.getIsfinish())){
+            vTabLayout.setVisibility(View.GONE);
+        }else {
+            vTabLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

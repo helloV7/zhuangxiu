@@ -32,17 +32,20 @@ public class TitleAndFlowImages extends FrameLayout {
     TextView textTitle;
     @BindView(R.id.v_flowLayout)
     FlowLayout vFlowLayout;
-
+    @BindView(R.id.ll_parent)
+    LinearLayout mLlParent;
 
     OnImageClickListener onImageClickListener;
     List<String> images;
     float marginPercent = 0.01f;
     int windowWidth;
     int imageMargin;
-    int imageWidth ;
+    int imageWidth;
     int columnCount = 3;
 
     OnClickListener onClickListener;
+
+
     public TitleAndFlowImages(@NonNull Context context) {
         this(context, null);
     }
@@ -53,45 +56,49 @@ public class TitleAndFlowImages extends FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.widget_title_and_flow_images, this, true);
         ButterKnife.bind(this);
         windowWidth = ScreenUtils.getScreenWidth(getContext());
-        imageMargin = (int) (windowWidth*marginPercent);
-        imageWidth = (int) ((windowWidth-(imageMargin*(columnCount+1)))/columnCount);
+        imageMargin = (int) (windowWidth * marginPercent);
+        imageWidth = (int) ((windowWidth - (imageMargin * (columnCount + 1))) / columnCount);
 
         vFlowLayout.setChildSpacing(imageMargin);
         vFlowLayout.setRowSpacing(imageMargin);
-        vFlowLayout.setPadding(imageMargin,0,imageMargin,0);
+        vFlowLayout.setPadding(imageMargin, 0, imageMargin, 0);
 
         onClickListener = new OnClickListener() {
             @Override
             public void onClick(View v) {
                 L.e(v.getTag(R.id.tag_image_path).toString());
-                if (onImageClickListener !=null){
+                if (onImageClickListener != null) {
                     onImageClickListener.onImaegClick(v.getTag(R.id.tag_image_path).toString());
                 }
             }
         };
     }
 
-    public void setTextTitle(String text){
+    public void setTextTitle(String text) {
         textTitle.setText(text);
     }
 
-    public void setImages(List<String> images){
+    public void setTextTitleColor(int color){
+        textTitle.setTextColor(getResources().getColor(color));
+    }
+
+    public void setImages(List<String> images) {
         this.images = images;
         vFlowLayout.removeAllViews();
-        int num=0;
-        for(int i=0;i<images.size();i++,num++){
+        int num = 0;
+        for (int i = 0; i < images.size(); i++, num++) {
             ImageView imageView = new ImageView(getContext());
-            FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(imageWidth,imageWidth);
+            FlowLayout.LayoutParams params = new FlowLayout.LayoutParams(imageWidth, imageWidth);
             imageView.setLayoutParams(params);
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setTag(R.id.tag_image_path,images.get(i));
+            imageView.setTag(R.id.tag_image_path, images.get(i));
             Glide.with(getContext()).load(images.get(i)).asBitmap().into(imageView);
             imageView.setOnClickListener(onClickListener);
             vFlowLayout.addView(imageView);
         }
-        num=num/3+1;
+        num = num / 3 + 1;
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) vFlowLayout.getLayoutParams();
-        params.height=num*imageWidth +3;
+        params.height = num * imageWidth + 3;
         vFlowLayout.setLayoutParams(params);
     }
 
@@ -100,8 +107,12 @@ public class TitleAndFlowImages extends FrameLayout {
     }
 
 
-    public interface OnImageClickListener{
+    public interface OnImageClickListener {
         void onImaegClick(String imagPath);
+    }
+
+    public void setBackground(){
+        mLlParent.setBackgroundColor(getResources().getColor(R.color.white));
     }
 
 

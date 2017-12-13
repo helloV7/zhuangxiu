@@ -1,11 +1,13 @@
 package com.jyt.baseapp.model.impl;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.api.Path;
 import com.jyt.baseapp.bean.DeliverGoods;
+import com.jyt.baseapp.bean.ProgressFileBean;
 import com.jyt.baseapp.model.ProjectDetailModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
@@ -18,6 +20,8 @@ import org.json.JSONObject;
 import java.util.List;
 
 import okhttp3.MediaType;
+
+import static com.zhy.http.okhttp.OkHttpUtils.post;
 
 /**
  * Created by chenweiqi on 2017/12/1.
@@ -53,7 +57,7 @@ public class ProjectDetailModelImpl implements ProjectDetailModel {
             }
         }
 
-        OkHttpUtils.post().url(Path.BasePath+Path.URL_ADD_PROJECT_CONTENT+"?token="+BaseUtil.getSpString(Const.UserToken))
+        post().url(Path.BasePath+Path.URL_ADD_PROJECT_CONTENT+"?token="+BaseUtil.getSpString(Const.UserToken))
                 .addParams("detailId",detailId)
                 .addParams("userId",BaseUtil.getSpString(Const.USERID))
                 .addParams("contentSuffix",suffixSB.toString())
@@ -83,7 +87,7 @@ public class ProjectDetailModelImpl implements ProjectDetailModel {
 
     @Override
     public void clickToNextStep(String detailId, String projectId, String sc, Callback callback) {
-        OkHttpUtils.post().url(Path.BasePath+Path.URL_PROGRESS_NEXT+"?token="+BaseUtil.getSpString(Const.UserToken))
+        post().url(Path.BasePath+Path.URL_PROGRESS_NEXT+"?token="+BaseUtil.getSpString(Const.UserToken))
                 .addParams("detailId",detailId)
                 .addParams("projectId",projectId)
                 .addParams("sc",sc)
@@ -111,7 +115,7 @@ public class ProjectDetailModelImpl implements ProjectDetailModel {
     }
 
     /**
-     * 获取施工中的信息
+     * 获取施工图片信息
      * @param ProjectID
      * @param callback
      */
@@ -133,11 +137,34 @@ public class ProjectDetailModelImpl implements ProjectDetailModel {
      */
     @Override
     public void setFinishTime(String ProjectID, String FinishTime, Callback callback) {
-        OkHttpUtils.post().url(Path.URL_SetFinishTime)
+        post().url(Path.URL_SetFinishTime)
                 .addParams("token",Const.gettokenSession())
                 .addParams("projectId",ProjectID)
                 .addParams("finishDate",FinishTime)
                 .build().execute(callback);
+    }
+
+    @Override
+    public void pushFileList(String ProjectID, List<ProgressFileBean> imageList, Callback callback) {
+        JSONObject obj = new JSONObject();
+        try {
+
+            obj.put("projectId",ProjectID);
+            obj.put("loList",new JSONArray(new Gson().toJson(imageList)));
+            Log.e("@#",new JSONArray(new Gson().toJson(imageList)).toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        OkHttpUtils.postString().url(Path.URL_PushImgList+"?token="+BaseUtil.getSpString(Const.UserToken))
+                .addHeader("contentType","application/json")
+                .mediaType(MediaType.parse("application/json; charset=utf-8"))
+                .content(obj.toString())
+                .tag(mContext)
+                .build()
+                .execute(callback);
+
+
     }
 
     @Override
@@ -165,7 +192,7 @@ public class ProjectDetailModelImpl implements ProjectDetailModel {
 
     @Override
     public void addConstriction(String constructionTime, String constructionArr, String constructionStart, String projectManId, String mpersonalId, String projectId, Callback callback) {
-        OkHttpUtils.post().url(Path.BasePath+Path.URL_ADD_CONSTRICTION+"?token="+BaseUtil.getSpString(Const.UserToken))
+        post().url(Path.BasePath+Path.URL_ADD_CONSTRICTION+"?token="+BaseUtil.getSpString(Const.UserToken))
                 .addParams("constructionTime",constructionTime)
                 .addParams("constructionArr",constructionArr)
                 .addParams("constructionStart",constructionStart)
@@ -179,4 +206,6 @@ public class ProjectDetailModelImpl implements ProjectDetailModel {
     public void getConstrictionComplete(String projectId, Callback callback) {
         OkHttpUtils.get().url(Path.BasePath+Path.URL_GET_PROJECT_CONTENT+"?method=getDetailConstruction&&token="+BaseUtil.getSpString(Const.UserToken)+"&searchValue="+projectId).build().execute(callback);
     }
+
+
 }

@@ -12,26 +12,39 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.sdk.android.oss.ClientConfiguration;
+import com.alibaba.sdk.android.oss.OSS;
+import com.alibaba.sdk.android.oss.OSSClient;
+import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
+import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider;
+import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.ShowImageAdapter;
 import com.jyt.baseapp.api.BeanCallback;
+import com.jyt.baseapp.api.Const;
+import com.jyt.baseapp.api.Path;
+import com.jyt.baseapp.api.PutObjectSamples;
 import com.jyt.baseapp.bean.BaseJson;
+import com.jyt.baseapp.bean.OssBean;
 import com.jyt.baseapp.bean.ProgressBean;
+import com.jyt.baseapp.bean.ProgressFileBean;
 import com.jyt.baseapp.bean.Tuple;
 import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.helper.IntentRequestCode;
 import com.jyt.baseapp.itemDecoration.RcvGridSpaceItemDecoration;
+import com.jyt.baseapp.model.ManeuverModel;
 import com.jyt.baseapp.model.ProjectDetailModel;
 import com.jyt.baseapp.util.BaseUtil;
-import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.util.ScreenUtils;
 import com.jyt.baseapp.util.T;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
+import com.jyt.baseapp.view.widget.LoadingDialog;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -74,7 +87,10 @@ public class UnderConstructionFragment extends BaseFragment {
     boolean isMax;
 
     ProjectDetailModel projectDetailModel;
+    private ManeuverModel mManeuverModel;
     private ProgressBean mBean;
+    private OSS mOSS;
+    private List<ProgressFileBean> mUploadList;
 
     @Override
     protected int getLayoutId() {
@@ -93,7 +109,29 @@ public class UnderConstructionFragment extends BaseFragment {
 
     private void init() {
         mBean = getArguments().getParcelable(IntentKey.PROGRESS);
-
+        mManeuverModel=new ManeuverModel();
+        mUploadList = new ArrayList<>();
+        //初始化OSS
+        mManeuverModel.getOssAliyunKey(new ManeuverModel.OngetOssAliyunListener() {
+            @Override
+            public void Result(boolean isSuccess, OssBean bean) {
+                if (isSuccess){
+                    Log.e("@#",bean.getAccessKeyId());
+                    Log.e("@#",bean.getAccessKeySecret());
+                    Log.e("@#",bean.getSecurityToken());
+                    String AccessKeyId = bean.getAccessKeyId();
+                    String SecretId = bean.getAccessKeySecret();
+                    String token = bean.getSecurityToken();
+                    OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(AccessKeyId,SecretId,token);
+                    ClientConfiguration conf = new ClientConfiguration();
+                    conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
+                    conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒
+                    conf.setMaxConcurrentRequest(5); // 最大并发请求数，默认5个
+                    conf.setMaxErrorRetry(2); // 失败后最大重试次数，默认2次
+                    mOSS = new OSSClient(BaseUtil.getContext(), Const.endpoint,credentialProvider,conf);
+                }
+            }
+        });
     }
 
     /**
@@ -121,7 +159,6 @@ public class UnderConstructionFragment extends BaseFragment {
                     if (holder.getData() instanceof Integer){
                         List images = new  ArrayList(Arrays.asList( new Integer[imageList.size()]));
                         Collections.copy(images,imageList);
-                        L.e("size"+images.size());
                         images.remove(images.size()-1);
                         int selCount = maxCount-currentCount;
                         if (selCount>0){
@@ -174,11 +211,49 @@ public class UnderConstructionFragment extends BaseFragment {
 
             @Override
             public void onResponse(BaseJson<String> response, int id) {
-                Log.e("@#",response.data.toString());
+                Log.e("@#","max="+response.data.toString());
                 int max = Integer.valueOf(response.data.toString().trim());
                 if (max>=3){
                     isMax=true;
                     BaseUtil.makeText("已超出当天最大上传次数");
+                    return;
+                }
+                final LoadingDialog loadingDialog = new LoadingDialog(getActivity());
+                loadingDialog.show();
+                //提交aliyun
+                for (int i = 0; i < imageList.size()-1; i++) {
+                    String value = (String)(imageList.get(i));
+                    int lastIndex = value.lastIndexOf("/");
+                    PutObjectSamples putObjectSamples = new PutObjectSamples(mOSS,Const.BucketName,new Date().getTime()+value.substring(lastIndex+1),value);
+                    PutObjectRequest request = putObjectSamples.putObjectFromLocalFile();
+                    String remotePath = Path.URL_Ayiyun+request.getObjectKey();
+                    Log.e("@#",remotePath);
+                    mUploadList.add(new ProgressFileBean(remotePath,"1"));
+                    if (i==imageList.size()-2){
+                        //返回数据,提交后台
+                        projectDetailModel.pushFileList(mBean.getProjectId(), mUploadList, new BeanCallback<BaseJson>() {
+                            @Override
+                            public void onError(Call call, Exception e, int id) {
+                                loadingDialog.dismiss();
+                                BaseUtil.makeText("上传失败，请重试");
+                            }
+
+                            @Override
+                            public void onResponse(BaseJson response, int id) {
+                                loadingDialog.dismiss();
+                                if (response.ret){
+                                    imageList.clear();
+                                    imageList.add(imageList.size(),new Integer(0));
+                                    adapter.notifyData(imageList);
+                                    BaseUtil.makeText("上传完成");
+                                    //通知查看施工界面刷新
+                                    Intent intent = new Intent();
+                                    intent.setAction(IntentKey.ActionConstruct);
+                                    getActivity().sendBroadcast(intent);
+                                }
+                            }
+                        });
+                    }
                 }
             }
         });

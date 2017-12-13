@@ -18,5 +18,6 @@ public class IntentKey {
     public static String PROJECT = "PROJECT";
 
     public static String PROGRESS = "PROGRESS";
+    public static String ActionConstruct = "ActionConstruct";
 
 }

@@ -29,6 +29,7 @@ public class Const {
     public final static String SecretKeyId="oKrkinHaJf3CbIrgQIrPhcK3ejgCcW";
     public final static String mMainFile = Environment.getExternalStorageDirectory().getPath() + File.separator + "mingya";
 
+
     public static void KeepLoginState(String departmentId,String nickName,String positionId,String userToken,String userId){
         BaseUtil.setSpString(DepartmentId,departmentId);
         BaseUtil.setSpString(NickName,nickName);

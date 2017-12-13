@@ -1,5 +1,6 @@
 package com.jyt.baseapp.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,6 +9,10 @@ import java.util.List;
 public class ConstructionBean {
     private String finishTime;
     private List<ConstructionDetailBean> dataList;
+
+    public ConstructionBean(){
+        dataList = new ArrayList<>();
+    }
 
     public String getFinishTime() {
         return finishTime;
