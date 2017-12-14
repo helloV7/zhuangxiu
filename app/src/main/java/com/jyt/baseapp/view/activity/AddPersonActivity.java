@@ -469,7 +469,7 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
                     BaseUtil.makeText("参数缺失");
                     return;
                 }
-                mManeuverModel.addManeuver(SPic, SName, STel, SWorkID, SProvince, SCity, SCity, new ManeuverModel.OnaddManeuverListener() {
+                mManeuverModel.addManeuver(SPic, SName, STel, SWorkID, SProvince, SCity, SArea, new ManeuverModel.OnaddManeuverListener() {
                     @Override
                     public void Result(boolean isSuccess) {
                         if (isSuccess){
