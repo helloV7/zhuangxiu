@@ -5,16 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
@@ -30,6 +27,9 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.district.DistrictResult;
+import com.amap.api.services.district.DistrictSearch;
+import com.amap.api.services.district.DistrictSearchQuery;
 import com.amap.api.services.geocoder.GeocodeQuery;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
@@ -54,7 +54,7 @@ import butterknife.BindView;
 /**
  * @author LinWei on 2017/10/30 15:04
  */
-public class MapFragment extends BaseFragment implements View.OnClickListener, GeocodeSearch.OnGeocodeSearchListener {
+public class MapFragment extends BaseFragment implements View.OnClickListener, GeocodeSearch.OnGeocodeSearchListener, DistrictSearch.OnDistrictSearchListener {
 
     private int mtotalWidth;
     private int mtotalHeight;
@@ -85,12 +85,15 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     public AMapLocationListener mLocationListener;
     private AMap mMap;
     private boolean isLocation;
+    private boolean isClickProvince;//是否点击省
     private List<Marker> mMarkerList;
     private GeocodeSearch mGeocodeSearch;
+    private DistrictSearch mSearch;
     private String str_province;//搜索的省份
     private String str_brandID;//搜索的品牌ID
     private String str_city;//搜索的城市
     private String str_area;//搜索的地区
+    private int codeProvince;//城市编码
     private boolean isByMap;//是否通过省份-城市-地区搜索商店数据，true：定位到该地区；false：不移动
 
 
@@ -126,6 +129,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         mMap = mMapView.getMap();
         mGeocodeSearch = new GeocodeSearch(getActivity());
         mGeocodeSearch.setOnGeocodeSearchListener(this);
+        mSearch = new DistrictSearch(getActivity());
         mMap.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放按钮
         mMap.getUiSettings().setRotateGesturesEnabled(false);//旋转
         mMap.getUiSettings().setTiltGesturesEnabled(false);//倾斜
@@ -231,30 +235,34 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess){
                     mMapBean.mProvinces=data;
+                    mMapBean.mProvinces.add(0,new MapBean.Province("全部",-1));
                     str_province=mMapBean.mProvinces.get(0).ProvinceName;//默认第一个省份
                     mMapBean.mProvinces.get(0).isCheckProvince=true;
                     mMapSelector.setProvinceAdapter(mMapBean,getActivity());
                 }
             }
         });
-
-        mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
-            @Override
-            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
-                if (isSuccess){
-                    mMapBean.mCities=data;
-
-                    mMapSelector.setCityAdapter(mMapBean,getActivity());
-                }
-            }
-        });
+        // 默认3
+        mMapSelector.setCityAdapter(mMapBean,getActivity());
+//        mMapModel.getCityAreaData(-1, new MapModel.onResultCityListener() {
+//            @Override
+//            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
+//                if (isSuccess){
+//                    mMapBean.mCities=data;
+//                    mMapSelector.setCityAdapter(mMapBean,getActivity());
+//                }
+//            }
+//        });
 
 
         mMapSelector.setOnMapClickListener(new MapSelector.OnMapClickListener() {
             @Override
             public void onClickProvince(int ProvinceID, String ProvinceName) {
-                ChangeProvince(ProvinceID);
                 str_province=ProvinceName;
+                codeProvince=ProvinceID;
+                Log.e("@#","ProvinceName="+ProvinceName);
+                ChangeProvince(ProvinceID);
+
 
 
             }
@@ -262,6 +270,13 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             @Override
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
                 isByMap=true;
+                //点击全部的搜索
+                if (CityID==-2 && AreaID==-2){
+                    isClickProvince=true;
+                    SearchShop("null,"+str_province+",null,null,null,null,null");
+                    tv_city.performClick();
+                    return;
+                }
                 str_city=CityName;
                 str_area=AreaName;
                 if ("北京".equals(str_province)
@@ -339,15 +354,31 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
      * @param ProcinveID
      */
     private void ChangeProvince(int ProcinveID){
+        //全部的查找
+        if (ProcinveID==-1){
+            mMapBean.mCities.clear();
+            mMapSelector.notifyData(mMapBean);
+            SearchShop("null,null,null,null,null,null,null");
+            mMap.moveCamera(CameraUpdateFactory.zoomTo(4));
+            return;
+        }
         mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
                 if (isSuccess){
                     mMapBean.mCities=data;
+                    ArrayList<MapBean.Area> areaList = new ArrayList<MapBean.Area>();
+                    areaList.add(new MapBean.Area("全部",-2));
+                    MapBean.City city = new MapBean.City("全部",-2,areaList);
+                    mMapBean.mCities.add(0,city);
                     mMapSelector.notifyData(mMapBean);
+
                 }
             }
         });
+//        isByMap=true;
+//        isClickProvince=true;
+//        SearchShop("null,"+str_province+",null,null,null,null,null");
     }
 
     /**
@@ -384,7 +415,6 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             @Override
             public void Result(boolean isSuccess, List<SearchBean> shops) {
                 if (isSuccess){
-                    Log.e("@#","size="+shops.size());
                     for (int i = 0; i < shops.size(); i++) {
                         View view=View.inflate(getActivity(),R.layout.layout_infowindow,null);
                         TextView tv= (TextView) view.findViewById(R.id.tv_text);
@@ -409,8 +439,21 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     private void SearchShop(String condition){
         if (isByMap){
             //地理编码 定位到该位置
-            GeocodeQuery query=new GeocodeQuery(str_area,str_city);
-            mGeocodeSearch.getFromLocationNameAsyn(query);
+            GeocodeQuery query=null;
+            if (isClickProvince){
+                //点击省，查找全省
+//                query=new GeocodeQuery("",codeProvince+"");
+                DistrictSearchQuery Proquery = new DistrictSearchQuery();
+                Proquery.setKeywords(str_province);
+                Proquery.setShowBoundary(true);
+                mSearch.setQuery(Proquery);
+                mSearch.setOnDistrictSearchListener(this);//绑定监听器
+                mSearch.searchDistrictAnsy();//开始搜索
+                isClickProvince=false;
+            }else {
+                query=new GeocodeQuery(str_area,str_city);
+                mGeocodeSearch.getFromLocationNameAsyn(query);
+            }
             isBrandChange=false;
         }else {
             isBrandChange=true;
@@ -455,34 +498,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     }
 
 
-    /**
-     * 生产PopupWindow
-     * @param popView
-     * @return
-     */
-    private PopupWindow CreatePopWindow(View popView) {
-        final PopupWindow popupWindow = new PopupWindow(popView, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, true);
-        popupWindow.setTouchable(true);
-        popupWindow.setFocusable(false);
-        popupWindow.setOutsideTouchable(false);
-        popupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
-        popupWindow.getContentView().setFocusableInTouchMode(false);
-        popupWindow.getContentView().setFocusable(true);
-        popupWindow.getContentView().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_MENU && event.getRepeatCount() == 0
-                        && event.getAction() == KeyEvent.ACTION_DOWN) {
-                    if (popupWindow != null && popupWindow.isShowing()) {
-                        popupWindow.dismiss();
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
-        return popupWindow;
-    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -621,5 +637,21 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         LatLonPoint point=geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint();
         LatLng latLng = new LatLng(point.getLatitude(),point.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(12));
     }
+
+    public void onDistrictSearched(DistrictResult districtResult) {
+        if ("钓鱼岛".equals(str_province)){
+            mMap.moveCamera(CameraUpdateFactory.changeLatLng(new LatLng(25.744676,123.476492)));
+            return;
+        }
+        if (districtResult.getAMapException().getErrorCode()==1000){
+            districtResult.getDistrict();
+            LatLonPoint point=districtResult.getDistrict().get(0).getCenter();
+            LatLng latLng = new LatLng(point.getLatitude(),point.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
+        }
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(6));
+    }
+
 }

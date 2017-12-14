@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,6 +85,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     private boolean isShowCity = true;
     private boolean isShowBrand = true;
     private boolean isShowProgress = true;
+    private boolean isClickProvince = false;
     private String str_province ;
     private String str_BrandID;
     private ProjectAdapter mProjectAdapter;
@@ -217,13 +219,18 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         mSelectorCity.setOnMapClickListener(new MapSelector.OnMapClickListener() {
             @Override
             public void onClickProvince(int ProvinceID, String ProvinceName) {
-                ChangeProvince(ProvinceID);
                 str_province = ProvinceName;
-                SearchMapShop(str_province + ",null,null" );
+                ChangeProvince(ProvinceID);
+
             }
 
             @Override
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
+                if (CityID==-2 && AreaID==-2){
+                    SearchMapShop(str_province + ",null,null" );
+                    mTvMapCity.performClick();
+                    return;
+                }
                 SearchMapShop(str_province + "," + CityName + "," + AreaName);
                 mTvMapCity.performClick();
             }
@@ -329,22 +336,23 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess) {
                     mMapBean.mProvinces = data;
-//                    mMapBean.mProvinces.get(0).isCheckProvince = true;
+                    mMapBean.mProvinces.add(0,new MapBean.Province("全部",-1));
+                    mMapBean.mProvinces.get(0).isCheckProvince = true;
                     mSelectorCity.setProvinceAdapter(mMapBean, getActivity());
                 }
             }
         });
 
-
-        mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
-            @Override
-            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
-                if (isSuccess) {
-                    mMapBean.mCities = data;
-                    mSelectorCity.setCityAdapter(mMapBean, getActivity());
-                }
-            }
-        });
+        mSelectorCity.setCityAdapter(mMapBean,getActivity());
+//        mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
+//            @Override
+//            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
+//                if (isSuccess) {
+//                    mMapBean.mCities = data;
+//                    mSelectorCity.setCityAdapter(mMapBean, getActivity());
+//                }
+//            }
+//        });
 
         mMapModel.getBrandData(new MapModel.OngetBrandResultListener() {
             @Override
@@ -402,11 +410,24 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
      * @param ProcinveID
      */
     private void ChangeProvince(int ProcinveID) {
+        //全部的查找
+        if (ProcinveID==-1){
+            mMapBean.mCities.clear();
+            mSelectorCity.notifyData(mMapBean);
+            SearchMapShop("null,null,null");
+            return;
+        }
+
+        Log.e("@#","S="+ProcinveID);
         mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
                 if (isSuccess) {
                     mMapBean.mCities = data;
+                    ArrayList<MapBean.Area> areaList = new ArrayList<MapBean.Area>();
+                    areaList.add(new MapBean.Area("全部",-2));
+                    MapBean.City city = new MapBean.City("全部",-2,areaList);
+                    mMapBean.mCities.add(0,city);
                     mSelectorCity.notifyData(mMapBean);
                 }
             }
@@ -435,6 +456,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
      * @param condition
      */
     private void SearchMapShop(String condition) {
+
         mMapModel.getSearchData("null," + condition + ",null,null,null", new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, List<SearchBean> data) {

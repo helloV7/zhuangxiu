@@ -3,6 +3,7 @@ package com.jyt.baseapp.view.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,11 +11,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jyt.baseapp.R;
+import com.jyt.baseapp.api.BeanCallback;
+import com.jyt.baseapp.api.Const;
+import com.jyt.baseapp.api.Path;
+import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.bean.ShopBean;
 import com.jyt.baseapp.model.ShopModel;
 import com.jyt.baseapp.view.activity.EvaluateDetailActivity;
 import com.jyt.baseapp.view.widget.ItemText;
+import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.List;
 
@@ -22,6 +28,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ch.ielse.view.SwitchView;
+import okhttp3.Call;
 
 /**
  * @author LinWei on 2017/11/2 13:53
@@ -67,8 +74,9 @@ public class ShopNewsFragment extends BaseFragment {
     LinearLayout mLlReason;
     private SearchBean mInfo;
     private ShopModel mShopModel;
-    private boolean isPush;
+    private boolean isPush;//是否推送
     private boolean CanChange=true;
+    private boolean isIn=true;//用户是否任职四个职位中的任何一个，默认true
     Unbinder unbinder;
 
     @Override
@@ -109,14 +117,70 @@ public class ShopNewsFragment extends BaseFragment {
             mLlReason.setVisibility(View.VISIBLE);
             mTvReason.setText(data.getReason());
         }
-
-        if ("0".equals(data.getIspush())){
-            mSvPush.setOpened(false);
-            isPush=false;
+        //推送设置
+        if (Const.getPositionName().equals("预算员")){
+            if ("0".equals(data.getIspush())){
+                mSvPush.setOpened(false);
+                isPush=false;
+            }else {
+                isPush=true;
+                mSvPush.setOpened(true);
+            }
+        }else if (Const.getPositionName().equals("设计师")){
+            if ("0".equals(data.getDesignIsPush())){
+                mSvPush.setOpened(false);
+                isPush=false;
+            }else {
+                isPush=true;
+                mSvPush.setOpened(true);
+            }
+        }else if (Const.getPositionName().equals("测量人员")){
+            if ("0".equals(data.getMeasureIsPush())){
+                mSvPush.setOpened(false);
+                isPush=false;
+            }else {
+                isPush=true;
+                mSvPush.setOpened(true);
+            }
+        }else if (Const.getPositionName().equals("项目经理")){
+            if ("0".equals(data.getProIsPush())){
+                mSvPush.setOpened(false);
+                isPush=false;
+            }else {
+                isPush=true;
+                mSvPush.setOpened(true);
+            }
         }else {
-            isPush=true;
-            mSvPush.setOpened(true);
+            //不属于以上四者，则需要专门查询该用户的推送状态
+            isIn=false;
+            OkHttpUtils.get().url(Path.URL_MapDatas)
+                    .addParams("token", Const.gettokenSession())
+                    .addParams("method","getNotInPush")
+                    .addParams("page","0")
+                    .addParams("keyWord",mInfo.getProjectId())
+                    .addParams("searchValue",Const.getUserid())
+                    .build()
+                    .execute(new BeanCallback<BaseJson<String>>() {
+                        @Override
+                        public void onError(Call call, Exception e, int id) {
+                            Log.e("@#","in=onError");
+                        }
+
+                        @Override
+                        public void onResponse(BaseJson<String> response, int id) {
+                            Log.e("@#","in="+response.data);
+                            if ("0".equals(response.data)){
+                                mSvPush.setOpened(false);
+                                isPush=false;
+                            }else {
+                                isPush=true;
+                                mSvPush.setOpened(true);
+                            }
+                        }
+                    });
+
         }
+
 
         mItShopName.setRightText(data.getProjectName());
         mItNumber.setRightText(data.getProjectCode());
@@ -170,21 +234,51 @@ public class ShopNewsFragment extends BaseFragment {
     }
 
     private void ChangePushState(String state){
-        mShopModel.ChangePushState(mInfo.getProjectId(), state, new ShopModel.OnChangeStateListener() {
-            @Override
-            public void Result(boolean isSuccess) {
-                CanChange=true;
-                if (isSuccess){
-                    if (isPush){
-                        isPush=false;
-                        mSvPush.setOpened(false);
-                    }else {
-                        mSvPush.setOpened(true);
-                        isPush=true;
+        if (isIn){
+            //是四个职位
+            mShopModel.ChangePushState(mInfo.getProjectId(), state, new ShopModel.OnChangeStateListener() {
+                @Override
+                public void Before() {
+                    CanChange=false;
+                }
+
+                @Override
+                public void Result(boolean isSuccess) {
+                    CanChange=true;
+                    if (isSuccess){
+                        if (isPush){
+                            isPush=false;
+                            mSvPush.setOpened(false);
+                        }else {
+                            mSvPush.setOpened(true);
+                            isPush=true;
+                        }
                     }
                 }
-            }
-        });
+            });
+        }else {
+            mShopModel.ChangePushStateO(mInfo.getProjectId(), state, new ShopModel.OnChangeStateListener() {
+                @Override
+                public void Before() {
+                    CanChange=false;
+                }
+
+                @Override
+                public void Result(boolean isSuccess) {
+                    CanChange=true;
+                    if (isSuccess){
+                        if (isPush){
+                            isPush=false;
+                            mSvPush.setOpened(false);
+                        }else {
+                            mSvPush.setOpened(true);
+                            isPush=true;
+                        }
+                    }
+                }
+            });
+        }
+
     }
 
     @Override

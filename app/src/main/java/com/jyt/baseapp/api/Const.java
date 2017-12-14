@@ -18,6 +18,8 @@ public class Const {
     public final static String PositionID ="positionId";
     public final static String UserToken="token";
     public final static String UserLoginState="LoginState";
+    public final static String PositionName="positionName";
+    public final static String DepartmentName="departmentName";
     public static final String USERID = "userId";
 
     public final static String Tag_LocationShop ="location";
@@ -30,13 +32,21 @@ public class Const {
     public final static String mMainFile = Environment.getExternalStorageDirectory().getPath() + File.separator + "mingya";
 
 
-    public static void KeepLoginState(String departmentId,String nickName,String positionId,String userToken,String userId){
+    public static void KeepLoginState(String departmentId
+            ,String nickName
+            ,String positionId
+            ,String userToken
+            ,String userId
+            ,String departmentName
+            ,String positionName){
         BaseUtil.setSpString(DepartmentId,departmentId);
         BaseUtil.setSpString(NickName,nickName);
         BaseUtil.setSpString(PositionID,positionId);
         BaseUtil.setSpString(UserToken,userToken);
         BaseUtil.setSpBoolean(UserLoginState,true);
         BaseUtil.setSpString(USERID,userId);
+        BaseUtil.setSpString(DepartmentName,departmentName);
+        BaseUtil.setSpString(PositionName,positionName);
     }
 
     public static void Logout(Context context){
@@ -66,4 +76,15 @@ public class Const {
         return BaseUtil.getSpString(UserToken);
     }
 
+    public static String getDepartmentName(){
+        return BaseUtil.getSpString(DepartmentName);
+    }
+
+    public static String getPositionName(){
+        return BaseUtil.getSpString(PositionName);
+    }
+
+    public static String getUserid(){
+        return BaseUtil.getSpString(USERID);
+    }
 }

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
+import okhttp3.Request;
 
 /**
  * @author LinWei on 2017/11/16 15:49
@@ -161,6 +162,48 @@ public class ShopModel {
                 .addParams("ispush",state)
                 .build()
                 .execute(new BeanCallback<BaseJson<String>>() {
+
+                    @Override
+                    public void onBefore(Request request, int id) {
+                        super.onBefore(request, id);
+
+                    }
+
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        if (listener != null){
+                            listener.Result(false);
+                        }
+                    }
+
+                    @Override
+                    public void onResponse(BaseJson<String> response, int id) {
+                        if (listener != null){
+                            listener.Result(true);
+                        }else {
+                            listener.Result(false);
+                        }
+                    }
+                });
+    }
+
+    public void ChangePushStateO(String ProjectID,String state,final OnChangeStateListener listener){
+        OkHttpUtils
+                .post()
+                .url(Path.URL_ChANGE_PUSH)
+                .addParams("token", BaseUtil.getSpString(Const.UserToken))
+                .addParams("relationUser",Const.getUserid())
+                .addParams("relationProject",ProjectID)
+                .addParams("ispush",state)
+                .build()
+                .execute(new BeanCallback<BaseJson<String>>() {
+
+                    @Override
+                    public void onBefore(Request request, int id) {
+                        super.onBefore(request, id);
+
+                    }
+
                     @Override
                     public void onError(Call call, Exception e, int id) {
                         if (listener != null){
@@ -180,6 +223,7 @@ public class ShopModel {
     }
 
     public interface OnChangeStateListener{
+        void Before();
         void Result(boolean isSuccess);
     }
 }

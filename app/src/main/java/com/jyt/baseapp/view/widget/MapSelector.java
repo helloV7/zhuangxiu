@@ -92,7 +92,7 @@ public class MapSelector extends LinearLayout {
 
     public void setCityAdapter(final MapBean bean,Context context){
 
-        if (bean.mCities!=null && bean.mCities.size()>0){
+        if (bean.mCities!=null ){
             mCityAdapter =new AreaAdapter(bean,context);
             rv_right.setAdapter(mCityAdapter);
             rv_right.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));

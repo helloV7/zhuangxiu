@@ -119,24 +119,6 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
         mRvProgress.requestLayout();
         mSelectorCity.setHideDeleteIV(true);
 
-        mSelectorCity.setOnMapClickListener(new MapSelector.OnMapClickListener() {
-            @Override
-            public void onClickProvince(int ProvinceID, String ProvinceName) {
-                ChangeProvince(ProvinceID);
-                str_province = ProvinceName;
-            }
-
-            @Override
-            public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
-                SearchMapShop(str_province + "," + CityName + "," + AreaName);
-                mTvMapCity.performClick();
-            }
-
-            @Override
-            public void onClickBack() {
-
-            }
-        });
 
     }
 
@@ -149,6 +131,7 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess) {
                     mMapBean.mProvinces = data;
+                    mMapBean.mProvinces.add(0,new MapBean.Province("全部",-1));
                     mMapBean.mProvinces.get(0).isCheckProvince = true;
                     mSelectorCity.setProvinceAdapter(mMapBean, getActivity());
                 }
@@ -156,15 +139,16 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
         });
 
 
-        mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
-            @Override
-            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
-                if (isSuccess) {
-                    mMapBean.mCities = data;
-                    mSelectorCity.setCityAdapter(mMapBean, getActivity());
-                }
-            }
-        });
+        mSelectorCity.setCityAdapter(mMapBean,getActivity());
+//        mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
+//            @Override
+//            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
+//                if (isSuccess) {
+//                    mMapBean.mCities = data;
+//                    mSelectorCity.setCityAdapter(mMapBean, getActivity());
+//                }
+//            }
+//        });
 
 
         mProgresslist.add(new WorkBean("全部","null").firstCheck());
@@ -207,6 +191,31 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
                 mWorkAdapter.notifyData(mProgresslist);
             }
         });
+
+        mSelectorCity.setOnMapClickListener(new MapSelector.OnMapClickListener() {
+            @Override
+            public void onClickProvince(int ProvinceID, String ProvinceName) {
+                str_province = ProvinceName;
+                ChangeProvince(ProvinceID);
+            }
+
+            @Override
+            public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
+                if (CityID==-2 && AreaID==-2){
+                    SearchMapShop(str_province + ",null,null" );
+                }else {
+                    SearchMapShop(str_province + "," + CityName + "," + AreaName);
+                }
+
+                mTvMapCity.performClick();
+            }
+
+            @Override
+            public void onClickBack() {
+
+            }
+        });
+
 
         mTrlLore.setOnRefreshListener(new RefreshListenerAdapter() {
             @Override
@@ -267,11 +276,22 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
      * @param ProcinveID
      */
     private void ChangeProvince(int ProcinveID) {
+        //全部的查找
+        if (ProcinveID==-1){
+            mMapBean.mCities.clear();
+            mSelectorCity.notifyData(mMapBean);
+            SearchMapShop("null,null,null");
+            return;
+        }
         mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
                 if (isSuccess) {
                     mMapBean.mCities = data;
+                    ArrayList<MapBean.Area> areaList = new ArrayList<MapBean.Area>();
+                    areaList.add(new MapBean.Area("全部",-2));
+                    MapBean.City city = new MapBean.City("全部",-2,areaList);
+                    mMapBean.mCities.add(0,city);
                     mSelectorCity.notifyData(mMapBean);
                 }
             }

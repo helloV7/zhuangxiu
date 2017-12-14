@@ -113,14 +113,18 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
         mSelectorCity.setOnMapClickListener(new MapSelector.OnMapClickListener() {
             @Override
             public void onClickProvince(int ProvinceID, String ProvinceName) {
-                ChangeProvince(ProvinceID);
                 str_province=ProvinceName;
-                NotifySearchType(str_province+",null,null,null,null");
+                ChangeProvince(ProvinceID);
+
             }
 
             @Override
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
-                NotifySearchType(str_province+","+CityName+","+AreaName+",null,null");
+                if (CityID==-2 && AreaID==-2){
+                    NotifySearchType(str_province+",null,null,null,null");
+                }else {
+                    NotifySearchType(str_province+","+CityName+","+AreaName+",null,null");
+                }
                 mTvCity.performClick();
             }
 
@@ -151,28 +155,30 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess) {
                     mMapBean.mProvinces = data;
+                    mMapBean.mProvinces.add(0,new MapBean.Province("全部",-1));
                     mMapBean.mProvinces.get(0).isCheckProvince = true;
                     str_province= mMapBean.mProvinces.get(0).ProvinceName;//默认第一个
                     mSelectorCity.setProvinceAdapter(mMapBean, ManeuverActivity.this);
                 }
             }
         });
-
-        mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
-            @Override
-            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
-                if (isSuccess) {
-                    mMapBean.mCities = data;
-                    mSelectorCity.setCityAdapter(mMapBean, ManeuverActivity.this);
-                }
-            }
-        });
+        mSelectorCity.setCityAdapter(mMapBean,this);
+//        mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
+//            @Override
+//            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
+//                if (isSuccess) {
+//                    mMapBean.mCities = data;
+//                    mSelectorCity.setCityAdapter(mMapBean, ManeuverActivity.this);
+//                }
+//            }
+//        });
 
         mManeuverModel.getAllWorkType(new ManeuverModel.OngetAllWorkTypeListener() {
             @Override
             public void Result(boolean isSuccess, List<WorkBean> data) {
                 if (isSuccess) {
                     mWorkList = data;
+                    mWorkList.add(0,new WorkBean("全部","-1"));
                     mWorkAdapter.notifyData(mWorkList);
                 }
             }
@@ -191,7 +197,12 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
                 for (int i = 0; i < mWorkList.size(); i++) {
                     if (i == holder.getPosition()) {
                         mWorkList.get(i).setCheck(true);
-                        NotifySearchType("null,null,null,"+mWorkList.get(i).getId()+",null");
+                        if ("-1".equals(mWorkList.get(i).getId())){
+                            NotifySearchType("null,null,null,null,null");
+                        }else {
+                            NotifySearchType("null,null,null,"+mWorkList.get(i).getId()+",null");
+                        }
+
                         continue;
                     }
                     mWorkList.get(i).setCheck(false);
@@ -260,11 +271,20 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
      * @param ProcinveID
      */
     private void ChangeProvince(int ProcinveID) {
+        if (ProcinveID==-1){
+            mMapBean.mCities.clear();
+            mSelectorCity.notifyData(mMapBean);
+            return;
+        }
         mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
                 if (isSuccess) {
                     mMapBean.mCities = data;
+                    ArrayList<MapBean.Area> areaList = new ArrayList<MapBean.Area>();
+                    areaList.add(new MapBean.Area("全部",-2));
+                    MapBean.City city = new MapBean.City("全部",-2,areaList);
+                    mMapBean.mCities.add(0,city);
                     mSelectorCity.notifyData(mMapBean);
                 }
             }

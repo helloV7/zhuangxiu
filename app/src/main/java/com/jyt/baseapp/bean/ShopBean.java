@@ -33,6 +33,9 @@ public class ShopBean {
     private String isfrozen;//0 没暂停
     private String reason;
     private String ispush;
+    private String designIsPush;
+    private String measureIsPush;
+    private String proIsPush;
 
     public int getSchedule() {
         return schedule;
@@ -264,5 +267,29 @@ public class ShopBean {
 
     public void setIspush(String ispush) {
         this.ispush = ispush;
+    }
+
+    public String getDesignIsPush() {
+        return designIsPush;
+    }
+
+    public void setDesignIsPush(String designIsPush) {
+        this.designIsPush = designIsPush;
+    }
+
+    public String getMeasureIsPush() {
+        return measureIsPush;
+    }
+
+    public void setMeasureIsPush(String measureIsPush) {
+        this.measureIsPush = measureIsPush;
+    }
+
+    public String getProIsPush() {
+        return proIsPush;
+    }
+
+    public void setProIsPush(String proIsPush) {
+        this.proIsPush = proIsPush;
     }
 }

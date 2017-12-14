@@ -58,6 +58,8 @@ public class Path {
 
     //提交货到待施工
     public static final String URL_ADD_CONSTRICTION = "logist/con";
+    //查询自己对工程的推送状态
+    public static final String URL_ChANGE_PUSH=BasePath+"project/relation";
 
 
 }
