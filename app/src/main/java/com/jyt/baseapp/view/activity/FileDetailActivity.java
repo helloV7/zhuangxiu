@@ -79,6 +79,7 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
         }else {
             type = mFileBean.getShareSuffix();
         }
+        Log.e("@#","type="+type);
 
         switch (type){
             case "ai":
@@ -171,7 +172,10 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
                 }
                 break;
             case R.id.iv_pause:
+                //取消下载
                 OkHttpUtils.getInstance().cancelTag(Const.Tag_Download);
+                mPbDownload.setProgress(0);
+                mIvPause.setVisibility(View.GONE);
                 break;
 
             default:

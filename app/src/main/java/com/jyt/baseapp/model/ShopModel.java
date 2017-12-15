@@ -26,7 +26,13 @@ import okhttp3.Request;
  */
 public class ShopModel {
 
-    public void getShopDetail(String projectId, final OnShopDetailResultListener listener){
+
+    /**
+     * 异步查找商店信息
+     * @param projectId
+     * @param listener
+     */
+    public void getAsynShopDetail(String projectId, final OnShopDetailResultListener listener){
         OkHttpUtils
                 .get()
                 .url(Path.URL_MapDatas)

@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -245,8 +244,8 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         mSelectorBrand.setOnSingleClickListener(new SingleSelector.OnSingleClickListener() {
             @Override
             public void onClickBrand(String BrandID, String BrandName) {
-                ChangeBrand(BrandID);
                 str_BrandID = BrandID;
+                ChangeBrand(BrandID);
                 SearchBrandShop(str_BrandID + ",null");
             }
 
@@ -359,6 +358,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void Result(boolean isSuccess, List<BrandBean> brandData) {
                 if (isSuccess) {
+                    brandData.add(0,new BrandBean("全部","null"));
                     mSelectorBrand.setLeftAdapter(getActivity(), brandData);
                 }
             }
@@ -382,6 +382,9 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         mEtInput.setOnClickListener(this);
 
         mTrlLore.setOnRefreshListener(new RefreshListenerAdapter() {
+
+
+
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 getLRData(true);
@@ -419,7 +422,6 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             return;
         }
 
-        Log.e("@#","S="+ProcinveID);
         mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
@@ -500,6 +502,10 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         });
     }
 
+    /**
+     * 加载数据
+     * @param isRefresh true-刷新 false-加载更多
+     */
     public void getLRData( final  boolean isRefresh){
         if (isRefresh){
             mPage=1;
@@ -524,6 +530,12 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                         }
                     }, 1500);
 
+                }else {
+                    if (isRefresh){
+                        mTrlLore.finishRefreshing();
+                    }else {
+                        mTrlLore.finishLoadmore();
+                    }
                 }
             }
         });

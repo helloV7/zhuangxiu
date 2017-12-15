@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.FragmentViewPagerAdapter;
 import com.jyt.baseapp.bean.SearchBean;
+import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.view.fragment.BaseFragment;
 import com.jyt.baseapp.view.fragment.ShopNewsFragment;
 import com.jyt.baseapp.view.fragment.ShopProgressFragment;
@@ -67,6 +68,13 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
 
     private void init(){
         mShopInfo = (SearchBean) getIntent().getSerializableExtra("shopinfo");
+        if (mShopInfo==null){
+            //当通过推送进入该界面时，要将工程ID赋予mShopInfo
+            String projectID = getIntent().getStringExtra(IntentKey.PROJECTID);
+            mShopInfo =new SearchBean();
+            mShopInfo.setProjectId(projectID);
+
+        }
 
         flist=new ArrayList<>();
         Bundle bundle = new Bundle();

@@ -95,10 +95,11 @@ public class ShopNewsFragment extends BaseFragment {
     private void init() {
         mShopModel = new ShopModel();
         mInfo = (SearchBean) getArguments().getSerializable("shopinfo");
+
     }
 
     private void initData() {
-        mShopModel.getShopDetail(mInfo.getProjectId(), new ShopModel.OnShopDetailResultListener() {
+        mShopModel.getAsynShopDetail(mInfo.getProjectId(), new ShopModel.OnShopDetailResultListener() {
             @Override
             public void Result(boolean isSuccess, Exception e, List<ShopBean> shopBean) {
                 if (isSuccess) {

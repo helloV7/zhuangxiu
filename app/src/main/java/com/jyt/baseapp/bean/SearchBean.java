@@ -21,7 +21,9 @@ public class SearchBean implements Serializable,Parcelable {
     private String schedule;
     private String time;
 
-    protected SearchBean(Parcel in) {
+    public SearchBean(){}
+
+    public SearchBean(Parcel in) {
         projectId = in.readString();
         brandName = in.readString();
         subClassName = in.readString();
