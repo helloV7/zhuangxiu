@@ -13,6 +13,7 @@ import com.jyt.baseapp.bean.LocalMedia;
 import com.jyt.baseapp.bean.LocalMediaFolder;
 import com.jyt.baseapp.bean.Tuple;
 import com.jyt.baseapp.helper.IntentHelper;
+import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.util.LocalMediaLoader;
 import com.jyt.baseapp.view.fragment.ImgFolderFragment;
 import com.jyt.baseapp.view.fragment.ImgListFragment;
@@ -28,7 +29,6 @@ import butterknife.BindView;
  */
 public class SelImageActivity extends BaseActivity {
 
-
     @BindView(R.id.v_viewPager)
     NoScrollViewPager vViewPager;
 
@@ -41,8 +41,6 @@ public class SelImageActivity extends BaseActivity {
 
     int currentSelCount = 0;
     int maxSelCount = 0;
-
-
 
     @Override
     protected int getLayoutId() {
@@ -119,7 +117,7 @@ public class SelImageActivity extends BaseActivity {
         if (currentSelCount>0 && currentSelCount<=maxSelCount){
             IntentHelper.SelImageActivitySetResult(this,RESULT_OK,selImages);
         }else {
-
+            BaseUtil.makeText("超出最大上传数");
         }
     }
 

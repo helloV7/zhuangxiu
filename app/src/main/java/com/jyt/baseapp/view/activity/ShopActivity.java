@@ -67,6 +67,7 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
 
     private void init(){
         mShopInfo = (SearchBean) getIntent().getSerializableExtra("shopinfo");
+
         flist=new ArrayList<>();
         Bundle bundle = new Bundle();
         bundle.putSerializable("shopinfo",mShopInfo);

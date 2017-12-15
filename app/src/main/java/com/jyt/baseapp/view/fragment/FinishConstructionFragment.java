@@ -113,7 +113,7 @@ public class FinishConstructionFragment extends BaseFragment {
                     images.remove(images.size()-1);
                     int selCount = maxCount-currentCount;
                     if (selCount>0){
-                        IntentHelper.openSelImageActivityForResult(getContext(),selCount);
+                        IntentHelper.openSelImageActivityForResult(FinishConstructionFragment.this,selCount);
 
                     }else {
                         T.showShort(getContext(),"已达到限制，无法继续添加");

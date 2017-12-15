@@ -215,7 +215,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         mSelectorProgress.getLayoutParams().height = 0;
         mSelectorProgress.requestLayout();
         mSelectorProgress.setHideDeleteIV(true);
-
+        //区域搜索
         mSelectorCity.setOnMapClickListener(new MapSelector.OnMapClickListener() {
             @Override
             public void onClickProvince(int ProvinceID, String ProvinceName) {
@@ -241,7 +241,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             }
         });
 
-
+        //品牌搜索
         mSelectorBrand.setOnSingleClickListener(new SingleSelector.OnSingleClickListener() {
             @Override
             public void onClickBrand(String BrandID, String BrandName) {
@@ -263,6 +263,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             }
         });
 
+        //进度搜索
         mSelectorProgress.setLeftAdapter(getActivity(), ProgressList);
         mSelectorProgress.setRightAdapter(getActivity(), Pson0);
         mSelectorProgress.setOnSingleClickListener(new SingleSelector.OnSingleClickListener() {

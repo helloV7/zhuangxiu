@@ -22,6 +22,7 @@ import com.jyt.baseapp.api.BeanCallback;
 import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.bean.ConstructionBean;
 import com.jyt.baseapp.bean.ProgressBean;
+import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
 import com.jyt.baseapp.model.ProjectDetailModel;
@@ -29,6 +30,7 @@ import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.activity.ConstructionActivity;
 import com.jyt.baseapp.view.dialog.DatePickerDialog;
 import com.jyt.baseapp.view.widget.JumpItem;
+import com.jyt.baseapp.view.widget.TitleAndFlowImages;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,7 +130,6 @@ public class ViewConstructFragment extends BaseFragment {
 
                     @Override
                     public void onResponse(BaseJson response, int id) {
-                        Log.e("@#","iii");
                         if (response.ret){
                             initFace();
                             ConstructionActivity activity= (ConstructionActivity) getActivity();
@@ -137,6 +138,13 @@ public class ViewConstructFragment extends BaseFragment {
                     }
                 });
 
+            }
+        });
+
+        mAdapter.setOnImageClickListener(new TitleAndFlowImages.OnImageClickListener() {
+            @Override
+            public void onImaegClick(String imagePath) {
+                IntentHelper.openBrowseImagesActivity(getContext(),imagePath);
             }
         });
     }
@@ -160,13 +168,13 @@ public class ViewConstructFragment extends BaseFragment {
                     //整理数据
                     for (int i = 0; i < response.data.getConstructionList().size(); i++) {
                         //时间一致
-                        if (time.equals(response.data.getConstructionList().get(i).getConstructionDate())){
-                            detailBean.getConstructionList().add(response.data.getConstructionList().get(i));
-                        }else {
+                        if (!time.equals(response.data.getConstructionList().get(i).getConstructionDate())){
                             list.add(detailBean);
                             detailBean= new ConstructionBean();
                             time=response.data.getConstructionList().get(i).getConstructionDate();
                         }
+                        detailBean.getConstructionList().add(response.data.getConstructionList().get(i));
+                        //记得最后一组
                         if (i==response.data.getConstructionList().size()-1){
                             list.add(detailBean);
                         }

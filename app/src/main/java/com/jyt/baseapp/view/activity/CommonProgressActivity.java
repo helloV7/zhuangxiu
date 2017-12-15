@@ -135,8 +135,9 @@ public class CommonProgressActivity extends BaseActivity {
 //        }
         //endregion
 
-        vWorkerAndTime.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.valueOf(beforeProject.getFinishTime()))));
-
+        if (beforeProject.getFinishTime()!=null){
+            vWorkerAndTime.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.valueOf(beforeProject.getFinishTime()))));
+        }
         projectDetailModel.getProgressDetail(beforeProject.getSpeedId(), new BeanCallback<BaseJson<List<ProjectFileBean>>>() {
             @Override
             public void onError(Call call, Exception e, int id) {

@@ -485,10 +485,12 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * 检验上传的合格性
+     */
     private void isCanUpLoad(){
         SName=mEtName.getText().toString();
         STel=mEtPhone.getText().toString();
-
 
         if (SPic.length()>0
                 &&SName.length()>0

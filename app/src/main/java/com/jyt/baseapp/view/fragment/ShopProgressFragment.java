@@ -567,8 +567,25 @@ private ProgressBean beforeItemIsFinish(ProgressBean current){
     }
     return null;
 }
-
-
+    //拦截oncreate之后的第一次启动
+    private boolean isPe;
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isPe){
+            isPe=true;
+            return;
+        }
+        mShopModel.getProjectProgress(mInfo.getProjectId(), new ShopModel.OnProgressResultListener() {
+            @Override
+            public void Result(boolean isSuccess, Exception e, List<ProgressBean> shopBean) {
+                if (isSuccess){
+                    progressBeanList = shopBean;
+                    setProgress(shopBean);
+                }
+            }
+        });
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

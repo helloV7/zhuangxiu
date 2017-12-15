@@ -110,7 +110,7 @@ public class ConstructionActivity extends BaseActivity {
             vTabLayout.setVisibility(View.GONE);
         }
         notifyPage();
-        finishSet();
+
     }
 
     /**
@@ -121,7 +121,7 @@ public class ConstructionActivity extends BaseActivity {
         projectDetailModel.getStatus(progressBean.getProjectId(), "1", new BeanCallback<BaseJson<String>>() {
             @Override
             public void onError(Call call, Exception e, int id) {
-
+                finishSet();
             }
 
             @Override
@@ -131,6 +131,7 @@ public class ConstructionActivity extends BaseActivity {
                 }else {
                     vTabLayout.setVisibility(View.GONE);
                 }
+                finishSet();
             }
         });
     }
