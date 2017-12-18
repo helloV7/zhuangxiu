@@ -112,6 +112,10 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
     }
 
     private void initSelector() {
+        mTvMapCity.setText("城市∨");
+        mTvMapCity.setTextColor(getResources().getColor(R.color.text_color1));
+        mTvMapProgress.setText("进程∨");
+        mTvMapProgress.setTextColor(getResources().getColor(R.color.text_color1));
         mSelectorCity.getLayoutParams().width = (int) (mtotalWidth * 0.9);
         mSelectorCity.getLayoutParams().height = 0;
         mSelectorCity.requestLayout();
@@ -281,6 +285,7 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
             mMapBean.mCities.clear();
             mSelectorCity.notifyData(mMapBean);
             SearchMapShop("null,null,null");
+            mTvMapCity.performClick();
             return;
         }
         mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {

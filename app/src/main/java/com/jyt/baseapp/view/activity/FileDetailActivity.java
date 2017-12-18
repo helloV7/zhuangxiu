@@ -79,7 +79,6 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
         }else {
             type = mFileBean.getShareSuffix();
         }
-        Log.e("@#","type="+type);
 
         switch (type){
             case "ai":
@@ -116,7 +115,7 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
 
         int xiegang = mFileBean.getShareUrl().lastIndexOf("/");
         String fileNameAndType = mFileBean.getShareUrl().substring(xiegang+1);
-        mFile = new File(Const.mMainFile+"/"+fileNameAndType);
+        mFile = new File(Const.mMainFile+File.separator+fileNameAndType);
         //0 判断目录是否存在
         File files = new File(Const.mMainFile);
         if (!files.exists()){
@@ -137,7 +136,7 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
             //未下载，显示下载进度框
             mBtnDownload.setText("开始下载");
             mBtnDownload.setBackground(getResources().getDrawable(R.drawable.bg_corner_blue2));
-            mLlProgress.setVisibility(View.VISIBLE);
+            mLlProgress.setVisibility(View.INVISIBLE);
             isDownload=false;
             //2 判断内存是否足够
             getFileSize(mFileBean.getShareUrl());
@@ -193,6 +192,7 @@ public class FileDetailActivity extends BaseActivity implements View.OnClickList
             @Override
             public void Before(  String tag) {
                 mIvPause.setVisibility(View.VISIBLE);
+                mLlProgress.setVisibility(View.VISIBLE);
             }
 
             @Override

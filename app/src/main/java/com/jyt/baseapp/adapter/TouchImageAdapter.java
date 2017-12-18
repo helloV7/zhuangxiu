@@ -4,15 +4,11 @@ import android.graphics.Bitmap;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.ViewTarget;
 import com.jyt.baseapp.view.viewholder.TouchImageView;
 
 import java.util.List;
@@ -42,7 +38,7 @@ public class TouchImageAdapter extends PagerAdapter {
     }
 
     @Override
-    public View instantiateItem(ViewGroup container, int position) {
+    public View instantiateItem(ViewGroup container, final int position) {
         final TouchImageView img = new TouchImageView(container.getContext());
         Glide.with(container.getContext()).load(images.get(position)).asBitmap().into(new SimpleTarget<Bitmap>() {
             @Override
@@ -51,6 +47,15 @@ public class TouchImageAdapter extends PagerAdapter {
             }
         });
                 container.addView(img, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        img.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (mListener!=null){
+                    mListener.OnLongClick((String) images.get(position));
+                }
+                return true;
+            }
+        });
         return img;
     }
 
@@ -62,6 +67,16 @@ public class TouchImageAdapter extends PagerAdapter {
     @Override
     public boolean isViewFromObject(View view, Object object) {
         return view == object;
+    }
+
+    private OnLongClickListener mListener;
+
+    public void setOnLongClickListener(OnLongClickListener listener){
+        mListener = listener;
+    }
+
+    public interface OnLongClickListener{
+        void OnLongClick(String data);
     }
 
 }

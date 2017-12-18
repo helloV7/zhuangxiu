@@ -35,7 +35,7 @@
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="已完成 V"
+            android:text="已完成∨"
             android:textSize="12dp"/>
     </RelativeLayout>
     <LinearLayout

@@ -59,8 +59,6 @@ public class PicFragment extends BaseFragment {
             public void Result(boolean isSuccess, List<PicBean> data) {
                 if (isSuccess){
                     if (data!=null && data.size()>0){
-//                        data.addAll(data);
-//                        data.addAll(data);
                         mPicAdapter.notifyData(data);
                     }
                 }

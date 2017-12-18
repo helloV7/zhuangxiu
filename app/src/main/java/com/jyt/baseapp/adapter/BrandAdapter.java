@@ -43,8 +43,10 @@ public class BrandAdapter extends RecyclerView.Adapter<SingleTextViewHolder> {
         LinearLayout ll= (LinearLayout) holder.tv_SingleText.getParent();
         if (isCentenr){
             ll.setGravity(Gravity.CENTER_HORIZONTAL);
+            ll.setPadding(0,0,0,0);
         }else {
             ll.setGravity(Gravity.LEFT);
+            ll.setPadding(40,0,0,0);
         }
         if (state==0){
             if (singleData.isCheck()){
@@ -74,6 +76,7 @@ public class BrandAdapter extends RecyclerView.Adapter<SingleTextViewHolder> {
     public void setCentenr(boolean isCentenr){
         this.isCentenr=isCentenr;
     }
+
 
     @Override
     public int getItemCount() {

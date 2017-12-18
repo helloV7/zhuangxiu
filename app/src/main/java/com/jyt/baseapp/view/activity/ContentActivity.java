@@ -48,6 +48,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     TextView mTvMore;
     @BindView(R.id.ll_content_more)
     LinearLayout mLlMore;
+    private boolean isFirst;
     private List<BaseFragment> flist;
     private MapFragment mMapFragment;
     private ProjectFragment mProjectFragment;
@@ -55,6 +56,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     private FragmentViewPagerAdapter vpAdapter;
     private BrandFragment mBrandFragment;
     private InfoFragment mInfoFragment;
+
 
     @Override
     protected int getLayoutId() {
@@ -134,20 +136,37 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
             case 0:
                 mIvMap.setImageDrawable(getResources().getDrawable(R.mipmap.map_on));
                 mTvMap.setTextColor(getResources().getColor(R.color.white));
+
                 break;
             case 1:
                 mIvProject.setImageDrawable(getResources().getDrawable(R.mipmap.project_on));
                 mTvProject.setTextColor(getResources().getColor(R.color.white));
+
                 break;
             case 2:
                 mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.more_on));
                 mTvMore.setTextColor(getResources().getColor(R.color.white));
+
                 break;
             default:
                 break;
         }
+        resumeSelector();
         mVpContainer.setCurrentItem(selecor);
 
+    }
+
+    private void resumeSelector(){
+        if (!isFirst){
+            isFirst=true;
+            return;
+        }
+        if (mMapFragment!=null){
+            mMapFragment.initSelecotr();
+        }
+        if (mProjectFragment!=null){
+            mProjectFragment.SetSelector();
+        }
     }
 
 

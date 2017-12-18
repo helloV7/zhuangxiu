@@ -67,7 +67,7 @@ public class SingleSelector extends LinearLayout {
         }
         rv_left.setAdapter(LeftAdapter);
         rv_left.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
-        rv_left.addItemDecoration(new SpacesItemDecoration(0,60));
+        rv_left.addItemDecoration(new SpacesItemDecoration(0,80));
         LeftAdapter.notifyDataSetChanged();
         LeftAdapter.setOnSingleClickListener(new BrandAdapter.OnSingleClickListener() {
             @Override
@@ -89,7 +89,7 @@ public class SingleSelector extends LinearLayout {
 
     public void setRightAdapter(Context context, final List<BrandBean> data){
         if (RightAdapter==null){
-            RightAdapter=new BrandAdapter(context,data,1);
+            RightAdapter=new BrandAdapter(context,data,0);
             RightAdapter.setCentenr(false);
         }
         sonlist=data;
@@ -116,7 +116,7 @@ public class SingleSelector extends LinearLayout {
     }
 
     public void notifyRightData(final List<BrandBean> data){
-        if (RightAdapter!=null && data!=null && data.size()>0){
+        if (RightAdapter!=null && data!=null){
             sonlist=data;
             RightAdapter.notifyData(data);
         }

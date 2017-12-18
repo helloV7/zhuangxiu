@@ -199,7 +199,24 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
 
     }
 
-    private void initSelector() {
+    /**
+     * 重置状态
+     */
+    public void SetSelector(){
+        isHideCity=false;
+        isHideBrand=false;
+        isHideProgress=false;
+        isShowCity = true;
+        isShowBrand = true;
+        isShowProgress = true;
+
+        mTvMapCity.setText("城市∨");
+        mTvMapCity.setTextColor(getResources().getColor(R.color.text_color1));
+        mTvMapBrand.setText("品牌∨");
+        mTvMapBrand.setTextColor(getResources().getColor(R.color.text_color1));
+        mTvMapProgress.setText("进程∨");
+        mTvMapProgress.setTextColor(getResources().getColor(R.color.text_color1));
+
         mSelectorCity.getLayoutParams().width = (int) (mtotalWidth * 0.9);
         mSelectorCity.getLayoutParams().height = 0;
         mSelectorCity.requestLayout();
@@ -214,6 +231,10 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         mSelectorProgress.getLayoutParams().height = 0;
         mSelectorProgress.requestLayout();
         mSelectorProgress.setHideDeleteIV(true);
+    }
+
+    private void initSelector() {
+        SetSelector();
         //区域搜索
         mSelectorCity.setOnMapClickListener(new MapSelector.OnMapClickListener() {
             @Override
@@ -246,7 +267,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             public void onClickBrand(String BrandID, String BrandName) {
                 str_BrandID = BrandID;
                 ChangeBrand(BrandID);
-                SearchBrandShop(str_BrandID + ",null");
+
             }
 
             @Override
@@ -272,6 +293,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                     case "-1":
                         mSelectorProgress.notifyRightData(Pson0);
                         SearchProgressShop("null");
+                        mTvMapProgress.performClick();
                         break;
                     case "0":
                         mSelectorProgress.notifyRightData(Pson1);
@@ -358,19 +380,21 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void Result(boolean isSuccess, List<BrandBean> brandData) {
                 if (isSuccess) {
-                    brandData.add(0,new BrandBean("全部","null"));
+                    brandData.add(0,new BrandBean("全部","-1"));
+                    brandData.get(0).setCheck(true);
                     mSelectorBrand.setLeftAdapter(getActivity(), brandData);
                 }
             }
         });
-        mMapModel.getBrandSonData("9ef3c864-b53d-11e7-9b64-00ffaa44255a", new MapModel.OngetBrandResultListener() {
-            @Override
-            public void Result(boolean isSuccess, List<BrandBean> brandData) {
-                if (isSuccess) {
-                    mSelectorBrand.setRightAdapter(getActivity(), brandData);
-                }
-            }
-        });
+        mSelectorBrand.setRightAdapter(getActivity(),new ArrayList<BrandBean>());
+//        mMapModel.getBrandSonData("9ef3c864-b53d-11e7-9b64-00ffaa44255a", new MapModel.OngetBrandResultListener() {
+//            @Override
+//            public void Result(boolean isSuccess, List<BrandBean> brandData) {
+//                if (isSuccess) {
+//                    mSelectorBrand.setRightAdapter(getActivity(), brandData);
+//                }
+//            }
+//        });
     }
 
     private void initListener() {
@@ -419,6 +443,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             mMapBean.mCities.clear();
             mSelectorCity.notifyData(mMapBean);
             SearchMapShop("null,null,null");
+            mTvMapCity.performClick();
             return;
         }
 
@@ -443,6 +468,10 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
      * @param BrandID
      */
     private void ChangeBrand(String BrandID) {
+        if ("-1".equals(BrandID)){
+            SearchBrandShop("null,null");
+            mTvMapBrand.performClick();
+        }
         mMapModel.getBrandSonData(BrandID, new MapModel.OngetBrandResultListener() {
             @Override
             public void Result(boolean isSuccess, List<BrandBean> brandData) {

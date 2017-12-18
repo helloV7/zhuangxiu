@@ -217,7 +217,6 @@ public class MapModel {
                     public void onResponse(BaseJson<List<BrandBean>> response, int id) {
                         if (listener!=null){
                             if (response.ret){
-                                response.data.get(0).setCheck(true);
                                 listener.Result(true,response.data);
                             }else {
                                 Log.e("@#","model_map "+response.forUser);
