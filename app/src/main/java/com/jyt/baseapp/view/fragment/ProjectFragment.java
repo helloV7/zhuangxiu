@@ -9,10 +9,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -22,19 +24,18 @@ import com.jyt.baseapp.adapter.ProjectAdapter;
 import com.jyt.baseapp.bean.BrandBean;
 import com.jyt.baseapp.bean.MapBean;
 import com.jyt.baseapp.bean.SearchBean;
+import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.activity.InfoActivity;
 import com.jyt.baseapp.view.activity.SearchActivity;
-import com.jyt.baseapp.view.activity.ShopActivity;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 import com.jyt.baseapp.view.widget.MapSelector;
 import com.jyt.baseapp.view.widget.SingleSelector;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,12 +73,14 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     Unbinder unbinder;
     @BindView(R.id.trl_lore)
     TwinklingRefreshLayout mTrlLore;
+    @BindView(R.id.fl_main)
+    FrameLayout mFlMain;
 
     private int mtotalWidth;
     private MapModel mMapModel;
     private MapBean mMapBean;
     private int selecrotHeight = BaseUtil.dip2px(380);
-    private int mPage=1;
+    private int mPage = 1;
     private boolean isHideCity;
     private boolean isHideBrand;
     private boolean isHideProgress;
@@ -85,7 +88,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     private boolean isShowBrand = true;
     private boolean isShowProgress = true;
     private boolean isClickProvince = false;
-    private String str_province ;
+    private String str_province;
     private String str_BrandID;
     private ProjectAdapter mProjectAdapter;
     private List<BrandBean> ProgressList;
@@ -128,7 +131,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         mProjectAdapter.setDataList(list);
         mRvShop.setAdapter(mProjectAdapter);
         ProgressList = new ArrayList<>();
-//        ProgressList.add(new BrandBean("全部", "-1").setChecks(true));
+        //        ProgressList.add(new BrandBean("全部", "-1").setChecks(true));
         ProgressList.add(new BrandBean("全部", "-1"));
         ProgressList.add(new BrandBean("丈量中", "0"));
         ProgressList.add(new BrandBean("设计报价", "1"));
@@ -202,10 +205,10 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     /**
      * 重置状态
      */
-    public void SetSelector(){
-        isHideCity=false;
-        isHideBrand=false;
-        isHideProgress=false;
+    public void SetSelector() {
+        isHideCity = false;
+        isHideBrand = false;
+        isHideProgress = false;
         isShowCity = true;
         isShowBrand = true;
         isShowProgress = true;
@@ -246,8 +249,8 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
-                if (CityID==-2 && AreaID==-2){
-                    SearchMapShop(str_province + ",null,null" );
+                if (CityID == -2 && AreaID == -2) {
+                    SearchMapShop(str_province + ",null,null");
                     mTvMapCity.performClick();
                     return;
                 }
@@ -353,48 +356,48 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
 
         getLRData(true);
 
-        mMapModel.getProvinceData(getActivity(),new MapModel.onResultProvinceListener() {
+        mMapModel.getProvinceData(getActivity(), new MapModel.onResultProvinceListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess) {
                     mMapBean.mProvinces = data;
-                    mMapBean.mProvinces.add(0,new MapBean.Province("全部",-1));
+                    mMapBean.mProvinces.add(0, new MapBean.Province("全部", -1));
                     mMapBean.mProvinces.get(0).isCheckProvince = true;
                     mSelectorCity.setProvinceAdapter(mMapBean, getActivity());
                 }
             }
         });
 
-        mSelectorCity.setCityAdapter(mMapBean,getActivity());
-//        mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
-//            @Override
-//            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
-//                if (isSuccess) {
-//                    mMapBean.mCities = data;
-//                    mSelectorCity.setCityAdapter(mMapBean, getActivity());
-//                }
-//            }
-//        });
+        mSelectorCity.setCityAdapter(mMapBean, getActivity());
+        //        mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
+        //            @Override
+        //            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
+        //                if (isSuccess) {
+        //                    mMapBean.mCities = data;
+        //                    mSelectorCity.setCityAdapter(mMapBean, getActivity());
+        //                }
+        //            }
+        //        });
 
         mMapModel.getBrandData(new MapModel.OngetBrandResultListener() {
             @Override
             public void Result(boolean isSuccess, List<BrandBean> brandData) {
                 if (isSuccess) {
-                    brandData.add(0,new BrandBean("全部","-1"));
+                    brandData.add(0, new BrandBean("全部", "-1"));
                     brandData.get(0).setCheck(true);
                     mSelectorBrand.setLeftAdapter(getActivity(), brandData);
                 }
             }
         });
-        mSelectorBrand.setRightAdapter(getActivity(),new ArrayList<BrandBean>());
-//        mMapModel.getBrandSonData("9ef3c864-b53d-11e7-9b64-00ffaa44255a", new MapModel.OngetBrandResultListener() {
-//            @Override
-//            public void Result(boolean isSuccess, List<BrandBean> brandData) {
-//                if (isSuccess) {
-//                    mSelectorBrand.setRightAdapter(getActivity(), brandData);
-//                }
-//            }
-//        });
+        mSelectorBrand.setRightAdapter(getActivity(), new ArrayList<BrandBean>());
+        //        mMapModel.getBrandSonData("9ef3c864-b53d-11e7-9b64-00ffaa44255a", new MapModel.OngetBrandResultListener() {
+        //            @Override
+        //            public void Result(boolean isSuccess, List<BrandBean> brandData) {
+        //                if (isSuccess) {
+        //                    mSelectorBrand.setRightAdapter(getActivity(), brandData);
+        //                }
+        //            }
+        //        });
     }
 
     private void initListener() {
@@ -408,7 +411,6 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         mTrlLore.setOnRefreshListener(new RefreshListenerAdapter() {
 
 
-
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
                 getLRData(true);
@@ -419,14 +421,37 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                 getLRData(false);
             }
         });
+        mRvShop.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (isHideCity) {
+                    isShowCity=true;
+                    mTvMapCity.setText("城市∨");
+                    mTvMapCity.setTextColor(getResources().getColor(R.color.text_color1));
+                    setCitySelector();
+
+                }
+                if (isHideBrand) {
+                    setBrandSelector();
+                    isShowBrand=true;
+                    mTvMapBrand.setText("品牌∨");
+                    mTvMapBrand.setTextColor(getResources().getColor(R.color.text_color1));
+                }
+                if (isHideProgress) {
+                    setProgressSelector();
+                    isShowProgress=true;
+                    mTvMapProgress.setText("进程∨");
+                    mTvMapProgress.setTextColor(getResources().getColor(R.color.text_color1));
+                }
+                return false;
+            }
+        });
 
         mProjectAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
             @Override
             public void onClick(BaseViewHolder holder) {
-                Intent intent = new Intent(getActivity(), ShopActivity.class);
                 SearchBean ShopInfo = (SearchBean) holder.getData();
-                intent.putExtra("shopinfo", (Serializable) ShopInfo);
-                startActivity(intent);
+                IntentHelper.openShopActivity(getActivity(), ShopInfo);
             }
         });
     }
@@ -439,7 +464,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
      */
     private void ChangeProvince(int ProcinveID) {
         //全部的查找
-        if (ProcinveID==-1){
+        if (ProcinveID == -1) {
             mMapBean.mCities.clear();
             mSelectorCity.notifyData(mMapBean);
             SearchMapShop("null,null,null");
@@ -453,9 +478,9 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                 if (isSuccess) {
                     mMapBean.mCities = data;
                     ArrayList<MapBean.Area> areaList = new ArrayList<MapBean.Area>();
-                    areaList.add(new MapBean.Area("全部",-2));
-                    MapBean.City city = new MapBean.City("全部",-2,areaList);
-                    mMapBean.mCities.add(0,city);
+                    areaList.add(new MapBean.Area("全部", -2));
+                    MapBean.City city = new MapBean.City("全部", -2, areaList);
+                    mMapBean.mCities.add(0, city);
                     mSelectorCity.notifyData(mMapBean);
                 }
             }
@@ -468,7 +493,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
      * @param BrandID
      */
     private void ChangeBrand(String BrandID) {
-        if ("-1".equals(BrandID)){
+        if ("-1".equals(BrandID)) {
             SearchBrandShop("null,null");
             mTvMapBrand.performClick();
         }
@@ -533,24 +558,25 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
 
     /**
      * 加载数据
+     *
      * @param isRefresh true-刷新 false-加载更多
      */
-    public void getLRData( final  boolean isRefresh){
-        if (isRefresh){
-            mPage=1;
+    public void getLRData(final boolean isRefresh) {
+        if (isRefresh) {
+            mPage = 1;
         }
         mMapModel.getLRData(mPage, new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, final List<SearchBean> data) {
-                if (isSuccess){
+                if (isSuccess) {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (isRefresh){
+                            if (isRefresh) {
                                 //刷新
                                 mProjectAdapter.notifyData(data);
                                 mTrlLore.finishRefreshing();
-                            }else {
+                            } else {
                                 //加载更多
                                 mProjectAdapter.LoadMoreData(data);
                                 mTrlLore.finishLoadmore();
@@ -559,10 +585,10 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                         }
                     }, 1500);
 
-                }else {
-                    if (isRefresh){
+                } else {
+                    if (isRefresh) {
                         mTrlLore.finishRefreshing();
-                    }else {
+                    } else {
                         mTrlLore.finishLoadmore();
                     }
                 }

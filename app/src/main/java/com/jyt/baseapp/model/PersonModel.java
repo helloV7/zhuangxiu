@@ -4,7 +4,7 @@ import com.jyt.baseapp.api.BeanCallback;
 import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.api.Path;
 import com.jyt.baseapp.bean.BaseJson;
-import com.jyt.baseapp.bean.InfoBean;
+import com.jyt.baseapp.bean.UserBean;
 import com.jyt.baseapp.util.BaseUtil;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
@@ -29,14 +29,14 @@ public class PersonModel {
                 .addParams("page","0")
                 .addParams("searchValue",BaseUtil.getSpString(Const.PositionID))
                 .build()
-                .execute(new BeanCallback<BaseJson<List<InfoBean>>>() {
+                .execute(new BeanCallback<BaseJson<List<UserBean>>>() {
                     @Override
                     public void onError(Call call, Exception e, int id) {
 
                     }
 
                     @Override
-                    public void onResponse(BaseJson<List<InfoBean>> response, int id) {
+                    public void onResponse(BaseJson<List<UserBean>> response, int id) {
                         if (listener!=null && response.ret){
                             listener.Result(true,response.data.get(0));
                         }
@@ -45,7 +45,7 @@ public class PersonModel {
     }
 
     public interface OngetPersonInfoListener{
-        void Result(boolean isSuccess,InfoBean data);
+        void Result(boolean isSuccess,UserBean data);
     }
 
     public void getAboutUs(final OngetAboutUsListener listener){

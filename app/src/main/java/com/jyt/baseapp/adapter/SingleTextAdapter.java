@@ -37,6 +37,7 @@ public class SingleTextAdapter extends RecyclerView.Adapter<SingleTextViewHolder
         MapBean.Province province=data.mProvinces.get(position);
         LinearLayout ll= (LinearLayout) holder.tv_SingleText.getParent();
         ll.setGravity(Gravity.CENTER_HORIZONTAL);
+        ll.setPadding(0,0,0,0);
         holder.tv_SingleText.setText(province.ProvinceName);
         holder.tv_SingleText.setGravity(Gravity.CENTER_HORIZONTAL);
         if (province.isCheckProvince){

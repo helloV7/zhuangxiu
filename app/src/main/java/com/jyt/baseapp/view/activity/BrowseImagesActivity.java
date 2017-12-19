@@ -68,7 +68,7 @@ public class BrowseImagesActivity extends BaseActivity {
                 int xiegang = filePath.lastIndexOf("/");
                 String fileNameAndType = filePath.substring(xiegang+1);
                 Log.e("@#",filePath);
-                mShareModel.DownloadFile("https://timgsa.baidu.com/timg?image&amp;quality=80&amp;size=b9999_10000&amp;sec=1513596725872&amp;di=1b82f44d085583b05822dc6ebfdc498d&amp;imgtype=0&amp;src=http%3A%2F%2Fa.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F4ec2d5628535e5ddbf06b6377cc6a7efce1b622b.jpg", fileNameAndType, new ShareModel.OnDownloadFileListener() {
+                mShareModel.DownloadFile(filePath, fileNameAndType, new ShareModel.OnDownloadFileListener() {
                     @Override
                     public void Before(String tag) {
 

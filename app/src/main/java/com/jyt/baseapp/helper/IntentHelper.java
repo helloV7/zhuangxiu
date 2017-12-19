@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import com.jyt.baseapp.bean.FileBean;
 import com.jyt.baseapp.bean.SearchBean;
@@ -287,7 +286,7 @@ public class IntentHelper {
      */
     public static void openShopActivity(Context context, SearchBean bean){
         Intent intent = new Intent(context,ShopActivity.class);
-        intent.putExtra("shopinfo",(Serializable) bean);
+        intent.putExtra(IntentKey.SHOPINFO,(Serializable) bean);
         context.startActivity(intent);
     }
 
@@ -307,7 +306,7 @@ public class IntentHelper {
      */
     public static void OpenInfoDetailActivity(Context context , int state){
         Intent intent = new Intent(context,InfoDetailActivity.class);
-        intent.putExtra("state",state);
+        intent.putExtra(IntentKey.STATE,state);
         context.startActivity(intent);
     }
     //endregion

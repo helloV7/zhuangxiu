@@ -17,6 +17,7 @@ import com.jyt.baseapp.api.Path;
 import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.bean.ShopBean;
+import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.ShopModel;
 import com.jyt.baseapp.view.activity.EvaluateDetailActivity;
 import com.jyt.baseapp.view.widget.ItemText;
@@ -94,7 +95,7 @@ public class ShopNewsFragment extends BaseFragment {
 
     private void init() {
         mShopModel = new ShopModel();
-        mInfo = (SearchBean) getArguments().getSerializable("shopinfo");
+        mInfo = (SearchBean) getArguments().getSerializable(IntentKey.SHOPINFO);
 
     }
 

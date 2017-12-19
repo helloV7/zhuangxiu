@@ -182,9 +182,23 @@ public class BaseUtil {
         return format.format(Long.parseLong(time));
     }
 
+    /**
+     * 失败提示
+     * @param clazz
+     */
     public static void LogE(Class clazz){
-        Log.e("@#",clazz.getName()+" error");
+        Log.e("@#",clazz.getName()+"：error");
     }
+
+    /**
+     * 成功提示
+     * @param clazz
+     */
+    public static void LogS(Class clazz){
+        Log.e("@#",clazz.getName()+"：success");
+    }
+
+
 
 
 

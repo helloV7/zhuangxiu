@@ -67,7 +67,7 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
 
 
     private void init(){
-        mShopInfo = (SearchBean) getIntent().getSerializableExtra("shopinfo");
+        mShopInfo = (SearchBean) getIntent().getSerializableExtra(IntentKey.SHOPINFO);
         if (mShopInfo==null){
             //当通过推送进入该界面时，要将工程ID赋予mShopInfo
             String projectID = getIntent().getStringExtra(IntentKey.PROJECTID);
@@ -78,7 +78,7 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
 
         flist=new ArrayList<>();
         Bundle bundle = new Bundle();
-        bundle.putSerializable("shopinfo",mShopInfo);
+        bundle.putSerializable(IntentKey.SHOPINFO,mShopInfo);
         mNewsFragment=new ShopNewsFragment();
         mNewsFragment.setArguments(bundle);
         mProgressFragment=new ShopProgressFragment();
@@ -91,7 +91,7 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
         flist.add(mNewsFragment);
         flist.add(mProgressFragment);
         mAdapter.setFragments(flist);
-        mVpContainer.setOffscreenPageLimit(1);
+        mVpContainer.setOffscreenPageLimit(2);
         mVpContainer.setAdapter(mAdapter);
         mVpContainer.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

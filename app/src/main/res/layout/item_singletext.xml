@@ -13,7 +13,7 @@
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:id="@+id/tv_left_province"
-            android:text="123"
+            android:maxEms="5"
             android:gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_gravity="center_horizontal"

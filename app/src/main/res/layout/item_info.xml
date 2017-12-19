@@ -4,6 +4,7 @@
               android:layout_width="match_parent"
               android:layout_height="90dp">
     <TextView
+        android:id="@+id/tv_time"
         android:gravity="center_horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,13 +27,16 @@
             android:text="邓绿普轮胎天河总店"
             android:textSize="16dp"
             android:textColor="@color/text_color1"/>
-        <TextView
+        <com.jyt.baseapp.view.widget.AlwaysMarqueeTextView
+            android:id="@+id/tv_msg"
+            android:layout_marginRight="25dp"
             android:layout_below="@id/tv_shopName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="该项目进入施工中阶段，点击查看详情"
             android:textSize="14dp"
-            android:textColor="@color/map_text1"/>
+            android:textColor="@color/map_text1"
+            android:singleLine="true"/>
         <ImageView
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"

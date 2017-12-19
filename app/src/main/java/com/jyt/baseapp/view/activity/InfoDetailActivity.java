@@ -3,17 +3,24 @@ package com.jyt.baseapp.view.activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.InfoDetailAdapter;
+import com.jyt.baseapp.api.BeanCallback;
+import com.jyt.baseapp.bean.BaseJson;
+import com.jyt.baseapp.bean.InfoBean;
+import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
+import com.jyt.baseapp.model.InfoModel;
+import com.jyt.baseapp.model.impl.InfoModelmpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import okhttp3.Call;
 
 public class InfoDetailActivity extends BaseActivity {
 
@@ -21,6 +28,9 @@ public class InfoDetailActivity extends BaseActivity {
     RecyclerView mRvContainer;
     @BindView(R.id.iv_bottombg)
     ImageView mIvBottombg;
+    private InfoDetailAdapter mDetailAdapter;
+    private InfoModel mInfoModel;
+    private int mState;
 
 
     @Override
@@ -37,36 +47,75 @@ public class InfoDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        initRv();
+        initData();
+
     }
 
     private void init() {
-        int state = getIntent().getIntExtra("state", 0);
-        switch (state) {
+        mInfoModel = new InfoModelmpl();
+        mState = getIntent().getIntExtra(IntentKey.STATE, 0);
+        mDetailAdapter = new InfoDetailAdapter();
+        mRvContainer.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
+        mRvContainer.addItemDecoration(new SpacesItemDecoration(0,30));
+        mRvContainer.setAdapter(mDetailAdapter);
+    }
+
+    private void initData(){
+        switch (mState) {
             case 0:
-                setTextTitle("项目进度");
-                mIvBottombg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_blue2));
+                setInfoProgress();
                 break;
             case 1:
-                setTextTitle("工作提示");
-                mIvBottombg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_yellow2));
+                setInfoHint();
                 break;
             case 2:
-                setTextTitle("店主评价");
-                mIvBottombg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_green2));
+                setInfoEvaluate();
                 break;
         }
     }
 
-    private void initRv(){
-        InfoDetailAdapter adapter=new InfoDetailAdapter();
-        List<String> list=new ArrayList<>();
-        list.add("");
-        list.add("");
-        list.add("");
-        adapter.setDataList(list);
-        mRvContainer.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        mRvContainer.setAdapter(adapter);
-        mRvContainer.addItemDecoration(new SpacesItemDecoration(0,30));
+    private void setInfoProgress(){
+        setTextTitle("项目进度");
+        mIvBottombg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_blue2));
     }
+
+    private void setInfoHint(){
+        setTextTitle("工作提示");
+        mIvBottombg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_yellow2));
+        mInfoModel.getLastHint(new BeanCallback<BaseJson<List<InfoBean>>>() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(BaseJson<List<InfoBean>> response, int id) {
+                if (response.ret && response.data!=null && response.data.size()>0){
+                    List<InfoBean> data = transList(1,response.data);
+                    mDetailAdapter.notifyData(data);
+                }
+
+            }
+        });
+    }
+
+    private void setInfoEvaluate(){
+        setTextTitle("店主评价");
+        mIvBottombg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_green2));
+    }
+
+    /**
+     * 根据三种列表赋予对应的状态
+     * @param state
+     * @param data
+     * @return
+     */
+    private List<InfoBean> transList(int state, List<InfoBean> data){
+        for (InfoBean info : data) {
+            info.setState(state);
+        }
+        return data;
+    }
+
+
 }

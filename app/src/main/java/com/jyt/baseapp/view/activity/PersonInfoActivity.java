@@ -7,7 +7,8 @@ import android.widget.Button;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.api.Const;
-import com.jyt.baseapp.bean.InfoBean;
+import com.jyt.baseapp.bean.UserBean;
+import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.widget.JumpItem;
 
@@ -43,13 +44,13 @@ public class PersonInfoActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTextTitle("个人资料");
-        InfoBean bean= (InfoBean) getIntent().getSerializableExtra("Personinfo");
+        UserBean bean= (UserBean) getIntent().getSerializableExtra(IntentKey.PERSONINFO);
 
         if (bean!=null){
             mJtName.setMsg(bean.getNickName());
             mJtPhone.setMsg(bean.getTel());
             mJtPosition.setMsg(bean.getStationName());
-            mJtDepartment.setMsg(bean.getDeparementName());
+            mJtDepartment.setMsg(bean.getDepartmentName());
         }
 
 

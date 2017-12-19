@@ -27,6 +27,7 @@ public class SearchBeforViewHolder extends BaseViewHolder<SearchBean> {
         super.setData(data);
         ll_parent.setBackgroundColor(itemView.getResources().getColor(R.color.colorPrimary));
         tv_result.setText(data.getProjectName());
+        tv_result.setTextSize(16);
         tv_result.setTextColor(itemView.getResources().getColor(R.color.map_text1));
     }
 }

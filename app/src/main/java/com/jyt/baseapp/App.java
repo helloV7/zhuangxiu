@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.view.ViewConfiguration;
 
-import com.jyt.baseapp.api.OkHttpPostInterceptor;
 import com.jyt.baseapp.util.L;
 import com.orhanobut.hawk.Hawk;
 import com.orhanobut.hawk.LogInterceptor;
@@ -16,9 +15,7 @@ import java.lang.reflect.Field;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
 
-import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
@@ -78,13 +75,13 @@ public class App  extends Application{
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         LoggerInterceptor interceptor = new LoggerInterceptor("--HTTP--",true);
-        builder.addInterceptor(new OkHttpPostInterceptor());
-        builder.addInterceptor(interceptor ).hostnameVerifier(new HostnameVerifier() {
-            @Override
-            public boolean verify(String hostname, SSLSession session) {
-                return true;
-            }
-        }).sslSocketFactory(createSSLSocketFactory());
+//        builder.addInterceptor(new OkHttpPostInterceptor());
+//        builder.addInterceptor(interceptor ).hostnameVerifier(new HostnameVerifier() {
+//            @Override
+//            public boolean verify(String hostname, SSLSession session) {
+//                return true;
+//            }
+//        }).sslSocketFactory(createSSLSocketFactory());
 
         OkHttpUtils.initClient(builder.build());
     }

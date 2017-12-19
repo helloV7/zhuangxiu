@@ -1,9 +1,11 @@
 package com.jyt.baseapp.bean;
 
+import java.io.Serializable;
+
 /**
  * @author LinWei on 2017/11/14 09:46
  */
-public class UserBean {
+public class UserBean implements Serializable {
     private String departmentId;
     private String nickName;
     private String positionId;

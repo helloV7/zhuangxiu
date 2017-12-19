@@ -10,6 +10,7 @@ import com.jyt.baseapp.R;
 import com.jyt.baseapp.bean.ProgressBean;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.helper.IntentHelper;
+import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.ShopModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.util.L;
@@ -111,7 +112,7 @@ public class ShopProgressFragment extends BaseFragment {
     }
 
     private void init() {
-        mInfo = (SearchBean) getArguments().getSerializable("shopinfo");
+        mInfo = (SearchBean) getArguments().getSerializable(IntentKey.SHOPINFO);
         mShopModel = new ShopModel();
         mProgressMap = new HashMap<>();
         mAppendList = new ArrayList<>();

@@ -89,13 +89,13 @@ public class SingleSelector extends LinearLayout {
 
     public void setRightAdapter(Context context, final List<BrandBean> data){
         if (RightAdapter==null){
-            RightAdapter=new BrandAdapter(context,data,0);
+            RightAdapter=new BrandAdapter(context,data,1);
             RightAdapter.setCentenr(false);
         }
         sonlist=data;
         rv_right.setAdapter(RightAdapter);
         rv_right.setLayoutManager(new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false));
-        rv_right.addItemDecoration(new SpacesItemDecoration(0,60));
+        rv_right.addItemDecoration(new SpacesItemDecoration(0,45));
         RightAdapter.setOnSingleClickListener(new BrandAdapter.OnSingleClickListener() {
             @Override
             public void onClick(String BrandSonID, SingleTextViewHolder holder,int position) {

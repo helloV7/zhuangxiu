@@ -8,7 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jyt.baseapp.R;
-import com.jyt.baseapp.bean.InfoBean;
+import com.jyt.baseapp.bean.UserBean;
+import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.PersonModel;
 import com.jyt.baseapp.view.activity.AboutUsActivity;
 import com.jyt.baseapp.view.activity.LocationActivity;
@@ -39,7 +40,7 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
     Unbinder unbinder;
 
     private PersonModel mPersonModel;
-    private InfoBean mInfoBean;
+    private UserBean mInfoBean;
 
 
 
@@ -54,7 +55,7 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
         mPersonModel = new PersonModel();
         mPersonModel.getPersonInfo(new PersonModel.OngetPersonInfoListener() {
             @Override
-            public void Result(boolean isSuccess, InfoBean data) {
+            public void Result(boolean isSuccess, UserBean data) {
                 if (isSuccess){
                     mInfoBean = data;
                 }
@@ -91,7 +92,7 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
             case R.id.item_info:
 //                if (mInfoBean!=null){
                     Intent intent = new Intent(getActivity(), PersonInfoActivity.class);
-                    intent.putExtra("Personinfo",mInfoBean);
+                    intent.putExtra(IntentKey.PERSONINFO,mInfoBean);
                     startActivity(intent);
 //                }
                 break;

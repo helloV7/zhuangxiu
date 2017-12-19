@@ -23,18 +23,17 @@ import com.jyt.baseapp.adapter.WorkAdapter;
 import com.jyt.baseapp.bean.MapBean;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.bean.WorkBean;
+import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.itemDecoration.RecycleViewDivider;
 import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.activity.SearchActivity;
-import com.jyt.baseapp.view.activity.ShopActivity;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 import com.jyt.baseapp.view.widget.MapSelector;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -265,10 +264,9 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
         mProjectAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
             @Override
             public void onClick(BaseViewHolder holder) {
-                Intent intent = new Intent(getActivity(), ShopActivity.class);
+
                 SearchBean ShopInfo = (SearchBean) holder.getData();
-                intent.putExtra("shopinfo", (Serializable) ShopInfo);
-                startActivity(intent);
+                IntentHelper.openShopActivity(getActivity(),ShopInfo);
             }
         });
     }
