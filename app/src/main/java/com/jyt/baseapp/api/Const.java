@@ -2,16 +2,22 @@ package com.jyt.baseapp.api;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.util.BaseUtil;
 
 import java.io.File;
+import java.util.Set;
+
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 
 /**
  * @author LinWei on 2017/11/14 10:03
  */
 public class Const {
+    private final static String TAG="@#";
     public final static String DepartmentId="departmentId";
     public final static String Tel ="tel";
     public final static String NickName="nickName";
@@ -47,6 +53,7 @@ public class Const {
         BaseUtil.setSpString(USERID,userId);
         BaseUtil.setSpString(DepartmentName,departmentName);
         BaseUtil.setSpString(PositionName,positionName);
+        JPushInterface.setAlias(BaseUtil.getContext(),userToken,mAliasCallback);
     }
 
     public static void Logout(Context context){
@@ -87,4 +94,35 @@ public class Const {
     public static String getUserid(){
         return BaseUtil.getSpString(USERID);
     }
+
+    private  final static TagAliasCallback mAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            String logs ;
+            switch (code) {
+                case 0:
+                    logs = "Set tag and alias success";
+                    Log.i(TAG, logs);
+                    // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
+                    break;
+                case 6002:
+                    logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
+                    Log.i(TAG, logs);
+                    //注册失败时，需要再次操作
+                    BaseUtil.getHandle().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            JPushInterface.setAlias(BaseUtil.getContext(),gettokenSession(),mAliasCallback);
+                        }
+                    },3000*60);
+                    // 延迟 60 秒来调用 Handler 设置别名
+                    //                    mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
+                    break;
+                default:
+                    logs = "Failed with errorCode = " + code;
+                    Log.e(TAG, logs);
+            }
+
+        }
+    };
 }

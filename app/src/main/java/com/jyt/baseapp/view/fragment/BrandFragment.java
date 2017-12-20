@@ -10,10 +10,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -64,10 +66,18 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
     @BindView(R.id.rv_progress)
     RecyclerView mRvProgress;
     Unbinder unbinder;
+    @BindView(R.id.iv_arrow1)
+    ImageView mIvArrow1;
+    @BindView(R.id.ll_city)
+    LinearLayout mLlCity;
+    @BindView(R.id.iv_arrow2)
+    ImageView mIvArrow2;
+    @BindView(R.id.ll_progress)
+    LinearLayout mLlProgress;
 
     private int mtotalWidth;
     private int selecrotHeight = BaseUtil.dip2px(380);
-    private int mPage=1;
+    private int mPage = 1;
     private MapModel mMapModel;
     private MapBean mMapBean;
     private ProjectAdapter mProjectAdapter;
@@ -76,7 +86,7 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
     private boolean isShowCity = true;
     private boolean isHideProgress;
     private boolean isShowProgress = true;
-    private String str_province ;
+    private String str_province;
     private String str_BrandID;
     private List<WorkBean> mProgresslist;
 
@@ -96,12 +106,13 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
 
     }
 
-    private void init(){
+    private void init() {
+
         mMapModel = new MapModel();
         mMapBean = new MapBean();
         mProgresslist = new ArrayList<>();
         mWorkAdapter = new WorkAdapter();
-        mProjectAdapter =new ProjectAdapter();
+        mProjectAdapter = new ProjectAdapter();
         WindowManager wm = (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
         mtotalWidth = wm.getDefaultDisplay().getWidth();
         mRvShop.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -110,10 +121,15 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
 
     }
 
-    private void initSelector() {
-        mTvMapCity.setText("城市∨");
+    public void initSelector() {
+        isHideCity = false;
+        isShowCity = true;
+        isHideProgress = false;
+        isShowProgress = true;
+
+        mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
         mTvMapCity.setTextColor(getResources().getColor(R.color.text_color1));
-        mTvMapProgress.setText("进程∨");
+        mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
         mTvMapProgress.setTextColor(getResources().getColor(R.color.text_color1));
         mSelectorCity.getLayoutParams().width = (int) (mtotalWidth * 0.9);
         mSelectorCity.getLayoutParams().height = 0;
@@ -129,12 +145,12 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
 
         getLRData(true);
 
-        mMapModel.getProvinceData(getActivity(),new MapModel.onResultProvinceListener() {
+        mMapModel.getProvinceData(getActivity(), new MapModel.onResultProvinceListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess) {
                     mMapBean.mProvinces = data;
-                    mMapBean.mProvinces.add(0,new MapBean.Province("全部",-1));
+                    mMapBean.mProvinces.add(0, new MapBean.Province("全部", -1));
                     mMapBean.mProvinces.get(0).isCheckProvince = true;
                     mSelectorCity.setProvinceAdapter(mMapBean, getActivity());
                 }
@@ -142,50 +158,50 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
         });
 
 
-        mSelectorCity.setCityAdapter(mMapBean,getActivity());
-//        mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
-//            @Override
-//            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
-//                if (isSuccess) {
-//                    mMapBean.mCities = data;
-//                    mSelectorCity.setCityAdapter(mMapBean, getActivity());
-//                }
-//            }
-//        });
+        mSelectorCity.setCityAdapter(mMapBean, getActivity());
+        //        mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
+        //            @Override
+        //            public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
+        //                if (isSuccess) {
+        //                    mMapBean.mCities = data;
+        //                    mSelectorCity.setCityAdapter(mMapBean, getActivity());
+        //                }
+        //            }
+        //        });
 
 
-        mProgresslist.add(new WorkBean("全部","null").firstCheck());
-        mProgresslist.add(new WorkBean("丈量中","0"));
-        mProgresslist.add(new WorkBean("设计报价","100"));
-        mProgresslist.add(new WorkBean("客户审批","200"));
-        mProgresslist.add(new WorkBean("店主确认中","300"));
-        mProgresslist.add(new WorkBean("备货中","400"));
-        mProgresslist.add(new WorkBean("物流中","500"));
-        mProgresslist.add(new WorkBean("进程施工中","600"));
-        mProgresslist.add(new WorkBean("完成施工","700"));
-        mProgresslist.add(new WorkBean("完成结算","800"));
+        mProgresslist.add(new WorkBean("全部", "null").firstCheck());
+        mProgresslist.add(new WorkBean("丈量中", "0"));
+        mProgresslist.add(new WorkBean("设计报价", "100"));
+        mProgresslist.add(new WorkBean("客户审批", "200"));
+        mProgresslist.add(new WorkBean("店主确认中", "300"));
+        mProgresslist.add(new WorkBean("备货中", "400"));
+        mProgresslist.add(new WorkBean("物流中", "500"));
+        mProgresslist.add(new WorkBean("进程施工中", "600"));
+        mProgresslist.add(new WorkBean("完成施工", "700"));
+        mProgresslist.add(new WorkBean("完成结算", "800"));
 
-        mRvProgress.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
-        mRvProgress.addItemDecoration(new RecycleViewDivider(getActivity(),LinearLayoutManager.VERTICAL));
+        mRvProgress.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        mRvProgress.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
         mWorkAdapter.setDataList(mProgresslist);
         mRvProgress.setAdapter(mWorkAdapter);
 
     }
 
     private void initListener() {
-        mTvMapCity.setOnClickListener(this);
-        mTvMapProgress.setOnClickListener(this);
+        mLlCity.setOnClickListener(this);
+        mLlProgress.setOnClickListener(this);
         mLlInput.setOnClickListener(this);
         mEtInput.setOnClickListener(this);
 
         mWorkAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
             @Override
             public void onClick(BaseViewHolder holder) {
-                //点击切换选中的工种颜色
-                for (int i = 0; i <mProgresslist.size() ; i++) {
-                    if (i==holder.getPosition()){
+
+                for (int i = 0; i < mProgresslist.size(); i++) {
+                    if (i == holder.getPosition()) {
                         mProgresslist.get(i).setCheck(true);
-                        mTvMapProgress.performClick();
+                        mLlProgress.performClick();
                         SearchProgressShop(mProgresslist.get(i).getId());
                         continue;
                     }
@@ -204,13 +220,13 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
 
             @Override
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
-                if (CityID==-2 && AreaID==-2){
-                    SearchMapShop(str_province + ",null,null" );
-                }else {
+                if (CityID == -2 && AreaID == -2) {
+                    SearchMapShop(str_province + ",null,null");
+                } else {
                     SearchMapShop(str_province + "," + CityName + "," + AreaName);
                 }
 
-                mTvMapCity.performClick();
+                mLlCity.performClick();
             }
 
             @Override
@@ -231,24 +247,48 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
                 getLRData(false);
             }
         });
+
+        mRvShop.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (isHideCity){
+                    setCitySelector();
+                    isShowCity=true;
+                    mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
+                    mTvMapCity.setTextColor(getResources().getColor(R.color.text_color1));
+                }
+
+                if (isHideProgress){
+                    setProgressSelector();
+                    isShowProgress=true;
+                    mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
+                    mTvMapProgress.setTextColor(getResources().getColor(R.color.text_color1));
+                }
+
+                return false;
+            }
+        });
+
+
+
     }
 
-    public void getLRData( final  boolean isRefresh){
-        if (isRefresh){
-            mPage=1;
+    public void getLRData(final boolean isRefresh) {
+        if (isRefresh) {
+            mPage = 1;
         }
         mMapModel.getLRData(mPage, new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, final List<SearchBean> data) {
-                if (isSuccess){
+                if (isSuccess) {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (isRefresh){
+                            if (isRefresh) {
                                 //刷新
                                 mProjectAdapter.notifyData(data);
                                 mTrlLore.finishRefreshing();
-                            }else {
+                            } else {
                                 //加载更多
                                 mProjectAdapter.LoadMoreData(data);
                                 mTrlLore.finishLoadmore();
@@ -266,7 +306,7 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
             public void onClick(BaseViewHolder holder) {
 
                 SearchBean ShopInfo = (SearchBean) holder.getData();
-                IntentHelper.openShopActivity(getActivity(),ShopInfo);
+                IntentHelper.openShopActivity(getActivity(), ShopInfo);
             }
         });
     }
@@ -279,11 +319,11 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
      */
     private void ChangeProvince(int ProcinveID) {
         //全部的查找
-        if (ProcinveID==-1){
+        if (ProcinveID == -1) {
             mMapBean.mCities.clear();
             mSelectorCity.notifyData(mMapBean);
             SearchMapShop("null,null,null");
-            mTvMapCity.performClick();
+            mLlCity.performClick();
             return;
         }
         mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {
@@ -292,9 +332,9 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
                 if (isSuccess) {
                     mMapBean.mCities = data;
                     ArrayList<MapBean.Area> areaList = new ArrayList<MapBean.Area>();
-                    areaList.add(new MapBean.Area("全部",-2));
-                    MapBean.City city = new MapBean.City("全部",-2,areaList);
-                    mMapBean.mCities.add(0,city);
+                    areaList.add(new MapBean.Area("全部", -2));
+                    MapBean.City city = new MapBean.City("全部", -2, areaList);
+                    mMapBean.mCities.add(0, city);
                     mSelectorCity.notifyData(mMapBean);
                 }
             }
@@ -323,7 +363,7 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
      * @param condition
      */
     private void SearchProgressShop(String condition) {
-        Log.e("@#",condition);
+        Log.e("@#", condition);
         mMapModel.getSearchData("null,null,null,null,null,null," + condition, new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, List<SearchBean> data) {
@@ -335,15 +375,14 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
     }
 
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_map_city:
+            case R.id.ll_city:
                 if (isShowCity) {
-                    mTvMapCity.setText("城市∧");
+                    mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_up_blue));
                     mTvMapCity.setTextColor(getResources().getColor(R.color.map_text2));
-                    mTvMapProgress.setText("进程∨");
+                    mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
                     mTvMapProgress.setTextColor(getResources().getColor(R.color.text_color1));
                     mSelectorCity.setVisibility(View.VISIBLE);
                     mRvProgress.setVisibility(View.GONE);
@@ -351,17 +390,17 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
                     isShowProgress = true;
                     isHideCity = false;
                 } else {
-                    mTvMapCity.setText("城市∨");
+                    mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
                     mTvMapCity.setTextColor(getResources().getColor(R.color.text_color1));
                     isShowCity = true;
                 }
                 setCitySelector();
                 break;
-            case R.id.tv_map_progress:
+            case R.id.ll_progress:
                 if (isShowProgress) {
-                    mTvMapProgress.setText("进程∧");
+                    mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_up_blue));
                     mTvMapProgress.setTextColor(getResources().getColor(R.color.map_text2));
-                    mTvMapCity.setText("城市∨");
+                    mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
                     mTvMapCity.setTextColor(getResources().getColor(R.color.text_color1));
                     mRvProgress.setVisibility(View.VISIBLE);
                     mSelectorCity.setVisibility(View.GONE);
@@ -369,7 +408,7 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
                     isShowCity = true;
                     isHideProgress = false;
                 } else {
-                    mTvMapProgress.setText("进程∨");
+                    mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
                     mTvMapProgress.setTextColor(getResources().getColor(R.color.text_color1));
                     isShowProgress = true;
                 }
@@ -432,8 +471,6 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
         animator.setDuration(500);
         animator.start();
     }
-
-
 
 
     @Override

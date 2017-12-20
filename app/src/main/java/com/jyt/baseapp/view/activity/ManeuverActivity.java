@@ -135,7 +135,7 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
                 } else {
                     NotifySearchType(str_province + "," + CityName + "," + AreaName + ",null,null");
                 }
-                mTvCity.performClick();
+                mLlCity.performClick();
             }
 
             @Override
@@ -210,13 +210,13 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
                         } else {
                             NotifySearchType("null,null,null," + mWorkList.get(i).getId() + ",null");
                         }
-
+                        mLlType.performClick();
                         continue;
                     }
                     mWorkList.get(i).setCheck(false);
                 }
                 mWorkAdapter.notifyData(mWorkList);
-                mTvWork.performClick();
+
             }
         });
 

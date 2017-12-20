@@ -81,13 +81,13 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     private void init() {
         flist=new ArrayList<>();
         mMapFragment=new MapFragment();
-        mProjectFragment=new ProjectFragment();
+//        mProjectFragment=new ProjectFragment();
         mMoreFragment=new MoreFragment();
         mBrandFragment = new BrandFragment();
         mInfoFragment = new InfoFragment();
         flist.add(mMapFragment);
-        flist.add(mProjectFragment);
-//        flist.add(mBrandFragment);//品牌方
+//        flist.add(mProjectFragment);
+        flist.add(mBrandFragment);//品牌方
         flist.add(mMoreFragment);
 //        flist.add(mInfoFragment);//品牌方
         vpAdapter=new FragmentViewPagerAdapter(getSupportFragmentManager());
@@ -166,6 +166,9 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         }
         if (mProjectFragment!=null){
             mProjectFragment.SetSelector();
+        }
+        if (mBrandFragment !=null){
+            mBrandFragment.initSelector();
         }
     }
 

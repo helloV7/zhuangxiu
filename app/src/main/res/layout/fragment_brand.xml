@@ -46,28 +46,54 @@
         android:orientation="horizontal"
         android:gravity="center"
         android:background="@drawable/bg_corner_whites">
-        <TextView
-            android:id="@+id/tv_map_city"
+        <LinearLayout
+            android:id="@+id/ll_city"
+            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="14dp"
-            android:textColor="@color/text_color1"
-            android:text="城市∨"/>
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/tv_map_city"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="14dp"
+                android:textColor="@color/text_color1"
+                android:text="城市"/>
+            <ImageView
+                android:id="@+id/iv_arrow1"
+                android:layout_marginLeft="3dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@mipmap/btn_down"/>
+        </LinearLayout>
         <View
             android:layout_width="1dp"
             android:layout_height="25dp"
             android:background="#ECECEC"/>
-        <TextView
-            android:id="@+id/tv_map_progress"
+        <LinearLayout
+            android:id="@+id/ll_progress"
+            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:textSize="14dp"
-            android:textColor="@color/text_color1"
-            android:text="进程∨"/>
+            android:orientation="horizontal"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/tv_map_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="14dp"
+                android:textColor="@color/text_color1"
+                android:text="进程"/>
+            <ImageView
+                android:id="@+id/iv_arrow2"
+                android:layout_marginLeft="3dp"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:src="@mipmap/btn_down"/>
+        </LinearLayout>
     </LinearLayout>
 
     <FrameLayout

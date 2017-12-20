@@ -316,7 +316,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                 if (CityID == -2 && AreaID == -2) {
                     isClickProvince = true;
                     SearchShop("null," + str_province + ",null,null,null,null,null");
-                    tv_city.performClick();
+                    mLlCity.performClick();
                     return;
                 }
                 str_city = CityName;
@@ -332,7 +332,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                     str_area = CityName + AreaName;
                 }
                 SearchShop("null," + str_province + "," + CityName + "," + AreaName + ",null,null,null");
-                tv_city.performClick();
+                mLlCity.performClick();
             }
 
             @Override
@@ -378,7 +378,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             @Override
             public void onClickDetail(String BrandSonID, String BrandSonName) {
                 isByMap = false;
-                tv_brand.performClick();
+                mLlBrand.performClick();
                 SearchShop("null,null,null,null," + str_brandID + "," + BrandSonID + ",null");
             }
 
@@ -404,7 +404,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             mMapSelector.notifyData(mMapBean);
             SearchShop("null,null,null,null,null,null,null");
             mMap.moveCamera(CameraUpdateFactory.zoomTo(4));
-            tv_city.performClick();
+            mLlBrand.performClick();
             return;
         }
         mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {
@@ -437,7 +437,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             mBrandSelector.notifyRightData(mBrandSonBeen);
             SearchShop("null,null,null,null,null,null,null");
             mMap.moveCamera(CameraUpdateFactory.zoomTo(4));
-            tv_brand.performClick();
+            mLlBrand.performClick();
             return;
         }
         mMapModel.getBrandSonData(BrandID, new MapModel.OngetBrandResultListener() {

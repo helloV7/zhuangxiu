@@ -262,11 +262,11 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
                 if (CityID == -2 && AreaID == -2) {
                     SearchMapShop(str_province + ",null,null");
-                    mTvMapCity.performClick();
+                    mLlCity.performClick();
                     return;
                 }
                 SearchMapShop(str_province + "," + CityName + "," + AreaName);
-                mTvMapCity.performClick();
+                mLlCity.performClick();
             }
 
             @Override
@@ -287,7 +287,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onClickDetail(String BrandSonID, String BrandSonName) {
                 SearchBrandShop(str_BrandID + "," + BrandSonID);
-                mTvMapBrand.performClick();
+                mLlBrand.performClick();
 
             }
 
@@ -307,7 +307,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                     case "-1":
                         mSelectorProgress.notifyRightData(Pson0);
                         SearchProgressShop("null");
-                        mTvMapProgress.performClick();
+                        mLlProgress.performClick();
                         break;
                     case "0":
                         mSelectorProgress.notifyRightData(Pson1);
@@ -350,7 +350,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onClickDetail(String BrandSonID, String BrandSonName) {
-                mTvMapProgress.performClick();
+                mLlProgress.performClick();
                 SearchProgressShop(BrandSonID);
 
             }
@@ -479,7 +479,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             mMapBean.mCities.clear();
             mSelectorCity.notifyData(mMapBean);
             SearchMapShop("null,null,null");
-            mTvMapCity.performClick();
+            mLlCity.performClick();
             return;
         }
 
@@ -506,7 +506,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     private void ChangeBrand(String BrandID) {
         if ("-1".equals(BrandID)) {
             SearchBrandShop("null,null");
-            mTvMapBrand.performClick();
+            mLlBrand.performClick();
         }
         mMapModel.getBrandSonData(BrandID, new MapModel.OngetBrandResultListener() {
             @Override
