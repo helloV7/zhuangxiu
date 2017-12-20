@@ -13,7 +13,13 @@ import com.zhy.http.okhttp.callback.Callback;
 public class InfoModelmpl implements InfoModel {
     @Override
     public void getLatProgress(Callback callback) {
-
+        OkHttpUtils.get().url(Path.URL_MapDatas)
+                .addParams("token",Const.gettokenSession())
+                .addParams("method","getProjectSpeedMsg")
+                .addParams("page","0")
+                .addParams("searchValue","1")//1内部人员2品牌方
+                .build()
+                .execute(callback);
     }
 
     @Override
@@ -28,6 +34,11 @@ public class InfoModelmpl implements InfoModel {
 
     @Override
     public void getLastEvaluate(Callback callback) {
-
+        OkHttpUtils.get().url(Path.URL_MapDatas)
+                .addParams("token",Const.gettokenSession())
+                .addParams("method","getKeeperEvalList")
+                .addParams("page","0")
+                .build()
+                .execute(callback);
     }
 }

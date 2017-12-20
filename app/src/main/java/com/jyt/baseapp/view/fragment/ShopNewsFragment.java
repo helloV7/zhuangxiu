@@ -103,7 +103,7 @@ public class ShopNewsFragment extends BaseFragment {
         mShopModel.getAsynShopDetail(mInfo.getProjectId(), new ShopModel.OnShopDetailResultListener() {
             @Override
             public void Result(boolean isSuccess, Exception e, List<ShopBean> shopBean) {
-                if (isSuccess) {
+                if (isSuccess && shopBean!=null && shopBean.size()>0) {
                     setInfo(shopBean.get(0));
                 }
             }

@@ -3,7 +3,6 @@ package com.jyt.baseapp.view.activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -12,10 +11,12 @@ import com.jyt.baseapp.adapter.InfoDetailAdapter;
 import com.jyt.baseapp.api.BeanCallback;
 import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.bean.InfoBean;
+import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
 import com.jyt.baseapp.model.InfoModel;
 import com.jyt.baseapp.model.impl.InfoModelmpl;
+import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class InfoDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         init();
         initData();
+        initListener();
 
     }
 
@@ -77,6 +79,21 @@ public class InfoDetailActivity extends BaseActivity {
     private void setInfoProgress(){
         setTextTitle("项目进度");
         mIvBottombg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_blue2));
+        mInfoModel.getLatProgress(new BeanCallback<BaseJson<List<InfoBean>>>() {
+
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(BaseJson<List<InfoBean>> response, int id) {
+                if (response.ret && response.data!=null && response.data.size()>0){
+                    List<InfoBean> data = transList(0,response.data);
+                    mDetailAdapter.notifyData(data);
+                }
+            }
+        });
     }
 
     private void setInfoHint(){
@@ -102,6 +119,30 @@ public class InfoDetailActivity extends BaseActivity {
     private void setInfoEvaluate(){
         setTextTitle("店主评价");
         mIvBottombg.setImageDrawable(getResources().getDrawable(R.mipmap.icon_green2));
+        mInfoModel.getLastEvaluate(new BeanCallback<BaseJson<List<InfoBean>>>() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(BaseJson<List<InfoBean>> response, int id) {
+                if (response.ret && response.data!=null && response.data.size()>0){
+                    List<InfoBean> data = transList(2,response.data);
+                    mDetailAdapter.notifyData(data);
+                }
+            }
+        });
+    }
+
+    private void initListener(){
+        mDetailAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
+            @Override
+            public void onClick(BaseViewHolder holder) {
+                InfoBean bean= (InfoBean) holder.getData();
+                IntentHelper.OpenShopActivityByID(InfoDetailActivity.this , bean.getProjectId());
+            }
+        });
     }
 
     /**

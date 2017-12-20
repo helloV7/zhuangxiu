@@ -300,6 +300,17 @@ public class IntentHelper {
     }
 
     /**
+     * 通过ID进入商店详细页面
+     * @param context
+     * @param ProjectID
+     */
+    public static void OpenShopActivityByID(Context context,String ProjectID){
+        Intent intent = new Intent(context,ShopActivity.class);
+        intent.putExtra(IntentKey.PROJECTID,ProjectID);
+        context.startActivity(intent);
+    }
+
+    /**
      * 打开InfoDetailActivity
      * @param context
      * @param state 0/1/2 界面一致，消息数据分三种来源

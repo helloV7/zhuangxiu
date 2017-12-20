@@ -11,10 +11,13 @@ public class InfoBean implements Serializable {
     private String tabletimeName;
     private String projectId;
     private String tabletimeCode;
-    private String bliu;
-    private String bshiba;//当前系统时间
-    private String finishDate;//完成时间
-    private String asishiba;//更新状态时间
+    private String bliu;//项目名-提示
+    private String bshiba;//当前系统时间-提示
+    private String finishDate;//完成时间-提示
+    private String asishiba;//更新状态时间-提示
+    private String updateDate;//更新状态时间-进度
+    private String projectName;//项目名-进度
+    private String speedName;//节点名称
 
     private String ktoptime;
     private String ktodtime;
@@ -124,5 +127,30 @@ public class InfoBean implements Serializable {
 
     public void setKtobtime(String ktobtime) {
         this.ktobtime = ktobtime;
+    }
+
+
+    public String getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(String updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public String getSpeedName() {
+        return speedName;
+    }
+
+    public void setSpeedName(String speedName) {
+        this.speedName = speedName;
     }
 }

@@ -26,6 +26,7 @@ import java.net.URL;
 import butterknife.BindView;
 
 /**
+ * 文件下载/浏览
  * @author LinWei on 2017/11/28 11:29
  */
 public class FileDetailActivity extends BaseActivity implements View.OnClickListener {

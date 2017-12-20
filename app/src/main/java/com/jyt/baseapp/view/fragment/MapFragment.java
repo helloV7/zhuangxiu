@@ -2,7 +2,6 @@ package com.jyt.baseapp.view.fragment;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -42,14 +41,12 @@ import com.jyt.baseapp.R;
 import com.jyt.baseapp.bean.BrandBean;
 import com.jyt.baseapp.bean.MapBean;
 import com.jyt.baseapp.bean.SearchBean;
-import com.jyt.baseapp.helper.IntentKey;
+import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
-import com.jyt.baseapp.view.activity.ShopActivity;
 import com.jyt.baseapp.view.widget.MapSelector;
 import com.jyt.baseapp.view.widget.SingleSelector;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,64 +146,26 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         mMap.getUiSettings().setZoomControlsEnabled(false);//隐藏缩放按钮
         mMap.getUiSettings().setRotateGesturesEnabled(false);//旋转
         mMap.getUiSettings().setTiltGesturesEnabled(false);//倾斜
-        mMap.setOnMapTouchListener(new AMap.OnMapTouchListener() {
-            @Override
-            public void onTouch(MotionEvent motionEvent) {
-                if (isHideMapSelecotr) {
-                    setMapSelector();
-                    isShowMap = true;
-                    mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
-                    tv_city.setTextColor(getResources().getColor(R.color.text_color1));
-                }
-                if (isHideBrandSelecotr) {
-                    setBrandSelector();
-                    isShowBrand = true;
-                    mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
-                    tv_brand.setTextColor(getResources().getColor(R.color.text_color1));
-                }
-            }
-        });
-        mMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
-            @Override
-            public void onCameraChange(CameraPosition cameraPosition) {
 
-            }
 
-            @Override
-            public void onCameraChangeFinish(CameraPosition cameraPosition) {
-                //阻断全国搜索
-                if (isBrandChange) {
-                    return;
-                }
-                Log.e("@#", "search");
-                LatLng l1 = mMap.getProjection().fromScreenLocation(new Point(0, mtotalHeight));
-                LatLng l2 = mMap.getProjection().fromScreenLocation(new Point(mtotalWidth, 0));
-                //                Log.e("@#","longitude1="+l1.longitude+" latitude1="+l1.latitude);
-                //                Log.e("@#","longitude2="+l2.longitude+" latitude2="+l2.latitude);
-                //                if (!isFst){
-                //                    getLocationShop(l1,l2);
-                //                    isFst=true;
-                //                }
-                getLocationShop(l1, l2);
-            }
-        });
-
-        mMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                SearchBean localData = (SearchBean) marker.getObject();
-                Intent intent = new Intent(getActivity(), ShopActivity.class);
-                intent.putExtra(IntentKey.SHOPINFO, (Serializable) localData);
-                startActivity(intent);
-                return true;
-            }
-        });
     }
 
     /**
      * 重置
      */
     public void initSelecotr() {
+        //当点击其他页面时，需要重置Selector
+        isHideMapSelecotr=false;
+        isHideBrandSelecotr=false;
+        isShowMap = true;
+        isShowBrand = true;
+        mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
+        tv_city.setTextColor(getResources().getColor(R.color.text_color1));
+        mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
+        tv_brand.setTextColor(getResources().getColor(R.color.text_color1));
+
+
+
         mMapSelector.getLayoutParams().width = (int) (mtotalWidth * 0.9);
         mMapSelector.getLayoutParams().height = 0;
         mMapSelector.requestLayout();
@@ -261,6 +220,56 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     private void initListener() {
         mLlCity.setOnClickListener(this);
         mLlBrand.setOnClickListener(this);
+        mMap.setOnMapTouchListener(new AMap.OnMapTouchListener() {
+            @Override
+            public void onTouch(MotionEvent motionEvent) {
+                if (isHideMapSelecotr) {
+                    setMapSelector();
+                    isShowMap = true;
+                    mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
+                    tv_city.setTextColor(getResources().getColor(R.color.text_color1));
+                }
+                if (isHideBrandSelecotr) {
+                    setBrandSelector();
+                    isShowBrand = true;
+                    mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
+                    tv_brand.setTextColor(getResources().getColor(R.color.text_color1));
+                }
+            }
+        });
+        mMap.setOnCameraChangeListener(new AMap.OnCameraChangeListener() {
+            @Override
+            public void onCameraChange(CameraPosition cameraPosition) {
+
+            }
+
+            @Override
+            public void onCameraChangeFinish(CameraPosition cameraPosition) {
+                //阻断全国搜索
+                if (isBrandChange) {
+                    return;
+                }
+                Log.e("@#", "search");
+                LatLng l1 = mMap.getProjection().fromScreenLocation(new Point(0, mtotalHeight));
+                LatLng l2 = mMap.getProjection().fromScreenLocation(new Point(mtotalWidth, 0));
+                //                Log.e("@#","longitude1="+l1.longitude+" latitude1="+l1.latitude);
+                //                Log.e("@#","longitude2="+l2.longitude+" latitude2="+l2.latitude);
+                //                if (!isFst){
+                //                    getLocationShop(l1,l2);
+                //                    isFst=true;
+                //                }
+                getLocationShop(l1, l2);
+            }
+        });
+        //点击Marker进入商店详细界面
+        mMap.setOnMarkerClickListener(new AMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                SearchBean searchBean = (SearchBean) marker.getObject();
+                IntentHelper.openShopActivity(getActivity(),searchBean);
+                return true;
+            }
+        });
     }
 
     private void initData() {

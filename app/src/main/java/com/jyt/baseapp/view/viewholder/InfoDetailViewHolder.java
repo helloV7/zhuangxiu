@@ -31,17 +31,21 @@ public class InfoDetailViewHolder extends BaseViewHolder<InfoBean> {
         super.setData(data);
         String msg = "";
         String lastTime = "";
+        String shopName = "";
         switch (data.getState()) {
             case 0:
-                msg = "该项目已进入"+data.getTabletimeName()+"阶段，点击查看详情。";
-                lastTime = BaseUtil.getTime(data.getAsishiba());
+                shopName = data.getProjectName();
+                msg = "该项目已进入"+data.getSpeedName()+"阶段，点击查看详情。";
+                lastTime = BaseUtil.getTime(data.getUpdateDate());
                 break;
             case 1:
+                shopName = data.getBliu();
                 long finishTime = Long.valueOf(data.getFinishDate()) - Long.valueOf(data.getBshiba());
                 msg = "距离"+data.getTabletimeName()+"完工时间剩下"+(finishTime/(1000*60*60))+"小时，请尽快完工。";
                 lastTime = BaseUtil.getTime(data.getAsishiba());
                 break;
             case 2:
+                shopName = data.getProjectName();
                 msg = "店主已对您进行评价，点击查看详情。";
                 switch (Const.getPositionName()) {
                     case "预算员":
@@ -65,7 +69,7 @@ public class InfoDetailViewHolder extends BaseViewHolder<InfoBean> {
                 break;
         }
         mTvMsg.setText(msg);
-        mTvShopName.setText(data.getBliu());
+        mTvShopName.setText(shopName);
         mTvTime.setText(lastTime);
 
 

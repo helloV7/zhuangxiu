@@ -75,6 +75,18 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     TwinklingRefreshLayout mTrlLore;
     @BindView(R.id.fl_main)
     FrameLayout mFlMain;
+    @BindView(R.id.iv_arrow1)
+    ImageView mIvArrow1;
+    @BindView(R.id.ll_city)
+    LinearLayout mLlCity;
+    @BindView(R.id.iv_arrow2)
+    ImageView mIvArrow2;
+    @BindView(R.id.ll_brand)
+    LinearLayout mLlBrand;
+    @BindView(R.id.iv_arrow3)
+    ImageView mIvArrow3;
+    @BindView(R.id.ll_progress)
+    LinearLayout mLlProgress;
 
     private int mtotalWidth;
     private MapModel mMapModel;
@@ -212,12 +224,11 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         isShowCity = true;
         isShowBrand = true;
         isShowProgress = true;
-
-        mTvMapCity.setText("城市∨");
+        mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
         mTvMapCity.setTextColor(getResources().getColor(R.color.text_color1));
-        mTvMapBrand.setText("品牌∨");
+        mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
         mTvMapBrand.setTextColor(getResources().getColor(R.color.text_color1));
-        mTvMapProgress.setText("进程∨");
+        mIvArrow3.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
         mTvMapProgress.setTextColor(getResources().getColor(R.color.text_color1));
 
         mSelectorCity.getLayoutParams().width = (int) (mtotalWidth * 0.9);
@@ -401,9 +412,9 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void initListener() {
-        mTvMapCity.setOnClickListener(this);
-        mTvMapBrand.setOnClickListener(this);
-        mTvMapProgress.setOnClickListener(this);
+        mLlCity.setOnClickListener(this);
+        mLlBrand.setOnClickListener(this);
+        mLlProgress.setOnClickListener(this);
         mIvNoti.setOnClickListener(this);
         mLlInput.setOnClickListener(this);
         mEtInput.setOnClickListener(this);
@@ -425,22 +436,22 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (isHideCity) {
-                    isShowCity=true;
-                    mTvMapCity.setText("城市∨");
+                    isShowCity = true;
+                    mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
                     mTvMapCity.setTextColor(getResources().getColor(R.color.text_color1));
                     setCitySelector();
 
                 }
                 if (isHideBrand) {
                     setBrandSelector();
-                    isShowBrand=true;
-                    mTvMapBrand.setText("品牌∨");
+                    isShowBrand = true;
+                    mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
                     mTvMapBrand.setTextColor(getResources().getColor(R.color.text_color1));
                 }
                 if (isHideProgress) {
                     setProgressSelector();
-                    isShowProgress=true;
-                    mTvMapProgress.setText("进程∨");
+                    isShowProgress = true;
+                    mIvArrow3.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
                     mTvMapProgress.setTextColor(getResources().getColor(R.color.text_color1));
                 }
                 return false;
@@ -614,13 +625,13 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_map_city:
+            case R.id.ll_city:
                 if (isShowCity) {
-                    mTvMapCity.setText("城市∧");
+                    mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_up_blue));
+                    mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
+                    mIvArrow3.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
                     mTvMapCity.setTextColor(getResources().getColor(R.color.map_text2));
-                    mTvMapBrand.setText("品牌∨");
                     mTvMapBrand.setTextColor(getResources().getColor(R.color.text_color1));
-                    mTvMapProgress.setText("进程∨");
                     mTvMapProgress.setTextColor(getResources().getColor(R.color.text_color1));
                     mSelectorCity.setVisibility(View.VISIBLE);
                     mSelectorBrand.setVisibility(View.GONE);
@@ -630,19 +641,19 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                     isShowProgress = true;
                     isHideCity = false;
                 } else {
-                    mTvMapCity.setText("城市∨");
+                    mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
                     mTvMapCity.setTextColor(getResources().getColor(R.color.text_color1));
                     isShowCity = true;
                 }
                 setCitySelector();
                 break;
-            case R.id.tv_map_brand:
+            case R.id.ll_brand:
                 if (isShowBrand) {
-                    mTvMapBrand.setText("品牌∧");
+                    mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
+                    mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_up_blue));
+                    mIvArrow3.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
                     mTvMapBrand.setTextColor(getResources().getColor(R.color.map_text2));
-                    mTvMapCity.setText("城市∨");
                     mTvMapCity.setTextColor(getResources().getColor(R.color.text_color1));
-                    mTvMapProgress.setText("进程∨");
                     mTvMapProgress.setTextColor(getResources().getColor(R.color.text_color1));
                     mSelectorBrand.setVisibility(View.VISIBLE);
                     mSelectorCity.setVisibility(View.GONE);
@@ -652,19 +663,19 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                     isShowProgress = true;
                     isHideBrand = false;
                 } else {
-                    mTvMapBrand.setText("品牌∨");
+                    mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
                     mTvMapBrand.setTextColor(getResources().getColor(R.color.text_color1));
                     isShowBrand = true;
                 }
                 setBrandSelector();
                 break;
-            case R.id.tv_map_progress:
+            case R.id.ll_progress:
                 if (isShowProgress) {
-                    mTvMapProgress.setText("进程∧");
+                    mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
+                    mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
+                    mIvArrow3.setImageDrawable(getResources().getDrawable(R.mipmap.btn_up_blue));
                     mTvMapProgress.setTextColor(getResources().getColor(R.color.map_text2));
-                    mTvMapCity.setText("城市∨");
                     mTvMapCity.setTextColor(getResources().getColor(R.color.text_color1));
-                    mTvMapBrand.setText("品牌∨");
                     mTvMapBrand.setTextColor(getResources().getColor(R.color.text_color1));
                     mSelectorProgress.setVisibility(View.VISIBLE);
                     mSelectorBrand.setVisibility(View.GONE);
@@ -674,7 +685,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                     isShowCity = true;
                     isHideProgress = false;
                 } else {
-                    mTvMapProgress.setText("进程∨");
+                    mIvArrow3.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
                     mTvMapProgress.setTextColor(getResources().getColor(R.color.text_color1));
                     isShowProgress = true;
                 }
