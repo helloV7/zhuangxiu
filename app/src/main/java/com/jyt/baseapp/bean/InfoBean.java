@@ -6,23 +6,25 @@ import java.io.Serializable;
  * @author LinWei on 2017/11/28 16:48
  */
 public class InfoBean implements Serializable {
-    private int state;
-    private String getworktip;
-    private String tabletimeName;
-    private String projectId;
-    private String tabletimeCode;
-    private String bliu;//项目名-提示
-    private String bshiba;//当前系统时间-提示
-    private String finishDate;//完成时间-提示
-    private String asishiba;//更新状态时间-提示
-    private String updateDate;//更新状态时间-进度
-    private String projectName;//项目名-进度
-    private String speedName;//节点名称
 
-    private String ktoptime;
-    private String ktodtime;
-    private String ktomtime;
-    private String ktobtime;
+    private int state;
+    private String projectId;
+    private String projectName;//项目名
+    //进度
+    private String updateDate;//更新状态时间
+    private String speedName;//节点名称
+    //提示
+    private String tabletimeName;//步骤名称
+    private String tabletimeCode;//code
+    private String bliu;//项目名
+    private String bshiba;//当前系统时间
+    private String finishDate;//完成时间
+    private String asishiba;//更新状态时间
+    //评价
+    private String ktoptime;//店主对项目经理评价
+    private String ktodtime;//店主对设计师评价
+    private String ktomtime;//店主对测量人员评价
+    private String ktobtime;//店主对预算员评价
 
 
     public int getState() {
@@ -33,13 +35,7 @@ public class InfoBean implements Serializable {
         this.state = state;
     }
 
-    public String getGetworktip() {
-        return getworktip;
-    }
 
-    public void setGetworktip(String getworktip) {
-        this.getworktip = getworktip;
-    }
 
     public String getTabletimeName() {
         return tabletimeName;

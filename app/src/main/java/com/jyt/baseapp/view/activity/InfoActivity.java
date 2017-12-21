@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.helper.IntentHelper;
+import com.jyt.baseapp.model.InfoModel;
 
 import butterknife.BindView;
 
@@ -31,6 +32,8 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.rl_evaluation)
     RelativeLayout mRlEvaluation;
 
+    private InfoModel mInfoModel;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_info;
@@ -44,7 +47,19 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        init();
+
+    }
+
+    private void init(){
         setTextTitle("消息");
+    }
+
+    private void initData(){
+
+    }
+
+    private void initListener(){
         mRlProgress.setOnClickListener(this);
         mRlNews.setOnClickListener(this);
         mRlEvaluation.setOnClickListener(this);

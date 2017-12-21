@@ -11,6 +11,38 @@ import com.zhy.http.okhttp.callback.Callback;
  * @author LinWei on 2017/12/19 14:56
  */
 public class InfoModelmpl implements InfoModel {
+
+    @Override
+    public void getLatOneProgress(Callback callback) {
+        OkHttpUtils.get().url(Path.URL_MapDatas)
+                .addParams("token",Const.gettokenSession())
+                .addParams("method","getPorjectSpeedMsgLast")
+                .addParams("page","0")
+                .addParams("searchValue","1")//1内部人员2品牌方
+                .build()
+                .execute(callback);
+    }
+
+    @Override
+    public void getLastOneHint(Callback callback) {
+        OkHttpUtils.get().url(Path.URL_MapDatas)
+                .addParams("token",Const.gettokenSession())
+                .addParams("method","getworktiplast")
+                .addParams("page","0")
+                .build()
+                .execute(callback);
+    }
+
+    @Override
+    public void getLastOneEvaluate(Callback callback) {
+        OkHttpUtils.get().url(Path.URL_MapDatas)
+                .addParams("token",Const.gettokenSession())
+                .addParams("method","getKeeperEvalLastList")
+                .addParams("page","0")
+                .build()
+                .execute(callback);
+    }
+
     @Override
     public void getLatProgress(Callback callback) {
         OkHttpUtils.get().url(Path.URL_MapDatas)
