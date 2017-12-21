@@ -122,12 +122,15 @@ public class ProgressLine extends RelativeLayout {
 
     public void setFinishStation(boolean station){
         if (station){
+            tv_title.setTextColor(getResources().getColor(R.color.text_color1));
             civ_light.setImageResource(R.color.color_submit);
             tv_station.setText("已完成 ∨");
+            tv_station.setTextColor(getResources().getColor(R.color.text_color1));
         }else {
-
+            tv_title.setTextColor(getResources().getColor(R.color.map_text1));
             civ_light.setImageResource(R.color.color_cancel);
             tv_station.setText("未完成 ∨");
+            tv_station.setTextColor(getResources().getColor(R.color.map_text1));
         }
     }
     //当前进行到的位置 字体白色 背景蓝色 圆标白色

@@ -1,5 +1,6 @@
 package com.jyt.baseapp.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.FragmentViewPagerAdapter;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.helper.IntentKey;
+import com.jyt.baseapp.util.FinishActivityManager;
 import com.jyt.baseapp.view.fragment.BaseFragment;
 import com.jyt.baseapp.view.fragment.ShopNewsFragment;
 import com.jyt.baseapp.view.fragment.ShopProgressFragment;
@@ -70,9 +72,9 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
         mShopInfo = (SearchBean) getIntent().getSerializableExtra(IntentKey.SHOPINFO);
         if (mShopInfo==null){
             //当通过推送进入该界面时，要将工程ID赋予mShopInfo
-            String projectID = getIntent().getStringExtra(IntentKey.PROJECTID);
             mShopInfo =new SearchBean();
-            mShopInfo.setProjectId(projectID);
+            mShopInfo.setProjectId(getIntent().getStringExtra(IntentKey.PROJECTID));
+            mShopInfo.setProjectName(getIntent().getStringExtra(IntentKey.SHOPNAME));
 
         }
 
@@ -162,4 +164,17 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        FinishActivityManager manager =FinishActivityManager.getManager();
+        if (!manager.IsActivityExist(ContentActivity.class)){
+            startActivity(new Intent(ShopActivity.this,ContentActivity.class));
+        }
+        finish();
+
+    }
+
+
 }

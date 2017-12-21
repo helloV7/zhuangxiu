@@ -16,6 +16,7 @@ import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
 import com.jyt.baseapp.model.InfoModel;
 import com.jyt.baseapp.model.impl.InfoModelmpl;
+import com.jyt.baseapp.util.FinishActivityManager;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public class InfoDetailActivity extends BaseActivity {
     private InfoDetailAdapter mDetailAdapter;
     private InfoModel mInfoModel;
     private int mState;
+    private String ShopName;
 
 
     @Override
@@ -140,7 +142,18 @@ public class InfoDetailActivity extends BaseActivity {
             @Override
             public void onClick(BaseViewHolder holder) {
                 InfoBean bean= (InfoBean) holder.getData();
-                IntentHelper.OpenShopActivityByID(InfoDetailActivity.this , bean.getProjectId());
+                switch (mState){
+                    case 1:
+                        ShopName = bean.getBliu();
+                        break;
+                    case 0:
+                    case 2:
+                        ShopName = bean.getProjectName();
+                        break;
+                }
+                IntentHelper.OpenShopActivityByID(InfoDetailActivity.this , bean.getProjectId(),ShopName);
+                finish();
+                FinishActivityManager.getManager().finishActivity(InfoActivity.class);
             }
         });
     }

@@ -26,6 +26,15 @@ public class WelcomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         HideActionBar();
+//        String projectId = getIntent().getStringExtra(IntentKey.PROJECTID);
+//        String projectName = getIntent().getStringExtra(IntentKey.SHOPNAME);
+//        if (projectId != null && projectName != null){
+//            Intent intent = new Intent(getContext(),ShopActivity.class);
+//            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            intent.putExtra(IntentKey.PROJECTID,projectId);
+//            intent.putExtra(IntentKey.SHOPNAME,projectName);
+//            startActivity(intent);
+//        }
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

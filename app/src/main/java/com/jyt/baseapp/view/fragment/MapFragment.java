@@ -194,6 +194,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                             double v1 = aMapLocation.getLongitude();//获取经度
                             LatLng latLng2 = new LatLng(v, v1);
                             mMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng2));
+                            mMap.moveCamera(CameraUpdateFactory.zoomTo(10));
                             isLocation = true;
                         }
 
@@ -246,10 +247,9 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             @Override
             public void onCameraChangeFinish(CameraPosition cameraPosition) {
                 //阻断全国搜索
-                if (isBrandChange) {
-                    return;
-                }
-                Log.e("@#", "search");
+//                if (isBrandChange) {
+//                    return;
+//                }
                 LatLng l1 = mMap.getProjection().fromScreenLocation(new Point(0, mtotalHeight));
                 LatLng l2 = mMap.getProjection().fromScreenLocation(new Point(mtotalWidth, 0));
                 //                Log.e("@#","longitude1="+l1.longitude+" latitude1="+l1.latitude);
@@ -258,7 +258,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                 //                    getLocationShop(l1,l2);
                 //                    isFst=true;
                 //                }
-                getLocationShop(l1, l2);
+//                getLocationShop(l1, l2);
             }
         });
         //点击Marker进入商店详细界面
@@ -273,6 +273,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     }
 
     private void initData() {
+        SearchShop("null,null,null,null,null,null,null");
         mMapModel.getProvinceData(getActivity(), new MapModel.onResultProvinceListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
@@ -400,11 +401,13 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     private void ChangeProvince(int ProcinveID) {
         //全部的查找
         if (ProcinveID == -1) {
+            Log.e("@#","SS");
             mMapBean.mCities.clear();
             mMapSelector.notifyData(mMapBean);
+            isByMap=false;
             SearchShop("null,null,null,null,null,null,null");
             mMap.moveCamera(CameraUpdateFactory.zoomTo(4));
-            mLlBrand.performClick();
+            mLlCity.performClick();
             return;
         }
         mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {
@@ -694,7 +697,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         LatLonPoint point = geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint();
         LatLng latLng = new LatLng(point.getLatitude(), point.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(12));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(10));
     }
 
     public void onDistrictSearched(DistrictResult districtResult) {

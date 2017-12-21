@@ -64,6 +64,7 @@ public class Const {
         BaseUtil.setSpBoolean(UserLoginState,false);
         BaseUtil.setSpString(USERID,null);
         IntentHelper.DoLogout(context);
+        JPushInterface.clearAllNotifications(context);
     }
 
 

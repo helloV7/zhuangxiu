@@ -22,6 +22,7 @@ public class IntentKey {
     public static String PROJECTID = "PROJECTID";
     public static String SHOPINFO = "SHOPINFO";
     public static String PERSONINFO = "PERSONINFO";
+    public static String SHOPNAME = "SHOPNAME";
     public static String STATE = "STATE";
 
 }

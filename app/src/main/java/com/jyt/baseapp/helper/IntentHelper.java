@@ -301,13 +301,15 @@ public class IntentHelper {
 
     /**
      * 通过ID进入商店详细页面
-     * @param context
+     * @param activity
      * @param ProjectID
      */
-    public static void OpenShopActivityByID(Context context,String ProjectID){
-        Intent intent = new Intent(context,ShopActivity.class);
+    public static void OpenShopActivityByID(Activity activity,String ProjectID,String shopname){
+        Intent intent = new Intent(activity,ShopActivity.class);
         intent.putExtra(IntentKey.PROJECTID,ProjectID);
-        context.startActivity(intent);
+        intent.putExtra(IntentKey.SHOPNAME,shopname);
+        activity.startActivity(intent);
+
     }
 
     /**

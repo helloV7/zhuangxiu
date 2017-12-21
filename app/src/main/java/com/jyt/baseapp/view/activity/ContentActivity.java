@@ -81,14 +81,14 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     private void init() {
         flist=new ArrayList<>();
         mMapFragment=new MapFragment();
-//        mProjectFragment=new ProjectFragment();
+        mProjectFragment=new ProjectFragment();
         mMoreFragment=new MoreFragment();
-        mBrandFragment = new BrandFragment();
-        mInfoFragment = new InfoFragment();
+//        mBrandFragment = new BrandFragment();
+//        mInfoFragment = new InfoFragment();
         flist.add(mMapFragment);
-//        flist.add(mProjectFragment);
-        flist.add(mBrandFragment);//品牌方
+        flist.add(mProjectFragment);
         flist.add(mMoreFragment);
+//        flist.add(mBrandFragment);//品牌方
 //        flist.add(mInfoFragment);//品牌方
         vpAdapter=new FragmentViewPagerAdapter(getSupportFragmentManager());
         vpAdapter.setFragments(flist);

@@ -95,6 +95,7 @@ public class AppendItem extends RelativeLayout {
             tv_estimate.setVisibility(GONE);
         }
     }
+
     private boolean isEditor;
     public void setEditor(){
         isEditor=true;
@@ -132,20 +133,21 @@ public class AppendItem extends RelativeLayout {
         tv_msg.setTextColor(getResources().getColor(R.color.white));
         tv_estimate.setTextColor(getResources().getColor(R.color.white));
         tv_time.setTextColor(getResources().getColor(R.color.white));
-        switch (state) {
-            case 0:
-                iv_next.setVisibility(INVISIBLE);
-                break;
-            case 1:
-                iv_next.setVisibility(VISIBLE);
-                iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.next_little_white));
-                break;
-            case 2:
-                iv_next.setVisibility(INVISIBLE);
-                break;
-            default:
-                break;
-        }
+        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.next_little_white));
+//        switch (state) {
+//            case 0:
+//                iv_next.setVisibility(INVISIBLE);
+//                break;
+//            case 1:
+//                iv_next.setVisibility(VISIBLE);
+//                iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.next_little_white));
+//                break;
+//            case 2:
+//                iv_next.setVisibility(INVISIBLE);
+//                break;
+//            default:
+//                break;
+//        }
     }
     //设置当前进度点相同父类下的其他进度点
     public void setCurrentColor(){

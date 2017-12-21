@@ -180,35 +180,40 @@ public class FinishConstructionFragment extends BaseFragment {
         final LoadingDialog loadingDialog = new LoadingDialog(getActivity());
         loadingDialog.show();
         //提交aliyun
-        for (int i = 0; i < imageList.size()-1; i++) {
-            String value = (String)(imageList.get(i));
-            int lastIndex = value.lastIndexOf("/");
-            PutObjectSamples putObjectSamples = new PutObjectSamples(mOSS,Const.BucketName,new Date().getTime()+value.substring(lastIndex+1),value);
-            PutObjectRequest request = putObjectSamples.putObjectFromLocalFile();
-            String remotePath = Path.URL_Ayiyun+request.getObjectKey();
-            mUploadList.add(new ProgressFileBean(remotePath,"2"));
-            if (i==imageList.size()-2){
-                //返回数据,提交后台
-                projectDetailModel.pushFileList(mBean.getProjectId(), mUploadList, new BeanCallback<BaseJson>() {
-                    @Override
-                    public void onError(Call call, Exception e, int id) {
-                        loadingDialog.dismiss();
-                    }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < imageList.size()-1; i++) {
+                    String value = (String)(imageList.get(i));
+                    int lastIndex = value.lastIndexOf("/");
+                    PutObjectSamples putObjectSamples = new PutObjectSamples(mOSS,Const.BucketName,new Date().getTime()+value.substring(lastIndex+1),value);
+                    PutObjectRequest request = putObjectSamples.putObjectFromLocalFile();
+                    String remotePath = Path.URL_Ayiyun+request.getObjectKey();
+                    mUploadList.add(new ProgressFileBean(remotePath,"2"));
+                    if (i==imageList.size()-2){
+                        //返回数据,提交后台
+                        projectDetailModel.pushFileList(mBean.getProjectId(), mUploadList, new BeanCallback<BaseJson>() {
+                            @Override
+                            public void onError(Call call, Exception e, int id) {
+                                loadingDialog.dismiss();
+                            }
 
-                    @Override
-                    public void onResponse(BaseJson response, int id) {
-                        loadingDialog.dismiss();
-                        if (response.ret){
-                            imageList.clear();
-                            imageList.add(imageList.size(),new Integer(0));
-                            adapter.notifyData(imageList);
-                            BaseUtil.makeText("上传完成");
-                            getActivity().finish();
-                        }
+                            @Override
+                            public void onResponse(BaseJson response, int id) {
+                                loadingDialog.dismiss();
+                                if (response.ret){
+                                    imageList.clear();
+                                    imageList.add(imageList.size(),new Integer(0));
+                                    adapter.notifyData(imageList);
+                                    BaseUtil.makeText("上传完成");
+                                    getActivity().finish();
+                                }
+                            }
+                        });
                     }
-                });
+                }
             }
-        }
+        }).start();
 
     }
 

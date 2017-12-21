@@ -142,4 +142,35 @@ public class FinishActivityManager {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 判断Activity是否存在
+     * @param cls
+     * @return
+     */
+    public boolean IsActivityExist(Class<?> cls) {
+        if (mActivityStack != null) {
+            // 使用迭代器进行安全删除
+            for (Iterator<WeakReference<Activity>> it = mActivityStack.iterator(); it.hasNext(); ) {
+                WeakReference<Activity> activityReference = it.next();
+                Activity activity = activityReference.get();
+                if (activity.getClass().equals(cls)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public int ActivitySize(){
+        int i=0;
+        if (mActivityStack != null) {
+            // 使用迭代器进行安全删除
+            for (Iterator<WeakReference<Activity>> it = mActivityStack.iterator(); it.hasNext(); ) {
+               i++;
+
+            }
+        }
+        return i;
+    }
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.view.activity.ShopActivity;
 
 import org.json.JSONException;
@@ -18,8 +19,15 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class InfoReceiver extends BroadcastReceiver {
     private static final String TAG = "@#";
+    private Context mContext;
+    private boolean isFirst;
+
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (!isFirst){
+            mContext = context;
+            isFirst=true;
+        }
         Bundle bundle = intent.getExtras();
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             Log.i(TAG, "JPush用户注册成功");
@@ -47,18 +55,21 @@ public class InfoReceiver extends BroadcastReceiver {
         }
     }
 
-    private void openNotification(Context context, Bundle bundle) {
-        String extras =null;
+    private void openNotification(Context context , Bundle bundle) {
+        String projectId =null;
+        String projectName =null;
         try {
             JSONObject job = new JSONObject(bundle.getString(JPushInterface.EXTRA_EXTRA));
-            extras = job.getString("extra");
+            projectId = job.getString("projectId");
+            projectName = job.getString("projectName");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Intent intent = new Intent(context,ShopActivity.class);
+        Intent intent = new Intent(mContext,ShopActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("W",extras);
-        context.startActivity(intent);
+        intent.putExtra(IntentKey.PROJECTID,projectId);
+        intent.putExtra(IntentKey.SHOPNAME,projectName);
+        mContext.startActivity(intent);
 
     }
 }

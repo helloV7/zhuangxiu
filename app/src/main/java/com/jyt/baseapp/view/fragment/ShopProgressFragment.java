@@ -204,7 +204,7 @@ public class ShopProgressFragment extends BaseFragment {
         mAppendList.add(at_Settlement3);
         mAppendList.add(at_Settlement4);
         mProgressMap.put(800,mPlSettlement);
-
+        //操作权限赋予
         mShopModel.getStationRole(new ShopModel.OngetStationRoleListener() {
             @Override
             public void Result(boolean isSuccess, Exception e, List<Integer> data) {

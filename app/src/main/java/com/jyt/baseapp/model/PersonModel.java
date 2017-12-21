@@ -27,7 +27,7 @@ public class PersonModel {
                 .addParams("token", BaseUtil.getSpString(Const.UserToken))
                 .addParams("method","getUserDetail")
                 .addParams("page","0")
-                .addParams("searchValue",BaseUtil.getSpString(Const.PositionID))
+                .addParams("searchValue",BaseUtil.getSpString(Const.USERID))
                 .build()
                 .execute(new BeanCallback<BaseJson<List<UserBean>>>() {
                     @Override
@@ -37,7 +37,7 @@ public class PersonModel {
 
                     @Override
                     public void onResponse(BaseJson<List<UserBean>> response, int id) {
-                        if (listener!=null && response.ret){
+                        if (listener!=null && response.ret && response.data.size()>0){
                             listener.Result(true,response.data.get(0));
                         }
                     }

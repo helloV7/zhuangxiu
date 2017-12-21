@@ -23,7 +23,7 @@
         <LinearLayout
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/iv_blue"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:orientation="vertical">
@@ -35,20 +35,21 @@
                 android:textColor="@color/text_color1"/>
             <TextView
                 android:id="@+id/tv_progress"
-                android:layout_width="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="此处显示最新消息"
+                android:text=""
                 android:textSize="14dp"
                 android:textColor="@color/map_text1"/>
         </LinearLayout>
         <TextView
-            android:id="@+id/tv_Rtime"
+            android:id="@+id/tv_Btime"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:text="8月8日\n13:00"
+            android:text=""
             android:textSize="12dp"
             android:textColor="@color/map_text1"
             android:layout_centerVertical="true"/>
@@ -70,7 +71,7 @@
         <LinearLayout
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/iv_yellow"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:orientation="vertical">
@@ -82,10 +83,11 @@
                 android:textColor="@color/text_color1"/>
             <TextView
                 android:id="@+id/tv_news"
-                android:layout_width="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="此处显示最新消息"
+                android:text=""
                 android:textSize="14dp"
                 android:textColor="@color/map_text1"/>
         </LinearLayout>
@@ -95,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:text="8月8日\n13:00"
+            android:text=""
             android:textSize="12dp"
             android:textColor="@color/map_text1"
             android:layout_centerVertical="true"/>
@@ -117,7 +119,7 @@
         <LinearLayout
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/iv_green"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:orientation="vertical">
@@ -129,10 +131,11 @@
                 android:textColor="@color/text_color1"/>
             <TextView
                 android:id="@+id/tv_evaluation"
-                android:layout_width="wrap_content"
+                android:layout_marginRight="40dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="此处显示最新消息"
+                android:text=""
                 android:textSize="14dp"
                 android:textColor="@color/map_text1"/>
         </LinearLayout>
@@ -142,7 +145,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:text="8月8日\n13:00"
+            android:text=""
             android:textSize="12dp"
             android:textColor="@color/map_text1"
             android:layout_centerVertical="true"/>
