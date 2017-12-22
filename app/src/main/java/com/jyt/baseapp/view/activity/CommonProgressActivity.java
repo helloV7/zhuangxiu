@@ -205,6 +205,9 @@ public class CommonProgressActivity extends BaseActivity {
         View.OnClickListener onFileClickToOpenFileDetailActivityListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (1!=project.getPermissionState()){
+                    return;
+                }
                 IntentHelper.openFileDetailActivity(getContext(), (FileBean) v.getTag(R.id.tag_data));
             }
         };

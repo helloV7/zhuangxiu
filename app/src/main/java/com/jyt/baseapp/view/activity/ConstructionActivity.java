@@ -102,10 +102,16 @@ public class ConstructionActivity extends BaseActivity {
         });
         vViewPager.setCurrentItem(0);
 
+        //无操作权限
+        if (1!=progressBean.getPermissionState()){
+            vTabLayout.setVisibility(View.GONE);
+        }else {
+            vTabLayout.setVisibility(View.VISIBLE);
+        }
+
         //权限判断
         if (canEdit){
             vTabLayout.setVisibility(View.VISIBLE);
-
         }else {
             vTabLayout.setVisibility(View.GONE);
         }

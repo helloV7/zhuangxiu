@@ -129,7 +129,7 @@ public class AppendItem extends RelativeLayout {
     public void setCurrent(){
         isComplete=true; //特殊操作，当前进度处于未完成和完成之间，需要赋予点击事件
         iv_complete.setVisibility(VISIBLE);
-        iv_complete.setImageDrawable(getResources().getDrawable(R.mipmap.icon_ring_white));
+        iv_complete.setImageResource(R.mipmap.oval);
         tv_msg.setTextColor(getResources().getColor(R.color.white));
         tv_estimate.setTextColor(getResources().getColor(R.color.white));
         tv_time.setTextColor(getResources().getColor(R.color.white));

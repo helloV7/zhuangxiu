@@ -5,7 +5,7 @@ package com.jyt.baseapp.api;
  */
 public class Path {
 
-    public final static String BasePath="http://192.168.3.74:8080/mingya/";
+    public final static String BasePath="http://192.168.3.44:8080/mingya/";
     /**
      * 获取省份
      */

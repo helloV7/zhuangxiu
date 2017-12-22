@@ -19,7 +19,7 @@
             android:id="@+id/civ_light"
             android:layout_width="18dp"
             android:layout_height="18dp"
-            android:src="@color/color_submit"
+            android:src="@mipmap/oval"
             app:border_color="@color/white"/>
         <TextView
             android:id="@+id/tv_progress_title"

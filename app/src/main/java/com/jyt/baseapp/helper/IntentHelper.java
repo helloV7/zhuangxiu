@@ -113,9 +113,10 @@ public class IntentHelper {
     //endregion
 
     // region 测量中
-    public static void openUploadImagesActivityForResult(Object context,Parcelable project){
+    public static void openUploadImagesActivityForResult(Object context,Parcelable project,int count){
         Intent intent = getIntent((Context) context, UpLoadImageActivity.class);
         intent.putExtra(IntentKey.PROJECT,project);
+        intent.putExtra(IntentKey.MAX_COUNT,count);
         if (context instanceof Activity) {
             ((Activity) context).startActivityForResult(intent, IntentRequestCode.CODE_UPLOAD_IMAGES);
         }else if (context instanceof Fragment){

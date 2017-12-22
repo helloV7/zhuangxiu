@@ -88,9 +88,18 @@ public class UpLoadImageActivity extends BaseActivity {
         int windowWidth = ScreenUtils.getScreenWidth(getContext());
 
         Intent intent = getIntent();
+        maxCount = intent.getIntExtra(IntentKey.MAX_COUNT,20);
+        if (maxCount==9){
+            setTextTitle("所有材料已打包");
+        }
         imageList = intent.getStringArrayListExtra(IntentKey.IMAGES);
         progressBean = intent.getParcelableExtra(IntentKey.PROJECT);
 //        maxCount = intent.getIntExtra(IntentKey.MAX_COUNT,0);
+        //无操作权限
+        if (1!=progressBean.getPermissionState()){
+            btnSubmit.setVisibility(View.GONE);
+            return;
+        }
 
 
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);

@@ -401,7 +401,6 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     private void ChangeProvince(int ProcinveID) {
         //全部的查找
         if (ProcinveID == -1) {
-            Log.e("@#","SS");
             mMapBean.mCities.clear();
             mMapSelector.notifyData(mMapBean);
             isByMap=false;
@@ -517,14 +516,12 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         } else {
             isBrandChange = true;
             mMap.moveCamera(CameraUpdateFactory.zoomTo(4));
-            Log.e("@#", "end");
         }
         //搜索该定位附近的店
         mMapModel.getSearchData(condition, new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, List<SearchBean> data) {
                 isBrandChange = false;
-                Log.e("@#", "change");
                 if (isSuccess) {
                     setSearchShop(data);
 
@@ -711,7 +708,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             LatLng latLng = new LatLng(point.getLatitude(), point.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
         }
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(6));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(8));
     }
 
 

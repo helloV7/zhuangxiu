@@ -123,12 +123,12 @@ public class ProgressLine extends RelativeLayout {
     public void setFinishStation(boolean station){
         if (station){
             tv_title.setTextColor(getResources().getColor(R.color.text_color1));
-            civ_light.setImageResource(R.color.color_submit);
+            civ_light.setImageResource(R.mipmap.oval_w);
             tv_station.setText("已完成 ∨");
             tv_station.setTextColor(getResources().getColor(R.color.text_color1));
         }else {
             tv_title.setTextColor(getResources().getColor(R.color.map_text1));
-            civ_light.setImageResource(R.color.color_cancel);
+            civ_light.setImageResource(R.mipmap.oval_h);
             tv_station.setText("未完成 ∨");
             tv_station.setTextColor(getResources().getColor(R.color.map_text1));
         }
@@ -141,7 +141,7 @@ public class ProgressLine extends RelativeLayout {
         tv_station.setText("未完成 ∨");
         tv_title.setTextColor(getResources().getColor(R.color.white));
         tv_station.setTextColor(getResources().getColor(R.color.white));
-        civ_light.setImageResource(R.color.white);
+        civ_light.setImageResource(R.mipmap.oval);
         ll_parent.setBackground(getResources().getDrawable(R.drawable.bg_blue));
         for (AppendItem item: appendList) {
             item.setCurrentColor();

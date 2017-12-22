@@ -2,6 +2,7 @@ package com.jyt.baseapp.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -217,6 +218,19 @@ public class ShopProgressFragment extends BaseFragment {
                     at_Logistics3.setOperate(data.get(5));
                     at_Logistics4.setOperate(data.get(6));
                     at_Construction.setOperate(data.get(7));
+                    //大节点关联
+                    at_Measured.setOperate(data.get(8));
+                    at_Designed.setOperate(data.get(9));
+                    at_Approvaled.setOperate(data.get(10));
+                    at_Confirm.setOperate(data.get(11));
+                    at_Confirmed.setOperate(data.get(12));
+                    at_Paper3.setOperate(data.get(13));
+                    at_Paper4.setOperate(data.get(14));
+                    at_Material1.setOperate(data.get(15));
+                    at_Material3.setOperate(data.get(16));
+                    at_Material4.setOperate(data.get(17));
+                    at_Complete.setOperate(data.get(18));
+
 
                 }
             }
@@ -438,28 +452,52 @@ public class ShopProgressFragment extends BaseFragment {
             @Override
             public void onClick(ProgressBean bean) {
                 if ("0".equals(bean.getIsfinish())
-                        && !"0".equals(bean.getPermissionState())) {
-                    IntentHelper.openUploadImagesActivityForResult(getContext(), bean);
+                        && 0!=bean.getPermissionState()) {
+                    IntentHelper.openUploadImagesActivityForResult(getContext(), bean,20);
                 }
             }
         });
+
+        at_Material7.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
+            @Override
+            public void onClick(ProgressBean bean) {
+                if (!"0".equals(bean.getIsfinish())
+                        && 0!=bean.getPermissionState()) {
+                    IntentHelper.openUploadImagesActivityForResult(getContext(), bean,9);
+                }
+            }
+        });
+
         AppendItem.OnAppendOnclickListener browserSimpleContent = new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
                 L.e("click ");
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-               if (beforeFinish!=null){
+                Log.e("@#","permission="+bean.getPermissionState());
+                if (beforeFinish!=null && 0!=bean.getPermissionState()){
                    IntentHelper.openCommonProgressActivity(getContext(),bean, null);
                }
 
 
             }
         };
+
+        at_Designed.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
+            @Override
+            public void onClick(ProgressBean bean) {
+                ProgressBean beforeFinish = beforeItemIsFinish(bean);
+                Log.e("@#","permission="+bean.getPermissionState());
+                if (beforeFinish!=null && 0!=bean.getPermissionState()){
+                    IntentHelper.openCommonProgressActivity(getContext(),bean, beforeFinish);
+                }
+            }
+        });
+
         at_Measured.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-                if (beforeFinish!=null){
+                if (beforeFinish!=null ){
                     IntentHelper.openCommonProgressActivity(getContext(), bean,beforeFinish);
                 }
             }
@@ -476,7 +514,6 @@ public class ShopProgressFragment extends BaseFragment {
             }
         });
 
-        at_Designed.setOnAppendOnclickListener(browserSimpleContent);
         at_Approvaled.setOnAppendOnclickListener(browserSimpleContent);
         at_Confirm.setOnAppendOnclickListener(browserSimpleContent);
         at_Confirmed.setOnAppendOnclickListener(browserSimpleContent);
@@ -495,7 +532,7 @@ public class ShopProgressFragment extends BaseFragment {
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null) {
-                    if ("0".equals(bean.getIsfinish()) && !"0".equals(bean.getPermissionState())) {
+                    if (!"0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()) {
                         IntentHelper.openWaitSendActivity(getContext(), bean);
                     }
                 }
@@ -506,7 +543,7 @@ public class ShopProgressFragment extends BaseFragment {
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null) {
-                    if ("0".equals(bean.getIsfinish())) {
+                    if (!"0".equals(bean.getIsfinish())) {
                         IntentHelper.openSentActivity(getContext(), bean);
                     }
                 }
@@ -518,7 +555,7 @@ public class ShopProgressFragment extends BaseFragment {
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null) {
-                    if ("0".equals(bean.getIsfinish()) && !"0".equals(bean.getPermissionState())) {
+                    if (!"0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()) {
                         IntentHelper.openWaitingConstructActivity(getContext(), bean);
                     }
                 }
@@ -531,7 +568,7 @@ public class ShopProgressFragment extends BaseFragment {
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null) {
-                    if ("0".equals(bean.getIsfinish())) {
+                    if (!"0".equals(bean.getIsfinish())) {
                         IntentHelper.openPrepareConstructCompleteActivity(getContext(), bean);
                     }
                 }
@@ -544,7 +581,7 @@ public class ShopProgressFragment extends BaseFragment {
             @Override
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-                if (beforeFinish!=null && !"0".equals(bean.getPermissionState())) {
+                if (beforeFinish!=null && 0!=bean.getPermissionState()) {
                     IntentHelper.openFinishSteelHookActivity(getContext(), bean);
                 }
             }
