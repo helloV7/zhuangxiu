@@ -251,8 +251,12 @@ public class ShopProgressFragment extends BaseFragment {
     //需要设置可见，且将img改为白色圆，此节点所在的大点要改为蓝色背景白色字体，且内部子节点都改为白色字体
     private boolean isIndex;
     private void setProgress(List<ProgressBean> data){
-        for (int i = 0; i < data.size(); i++) {
+        for (int i=0 ; i<data.size();i++){
+            Log.e("@#","code="+data.get(i).getSpeedCode());
             mAppendList.get(i).setProgressBean(data.get(i));//加载对象
+        }
+
+        for (int i = 0; i < data.size(); i++) {
             if (!"0".equals(data.get(i).getIsfinish())){
                //完成
                 mAppendList.get(i).setComplete(true);
@@ -271,7 +275,7 @@ public class ShopProgressFragment extends BaseFragment {
                             entry.getValue().setFinishStation(false);
                         }else {
                             //当前进度
-                            entry.getValue().setCurrent();
+                            entry.getValue().setCurrent(data.get(i).getSpeedCode());
                         }
                     }
                     //用于标记进度目前到达的位置

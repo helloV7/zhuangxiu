@@ -60,6 +60,8 @@ public class Path {
     public static final String URL_ADD_CONSTRICTION = "logist/con";
     //查询自己对工程的推送状态
     public static final String URL_ChANGE_PUSH=BasePath+"project/relation";
+    //定位
+    public static final String URL_PUSH_LOCATION=BasePath+"user/updatePos";
 
 
 }

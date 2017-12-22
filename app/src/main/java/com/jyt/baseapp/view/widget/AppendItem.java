@@ -2,6 +2,7 @@ package com.jyt.baseapp.view.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -91,6 +92,10 @@ public class AppendItem extends RelativeLayout {
     public void setEstimate(boolean isShow){
         if (isShow){
             tv_estimate.setVisibility(VISIBLE);
+            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) iv_next.getLayoutParams();
+            params.gravity= Gravity.BOTTOM;
+            params.setMargins(0,0,0,6);
+            iv_next.setLayoutParams(params);
         }else {
             tv_estimate.setVisibility(GONE);
         }
@@ -99,7 +104,7 @@ public class AppendItem extends RelativeLayout {
     private boolean isEditor;
     public void setEditor(){
         isEditor=true;
-        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.icon_edit_gay));
+        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_hui));
     }
 
     public void setComplete(boolean isComplete){
@@ -112,7 +117,7 @@ public class AppendItem extends RelativeLayout {
                     break;
                 case 1:
                     iv_next.setVisibility(VISIBLE);
-                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.icon_next));
+                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_hui));
                     break;
                 case 2:
                     iv_next.setVisibility(INVISIBLE);
@@ -133,7 +138,7 @@ public class AppendItem extends RelativeLayout {
         tv_msg.setTextColor(getResources().getColor(R.color.white));
         tv_estimate.setTextColor(getResources().getColor(R.color.white));
         tv_time.setTextColor(getResources().getColor(R.color.white));
-        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.next_little_white));
+        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
 //        switch (state) {
 //            case 0:
 //                iv_next.setVisibility(INVISIBLE);
@@ -150,15 +155,22 @@ public class AppendItem extends RelativeLayout {
 //        }
     }
     //设置当前进度点相同父类下的其他进度点
-    public void setCurrentColor(){
-        tv_msg.setTextColor(getResources().getColor(R.color.white_half));
-        tv_estimate.setTextColor(getResources().getColor(R.color.white_half));
-        tv_time.setTextColor(getResources().getColor(R.color.white_half));
-        iv_complete.setImageDrawable(getResources().getDrawable(R.mipmap.icon_check_white));
-        if (isComplete){
-            iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.next_little_white));
+    public void setCurrentColor(int speed){
+
+        if (speed<mProgressBean.getSpeedCode()){
+            tv_msg.setTextColor(getResources().getColor(R.color.white_half));
+            tv_estimate.setTextColor(getResources().getColor(R.color.white_half));
+            tv_time.setTextColor(getResources().getColor(R.color.white_half));
         }else {
-            iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.icon_edit));
+            tv_msg.setTextColor(getResources().getColor(R.color.white));
+            tv_estimate.setTextColor(getResources().getColor(R.color.white));
+            tv_time.setTextColor(getResources().getColor(R.color.white));
+        }
+        iv_complete.setImageDrawable(getResources().getDrawable(R.mipmap.right_blue));
+        if (isComplete){
+            iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+        }else {
+            iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
         }
     }
 

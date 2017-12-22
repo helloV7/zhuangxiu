@@ -1,6 +1,5 @@
 package com.jyt.baseapp.view.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -12,7 +11,6 @@ import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.FragmentViewPagerAdapter;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.helper.IntentKey;
-import com.jyt.baseapp.util.FinishActivityManager;
 import com.jyt.baseapp.view.fragment.BaseFragment;
 import com.jyt.baseapp.view.fragment.ShopNewsFragment;
 import com.jyt.baseapp.view.fragment.ShopProgressFragment;
@@ -165,16 +163,16 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        FinishActivityManager manager =FinishActivityManager.getManager();
-        if (!manager.IsActivityExist(ContentActivity.class)){
-            startActivity(new Intent(ShopActivity.this,ContentActivity.class));
-        }
-        finish();
-
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        FinishActivityManager manager =FinishActivityManager.getManager();
+//        if (!manager.IsActivityExist(ContentActivity.class)){
+//            startActivity(new Intent(ShopActivity.this,ContentActivity.class));
+//        }
+//        finish();
+//
+//    }
 
 
 }

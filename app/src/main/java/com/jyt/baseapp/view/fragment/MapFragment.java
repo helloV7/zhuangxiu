@@ -38,6 +38,8 @@ import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.jyt.baseapp.R;
+import com.jyt.baseapp.api.BeanCallback;
+import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.bean.BrandBean;
 import com.jyt.baseapp.bean.MapBean;
 import com.jyt.baseapp.bean.SearchBean;
@@ -53,6 +55,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import okhttp3.Call;
 
 
 /**
@@ -195,6 +198,18 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                             LatLng latLng2 = new LatLng(v, v1);
                             mMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng2));
                             mMap.moveCamera(CameraUpdateFactory.zoomTo(10));
+                            //定位上传到后台
+                            mMapModel.pushLocation(latLng2, new BeanCallback<BaseJson>() {
+                                @Override
+                                public void onError(Call call, Exception e, int id) {
+
+                                }
+
+                                @Override
+                                public void onResponse(BaseJson response, int id) {
+
+                                }
+                            });
                             isLocation = true;
                         }
 

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.jyt.baseapp.helper.IntentKey;
+import com.jyt.baseapp.util.FinishActivityManager;
+import com.jyt.baseapp.view.activity.ContentActivity;
 import com.jyt.baseapp.view.activity.ShopActivity;
 
 import org.json.JSONException;
@@ -19,15 +21,10 @@ import cn.jpush.android.api.JPushInterface;
  */
 public class InfoReceiver extends BroadcastReceiver {
     private static final String TAG = "@#";
-    private Context mContext;
     private boolean isFirst;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (!isFirst){
-            mContext = context;
-            isFirst=true;
-        }
         Bundle bundle = intent.getExtras();
         if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
             Log.i(TAG, "JPush用户注册成功");
@@ -65,11 +62,16 @@ public class InfoReceiver extends BroadcastReceiver {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Intent intent = new Intent(mContext,ShopActivity.class);
+        FinishActivityManager manager =FinishActivityManager.getManager();
+        if (!manager.IsActivityExist(ContentActivity.class)){
+            Intent intent = new Intent(context,ContentActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
+        }
+        Intent intent = new Intent(context,ShopActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(IntentKey.PROJECTID,projectId);
         intent.putExtra(IntentKey.SHOPNAME,projectName);
-        mContext.startActivity(intent);
-
+        context.startActivity(intent);
     }
 }

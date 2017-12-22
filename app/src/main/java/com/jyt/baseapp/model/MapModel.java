@@ -19,6 +19,7 @@ import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.activity.LoginActivity;
 import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.Callback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -372,6 +373,16 @@ public class MapModel {
 
     public interface OnSearchResultListener{
         void Result(boolean isSuccess,List<SearchBean> data);
+    }
+
+    public void pushLocation(LatLng l, Callback callback){
+        OkHttpUtils.post().url(Path.URL_PUSH_LOCATION)
+                .addParams("token",Const.gettokenSession())
+                .addParams("userId", Const.getUserid())
+                .addParams("longitude",l.longitude+"")
+                .addParams("latitude",l.latitude+"")
+                .build()
+                .execute(callback);
     }
 
 }
