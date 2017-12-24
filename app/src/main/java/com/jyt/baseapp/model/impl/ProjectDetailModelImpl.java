@@ -167,6 +167,8 @@ public class ProjectDetailModelImpl implements ProjectDetailModel {
 
     }
 
+
+
     @Override
     public void addDeliverGoodsInfo(String projectId, List<DeliverGoods> logList, Callback callback) {
         JSONObject jsonObject = new JSONObject();
@@ -185,7 +187,7 @@ public class ProjectDetailModelImpl implements ProjectDetailModel {
 
     @Override
     public void getAllDeliverGoodsInfo(String projectId, Callback callback) {
-        OkHttpUtils.get().url(Path.BasePath+Path.URL_GET_PROJECT_CONTENT+"?token="+BaseUtil.getSpString(Const.UserToken)+"&searchValue="+projectId+"&method=getAllLogPage&page=0")
+        OkHttpUtils.get().url(Path.BasePath+Path.URL_GET_PROJECT_CONTENT+"?token="+BaseUtil.getSpString(Const.UserToken)+"&searchValue="+projectId+"&method=getAllLogPage&page=0&keyWord=ahhgf")
         .tag(mContext)
         .build().execute(callback);
     }

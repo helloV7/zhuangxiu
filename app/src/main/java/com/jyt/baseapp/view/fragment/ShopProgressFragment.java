@@ -464,10 +464,16 @@ public class ShopProgressFragment extends BaseFragment {
         at_Material7.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
-                if ("0".equals(bean.getIsfinish())
-                        && 0!=bean.getPermissionState()) {
-                    IntentHelper.openUploadImagesActivityForResult(getContext(), bean,9);
+                ProgressBean beforeFinish = beforeItemIsFinish(bean);
+                if ( beforeFinish!=null  ) {
+                    if ("0".equals(bean.getIsfinish())){
+                        IntentHelper.openUploadImagesActivityForResult(getContext(), bean,9);
+                    }else {
+                        IntentHelper.openCommonProgressActivity(getContext(),bean, null);
+                    }
+
                 }
+
             }
         });
 
@@ -602,9 +608,7 @@ public class ShopProgressFragment extends BaseFragment {
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null) {
-                    if ("0".equals(bean.getIsfinish())) {
-                        IntentHelper.openPrepareConstructCompleteActivity(getContext(), bean);
-                    }
+                    IntentHelper.openPrepareConstructCompleteActivity(getContext(), bean);
                 }
             }
 

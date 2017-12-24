@@ -101,20 +101,7 @@ public class ConstructionActivity extends BaseActivity {
             }
         });
         vViewPager.setCurrentItem(0);
-
-        //无操作权限
-        if (1!=progressBean.getPermissionState()){
-            vTabLayout.setVisibility(View.GONE);
-        }else {
-            vTabLayout.setVisibility(View.VISIBLE);
-        }
-
-        //权限判断
-        if (canEdit){
-            vTabLayout.setVisibility(View.VISIBLE);
-        }else {
-            vTabLayout.setVisibility(View.GONE);
-        }
+        vTabLayout.setVisibility(View.GONE);
         notifyPage();
 
     }
@@ -132,12 +119,22 @@ public class ConstructionActivity extends BaseActivity {
 
             @Override
             public void onResponse(BaseJson<String> response, int id) {
-                if (!"0".equals(response.data)){
+                //权限判断
+                if (canEdit){
                     vTabLayout.setVisibility(View.VISIBLE);
                 }else {
                     vTabLayout.setVisibility(View.GONE);
                 }
+
+                if ("0".equals(response.data)){
+                    vTabLayout.setVisibility(View.VISIBLE);
+                }else {
+                    vTabLayout.setVisibility(View.GONE);
+                }
+
                 finishSet();
+
+
             }
         });
     }

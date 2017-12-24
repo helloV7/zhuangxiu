@@ -12,6 +12,16 @@ public class DeliverGoods {
     private String logisticsTime;//发货时间
     private String arriveTime;//预计到货时间 yyyy-mm-dd hh:mm:ss
 
+    private String constructionId;
+    private String constructionTime;
+    private String constructionArr;
+    private String constructionStart;
+    private String projectManId;
+    private String mpersonalId;
+    private String projectId;
+    private String nickName;
+    private String monitorName;
+
 
     public String getLogisticsName() {
         return logisticsName;
@@ -59,5 +69,77 @@ public class DeliverGoods {
 
     public void setArriveTime(String arriveTime) {
         this.arriveTime = arriveTime;
+    }
+
+    public String getConstructionId() {
+        return constructionId;
+    }
+
+    public void setConstructionId(String constructionId) {
+        this.constructionId = constructionId;
+    }
+
+    public String getConstructionTime() {
+        return constructionTime;
+    }
+
+    public void setConstructionTime(String constructionTime) {
+        this.constructionTime = constructionTime;
+    }
+
+    public String getConstructionArr() {
+        return constructionArr;
+    }
+
+    public void setConstructionArr(String constructionArr) {
+        this.constructionArr = constructionArr;
+    }
+
+    public String getConstructionStart() {
+        return constructionStart;
+    }
+
+    public void setConstructionStart(String constructionStart) {
+        this.constructionStart = constructionStart;
+    }
+
+    public String getProjectManId() {
+        return projectManId;
+    }
+
+    public void setProjectManId(String projectManId) {
+        this.projectManId = projectManId;
+    }
+
+    public String getMpersonalId() {
+        return mpersonalId;
+    }
+
+    public void setMpersonalId(String mpersonalId) {
+        this.mpersonalId = mpersonalId;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getMonitorName() {
+        return monitorName;
+    }
+
+    public void setMonitorName(String monitorName) {
+        this.monitorName = monitorName;
     }
 }

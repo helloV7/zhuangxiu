@@ -24,6 +24,8 @@ import com.jyt.baseapp.view.dialog.DatePickerDialog;
 import com.jyt.baseapp.view.widget.FreeDialog;
 import com.jyt.baseapp.view.widget.LabelAndTextItem;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.Call;
@@ -92,8 +94,12 @@ public class PrepareConstructActivity extends BaseActivity {
             case TYPE_PREPARE_FINISH:
                 setTextTitle("安排施工人员完毕");
                 enableView = false;
+
                 viewConstrictionComplete();
                 break;
+        }
+        if ("0".equals(progressBean.getIsfinish())){
+            textConfirm.setVisibility(View.GONE);
         }
         setEnable(enableView);
         mDialog = new FreeDialog(this, R.layout.dialog_input);
@@ -264,20 +270,20 @@ public class PrepareConstructActivity extends BaseActivity {
     }
 
     private void viewConstrictionComplete(){
-        projectDetailModel.getConstrictionComplete(progressBean.getProjectId(), new BeanCallback<BaseJson<Construction>>() {
+        projectDetailModel.getConstrictionComplete(progressBean.getProjectId(), new BeanCallback<BaseJson<List<Construction>>>() {
             @Override
             public void onError(Call call, Exception e, int id) {
                 T.showShort(getContext(),e.getMessage());
             }
 
             @Override
-            public void onResponse(BaseJson<Construction> response, int id) {
+            public void onResponse(BaseJson<List<Construction>> response, int id) {
                 if (response.ret){
-                    LTEstimateTime.setValueText(response.data.getConstructionTime());
-                    LTActualTime.setValueText(response.data.getConstructionArr());
-                    LTEstimateInShopTime.setValueText(response.data.getConstructionStart());
-                    LTWorker.setValueText(response.data.getNickName());
-                    LTMonitor.setValueText(response.data.getMonitorName());
+                    LTEstimateTime.setValueText(response.data.get(0).getConstructionTime().split(" ")[0]);
+                    LTActualTime.setValueText(response.data.get(0).getConstructionArr().split(" ")[0]);
+                    LTEstimateInShopTime.setValueText(response.data.get(0).getConstructionStart().split(" ")[0]);
+                    LTWorker.setValueText(response.data.get(0).getNickName());
+                    LTMonitor.setValueText(response.data.get(0).getMonitorName());
                 }else {
                     T.showShort(getContext(),response.forUser);
                 }

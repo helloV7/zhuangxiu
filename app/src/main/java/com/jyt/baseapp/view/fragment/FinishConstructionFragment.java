@@ -196,12 +196,14 @@ public class FinishConstructionFragment extends BaseFragment {
                             @Override
                             public void onError(Call call, Exception e, int id) {
                                 loadingDialog.dismiss();
+                                BaseUtil.makeText("上传失败，请重试");
                             }
 
                             @Override
                             public void onResponse(BaseJson response, int id) {
                                 loadingDialog.dismiss();
                                 if (response.ret){
+                                    Log.e("@#","SSSAAADDD");
                                     imageList.clear();
                                     imageList.add(imageList.size(),new Integer(0));
                                     adapter.notifyData(imageList);

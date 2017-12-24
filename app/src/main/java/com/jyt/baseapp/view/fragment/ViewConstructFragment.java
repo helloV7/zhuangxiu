@@ -24,7 +24,6 @@ import com.jyt.baseapp.bean.ConstructionBean;
 import com.jyt.baseapp.bean.ProgressBean;
 import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.helper.IntentKey;
-import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
 import com.jyt.baseapp.model.ProjectDetailModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.activity.ConstructionActivity;
@@ -90,7 +89,6 @@ public class ViewConstructFragment extends BaseFragment {
         mReceiver = new ViewConstructReceiver();
         getActivity().registerReceiver(mReceiver,filter);
         mRvData.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        mRvData.addItemDecoration(new SpacesItemDecoration(0,4));
         mRvData.setAdapter(mAdapter);
     }
 
@@ -148,7 +146,8 @@ public class ViewConstructFragment extends BaseFragment {
             }
         });
     }
-
+    private boolean isFirst;
+    private boolean f1;
     private void initFace(){
         //初始化界面
         list.clear();
@@ -163,25 +162,42 @@ public class ViewConstructFragment extends BaseFragment {
                 if (response.data.getFinishTime() != null) {
                     vEmptyMsg.setVisibility(View.GONE);
                     mJtTime.setNext(false,BaseUtil.getTime(response.data.getFinishTime()));
-                    String time=response.data.getConstructionList().get(0).getConstructionDate();;
-                    ConstructionBean detailBean = new ConstructionBean();
-                    //整理数据
-                    for (int i = 0; i < response.data.getConstructionList().size(); i++) {
-                        //时间一致
-                        if (!time.equals(response.data.getConstructionList().get(i).getConstructionDate())){
-                            list.add(detailBean);
-                            detailBean= new ConstructionBean();
-                            time=response.data.getConstructionList().get(i).getConstructionDate();
+                    if (response.data.getConstructionList().size()>=0){
+                        String time=response.data.getConstructionList().get(0).getConstructionDate();
+                        ConstructionBean detailBean = new ConstructionBean();
+                        //整理数据
+                        for (int i = 0; i < response.data.getConstructionList().size(); i++) {
+                            //时间一致
+                            if ("1".equals(response.data.getConstructionList().get(i).getConstructionType())){
+                                if (!time.equals(response.data.getConstructionList().get(i).getConstructionDate())){
+                                    list.add(detailBean);
+                                    detailBean= new ConstructionBean();
+                                    time=response.data.getConstructionList().get(i).getConstructionDate();
+                                }else {
+                                    detailBean.getConstructionList().add(response.data.getConstructionList().get(i));
+
+                                }
+
+                            }else {
+                                if (!isFirst){
+                                    list.add(detailBean);
+                                    detailBean= new ConstructionBean();
+                                    isFirst=true;
+                                }
+                                detailBean.getConstructionList().add(response.data.getConstructionList().get(i));
+                            }
+                            //记得最后一组
+                            if (i==response.data.getConstructionList().size()-1){
+                                list.add(detailBean);
+                            }
+
+
                         }
-                        detailBean.getConstructionList().add(response.data.getConstructionList().get(i));
-                        //记得最后一组
-                        if (i==response.data.getConstructionList().size()-1){
-                            list.add(detailBean);
-                        }
+                        Log.e("@#","num="+list.size());
+                        mAdapter.notifyData(list);
+                        isFinish=false;
                     }
-                    Log.e("@#","num="+list.size());
-                    mAdapter.notifyData(list);
-                    isFinish=false;
+
                 } else {
                     vEmptyMsg.setVisibility(View.VISIBLE);
                     isFinish=true;

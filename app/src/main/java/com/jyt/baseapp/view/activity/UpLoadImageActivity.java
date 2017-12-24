@@ -96,11 +96,18 @@ public class UpLoadImageActivity extends BaseActivity {
         imageList = intent.getStringArrayListExtra(IntentKey.IMAGES);
         progressBean = intent.getParcelableExtra(IntentKey.PROJECT);
 //        maxCount = intent.getIntExtra(IntentKey.MAX_COUNT,0);
-        //无操作权限
+
         if (1!=progressBean.getPermissionState()){
+            //无操作权限
             btnSubmit.setVisibility(View.GONE);
+
+            if ( "1".equals(progressBean.getIsfinish())){
+                //已经操作过了，获取数据
+            }
+
             return;
         }
+
 
 
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
