@@ -10,13 +10,11 @@ import android.widget.TextView;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.helper.IntentHelper;
-import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.view.dialog.DatePickerDialog;
 import com.jyt.baseapp.view.widget.DeliverGoodsItem;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.aigestudio.datepicker.views.DatePicker;
 
 /** 待发货 已发货
  * Created by chenweiqi on 2017/11/2.

@@ -62,6 +62,11 @@ public class UpLoadUtil {
                     String remoteUrl = upload(images.get(i));
                     remoteUrls.add(remoteUrl);
                     onUpLoadProgressChangedListener.onProgress(i+1/images.size());
+                    if (i==images.size()){
+                        onUpLoadProgressChangedListener.onProgress(1);
+                    }else {
+                        onUpLoadProgressChangedListener.onProgress(i+1/images.size());
+                    }
                 }
 
             }

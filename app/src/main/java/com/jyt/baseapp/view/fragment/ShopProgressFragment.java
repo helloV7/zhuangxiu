@@ -252,7 +252,6 @@ public class ShopProgressFragment extends BaseFragment {
     private boolean isIndex;
     private void setProgress(List<ProgressBean> data){
         for (int i=0 ; i<data.size();i++){
-            Log.e("@#","code="+data.get(i).getSpeedCode());
             mAppendList.get(i).setProgressBean(data.get(i));//加载对象
         }
 
@@ -465,10 +464,22 @@ public class ShopProgressFragment extends BaseFragment {
         at_Material7.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
-                if (!"0".equals(bean.getIsfinish())
+                if ("0".equals(bean.getIsfinish())
                         && 0!=bean.getPermissionState()) {
                     IntentHelper.openUploadImagesActivityForResult(getContext(), bean,9);
                 }
+            }
+        });
+
+        at_Construction.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
+            @Override
+            public void onClick(ProgressBean bean) {
+                boolean canEdit = false;
+                ProgressBean beforeFinish = beforeItemIsFinish(bean);
+                if( beforeFinish!=null && "0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()){
+                    canEdit=true;
+                }
+                IntentHelper.openConstructionActivity(getContext(),bean,canEdit);
             }
         });
 
@@ -486,47 +497,64 @@ public class ShopProgressFragment extends BaseFragment {
             }
         };
 
-        at_Designed.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
+        AppendItem.OnAppendOnclickListener beforeSimpleContent = new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
+                L.e("click ");
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 Log.e("@#","permission="+bean.getPermissionState());
                 if (beforeFinish!=null && 0!=bean.getPermissionState()){
                     IntentHelper.openCommonProgressActivity(getContext(),bean, beforeFinish);
                 }
-            }
-        });
 
-        at_Measured.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
+
+            }
+        };
+
+        AppendItem.OnAppendOnclickListener PaperSimpleContent = new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-                if (beforeFinish!=null ){
-                    IntentHelper.openCommonProgressActivity(getContext(), bean,beforeFinish);
+                if (beforeFinish!=null && 0!=bean.getPermissionState()){
+                    IntentHelper.openCommonProgressActivity(getContext(),bean, progressBeanList.get(12));
                 }
             }
-        });
+        };
 
-        at_Construction.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
+        AppendItem.OnAppendOnclickListener DownloadSimpleContent = new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
-                boolean canEdit = false;
-                if(0!=bean.getPermissionState()){
-                    canEdit=true;
+                ProgressBean beforeFinish = beforeItemIsFinish(bean);
+                if (beforeFinish!=null && 0!=bean.getPermissionState()){
+                    IntentHelper.openCommonProgressActivity(getContext(),bean, progressBeanList.get(19));
                 }
-                IntentHelper.openConstructionActivity(getContext(),bean,canEdit);
             }
-        });
+        };
+
+        at_Designed.setOnAppendOnclickListener(beforeSimpleContent);
+        at_Measured.setOnAppendOnclickListener(beforeSimpleContent);
+        at_Confirmed.setOnAppendOnclickListener(beforeSimpleContent);
+
+
+
+
 
         at_Approvaled.setOnAppendOnclickListener(browserSimpleContent);
         at_Confirm.setOnAppendOnclickListener(browserSimpleContent);
-        at_Confirmed.setOnAppendOnclickListener(browserSimpleContent);
-        at_Paper3.setOnAppendOnclickListener(browserSimpleContent);
-        at_Paper4.setOnAppendOnclickListener(browserSimpleContent);
-        at_Material1.setOnAppendOnclickListener(browserSimpleContent);
-        at_Material3.setOnAppendOnclickListener(browserSimpleContent);
-        at_Material4.setOnAppendOnclickListener(browserSimpleContent);
         at_Complete.setOnAppendOnclickListener(browserSimpleContent);
+
+
+
+        at_Paper3.setOnAppendOnclickListener(PaperSimpleContent);
+        at_Paper4.setOnAppendOnclickListener(PaperSimpleContent);
+        at_Material1.setOnAppendOnclickListener(PaperSimpleContent);
+
+
+        at_Material3.setOnAppendOnclickListener(DownloadSimpleContent);
+        at_Material4.setOnAppendOnclickListener(DownloadSimpleContent);
+
+
+
 
 
 
@@ -534,9 +562,11 @@ public class ShopProgressFragment extends BaseFragment {
         at_Logistics1.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
+
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null) {
-                    if (!"0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()) {
+                    Log.e("@#","finishCode="+bean.getIsfinish());
+                    if ( 0!=bean.getPermissionState()) {
                         IntentHelper.openWaitSendActivity(getContext(), bean);
                     }
                 }
@@ -547,7 +577,7 @@ public class ShopProgressFragment extends BaseFragment {
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null) {
-                    if (!"0".equals(bean.getIsfinish())) {
+                    if ("0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()) {
                         IntentHelper.openSentActivity(getContext(), bean);
                     }
                 }
@@ -559,7 +589,7 @@ public class ShopProgressFragment extends BaseFragment {
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null) {
-                    if (!"0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()) {
+                    if ("0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()) {
                         IntentHelper.openWaitingConstructActivity(getContext(), bean);
                     }
                 }
@@ -572,7 +602,7 @@ public class ShopProgressFragment extends BaseFragment {
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null) {
-                    if (!"0".equals(bean.getIsfinish())) {
+                    if ("0".equals(bean.getIsfinish())) {
                         IntentHelper.openPrepareConstructCompleteActivity(getContext(), bean);
                     }
                 }
@@ -585,7 +615,7 @@ public class ShopProgressFragment extends BaseFragment {
             @Override
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-                if (beforeFinish!=null && 0!=bean.getPermissionState()) {
+                if (beforeFinish!=null && 0!=bean.getPermissionState() && "0".equals(bean.getIsfinish())) {
                     IntentHelper.openFinishSteelHookActivity(getContext(), bean);
                 }
             }
@@ -618,12 +648,14 @@ private ProgressBean beforeItemIsFinish(ProgressBean current){
             isPe=true;
             return;
         }
+        Log.e("@#","stare update");
         mShopModel.getProjectProgress(mInfo.getProjectId(), new ShopModel.OnProgressResultListener() {
             @Override
             public void Result(boolean isSuccess, Exception e, List<ProgressBean> shopBean) {
                 if (isSuccess){
+                    isIndex=false;
                     progressBeanList = shopBean;
-                    setProgress(shopBean);
+                    setProgress(progressBeanList);
                 }
             }
         });

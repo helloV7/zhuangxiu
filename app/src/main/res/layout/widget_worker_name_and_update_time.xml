@@ -26,7 +26,7 @@
             style="@style/defaultTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="测量人员 张三" />
+            android:text="" />
     </LinearLayout>
 
     <LinearLayout
@@ -46,6 +46,6 @@
             style="@style/defaultTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2017.08.09  12:00" />
+            android:text="" />
     </LinearLayout>
 </LinearLayout>

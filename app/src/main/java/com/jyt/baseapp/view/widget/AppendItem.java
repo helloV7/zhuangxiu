@@ -111,9 +111,11 @@ public class AppendItem extends RelativeLayout {
         this.isComplete=isComplete;
         if (isComplete){
             iv_complete.setVisibility(VISIBLE);
+            iv_complete.setImageResource(R.mipmap.right_green);
             switch (state) {
                 case 0:
                     iv_next.setVisibility(INVISIBLE);
+
                     break;
                 case 1:
                     iv_next.setVisibility(VISIBLE);

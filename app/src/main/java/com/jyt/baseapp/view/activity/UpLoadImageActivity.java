@@ -24,6 +24,7 @@ import com.jyt.baseapp.helper.IntentRequestCode;
 import com.jyt.baseapp.itemDecoration.RcvGridSpaceItemDecoration;
 import com.jyt.baseapp.model.ProjectDetailModel;
 import com.jyt.baseapp.model.impl.ProjectDetailModelImpl;
+import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.util.ScreenUtils;
 import com.jyt.baseapp.util.T;
@@ -183,12 +184,13 @@ public class UpLoadImageActivity extends BaseActivity {
                         model.uploadImage(progressBean.getSpeedId(), progressBean.getProjectId(), progressBean.getSpeedCode()+"", upLoadUtil.getRemoteUrls(), new BeanCallback() {
                             @Override
                             public void onError(Call call, Exception e, int id) {
-
+                                BaseUtil.makeText("上传失败");
                             }
 
                             @Override
                             public void onResponse(Object response, int id) {
-
+                                BaseUtil.makeText("上传成功");
+                                finish();
                             }
                         });
                     }else {
