@@ -264,6 +264,7 @@ public class ShopProgressFragment extends BaseFragment {
                 mAppendList.get(i).setComplete(false);
                 if (!isIndex){
                     //只触发一次，即当前进度点触发
+                    int current = -1;
                     for (Map.Entry<Integer,ProgressLine> entry : mProgressMap.entrySet()) {
                         int index=entry.getKey();
                         if (data.get(i).getSpeedUpCode()>index){
@@ -275,6 +276,13 @@ public class ShopProgressFragment extends BaseFragment {
                         }else {
                             //当前进度
                             entry.getValue().setCurrent(data.get(i).getSpeedCode());
+                            current=index;
+                        }
+                    }
+                    for (Map.Entry<Integer,ProgressLine> entry : mProgressMap.entrySet()) {
+                        int index=entry.getKey();
+                        if (current!=index){
+                            entry.getValue().setCurrent(false);
                         }
                     }
                     //用于标记进度目前到达的位置
@@ -466,7 +474,7 @@ public class ShopProgressFragment extends BaseFragment {
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if ( beforeFinish!=null  ) {
-                    if ("0".equals(bean.getIsfinish())){
+                    if ("0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()){
                         IntentHelper.openUploadImagesActivityForResult(getContext(), bean,9);
                     }else {
                         IntentHelper.openCommonProgressActivity(getContext(),bean, null);
@@ -541,13 +549,19 @@ public class ShopProgressFragment extends BaseFragment {
         at_Measured.setOnAppendOnclickListener(beforeSimpleContent);
         at_Confirmed.setOnAppendOnclickListener(beforeSimpleContent);
 
+        at_Approvaled.setOnAppendOnclickListener(beforeSimpleContent);
 
-
-
-
-        at_Approvaled.setOnAppendOnclickListener(browserSimpleContent);
         at_Confirm.setOnAppendOnclickListener(browserSimpleContent);
-        at_Complete.setOnAppendOnclickListener(browserSimpleContent);
+        at_Complete.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
+            @Override
+            public void onClick(ProgressBean bean) {
+                ProgressBean beforeFinish = beforeItemIsFinish(bean);
+                if (beforeFinish!=null && 0!=bean.getPermissionState()){
+                    IntentHelper.openCompleteCommonProgressActivity(getContext(),bean, beforeFinish);
+                }
+            }
+        });
+
 
 
 
@@ -560,18 +574,12 @@ public class ShopProgressFragment extends BaseFragment {
         at_Material4.setOnAppendOnclickListener(DownloadSimpleContent);
 
 
-
-
-
-
-
         at_Logistics1.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
 
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null) {
-                    Log.e("@#","finishCode="+bean.getIsfinish());
                     if ( 0!=bean.getPermissionState()) {
                         IntentHelper.openWaitSendActivity(getContext(), bean);
                     }
@@ -583,7 +591,7 @@ public class ShopProgressFragment extends BaseFragment {
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null) {
-                    if ("0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()) {
+                    if ( 0!=bean.getPermissionState()) {
                         IntentHelper.openSentActivity(getContext(), bean);
                     }
                 }
@@ -607,7 +615,7 @@ public class ShopProgressFragment extends BaseFragment {
             @Override
             public void onClick(ProgressBean bean) {
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-                if (beforeFinish!=null) {
+                if (beforeFinish!=null && 0!=bean.getPermissionState()) {
                     IntentHelper.openPrepareConstructCompleteActivity(getContext(), bean);
                 }
             }

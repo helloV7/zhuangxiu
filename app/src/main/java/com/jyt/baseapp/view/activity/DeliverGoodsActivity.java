@@ -91,6 +91,7 @@ public class DeliverGoodsActivity extends BaseActivity {
                 break;
         }
 
+
         vBatchLayout.removeAllViews();
 
         onSelBeginTimeClick = new DeliverGoodsItem.OnSelBeginTimeClick() {

@@ -60,6 +60,6 @@ public interface ProjectDetailModel {
 
     void pushFileList(String ProjectID , List<ProgressFileBean> imageList ,Callback callback);
 
-
+    void getFinishList(String detailId,Callback callback );
 
 }

@@ -89,6 +89,7 @@ public class CommonProgressActivity extends BaseActivity {
             beforeProject = project;
         }
 
+
         projectDetailModel = new ProjectDetailModelImpl();
         projectDetailModel.onCreate(getContext());
         //region 根据type 设置标题
@@ -138,34 +139,65 @@ public class CommonProgressActivity extends BaseActivity {
         if (beforeProject.getFinishTime()!=null){
             vWorkerAndTime.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.valueOf(beforeProject.getFinishTime()))));
         }
-        projectDetailModel.getProgressDetail(beforeProject.getSpeedId(), new BeanCallback<BaseJson<List<ProjectFileBean>>>() {
-            @Override
-            public void onError(Call call, Exception e, int id) {
-                T.showShort(getContext(),e.getMessage());
-            }
-
-            @Override
-            public void onResponse(BaseJson<List<ProjectFileBean>> response, int id) {
-                if (response!=null && response.ret){
-                    createView(response.data);
-                    if (response.data!=null && response.data.size()!=0){
-                        ProjectFileBean lastObj = response.data.get(response.data.size()-1);
-                        projectDetailModel.getPersonById(lastObj.getUserId(), new BeanCallback<BaseJson<UserBean>>() {
-                            @Override
-                            public void onError(Call call, Exception e, int id) {
-
-                            }
-
-                            @Override
-                            public void onResponse(BaseJson<UserBean> response, int id) {
-                                vWorkerAndTime.setWorkerText(response.data.getStationName()+" "+response.data.getNickName());
-                            }
-                        });
-                    }
-
+        if (type==0){
+            projectDetailModel.getProgressDetail(beforeProject.getSpeedId(), new BeanCallback<BaseJson<List<ProjectFileBean>>>() {
+                @Override
+                public void onError(Call call, Exception e, int id) {
+                    T.showShort(getContext(),e.getMessage());
                 }
-            }
-        });
+
+                @Override
+                public void onResponse(BaseJson<List<ProjectFileBean>> response, int id) {
+                    if (response!=null && response.ret){
+                        createView(response.data);
+                        if (response.data!=null && response.data.size()!=0){
+                            ProjectFileBean lastObj = response.data.get(response.data.size()-1);
+                            projectDetailModel.getPersonById(lastObj.getUserId(), new BeanCallback<BaseJson<UserBean>>() {
+                                @Override
+                                public void onError(Call call, Exception e, int id) {
+
+                                }
+
+                                @Override
+                                public void onResponse(BaseJson<UserBean> response, int id) {
+                                    vWorkerAndTime.setWorkerText(response.data.getStationName()+" "+response.data.getNickName());
+                                }
+                            });
+                        }
+
+                    }
+                }
+            });
+        }else {
+            projectDetailModel.getFinishList(beforeProject.getProjectId(), new BeanCallback<BaseJson<List<ProjectFileBean>>>() {
+                @Override
+                public void onError(Call call, Exception e, int id) {
+                    T.showShort(getContext(),e.getMessage());
+                }
+
+                @Override
+                public void onResponse(BaseJson<List<ProjectFileBean>> response, int id) {
+                    if (response!=null && response.ret){
+                        createView(response.data);
+                        if (response.data!=null && response.data.size()!=0){
+                            ProjectFileBean lastObj = response.data.get(response.data.size()-1);
+                            projectDetailModel.getPersonById(lastObj.getUserId(), new BeanCallback<BaseJson<UserBean>>() {
+                                @Override
+                                public void onError(Call call, Exception e, int id) {
+
+                                }
+
+                                @Override
+                                public void onResponse(BaseJson<UserBean> response, int id) {
+                                    vWorkerAndTime.setWorkerText(response.data.getStationName()+" "+response.data.getNickName());
+                                }
+                            });
+                        }
+
+                    }
+                }
+            });
+        }
     }
 
     @Override

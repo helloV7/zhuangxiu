@@ -98,7 +98,12 @@ public class PrepareConstructActivity extends BaseActivity {
                 viewConstrictionComplete();
                 break;
         }
-        if ("0".equals(progressBean.getIsfinish())){
+        //只有查看权限
+        if (1!=progressBean.getPermissionState()){
+            textConfirm.setVisibility(View.GONE);
+        }
+        //已操作完毕
+        if (!"0".equals(progressBean.getIsfinish())){
             textConfirm.setVisibility(View.GONE);
         }
         setEnable(enableView);

@@ -112,10 +112,12 @@ public class AppendItem extends RelativeLayout {
         if (isComplete){
             iv_complete.setVisibility(VISIBLE);
             iv_complete.setImageResource(R.mipmap.right_green);
+            tv_time.setTextColor(getResources().getColor(R.color.map_text1));
+            tv_estimate.setVisibility(GONE);
+            tv_msg.setTextColor(getResources().getColor(R.color.map_text1));
             switch (state) {
                 case 0:
                     iv_next.setVisibility(INVISIBLE);
-
                     break;
                 case 1:
                     iv_next.setVisibility(VISIBLE);

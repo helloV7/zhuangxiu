@@ -138,15 +138,16 @@ public class ProgressLine extends RelativeLayout {
     }
 
     public void setFinishStation(boolean station){
+        ll_parent.setDividerDrawable(getResources().getDrawable(R.drawable.linex));
+        ll_parent.setBackground(getResources().getDrawable(R.drawable.bg_white));
         if (station){
-            tv_title.setTextColor(getResources().getColor(R.color.map_text1));
+            tv_title.setTextColor(getResources().getColor(R.color.text_color1));
             civ_light.setImageResource(R.mipmap.oval_w);
             tv_station.setText("已完成");
             tv_station.setTextColor(getResources().getColor(R.color.map_text1));
         }else {
             tv_title.setTextColor(getResources().getColor(R.color.map_text1));
             civ_light.setImageResource(R.mipmap.oval_h);
-
             tv_station.setText("");
             tv_station.setTextColor(getResources().getColor(R.color.map_text1));
         }
@@ -166,6 +167,10 @@ public class ProgressLine extends RelativeLayout {
         for (AppendItem item: appendList) {
             item.setCurrentColor(speedCode);
         }
+    }
+
+    public void setCurrent(boolean current){
+        this.isCurrent=current;
     }
 
 //    public interface OnClickListener{

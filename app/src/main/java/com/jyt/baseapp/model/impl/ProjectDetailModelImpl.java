@@ -78,6 +78,13 @@ public class ProjectDetailModelImpl implements ProjectDetailModel {
     }
 
     @Override
+    public void getFinishList(String detailId, Callback callback) {
+        OkHttpUtils.get().url(Path.BasePath+Path.URL_GET_PROJECT_CONTENT+"?token="+BaseUtil.getSpString(Const.UserToken)+"&method=selectConstructioniList&page=0"+"&searchValue="+detailId)
+                .tag(mContext)
+                .build().execute(callback);
+    }
+
+    @Override
     public void getPersonById(String userId, Callback callback) {
         OkHttpUtils.get().url(Path.BasePath+Path.URL_GET_USER_SUB_INFO+"?token="+BaseUtil.getSpString(Const.UserToken)+"&userId="+userId)
                 .tag(mContext)
@@ -166,6 +173,7 @@ public class ProjectDetailModelImpl implements ProjectDetailModel {
 
 
     }
+
 
 
 
