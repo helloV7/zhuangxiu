@@ -1,11 +1,13 @@
 package com.jyt.baseapp.view.activity;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
@@ -14,6 +16,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
 import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
@@ -168,13 +171,19 @@ public class LocationActivity extends BaseActivity {
        mWorkerModel.LocationWork(l1, l2, new WorkerModel.OngetWorkerListener() {
            @Override
            public void Result(boolean isSuccess, List<LocationBean> workers) {
-               if (isSuccess){
+               if (isSuccess && workers!=null ){
                    for (int i = 0; i < workers.size(); i++) {
+                       View view = View.inflate(LocationActivity.this, R.layout.layout_infowindow, null);
+                       TextView tv = (TextView) view.findViewById(R.id.tv_text);
+                       tv.setText(workers.get(i).getNickName());
+                       Bitmap b = convertViewToBitmap(view);
                        LatLng l=new LatLng(Double.valueOf(workers.get(i).getLatitude()),Double.valueOf(workers.get(i).getLongitude()));
                        Marker marker=mMap.addMarker(new MarkerOptions()
                                .position(l)
-                               .setInfoWindowOffset(50,48)
-                               .title(workers.get(i).getNickName()));
+//                               .setInfoWindowOffset(50,48)
+                               .infoWindowEnable(false)
+                               .icon(BitmapDescriptorFactory.fromBitmap(b)));
+//                               .title(workers.get(i).getNickName()));
                        mMarkerList.add(marker);
                        marker.showInfoWindow();
                    }
@@ -182,6 +191,20 @@ public class LocationActivity extends BaseActivity {
                }
            }
        });
+    }
+
+    /**
+     * 将view转为位图
+     *
+     * @param view
+     * @return
+     */
+    public static Bitmap convertViewToBitmap(View view) {
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+        return bitmap;
     }
 
     @Override

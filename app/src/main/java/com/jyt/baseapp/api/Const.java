@@ -18,6 +18,7 @@ import cn.jpush.android.api.TagAliasCallback;
  */
 public class Const {
     private final static String TAG="@#";
+    public static int NUM;
     public final static String DepartmentId="departmentId";
     public final static String Tel ="tel";
     public final static String NickName="nickName";
@@ -65,6 +66,7 @@ public class Const {
         BaseUtil.setSpString(USERID,null);
         IntentHelper.DoLogout(context);
         JPushInterface.clearAllNotifications(context);
+        JPushInterface.setAlias(BaseUtil.getContext(),"---",mAliasCallback);
     }
 
 

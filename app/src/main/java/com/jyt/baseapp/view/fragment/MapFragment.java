@@ -122,6 +122,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mMapView.onCreate(savedInstanceState);
+
         init();
         initMap();
         initSelecotr();
