@@ -2,6 +2,7 @@ package com.jyt.baseapp.view.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -55,7 +56,7 @@ public class AppendItem extends RelativeLayout {
             public void onClick(View v) {
                 if (listener!=null){
                     if (mProgressBean!=null){
-                        mProgressBean.setPermissionState(Operate);
+
                         listener.onClick(mProgressBean);
                     }
 
@@ -107,6 +108,17 @@ public class AppendItem extends RelativeLayout {
         iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_hui));
     }
 
+
+    public void setImgVisible(boolean isShow){
+        if (isShow){
+            iv_next.setVisibility(VISIBLE);
+        }else {
+            iv_next.setVisibility(INVISIBLE);
+        }
+    }
+
+
+
     public void setComplete(boolean isComplete){
         this.isComplete=isComplete;
         if (isComplete){
@@ -142,21 +154,24 @@ public class AppendItem extends RelativeLayout {
         tv_msg.setTextColor(getResources().getColor(R.color.white));
         tv_estimate.setTextColor(getResources().getColor(R.color.white));
         tv_time.setTextColor(getResources().getColor(R.color.white));
-        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
-//        switch (state) {
-//            case 0:
-//                iv_next.setVisibility(INVISIBLE);
-//                break;
-//            case 1:
-//                iv_next.setVisibility(VISIBLE);
-//                iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.next_little_white));
-//                break;
-//            case 2:
-//                iv_next.setVisibility(INVISIBLE);
-//                break;
-//            default:
-//                break;
-//        }
+        switch (state) {
+            case 0:
+                iv_next.setVisibility(INVISIBLE);
+                break;
+            case 1:
+                iv_next.setVisibility(VISIBLE);
+                iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+                break;
+            case 2:
+                iv_next.setVisibility(VISIBLE);
+                iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
+                break;
+            default:
+                break;
+        }
+        if (Operate==0){
+            iv_next.setVisibility(INVISIBLE);
+        }
     }
     //设置当前进度点相同父类下的其他进度点
     public void setCurrentColor(int speed){
@@ -165,17 +180,52 @@ public class AppendItem extends RelativeLayout {
             tv_msg.setTextColor(getResources().getColor(R.color.white_half));
             tv_estimate.setTextColor(getResources().getColor(R.color.white_half));
             tv_time.setTextColor(getResources().getColor(R.color.white_half));
+            iv_complete.setVisibility(INVISIBLE);
+            switch (state) {
+                case 0:
+                    iv_next.setVisibility(INVISIBLE);
+                    break;
+                case 1:
+                    iv_next.setVisibility(VISIBLE);
+                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+                    break;
+                default:
+                    break;
+            }
         }else {
             tv_msg.setTextColor(getResources().getColor(R.color.white));
             tv_estimate.setTextColor(getResources().getColor(R.color.white));
             tv_time.setTextColor(getResources().getColor(R.color.white));
+            iv_complete.setVisibility(VISIBLE);
+            iv_complete.setImageDrawable(getResources().getDrawable(R.mipmap.right_blue));
+            switch (state) {
+                case 0:
+                    iv_next.setVisibility(INVISIBLE);
+                    break;
+                case 1:
+                    iv_next.setVisibility(VISIBLE);
+                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+                    break;
+                case 2:
+                    Log.e("@#","operate="+Operate);
+                    iv_next.setVisibility(INVISIBLE);
+                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
+                    break;
+                default:
+                    break;
+            }
         }
-        iv_complete.setImageDrawable(getResources().getDrawable(R.mipmap.right_blue));
-        if (isComplete){
-            iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
-        }else {
-            iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
+        if (Operate==0) {
+            iv_next.setVisibility(INVISIBLE);
         }
+
+
+
+//        if (isComplete){
+//            iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+//        }else {
+//            iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
+//        }
     }
 
     public ProgressBean getProgressBean() {
@@ -184,6 +234,7 @@ public class AppendItem extends RelativeLayout {
 
     public void setProgressBean(ProgressBean progressBean) {
         mProgressBean = progressBean;
+        mProgressBean.setPermissionState(Operate);
     }
 
     public int getOperate() {

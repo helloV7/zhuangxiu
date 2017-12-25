@@ -36,6 +36,17 @@ public class ProjectHolder extends BaseViewHolder<SearchBean> {
         mTvShopName.setText(data.getProjectName());
         mTvShopMsg.setText(data.getBrandName()+" "+data.getSubClassName());
         mTvShopStation.setText(data.getSchedule());
+
+        switch (data.getAddress()) {
+            case "0":
+
+
+
+                break;
+
+            default:
+                break;
+        }
         if("暂停中".equals(data.getAddress())){
             mTvShopStation.setTextColor(itemView.getResources().getColor(R.color.color_stop));
         }else {

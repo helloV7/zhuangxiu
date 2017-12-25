@@ -3,14 +3,17 @@ package com.jyt.baseapp.view.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.jyt.baseapp.R;
+import com.jyt.baseapp.api.BeanCallback;
 import com.jyt.baseapp.bean.UserBean;
 import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.PersonModel;
+import com.jyt.baseapp.model.impl.MoreModel;
 import com.jyt.baseapp.view.activity.AboutUsActivity;
 import com.jyt.baseapp.view.activity.LocationActivity;
 import com.jyt.baseapp.view.activity.ManeuverActivity;
@@ -18,9 +21,14 @@ import com.jyt.baseapp.view.activity.PersonInfoActivity;
 import com.jyt.baseapp.view.activity.ShareActivity;
 import com.jyt.baseapp.view.widget.JumpItem;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import okhttp3.Call;
 
 /**
  * @author LinWei on 2017/10/30 15:05
@@ -39,6 +47,7 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
     JumpItem mItemAbout;
     Unbinder unbinder;
 
+    private MoreModel mMoreModel;
     private PersonModel mPersonModel;
     private UserBean mInfoBean;
 
@@ -52,6 +61,7 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mMoreModel = new MoreModel();
         mPersonModel = new PersonModel();
         mPersonModel.getPersonInfo(new PersonModel.OngetPersonInfoListener() {
             @Override
@@ -61,6 +71,42 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
                 }
             }
         });
+
+        mMoreModel.getRole(new BeanCallback<String>() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                JSONObject jsondata= null;
+                try {
+                    jsondata = new JSONObject(response);
+                    JSONArray jsonArray=new JSONArray(jsondata.getString("data"));
+                    int state1 = jsonArray.getJSONObject(13).getJSONArray("role").getJSONObject(3).getInt("机动人员管理");
+                    int state2 = jsonArray.getJSONObject(11).getJSONArray("role").getJSONObject(1).getInt("查看定位");
+                    Log.e("@#","State1="+state1);
+                    Log.e("@#","State2="+state2);
+
+                    if (state1==1){
+                        mItemManeuver.setVisibility(View.VISIBLE);
+                    }else {
+                        mItemManeuver.setVisibility(View.GONE);
+                    }
+                    if (state2==1){
+                        mItemLocation.setVisibility(View.VISIBLE);
+                    }else {
+                        mItemLocation.setVisibility(View.GONE);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
         initListener();
     }
 

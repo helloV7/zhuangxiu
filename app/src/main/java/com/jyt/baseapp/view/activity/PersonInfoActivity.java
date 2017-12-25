@@ -1,5 +1,6 @@
 package com.jyt.baseapp.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -10,6 +11,7 @@ import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.bean.UserBean;
 import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.util.BaseUtil;
+import com.jyt.baseapp.util.FinishActivityManager;
 import com.jyt.baseapp.view.widget.JumpItem;
 
 import butterknife.BindView;
@@ -58,8 +60,11 @@ public class PersonInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Const.Logout(PersonInfoActivity.this);
+                startActivity(new Intent(PersonInfoActivity.this,LoginActivity.class));
+                FinishActivityManager.getManager().finishActivity(ContentActivity.class);
                 finish();
                 BaseUtil.makeText("已退出登录");
+
             }
         });
 

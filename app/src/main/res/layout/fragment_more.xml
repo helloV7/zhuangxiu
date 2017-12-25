@@ -29,6 +29,7 @@
         android:id="@+id/item_maneuver"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:title="机动人员"
         app:Jump="true">
     </com.jyt.baseapp.view.widget.JumpItem>
@@ -37,6 +38,7 @@
         android:id="@+id/item_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:title="查看定位"
         app:Jump="true">
     </com.jyt.baseapp.view.widget.JumpItem>

@@ -127,17 +127,7 @@ public class ShopModel {
                             JSONObject jsondata=new JSONObject(response);
                             JSONArray jsonArray=new JSONArray(jsondata.getString("data"));
                             //   0/1(无权限/有权限)
-//                            data.add(jsonArray.getJSONObject(1).getJSONArray("role").getJSONObject(1).getInt("测量完毕"));
-//                            data.add(jsonArray.getJSONObject(2).getJSONArray("role").getJSONObject(2).getInt("设计完毕"));
-//                            data.add(jsonArray.getJSONObject(3).getJSONArray("role").getJSONObject(1).getInt("客户已审阅"));
-//                            data.add(jsonArray.getJSONObject(4).getJSONArray("role").getJSONObject(0).getInt("待店主确认"));
-//                            data.add(jsonArray.getJSONObject(4).getJSONArray("role").getJSONObject(1).getInt("店主已确认"));
-//                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(3).getInt("待审图纸"));
-//                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(4).getInt("已审图纸"));
-//                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(7).getInt("待生产品牌"));
-//                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(9).getInt("待审材料单"));
-//                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(10).getInt("已审材料单"));
-//                            data.add(jsonArray.getJSONObject(8).getJSONArray("role").getJSONObject(0).getInt("施工完毕"));
+
                             data.add(jsonArray.getJSONObject(1).getJSONArray("role").getJSONObject(0).getInt("测量中"));
                             data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(12).getInt("钢挂已完成"));
                             data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(13).getInt("所有材料已打包"));
@@ -195,19 +185,89 @@ public class ShopModel {
                                     data.set(7,2);
                                 }
                             }
+                            data.add(jsonArray.getJSONObject(1).getJSONArray("role").getJSONObject(1).getInt("测量完毕"));
 
-                            data.add(jsonArray.getJSONObject(1).getInt("ishandle"));
+                            if(data.get(8)!=1){
+                                int pl=jsonArray.getJSONObject(1).getInt("ishandle");
+                                if (pl==2){
+                                    data.set(8,2);
+                                }
+                            }
+
                             data.add(jsonArray.getJSONObject(2).getInt("ishandle"));
+//                            data.add(jsonArray.getJSONObject(2).getJSONArray("role").getJSONObject(2).getInt("设计完毕"));
+//                            data.add(1);
+//                            if(data.get(9)!=1){
+//                                int pl=jsonArray.getJSONObject(2).getInt("ishandle");
+//                                if (pl==2){
+//                                    data.set(9,2);
+//                                }
+//                            }
                             data.add(jsonArray.getJSONObject(3).getInt("ishandle"));
-                            data.add(jsonArray.getJSONObject(4).getInt("ishandle"));
-                            data.add(jsonArray.getJSONObject(4).getInt("ishandle"));
-                            data.add(jsonArray.getJSONObject(5).getInt("ishandle"));
-                            data.add(jsonArray.getJSONObject(5).getInt("ishandle"));
-                            data.add(jsonArray.getJSONObject(5).getInt("ishandle"));
-                            data.add(jsonArray.getJSONObject(5).getInt("ishandle"));
-                            data.add(jsonArray.getJSONObject(5).getInt("ishandle"));
-                            data.add(jsonArray.getJSONObject(8).getInt("ishandle"));
+//                            data.add(jsonArray.getJSONObject(3).getJSONArray("role").getJSONObject(1).getInt("客户已审阅"));
+//                            if(data.get(10)!=1){
+//                                int pl=jsonArray.getJSONObject(3).getInt("ishandle");
+//                                if (pl==2){
+//                                    data.set(10,2);
+//                                }
+//                            }
 
+                            data.add(jsonArray.getJSONObject(4).getJSONArray("role").getJSONObject(0).getInt("待店主确认"));
+                            if(data.get(11)!=1){
+                                int pl=jsonArray.getJSONObject(4).getInt("ishandle");
+                                if (pl==2){
+                                    data.set(11,2);
+                                }
+                            }
+                            data.add(jsonArray.getJSONObject(4).getJSONArray("role").getJSONObject(1).getInt("店主已确认"));
+                            if(data.get(12)!=1){
+                                int pl=jsonArray.getJSONObject(4).getInt("ishandle");
+                                if (pl==2){
+                                    data.set(12,2);
+                                }
+                            }
+                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(3).getInt("待审图纸"));
+                            if(data.get(13)!=1){
+                                int pl=jsonArray.getJSONObject(5).getInt("ishandle");
+                                if (pl==2){
+                                    data.set(13,2);
+                                }
+                            }
+                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(4).getInt("已审图纸"));
+                            if(data.get(14)!=1){
+                                int pl=jsonArray.getJSONObject(5).getInt("ishandle");
+                                if (pl==2){
+                                    data.set(14,2);
+                                }
+                            }
+                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(7).getInt("待生产招牌"));
+                            if(data.get(15)!=1){
+                                int pl=jsonArray.getJSONObject(5).getInt("ishandle");
+                                if (pl==2){
+                                    data.set(15,2);
+                                }
+                            }
+                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(9).getInt("待审核材料单"));
+                            if(data.get(16)!=1){
+                                int pl=jsonArray.getJSONObject(5).getInt("ishandle");
+                                if (pl==2){
+                                    data.set(16,2);
+                                }
+                            }
+                            data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(10).getInt("已审材料单"));
+                            if(data.get(17)!=1){
+                                int pl=jsonArray.getJSONObject(5).getInt("ishandle");
+                                if (pl==2){
+                                    data.set(17,2);
+                                }
+                            }
+                            data.add(jsonArray.getJSONObject(8).getJSONArray("role").getJSONObject(0).getInt("施工完毕"));
+                            if(data.get(18)!=1){
+                                int pl=jsonArray.getJSONObject(8).getInt("ishandle");
+                                if (pl==2){
+                                    data.set(18,2);
+                                }
+                            }
 
 
 

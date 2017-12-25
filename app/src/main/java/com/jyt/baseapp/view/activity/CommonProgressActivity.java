@@ -12,6 +12,7 @@ import com.jyt.baseapp.R;
 import com.jyt.baseapp.api.BeanCallback;
 import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.bean.FileBean;
+import com.jyt.baseapp.bean.FinishBean;
 import com.jyt.baseapp.bean.ProgressBean;
 import com.jyt.baseapp.bean.ProjectFileBean;
 import com.jyt.baseapp.bean.Tuple;
@@ -26,6 +27,7 @@ import com.jyt.baseapp.view.widget.WorkerNameAndDateTime;
 import com.nex3z.flowlayout.FlowLayout;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -169,31 +171,30 @@ public class CommonProgressActivity extends BaseActivity {
                 }
             });
         }else {
-            projectDetailModel.getFinishList(beforeProject.getProjectId(), new BeanCallback<BaseJson<List<ProjectFileBean>>>() {
+            projectDetailModel.getFinishList(beforeProject.getProjectId(), new BeanCallback<BaseJson<FinishBean>>() {
                 @Override
                 public void onError(Call call, Exception e, int id) {
                     T.showShort(getContext(),e.getMessage());
                 }
 
                 @Override
-                public void onResponse(BaseJson<List<ProjectFileBean>> response, int id) {
-                    if (response!=null && response.ret){
-                        createView(response.data);
-                        if (response.data!=null && response.data.size()!=0){
-                            ProjectFileBean lastObj = response.data.get(response.data.size()-1);
-                            projectDetailModel.getPersonById(lastObj.getUserId(), new BeanCallback<BaseJson<UserBean>>() {
-                                @Override
-                                public void onError(Call call, Exception e, int id) {
-
-                                }
-
-                                @Override
-                                public void onResponse(BaseJson<UserBean> response, int id) {
-                                    vWorkerAndTime.setWorkerText(response.data.getStationName()+" "+response.data.getNickName());
-                                }
-                            });
+                public void onResponse(BaseJson<FinishBean> response, int id) {
+                    if (response.data.getLolist()!=null && response.ret){
+                        List<ProjectFileBean> data = new ArrayList<ProjectFileBean>();
+                        for (int i = 0; i < response.data.getLolist().size(); i++) {
+                            FinishBean.Data finishFile = response.data.getLolist().get(i);
+                            ProjectFileBean bean = new ProjectFileBean();
+                            bean.setContentId(finishFile.getConstructionId());
+                            bean.setContentName(finishFile.getConstructionName());
+                            bean.setContentSuffix(finishFile.getConstructionSuffix());
+                            bean.setContentUrl(finishFile.getConstructionUrl());
+                            bean.setIsdel(finishFile.getIsdel());
+                            data.add(bean);
                         }
-
+                        if (data.size()!=0){
+                            vWorkerAndTime.setWorkerText(response.data.getLolist().get(0).getConstructionNickName());
+                            createView(data);
+                        }
                     }
                 }
             });
@@ -237,16 +238,13 @@ public class CommonProgressActivity extends BaseActivity {
         View.OnClickListener onFileClickToOpenFileDetailActivityListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (1!=project.getPermissionState()){
-                    return;
-                }
                 IntentHelper.openFileDetailActivity(getContext(), (FileBean) v.getTag(R.id.tag_data));
             }
         };
 
 //        files.addAll(files);
         for (ProjectFileBean projectFileBean : files) {
-            if (projectFileBean.getContentSuffix().toLowerCase().equals("jpg") || projectFileBean.getContentSuffix().toLowerCase().equals("png") ){
+            if (projectFileBean.getContentSuffix().toLowerCase().equals("jpg") || projectFileBean.getContentSuffix().toLowerCase().equals("png") ||projectFileBean.getContentSuffix().toLowerCase().equals("jpeg")){
                 ImageView img = new ImageView(getContext());
                 FlowLayout.LayoutParams param = new FlowLayout.LayoutParams(imageWidth,imageWidth);
                 img.setLayoutParams(param);

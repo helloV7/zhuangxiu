@@ -169,6 +169,20 @@ public class ProgressLine extends RelativeLayout {
         }
     }
 
+    /**
+     * 重新测量高度，用于解决大概完成时间消失的bug
+     */
+    public void ReMeasure(){
+        ll_append.measure(0,0);
+        AppendHeight=ll_append.getMeasuredHeight()+10;//+10预留显示空间
+        if (isCurrent){
+            ll_parent.getLayoutParams().height=AppendHeight;
+        }else {
+            ll_parent.getLayoutParams().height=0;
+        }
+        ll_parent.requestLayout();
+    }
+
     public void setCurrent(boolean current){
         this.isCurrent=current;
     }

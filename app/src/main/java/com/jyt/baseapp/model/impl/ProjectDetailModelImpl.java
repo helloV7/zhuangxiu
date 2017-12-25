@@ -79,7 +79,7 @@ public class ProjectDetailModelImpl implements ProjectDetailModel {
 
     @Override
     public void getFinishList(String detailId, Callback callback) {
-        OkHttpUtils.get().url(Path.BasePath+Path.URL_GET_PROJECT_CONTENT+"?token="+BaseUtil.getSpString(Const.UserToken)+"&method=selectConstructioniList&page=0"+"&searchValue="+detailId)
+        OkHttpUtils.get().url(Path.BasePath+Path.URL_GET_PROJECT_CONTENT+"?token="+BaseUtil.getSpString(Const.UserToken)+"&method=getFininsh&page=0"+"&searchValue="+detailId)
                 .tag(mContext)
                 .build().execute(callback);
     }

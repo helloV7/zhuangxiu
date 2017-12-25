@@ -86,7 +86,6 @@ public class LoginActivity extends BaseActivity {
         }
         else{//退出程序
             this.finish();
-            System.exit(0);
         }
     }
 

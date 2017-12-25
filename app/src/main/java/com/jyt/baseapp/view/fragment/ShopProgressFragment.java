@@ -90,6 +90,8 @@ public class ShopProgressFragment extends BaseFragment {
     private List<AppendItem> mAppendList;
     private HashMap<Integer,ProgressLine> mProgressMap;
     List<ProgressBean> progressBeanList;
+    int current = -1;
+    private boolean isLink;
 
     @Override
     protected int getLayoutId() {
@@ -109,6 +111,7 @@ public class ShopProgressFragment extends BaseFragment {
         initConstruction();
         initComplete();
         initSettlement();
+        initData();
         initListener();
     }
 
@@ -205,46 +208,7 @@ public class ShopProgressFragment extends BaseFragment {
         mAppendList.add(at_Settlement3);
         mAppendList.add(at_Settlement4);
         mProgressMap.put(800,mPlSettlement);
-        //操作权限赋予
-        mShopModel.getStationRole(new ShopModel.OngetStationRoleListener() {
-            @Override
-            public void Result(boolean isSuccess, Exception e, List<Integer> data) {
-                if (isSuccess){
-                    at_Measure.setOperate(data.get(0));
-                    at_Material6.setOperate(data.get(1));
-                    at_Material7.setOperate(data.get(2));
-                    at_Logistics1.setOperate(data.get(3));
-                    at_Logistics2.setOperate(data.get(4));
-                    at_Logistics3.setOperate(data.get(5));
-                    at_Logistics4.setOperate(data.get(6));
-                    at_Construction.setOperate(data.get(7));
-                    //大节点关联
-                    at_Measured.setOperate(data.get(8));
-                    at_Designed.setOperate(data.get(9));
-                    at_Approvaled.setOperate(data.get(10));
-                    at_Confirm.setOperate(data.get(11));
-                    at_Confirmed.setOperate(data.get(12));
-                    at_Paper3.setOperate(data.get(13));
-                    at_Paper4.setOperate(data.get(14));
-                    at_Material1.setOperate(data.get(15));
-                    at_Material3.setOperate(data.get(16));
-                    at_Material4.setOperate(data.get(17));
-                    at_Complete.setOperate(data.get(18));
 
-
-                }
-            }
-        });
-
-        mShopModel.getProjectProgress(mInfo.getProjectId(), new ShopModel.OnProgressResultListener() {
-            @Override
-            public void Result(boolean isSuccess, Exception e, List<ProgressBean> shopBean) {
-                if (isSuccess){
-                    progressBeanList = shopBean;
-                    setProgress(shopBean);
-                }
-            }
-        });
     }
 
     //遍历全部的子节点，根据0/1权限设置是否可见完成勾选的img，当且仅当遇到第一个0（即当前进行到的位置）
@@ -264,7 +228,7 @@ public class ShopProgressFragment extends BaseFragment {
                 mAppendList.get(i).setComplete(false);
                 if (!isIndex){
                     //只触发一次，即当前进度点触发
-                    int current = -1;
+
                     for (Map.Entry<Integer,ProgressLine> entry : mProgressMap.entrySet()) {
                         int index=entry.getKey();
                         if (data.get(i).getSpeedUpCode()>index){
@@ -303,12 +267,92 @@ public class ShopProgressFragment extends BaseFragment {
 
     }
 
+    private void initData(){
+        //操作权限赋予
+        mShopModel.getStationRole(new ShopModel.OngetStationRoleListener() {
+            @Override
+            public void Result(boolean isSuccess, Exception e, List<Integer> data) {
+                if (isSuccess){
+                    at_Measure.setOperate(data.get(0));
+                    at_Material6.setOperate(data.get(1));
+                    at_Material7.setOperate(data.get(2));
+                    at_Logistics1.setOperate(data.get(3));
+                    at_Logistics2.setOperate(data.get(4));
+                    at_Logistics3.setOperate(data.get(5));
+                    at_Logistics4.setOperate(data.get(6));
+                    at_Construction.setOperate(data.get(7));
+
+                    List<AppendItem> appendItemList1 =new ArrayList<AppendItem>();
+                    appendItemList1.add(at_Measure);
+                    appendItemList1.add(at_Material6);
+                    appendItemList1.add(at_Material7);
+                    appendItemList1.add(at_Logistics1);
+                    appendItemList1.add(at_Logistics2);
+                    appendItemList1.add(at_Logistics3);
+                    appendItemList1.add(at_Logistics4);
+                    appendItemList1.add(at_Construction);
+
+                    for (int i = 0; i < appendItemList1.size(); i++) {
+                        if (data.get(i)==0){
+                            appendItemList1.get(i).setImgVisible(false);
+                        }
+                    }
+
+
+                    List<AppendItem> appendItemList2 =new ArrayList<AppendItem>();
+                    appendItemList2.add(at_Measured);
+                    appendItemList2.add(at_Designed);
+                    appendItemList2.add(at_Approvaled);
+                    appendItemList2.add(at_Confirm);
+                    appendItemList2.add(at_Confirmed);
+                    appendItemList2.add(at_Paper3);
+                    appendItemList2.add(at_Paper4);
+                    appendItemList2.add(at_Material1);
+                    appendItemList2.add(at_Material3);
+                    appendItemList2.add(at_Material4);
+                    appendItemList2.add(at_Complete);
+                    for (int i = 0; i < appendItemList2.size(); i++) {
+                        if (data.get(i+8)==0){
+                            appendItemList2.get(i).setNext(false);
+                        }
+                    }
+
+                    at_Measured.setOperate(data.get(8));
+                    at_Designed.setOperate(data.get(9));
+                    at_Approvaled.setOperate(data.get(10));
+                    at_Confirm.setOperate(data.get(11));
+                    at_Confirmed.setOperate(data.get(12));
+                    at_Paper3.setOperate(data.get(13));
+                    at_Paper4.setOperate(data.get(14));
+                    at_Material1.setOperate(data.get(15));
+                    at_Material3.setOperate(data.get(16));
+                    at_Material4.setOperate(data.get(17));
+                    at_Complete.setOperate(data.get(18));
+
+
+                    mShopModel.getProjectProgress(mInfo.getProjectId(), new ShopModel.OnProgressResultListener() {
+                        @Override
+                        public void Result(boolean isSuccess, Exception e, List<ProgressBean> shopBean) {
+                            if (isSuccess){
+                                isLink = true;
+                                progressBeanList = shopBean;
+                                setProgress(shopBean);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
+
+    }
+
     private void initMeasure() {
         at_Measure.setTv_msg("测量中");
         at_Measure.setEditor();
         at_Measure.setState(2);//操作后不可见
         at_Measured.setTv_msg("测量完毕");
-        at_Measured.setEditor();
+        at_Measured.setNext(true);
         at_Measured.setState(1);//操作后可见
         mPlMeasure.addAppendItem(at_Measure);
         mPlMeasure.addAppendItem(at_Measured);
@@ -320,7 +364,6 @@ public class ShopProgressFragment extends BaseFragment {
         at_Designing.setTv_msg("设计中");
         at_Designing.setNext(false);
         at_Designed.setTv_msg("设计完毕");
-        at_Designed.setEditor();
         at_Designed.setState(1);//操作后可见
         at_Offer.setTv_msg("待报价");
         at_Offer.setNext(false);
@@ -338,7 +381,7 @@ public class ShopProgressFragment extends BaseFragment {
         at_Approval.setTv_msg("待客户审批");
         at_Approval.setNext(false);
         at_Approvaled.setTv_msg("客户已审批");
-        at_Approvaled.setEditor();
+        at_Approvaled.setNext(true);
         at_Approvaled.setState(1);//操作后可见
 
         mPlApproval.addAppendItem(at_Approval);
@@ -347,10 +390,10 @@ public class ShopProgressFragment extends BaseFragment {
 
     private void initConfirm(){
         at_Confirm.setTv_msg("待店主确认");
-        at_Confirm.setEditor();
+        at_Confirm.setNext(true);
         at_Confirm.setState(1);//操作后可见
         at_Confirmed.setTv_msg("店主已确认");
-        at_Confirmed.setEditor();
+        at_Confirmed.setNext(true);
         at_Confirmed.setState(1);//操作后可见
 
         mPlConfirm.addAppendItem(at_Confirm);
@@ -365,25 +408,25 @@ public class ShopProgressFragment extends BaseFragment {
         at_Paper2.setTv_msg("图纸下单");
         at_Paper2.setNext(false);
         at_Paper3.setTv_msg("待审图纸");
-        at_Paper3.setEditor();
+        at_Paper3.setNext(true);
         at_Paper3.setState(1);//操作后可见
         at_Paper4.setTv_msg("已审图纸");
-        at_Paper4.setEditor();
+        at_Paper4.setNext(true);
         at_Paper4.setState(1);//操作后可见
         at_Paper5.setTv_msg("待预算复核图纸");
         at_Paper5.setNext(false);
         at_Paper6.setTv_msg("预算已复核纸");
         at_Paper6.setNext(false);
         at_Material1.setTv_msg("待⽣产招牌");
-        at_Material1.setEditor();
+        at_Material1.setNext(true);
         at_Material1.setState(1);//操作后可见
         at_Material2.setTv_msg("待下材料单");
         at_Material2.setNext(false);
         at_Material3.setTv_msg("待审材料单");
-        at_Material3.setEditor();
+        at_Material3.setNext(true);
         at_Material3.setState(1);//操作后可见
         at_Material4.setTv_msg("已审材料单");
-        at_Material4.setEditor();
+        at_Material4.setNext(true);
         at_Material4.setState(1);//操作后可见
         at_Material5.setTv_msg("待备料");
         at_Material5.setNext(false);
@@ -438,7 +481,7 @@ public class ShopProgressFragment extends BaseFragment {
 
     private void initComplete(){
         at_Complete.setTv_msg("施工完毕");
-        at_Complete.setEditor();
+        at_Complete.setNext(true);
         at_Complete.setState(1);//操作后可见
         mPlComplete.addAppendItem(at_Complete);
     }
@@ -462,6 +505,9 @@ public class ShopProgressFragment extends BaseFragment {
         at_Measure.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
+                if (!isLink){
+                    return;
+                }
                 if ("0".equals(bean.getIsfinish())
                         && 0!=bean.getPermissionState()) {
                     IntentHelper.openUploadImagesActivityForResult(getContext(), bean,20);
@@ -472,6 +518,9 @@ public class ShopProgressFragment extends BaseFragment {
         at_Material7.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
+                if (!isLink){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if ( beforeFinish!=null  ) {
                     if ("0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()){
@@ -488,6 +537,9 @@ public class ShopProgressFragment extends BaseFragment {
         at_Construction.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
+                if (!isLink){
+                    return;
+                }
                 boolean canEdit = false;
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if( beforeFinish!=null && "0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()){
@@ -500,6 +552,9 @@ public class ShopProgressFragment extends BaseFragment {
         AppendItem.OnAppendOnclickListener browserSimpleContent = new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
+                if (!isLink){
+                    return;
+                }
                 L.e("click ");
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 Log.e("@#","permission="+bean.getPermissionState());
@@ -514,7 +569,10 @@ public class ShopProgressFragment extends BaseFragment {
         AppendItem.OnAppendOnclickListener beforeSimpleContent = new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
-                L.e("click ");
+                if (!isLink){
+                    return;
+                }
+                Log.e("@#","click="+bean.getPermissionState());
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 Log.e("@#","permission="+bean.getPermissionState());
                 if (beforeFinish!=null && 0!=bean.getPermissionState()){
@@ -528,6 +586,9 @@ public class ShopProgressFragment extends BaseFragment {
         AppendItem.OnAppendOnclickListener PaperSimpleContent = new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
+                if (!isLink){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null && 0!=bean.getPermissionState()){
                     IntentHelper.openCommonProgressActivity(getContext(),bean, progressBeanList.get(12));
@@ -538,6 +599,9 @@ public class ShopProgressFragment extends BaseFragment {
         AppendItem.OnAppendOnclickListener DownloadSimpleContent = new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
+                if (!isLink){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null && 0!=bean.getPermissionState()){
                     IntentHelper.openCommonProgressActivity(getContext(),bean, progressBeanList.get(19));
@@ -555,6 +619,9 @@ public class ShopProgressFragment extends BaseFragment {
         at_Complete.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
+                if (!isLink){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null && 0!=bean.getPermissionState()){
                     IntentHelper.openCompleteCommonProgressActivity(getContext(),bean, beforeFinish);
@@ -577,7 +644,9 @@ public class ShopProgressFragment extends BaseFragment {
         at_Logistics1.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
-
+                if (!isLink){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null) {
                     if ( 0!=bean.getPermissionState()) {
@@ -601,6 +670,9 @@ public class ShopProgressFragment extends BaseFragment {
         at_Logistics3.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
+                if (!isLink){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null) {
                     if ("0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()) {
@@ -614,6 +686,9 @@ public class ShopProgressFragment extends BaseFragment {
         at_Logistics4.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
+                if (!isLink){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null && 0!=bean.getPermissionState()) {
                     IntentHelper.openPrepareConstructCompleteActivity(getContext(), bean);
@@ -626,6 +701,9 @@ public class ShopProgressFragment extends BaseFragment {
         at_Material6.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
+                if (!isLink){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null && 0!=bean.getPermissionState() && "0".equals(bean.getIsfinish())) {
                     IntentHelper.openFinishSteelHookActivity(getContext(), bean);

@@ -63,7 +63,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:progress="进程施工中">
+            app:progress="进场施工">
         </com.jyt.baseapp.view.widget.ProgressLine>
 
         <com.jyt.baseapp.view.widget.ProgressLine

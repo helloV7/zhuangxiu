@@ -14,8 +14,9 @@
     android:layout_marginBottom="5dp">
     <ImageView
         android:id="@+id/iv_complete"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_marginTop="2dp"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
         android:layout_gravity="top"
         android:src="@mipmap/right_green"/>
     <LinearLayout
