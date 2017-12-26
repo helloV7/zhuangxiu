@@ -18,6 +18,7 @@ import com.jyt.baseapp.model.impl.InfoModelmpl;
 import java.text.SimpleDateFormat;
 
 import butterknife.BindView;
+import cn.jpush.android.api.JPushInterface;
 import okhttp3.Call;
 
 public class InfoActivity extends BaseActivity implements View.OnClickListener {
@@ -65,6 +66,7 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener {
     private void init(){
         setTextTitle("消息");
         mInfoModel = new InfoModelmpl();
+        JPushInterface.clearAllNotifications(this);
     }
 
     private void initData(){

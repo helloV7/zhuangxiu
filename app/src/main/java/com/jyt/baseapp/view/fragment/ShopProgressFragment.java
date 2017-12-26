@@ -258,9 +258,10 @@ public class ShopProgressFragment extends BaseFragment {
             }
             //---------------------------------------------------
             if (data.get(i).getFinishTime()!=null){
-                mAppendList.get(i).setTv_time(BaseUtil.getTime(data.get(i).getFinishTime()));
+                mAppendList.get(i).setTv_time(BaseUtil.getTime(data.get(i).getFinishTime().split(" ")[0]));
             }else {
 //                Log.e("@#","ASD");
+                mAppendList.get(i).setEstimate(false);
             }
 
         }
