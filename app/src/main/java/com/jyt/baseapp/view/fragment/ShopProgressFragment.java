@@ -435,7 +435,7 @@ public class ShopProgressFragment extends BaseFragment {
         at_Material6.setState(2);
         at_Material7.setTv_msg("所有材料已打包");
         at_Material7.setEditor();
-        at_Material7.setState(1);//操作后可见
+        at_Material7.setState(3);//操作后可见
 
         mPlStocking.addAppendItem(at_BudgetConfirm);
         mPlStocking.addAppendItem(at_Paper1);
@@ -462,7 +462,7 @@ public class ShopProgressFragment extends BaseFragment {
         at_Logistics2.setState(1);//操作后可见
         at_Logistics3.setTv_msg("货到待施工");
         at_Logistics3.setEditor();
-        at_Logistics3.setState(1);//操作后可见
+        at_Logistics3.setState(2);//操作后不可见
         at_Logistics4.setTv_msg("安排施工人员完毕");
         at_Logistics4.setEditor();
         at_Logistics4.setState(1);//操作后可见
@@ -522,7 +522,7 @@ public class ShopProgressFragment extends BaseFragment {
                     return;
                 }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-                if ( beforeFinish!=null  ) {
+                if ( beforeFinish!=null ) {
                     if ("0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()){
                         IntentHelper.openUploadImagesActivityForResult(getContext(), bean,9);
                     }else {
@@ -540,12 +540,11 @@ public class ShopProgressFragment extends BaseFragment {
                 if (!isLink){
                     return;
                 }
-                boolean canEdit = false;
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if( beforeFinish!=null && "0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()){
-                    canEdit=true;
+                    IntentHelper.openConstructionActivity(getContext(),bean);
                 }
-                IntentHelper.openConstructionActivity(getContext(),bean,canEdit);
+
             }
         });
 

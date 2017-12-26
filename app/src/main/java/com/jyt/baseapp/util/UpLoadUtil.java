@@ -1,21 +1,16 @@
 package com.jyt.baseapp.util;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
-import com.alibaba.sdk.android.oss.ClientException;
 import com.alibaba.sdk.android.oss.OSS;
 import com.alibaba.sdk.android.oss.OSSClient;
-import com.alibaba.sdk.android.oss.ServiceException;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
-import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.jyt.baseapp.api.BeanCallback;
 import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.api.Path;
-import com.jyt.baseapp.api.ProgressCallback;
 import com.jyt.baseapp.api.PutObjectSamples;
 import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.bean.OssBean;
@@ -61,7 +56,6 @@ public class UpLoadUtil {
                 for (int i=0;i<images.size();i++){
                     String remoteUrl = upload(images.get(i));
                     remoteUrls.add(remoteUrl);
-                    onUpLoadProgressChangedListener.onProgress(i+1/images.size());
                     if (i==images.size()){
                         onUpLoadProgressChangedListener.onProgress(1);
                     }else {
@@ -85,43 +79,7 @@ public class UpLoadUtil {
         return remotePath;
     }
 
-    private void uploadSync(final String imagePath , final OnUpLoadFinish onUpLoadSuccess){
-        File file = new File(imagePath);
-        PutObjectSamples putObjectSamples = new PutObjectSamples(mOSS,Const.BucketName,file.getName(),file.getAbsolutePath());
 
-
-        putObjectSamples.asyncPutObjectFromLocalFile(new ProgressCallback<PutObjectRequest, PutObjectResult>() {
-            @Override
-            public void onProgress(PutObjectRequest putObjectRequest, long currentSize, long totalSize) {
-
-            }
-
-            @Override
-            public void onSuccess(PutObjectRequest putObjectRequest, PutObjectResult putObjectResult) {
-                Log.e("@#","Success");
-                String remotePath = Path.URL_Ayiyun+putObjectRequest.getObjectKey();
-                onUpLoadSuccess.result(imagePath,remotePath);
-            }
-
-            @Override
-            public void onFailure(PutObjectRequest putObjectRequest, ClientException clientException, ServiceException serviceException) {
-                if (clientException != null) {
-                    // 本地异常如网络异常等
-                    clientException.printStackTrace();
-                    Log.e("clientMsg",clientException.getMessage());
-                }
-                if (serviceException != null) {
-                    // 服务异常
-                    Log.e("StatusCode",serviceException.getStatusCode()+"");
-                    Log.e("ErrorCode", serviceException.getErrorCode());
-                    Log.e("RequestId", serviceException.getRequestId());
-                    Log.e("HostId", serviceException.getHostId());
-                    Log.e("RawMessage", serviceException.getRawMessage());
-                }
-            }
-        });
-
-    }
 
     public void setOnUpLoadProgressChangedListener(OnUpLoadProgressChangedListener onUpLoadProgressChangedListener) {
         this.onUpLoadProgressChangedListener = onUpLoadProgressChangedListener;

@@ -13,6 +13,9 @@ import com.jyt.baseapp.view.activity.BrowseImagesActivity;
 import com.jyt.baseapp.view.activity.CommonProgressActivity;
 import com.jyt.baseapp.view.activity.ConstructionActivity;
 import com.jyt.baseapp.view.activity.DeliverGoodsActivity;
+import com.jyt.baseapp.view.activity.EvaluateActivity;
+import com.jyt.baseapp.view.activity.EvaluateDetailActivity;
+import com.jyt.baseapp.view.activity.EvaluateSendActivity;
 import com.jyt.baseapp.view.activity.FileDetailActivity;
 import com.jyt.baseapp.view.activity.FinishSteelHookActivity;
 import com.jyt.baseapp.view.activity.InfoDetailActivity;
@@ -323,6 +326,46 @@ public class IntentHelper {
     }
 
     /**
+     * 打开评价人员界面
+     * 内部人员 店主 品牌方
+     * @param activity
+     * @param projectId
+     */
+    public static void OpenEvaluateActivity(Activity activity , String projectId){
+        Intent intent = new Intent(activity,EvaluateActivity.class);
+        intent.putExtra(IntentKey.PROJECTID,projectId);
+        activity.startActivity(intent);
+    }
+
+    /**
+     * 打开评价详细界面
+     * 店主 品牌方
+     * @param activity
+     * @param projectId
+     */
+    public static void OpenEvaluateDetailActivity(Activity activity , String projectId , int state){
+        Intent intent = new Intent(activity,EvaluateDetailActivity.class);
+        intent.putExtra(IntentKey.PROJECTID,projectId);
+        intent.putExtra(IntentKey.STATE,state);
+        activity.startActivity(intent);
+    }
+
+    /**
+     * 打开评价发送界面
+     * 店主 品牌方
+     * @param activity
+     * @param projectId
+     */
+    public static void OpenEvaluateSendActivity(Activity activity , String projectId , int state){
+        Intent intent = new Intent(activity,EvaluateSendActivity.class);
+        intent.putExtra(IntentKey.PROJECTID,projectId);
+        intent.putExtra(IntentKey.STATE,state);
+        activity.startActivity(intent);
+    }
+
+
+
+    /**
      * 打开InfoDetailActivity
      * @param context
      * @param state 0/1/2 界面一致，消息数据分三种来源
@@ -427,10 +470,9 @@ public class IntentHelper {
     //endregion
 
     //region 施工中
-    public static void openConstructionActivity(Context context,Parcelable project,boolean canEdit){
+    public static void openConstructionActivity(Context context,Parcelable project){
         Intent intent = getIntent(context, ConstructionActivity.class);
         intent.putExtra(IntentKey.DATA,project);
-        intent.putExtra(IntentKey.EDITABLE,canEdit);
         context.startActivity(intent);
     }
     public static Tuple ConstructionActivityGetPara(Intent intent){
@@ -465,4 +507,6 @@ public class IntentHelper {
     public static Intent getIntent(Context context, Class activityClass){
         return new Intent(context,activityClass);
     }
+
+
 }

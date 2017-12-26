@@ -5,51 +5,84 @@
     >
 
 
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@drawable/divider"
-        android:showDividers="beginning|end|middle"
         >
-
-        <TextView
-            android:id="@+id/text_confirm"
-            style="@style/defaultTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="#429BFF"
-            android:gravity="center"
-            android:text="√   店主已确认"
-            android:textColor="@color/white"
-            android:visibility="gone" />
-        <com.jyt.baseapp.view.widget.WorkerNameAndDateTime
-            android:id="@+id/v_workerAndTime"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </com.jyt.baseapp.view.widget.WorkerNameAndDateTime>
-
         <LinearLayout
-            android:id="@+id/v_fileLayout"
+            android:id="@+id/ll_empty"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:divider="@drawable/divider"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:orientation="vertical"
-            android:showDividers="beginning|middle"
-            android:background="@color/white"
-            android:visibility="gone">
+            android:visibility="visible">
 
+            <ImageView
+                android:layout_width="97dp"
+                android:layout_height="97dp"
+                android:layout_marginTop="150dp"
+                android:src="@mipmap/icon_no"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="暂无上传资料" />
         </LinearLayout>
 
-        <com.nex3z.flowlayout.FlowLayout
-            android:layout_marginTop="10dp"
-            android:background="@color/white"
-            android:visibility="gone"
-            android:id="@+id/v_imageLayout"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-        </com.nex3z.flowlayout.FlowLayout>
+        <LinearLayout
+            android:id="@+id/ll_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@drawable/divider"
+            android:showDividers="beginning|end|middle"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <TextView
+                android:id="@+id/text_confirm"
+                style="@style/defaultTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="#429BFF"
+                android:gravity="center"
+                android:text="√   店主已确认"
+                android:textColor="@color/white"
+                android:visibility="gone" />
+            <com.jyt.baseapp.view.widget.WorkerNameAndDateTime
+                android:id="@+id/v_workerAndTime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.jyt.baseapp.view.widget.WorkerNameAndDateTime>
+
+            <LinearLayout
+                android:id="@+id/v_fileLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:divider="@drawable/divider"
+                android:orientation="vertical"
+                android:showDividers="beginning|middle"
+                android:background="@color/white"
+                android:visibility="gone">
+
+            </LinearLayout>
+
+            <com.nex3z.flowlayout.FlowLayout
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:visibility="gone"
+                android:id="@+id/v_imageLayout"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.nex3z.flowlayout.FlowLayout>
+        </LinearLayout>
+
+
     </LinearLayout>
 </ScrollView>

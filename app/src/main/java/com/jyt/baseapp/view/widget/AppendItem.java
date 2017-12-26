@@ -2,7 +2,6 @@ package com.jyt.baseapp.view.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -160,7 +159,11 @@ public class AppendItem extends RelativeLayout {
                 break;
             case 1:
                 iv_next.setVisibility(VISIBLE);
-                iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+                if (isEditor){
+                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
+                }else {
+                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+                }
                 break;
             case 2:
                 iv_next.setVisibility(VISIBLE);
@@ -187,7 +190,15 @@ public class AppendItem extends RelativeLayout {
                     break;
                 case 1:
                     iv_next.setVisibility(VISIBLE);
-                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+                    if (isEditor){
+                        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
+                    }else {
+                        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+                    }
+                    break;
+                case 2:
+                    iv_next.setVisibility(VISIBLE);
+                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
                     break;
                 default:
                     break;
@@ -204,17 +215,21 @@ public class AppendItem extends RelativeLayout {
                     break;
                 case 1:
                     iv_next.setVisibility(VISIBLE);
-                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+                    if (isEditor){
+                        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
+                    }else {
+                        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+                    }
                     break;
                 case 2:
-                    Log.e("@#","operate="+Operate);
                     iv_next.setVisibility(INVISIBLE);
-                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
                     break;
                 default:
                     break;
             }
         }
+
+
         if (Operate==0) {
             iv_next.setVisibility(INVISIBLE);
         }

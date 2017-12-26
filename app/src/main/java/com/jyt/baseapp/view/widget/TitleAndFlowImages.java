@@ -96,7 +96,7 @@ public class TitleAndFlowImages extends FrameLayout {
             imageView.setOnClickListener(onClickListener);
             vFlowLayout.addView(imageView);
         }
-        num = num / 3 + 1;
+        num = num / 3 ;
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) vFlowLayout.getLayoutParams();
         params.height = num * imageWidth + 3;
         vFlowLayout.setLayoutParams(params);

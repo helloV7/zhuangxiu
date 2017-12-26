@@ -10,24 +10,32 @@
     android:divider="@drawable/linefull"
     tools:context="com.jyt.baseapp.view.activity.EvaluateActivity">
     <com.jyt.baseapp.view.widget.JumpItem
+        android:id="@+id/jt_j1"
         android:layout_marginTop="6dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:Jump="true"
         app:title="项目经理"/>
     <com.jyt.baseapp.view.widget.JumpItem
-        android:layout_marginTop="6dp"
+        android:id="@+id/jt_j2"
+        android:layout_marginTop="1dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:Jump="true"
         app:title="设计师"/>
     <com.jyt.baseapp.view.widget.JumpItem
-        android:layout_marginTop="6dp"
+        android:id="@+id/jt_j3"
+        android:layout_marginTop="1dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:Jump="true"
         app:title="预算员"/>
     <com.jyt.baseapp.view.widget.JumpItem
-        android:layout_marginTop="6dp"
+        android:id="@+id/jt_j4"
+        android:layout_marginTop="1dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:Jump="true"
         app:title="测量人员"/>
 
 

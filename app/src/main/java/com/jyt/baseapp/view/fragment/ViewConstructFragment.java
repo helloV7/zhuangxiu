@@ -24,6 +24,7 @@ import com.jyt.baseapp.bean.ConstructionBean;
 import com.jyt.baseapp.bean.ProgressBean;
 import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.helper.IntentKey;
+import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
 import com.jyt.baseapp.model.ProjectDetailModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.activity.ConstructionActivity;
@@ -89,6 +90,7 @@ public class ViewConstructFragment extends BaseFragment {
         mReceiver = new ViewConstructReceiver();
         getActivity().registerReceiver(mReceiver,filter);
         mRvData.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        mRvData.addItemDecoration(new SpacesItemDecoration(0,12));
         mRvData.setAdapter(mAdapter);
     }
 
@@ -129,9 +131,13 @@ public class ViewConstructFragment extends BaseFragment {
                     @Override
                     public void onResponse(BaseJson response, int id) {
                         if (response.ret){
-                            initFace();
-                            ConstructionActivity activity= (ConstructionActivity) getActivity();
-                            activity.notifyPage();
+                           try {
+                               initFace();
+                               ConstructionActivity activity= (ConstructionActivity) getActivity();
+                               activity.notifyPage();
+                           } catch (Exception e){
+                               getActivity().finish();
+                           }
                         }
                     }
                 });
@@ -161,8 +167,8 @@ public class ViewConstructFragment extends BaseFragment {
             public void onResponse(BaseJson<ConstructionBean> response, int id) {
                 if (response.data.getFinishTime() != null) {
                     vEmptyMsg.setVisibility(View.GONE);
-                    mJtTime.setNext(false,BaseUtil.getTime(response.data.getFinishTime()));
-                    if (response.data.getConstructionList().size()>=0){
+                    mJtTime.setNext(false,BaseUtil.getTime(response.data.getFinishTime().split(" ")[0]));
+                    if (response.data.getConstructionList().size()>0){
                         String time=response.data.getConstructionList().get(0).getConstructionDate();
                         ConstructionBean detailBean = new ConstructionBean();
                         //整理数据
@@ -193,7 +199,6 @@ public class ViewConstructFragment extends BaseFragment {
 
 
                         }
-                        Log.e("@#","num="+list.size());
                         mAdapter.notifyData(list);
                         isFinish=false;
                     }

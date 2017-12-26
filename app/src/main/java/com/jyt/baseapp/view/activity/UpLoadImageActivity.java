@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,10 +31,10 @@ import com.jyt.baseapp.util.ScreenUtils;
 import com.jyt.baseapp.util.T;
 import com.jyt.baseapp.util.UpLoadUtil;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
+import com.jyt.baseapp.view.widget.LoadingDialog;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -72,6 +73,7 @@ public class UpLoadImageActivity extends BaseActivity {
     ProjectDetailModel model;
 
     ProgressBean progressBean;
+    private LoadingDialog mLoadingDialog;
 
     @Override
     protected int getLayoutId() {
@@ -87,7 +89,7 @@ public class UpLoadImageActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         int windowWidth = ScreenUtils.getScreenWidth(getContext());
-
+        mLoadingDialog = new LoadingDialog(this);
         Intent intent = getIntent();
         maxCount = intent.getIntExtra(IntentKey.MAX_COUNT,20);
         if (maxCount==9){
@@ -171,6 +173,7 @@ public class UpLoadImageActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == IntentRequestCode.CODE_SEL_IMAGES && resultCode == RESULT_OK) {
+            Log.e("@#","size="+imageList.size());
             Tuple result = IntentHelper.SelImageActivityGetResult(data);
             imageList = (List) result.getItem1();
             imageList.add(imageList.size(), new Integer(0));
@@ -182,26 +185,29 @@ public class UpLoadImageActivity extends BaseActivity {
 
     @OnClick(R.id.btn_submit)
     public void onViewClicked() {
+        mLoadingDialog.show();
         if (imageList!=null && imageList.size()!=1){
             final UpLoadUtil upLoadUtil = new UpLoadUtil();
             upLoadUtil.setOnUpLoadProgressChangedListener(new UpLoadUtil.OnUpLoadProgressChangedListener() {
                 @Override
                 public void onProgress(float percent) {
-                    if (percent==1){
+                    if (percent==upLoadUtil.getRemoteUrls().size()){
                         model.uploadImage(progressBean.getSpeedId(), progressBean.getProjectId(), progressBean.getSpeedCode()+"", upLoadUtil.getRemoteUrls(), new BeanCallback() {
                             @Override
                             public void onError(Call call, Exception e, int id) {
                                 BaseUtil.makeText("上传失败");
+                                mLoadingDialog.dismiss();
                             }
 
                             @Override
                             public void onResponse(Object response, int id) {
+                                mLoadingDialog.dismiss();
                                 BaseUtil.makeText("上传成功");
                                 finish();
                             }
                         });
                     }else {
-                        T.showShort(getContext(), new DecimalFormat("0").format(percent*100)+"%");
+//                        T.showShort(getContext(), new DecimalFormat("0").format(percent*100)+"%");
                     }
                 }
             });

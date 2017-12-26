@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.bean.EvaluateBean;
+import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.EvaluateModel;
 import com.jyt.baseapp.util.BaseUtil;
 
@@ -53,7 +54,7 @@ public class EvaluateDetailActivity extends BaseActivity {
 
     private void init() {
         mEvaluateModel = new EvaluateModel();
-        String ProjectID = getIntent().getStringExtra("ProjectId");
+        String ProjectID = getIntent().getStringExtra(IntentKey.PROJECT);
         mEvaluateModel.getEvaluateData(BaseUtil.getSpString(Const.PositionID), ProjectID, new EvaluateModel.OngetEvaluateDataListener() {
             @Override
             public void Result(boolean isSuccess , List<EvaluateBean> data) {

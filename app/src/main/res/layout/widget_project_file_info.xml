@@ -25,6 +25,7 @@
             android:id="@+id/text_fileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:text="设计资料.docx"
             android:textColor="#1C1C1C"
             android:textSize="16dp" />

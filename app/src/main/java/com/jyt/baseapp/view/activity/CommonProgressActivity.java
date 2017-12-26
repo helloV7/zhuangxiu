@@ -1,6 +1,7 @@
 package com.jyt.baseapp.view.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -61,6 +62,10 @@ public class CommonProgressActivity extends BaseActivity {
     public static final int TYPE_WAIT_VERIFY_MATERIAL = 9;
     public static final int TYPE_VERIFIED_MATERIAL = 10;
     public static final int TYPE_CONSTRUCTION_COMPLETE = 11;
+    @BindView(R.id.ll_empty)
+    LinearLayout mLlEmpty;
+    @BindView(R.id.ll_parent)
+    LinearLayout mLlParent;
 
     private int type;
     private ProgressBean project;
@@ -87,7 +92,7 @@ public class CommonProgressActivity extends BaseActivity {
         beforeProject = (ProgressBean) data.getItem3();
         setTextTitle(project.getSpeedName());
 
-        if (beforeProject==null){
+        if (beforeProject == null) {
             beforeProject = project;
         }
 
@@ -95,65 +100,69 @@ public class CommonProgressActivity extends BaseActivity {
         projectDetailModel = new ProjectDetailModelImpl();
         projectDetailModel.onCreate(getContext());
         //region 根据type 设置标题
-//        switch (type){
-//            case TYPE_MEASURE_FINISH:
-//                setTextTitle("测量完毕");
-//                break;
-//            case TYPE_DESIGN_FINISH :
-//                setTextTitle("设计完毕");
-//                break;
-//            case TYPE_CUSTOMER_VERIFIED :
-//                setTextTitle("客户已审批");
-//                break;
-//            case TYPE_WAIT_SHOPKEEPER_CONFIRM:
-//                setTextTitle("待店主确认");
-//                break;
-//            case TYPE_SHOPKEEPER_CONFIRMED:
-//                setTextTitle("店主已确认");
-//                break;
-//            case TYPE_WAIT_VERIFIED_DRAWING:
-//                setTextTitle("待审图纸");
-//                break;
-//            case TYPE_VERIFIED_DRAWING:
-//                setTextTitle("已审图纸");
-//
-//                break;
-//            case TYPE_WAIT_PRODUCE_SIGN:
-//                setTextTitle("待生产招牌");
-//
-//                break;
-//            case TYPE_WAIT_VERIFY_MATERIAL:
-//                setTextTitle("待审材料");
-//                break;
-//            case TYPE_VERIFIED_MATERIAL:
-//                setTextTitle("已审材料");
-//                break;
-//            case TYPE_CONSTRUCTION_COMPLETE:
-//                setTextTitle("施工完毕");
-//                break;
-//
-//            default:
-//                finish();
-//
-//        }
+        //        switch (type){
+        //            case TYPE_MEASURE_FINISH:
+        //                setTextTitle("测量完毕");
+        //                break;
+        //            case TYPE_DESIGN_FINISH :
+        //                setTextTitle("设计完毕");
+        //                break;
+        //            case TYPE_CUSTOMER_VERIFIED :
+        //                setTextTitle("客户已审批");
+        //                break;
+        //            case TYPE_WAIT_SHOPKEEPER_CONFIRM:
+        //                setTextTitle("待店主确认");
+        //                break;
+        //            case TYPE_SHOPKEEPER_CONFIRMED:
+        //                setTextTitle("店主已确认");
+        //                break;
+        //            case TYPE_WAIT_VERIFIED_DRAWING:
+        //                setTextTitle("待审图纸");
+        //                break;
+        //            case TYPE_VERIFIED_DRAWING:
+        //                setTextTitle("已审图纸");
+        //
+        //                break;
+        //            case TYPE_WAIT_PRODUCE_SIGN:
+        //                setTextTitle("待生产招牌");
+        //
+        //                break;
+        //            case TYPE_WAIT_VERIFY_MATERIAL:
+        //                setTextTitle("待审材料");
+        //                break;
+        //            case TYPE_VERIFIED_MATERIAL:
+        //                setTextTitle("已审材料");
+        //                break;
+        //            case TYPE_CONSTRUCTION_COMPLETE:
+        //                setTextTitle("施工完毕");
+        //                break;
+        //
+        //            default:
+        //                finish();
+        //
+        //        }
         //endregion
 
-        if (beforeProject.getFinishTime()!=null){
+        if (beforeProject.getFinishTime() != null) {
             vWorkerAndTime.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.valueOf(beforeProject.getFinishTime()))));
         }
-        if (type==0){
+        if (type == 0) {
             projectDetailModel.getProgressDetail(beforeProject.getSpeedId(), new BeanCallback<BaseJson<List<ProjectFileBean>>>() {
                 @Override
                 public void onError(Call call, Exception e, int id) {
-                    T.showShort(getContext(),e.getMessage());
+                    T.showShort(getContext(), e.getMessage());
+
                 }
 
                 @Override
                 public void onResponse(BaseJson<List<ProjectFileBean>> response, int id) {
-                    if (response!=null && response.ret){
+                    if (response != null && response.ret) {
+                        mLlParent.setVisibility(View.VISIBLE);
+                        mLlEmpty.setVisibility(View.GONE);
                         createView(response.data);
-                        if (response.data!=null && response.data.size()!=0){
-                            ProjectFileBean lastObj = response.data.get(response.data.size()-1);
+                        if (response.data != null && response.data.size() != 0) {
+                            Log.e("@#","size="+response.data.size());
+                            ProjectFileBean lastObj = response.data.get(response.data.size() - 1);
                             projectDetailModel.getPersonById(lastObj.getUserId(), new BeanCallback<BaseJson<UserBean>>() {
                                 @Override
                                 public void onError(Call call, Exception e, int id) {
@@ -162,24 +171,27 @@ public class CommonProgressActivity extends BaseActivity {
 
                                 @Override
                                 public void onResponse(BaseJson<UserBean> response, int id) {
-                                    vWorkerAndTime.setWorkerText(response.data.getStationName()+" "+response.data.getNickName());
+                                    vWorkerAndTime.setWorkerText(response.data.getStationName() + " " + response.data.getNickName());
                                 }
                             });
+                        }else {
+                            mLlEmpty.setVisibility(View.VISIBLE);
+                            mLlParent.setVisibility(View.GONE);
                         }
 
                     }
                 }
             });
-        }else {
+        } else {
             projectDetailModel.getFinishList(beforeProject.getProjectId(), new BeanCallback<BaseJson<FinishBean>>() {
                 @Override
                 public void onError(Call call, Exception e, int id) {
-                    T.showShort(getContext(),e.getMessage());
+                    T.showShort(getContext(), e.getMessage());
                 }
 
                 @Override
                 public void onResponse(BaseJson<FinishBean> response, int id) {
-                    if (response.data.getLolist()!=null && response.ret){
+                    if (response.data.getLolist() != null && response.ret) {
                         List<ProjectFileBean> data = new ArrayList<ProjectFileBean>();
                         for (int i = 0; i < response.data.getLolist().size(); i++) {
                             FinishBean.Data finishFile = response.data.getLolist().get(i);
@@ -191,7 +203,7 @@ public class CommonProgressActivity extends BaseActivity {
                             bean.setIsdel(finishFile.getIsdel());
                             data.add(bean);
                         }
-                        if (data.size()!=0){
+                        if (data.size() != 0) {
                             vWorkerAndTime.setWorkerText(response.data.getLolist().get(0).getConstructionNickName());
                             createView(data);
                         }
@@ -209,8 +221,7 @@ public class CommonProgressActivity extends BaseActivity {
     }
 
 
-    private void createView(List<ProjectFileBean> files)
-    {
+    private void createView(List<ProjectFileBean> files) {
         vFileLayout.removeAllViews();
         vImageLayout.removeAllViews();
 
@@ -219,10 +230,10 @@ public class CommonProgressActivity extends BaseActivity {
         float marginPercent = 0.01f;
 
 
-        int imageMargin = (int) (windowWidth*marginPercent);
-        int imageWidth = (int) ((windowWidth-(imageMargin*(columnCount+1)))*1.0/columnCount);
+        int imageMargin = (int) (windowWidth * marginPercent);
+        int imageWidth = (int) ((windowWidth - (imageMargin * (columnCount + 1))) * 1.0 / columnCount);
 
-        vImageLayout.setPadding(imageMargin,imageMargin,0,imageMargin);
+        vImageLayout.setPadding(imageMargin, imageMargin, 0, imageMargin);
         vImageLayout.setChildSpacing(imageMargin);
         vImageLayout.setRowSpacing(0);
         vImageLayout.setRowSpacing(imageMargin);
@@ -242,21 +253,21 @@ public class CommonProgressActivity extends BaseActivity {
             }
         };
 
-//        files.addAll(files);
+        //        files.addAll(files);
         for (ProjectFileBean projectFileBean : files) {
-            if (projectFileBean.getContentSuffix().toLowerCase().equals("jpg") || projectFileBean.getContentSuffix().toLowerCase().equals("png") ||projectFileBean.getContentSuffix().toLowerCase().equals("jpeg")){
+            if (projectFileBean.getContentSuffix().toLowerCase().equals("jpg") || projectFileBean.getContentSuffix().toLowerCase().equals("png") || projectFileBean.getContentSuffix().toLowerCase().equals("jpeg")) {
                 ImageView img = new ImageView(getContext());
-                FlowLayout.LayoutParams param = new FlowLayout.LayoutParams(imageWidth,imageWidth);
+                FlowLayout.LayoutParams param = new FlowLayout.LayoutParams(imageWidth, imageWidth);
                 img.setLayoutParams(param);
                 Glide.with(getContext()).load(projectFileBean.getContentUrl()).centerCrop().into(img);
-                img.setTag(R.id.tag_imgUrl,projectFileBean.getContentUrl());
+                img.setTag(R.id.tag_imgUrl, projectFileBean.getContentUrl());
                 img.setOnClickListener(onImageClickToBrowserListener);
                 vImageLayout.addView(img);
                 vImageLayout.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 ProjectFileInfo projectFile = new ProjectFileInfo(getContext());
                 projectFile.setFileUrl(projectFileBean.getContentUrl());
-                projectFile.setTag(R.id.tag_data,projectFileBean.toFileBean());
+                projectFile.setTag(R.id.tag_data, projectFileBean.toFileBean());
                 projectFile.setOnClickListener(onFileClickToOpenFileDetailActivityListener);
                 vFileLayout.addView(projectFile);
                 vFileLayout.setVisibility(View.VISIBLE);
@@ -264,10 +275,10 @@ public class CommonProgressActivity extends BaseActivity {
         }
 
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) vImageLayout.getLayoutParams();
-        if (params == null){
+        if (params == null) {
             params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         }
-        params.height = (int) (vImageLayout.getChildCount()*1f/columnCount +0.9f) * (imageWidth + imageMargin)  + imageMargin*2;
+        params.height = (int) (vImageLayout.getChildCount() * 1f / columnCount + 0.9f) * (imageWidth + imageMargin) + imageMargin * 2;
         vImageLayout.setLayoutParams(params);
     }
 

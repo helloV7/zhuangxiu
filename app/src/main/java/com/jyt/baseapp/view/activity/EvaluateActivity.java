@@ -4,8 +4,34 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.jyt.baseapp.R;
+import com.jyt.baseapp.api.BeanCallback;
+import com.jyt.baseapp.bean.BaseJson;
+import com.jyt.baseapp.helper.IntentHelper;
+import com.jyt.baseapp.helper.IntentKey;
+import com.jyt.baseapp.model.EvaluateModel;
+import com.jyt.baseapp.view.widget.JumpItem;
 
-public class EvaluateActivity extends BaseActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
+import okhttp3.Call;
+
+public class EvaluateActivity extends BaseActivity implements View.OnClickListener {
+
+    @BindView(R.id.jt_j1)
+    JumpItem mJtJ1;
+    @BindView(R.id.jt_j2)
+    JumpItem mJtJ2;
+    @BindView(R.id.jt_j3)
+    JumpItem mJtJ3;
+    @BindView(R.id.jt_j4)
+    JumpItem mJtJ4;
+    private EvaluateModel mEvaluateModel;
+    private boolean isPrepare;
+    private List<Integer> stateList;
+    private String mProjectId;
+
 
     @Override
     protected int getLayoutId() {
@@ -20,7 +46,77 @@ public class EvaluateActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTextTitle("评价详情");
+        init();
 
+        initListener();
+    }
+
+
+    private void init(){
+        setTextTitle("项目评价");
+        mEvaluateModel = new EvaluateModel();
+        stateList = new ArrayList<>();
+        mProjectId = getIntent().getStringExtra(IntentKey.PROJECTID);
+        mEvaluateModel.getKEvalIsFinish(mProjectId, new BeanCallback<BaseJson<List<Integer>>>() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(BaseJson<List<Integer>> response, int id) {
+                if (response.ret){
+                    isPrepare=true;
+                    stateList=response.data;
+                }
+            }
+        });
+    }
+
+    private void initListener() {
+        mJtJ1.setOnClickListener(this);
+        mJtJ2.setOnClickListener(this);
+        mJtJ3.setOnClickListener(this);
+        mJtJ4.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(!isPrepare){
+            return;
+        }
+        switch (v.getId()) {
+            case R.id.jt_j1:
+                if (0==stateList.get(0)){
+                    IntentHelper.OpenEvaluateSendActivity(EvaluateActivity.this,mProjectId,1);
+                }else {
+                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,1);
+                }
+                break;
+            case R.id.jt_j2:
+                if (0==stateList.get(0)){
+                    IntentHelper.OpenEvaluateSendActivity(EvaluateActivity.this,mProjectId,2);
+                }else {
+                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,2);
+                }
+                break;
+            case R.id.jt_j3:
+                if (0==stateList.get(0)){
+                    IntentHelper.OpenEvaluateSendActivity(EvaluateActivity.this,mProjectId,3);
+                }else {
+                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,3);
+                }
+                break;
+            case R.id.jt_j4:
+                if (0==stateList.get(0)){
+                    IntentHelper.OpenEvaluateSendActivity(EvaluateActivity.this,mProjectId,4);
+                }else {
+                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,4);
+                }
+                break;
+
+            default:
+                break;
+        }
     }
 }

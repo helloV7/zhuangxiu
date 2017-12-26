@@ -3,6 +3,7 @@ package com.jyt.baseapp.view.activity;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 
 import com.jyt.baseapp.R;
@@ -114,25 +115,27 @@ public class ConstructionActivity extends BaseActivity {
         projectDetailModel.getStatus(progressBean.getProjectId(), "1", new BeanCallback<BaseJson<String>>() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                finishSet();
+                vTabLayout.setVisibility(View.GONE);
             }
 
             @Override
             public void onResponse(BaseJson<String> response, int id) {
-                //权限判断
-                if (canEdit){
+
+                if ("1".equals(response.data)){
+                    Log.e("@#","step1-s");
                     vTabLayout.setVisibility(View.VISIBLE);
+                    if (1==progressBean.getPermissionState()){
+                        Log.e("@#","step2-s");
+                        vTabLayout.setVisibility(View.VISIBLE);
+                        finishSet();
+                    }else {
+                        Log.e("@#","step2-e");
+                        vTabLayout.setVisibility(View.GONE);
+                    }
                 }else {
+                    Log.e("@#","step1-e");
                     vTabLayout.setVisibility(View.GONE);
                 }
-
-                if ("0".equals(response.data)){
-                    vTabLayout.setVisibility(View.VISIBLE);
-                }else {
-                    vTabLayout.setVisibility(View.GONE);
-                }
-
-                finishSet();
 
 
             }

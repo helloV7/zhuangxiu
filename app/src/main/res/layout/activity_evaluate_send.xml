@@ -42,6 +42,7 @@
             style="@style/myStar"
             android:isIndicator="false"
             android:numStars="5"
+            android:stepSize="1"
             android:rating="0" />
     </RelativeLayout>
 

@@ -1,6 +1,5 @@
 package com.jyt.baseapp.view.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -17,9 +16,9 @@ import com.jyt.baseapp.api.Path;
 import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.bean.ShopBean;
+import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.ShopModel;
-import com.jyt.baseapp.view.activity.EvaluateDetailActivity;
 import com.jyt.baseapp.view.widget.ItemText;
 import com.zhy.http.okhttp.OkHttpUtils;
 
@@ -73,7 +72,7 @@ public class ShopNewsFragment extends BaseFragment {
     SwitchView mSvPush;
     @BindView(R.id.ll_reason)
     LinearLayout mLlReason;
-    private SearchBean mInfo;
+    private SearchBean projectBean;
     private ShopModel mShopModel;
     private boolean isPush;//是否推送
     private boolean CanChange=true;
@@ -95,22 +94,22 @@ public class ShopNewsFragment extends BaseFragment {
 
     private void init() {
         mShopModel = new ShopModel();
-        mInfo = (SearchBean) getArguments().getSerializable(IntentKey.SHOPINFO);
+        projectBean = (SearchBean) getArguments().getSerializable(IntentKey.SHOPINFO);
 
     }
 
     private void initData() {
-        mShopModel.getAsynShopDetail(mInfo.getProjectId(), new ShopModel.OnShopDetailResultListener() {
+        mShopModel.getAsynShopDetail(projectBean.getProjectId(), new ShopModel.OnShopDetailResultListener() {
             @Override
             public void Result(boolean isSuccess, Exception e, List<ShopBean> shopBean) {
                 if (isSuccess && shopBean!=null && shopBean.size()>0) {
-                    setInfo(shopBean.get(0));
+                    setProjectBean(shopBean.get(0));
                 }
             }
         });
     }
 
-    private void setInfo(ShopBean data) {
+    private void setProjectBean(ShopBean data) {
         //暂停原因设置
         //如果工程暂停了，就显示原因，否则隐藏
         if ("0".equals(data.getIsfrozen())){
@@ -159,7 +158,7 @@ public class ShopNewsFragment extends BaseFragment {
                     .addParams("token", Const.gettokenSession())
                     .addParams("method","getNotInPush")
                     .addParams("page","0")
-                    .addParams("keyWord",mInfo.getProjectId())
+                    .addParams("keyWord", projectBean.getProjectId())
                     .addParams("searchValue",Const.getUserid())
                     .build()
                     .execute(new BeanCallback<BaseJson<String>>() {
@@ -214,9 +213,10 @@ public class ShopNewsFragment extends BaseFragment {
         mItemEvaluate.setOnClickItemListener(new ItemText.OnClickItemListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), EvaluateDetailActivity.class);
-                intent.putExtra("ProjectId",mInfo.getProjectId());
-                startActivity(intent);
+                //内部人员
+//                IntentHelper.OpenEvaluateDetailActivity(getActivity(), projectBean.getProjectId(),0);
+                //店主 品牌方
+                IntentHelper.OpenEvaluateActivity(getActivity(), projectBean.getProjectId());
             }
         });
 
@@ -238,7 +238,7 @@ public class ShopNewsFragment extends BaseFragment {
     private void ChangePushState(String state){
         if (isIn){
             //是四个职位
-            mShopModel.ChangePushState(mInfo.getProjectId(), state, new ShopModel.OnChangeStateListener() {
+            mShopModel.ChangePushState(projectBean.getProjectId(), state, new ShopModel.OnChangeStateListener() {
                 @Override
                 public void Before() {
                     CanChange=false;
@@ -259,7 +259,7 @@ public class ShopNewsFragment extends BaseFragment {
                 }
             });
         }else {
-            mShopModel.ChangePushStateO(mInfo.getProjectId(), state, new ShopModel.OnChangeStateListener() {
+            mShopModel.ChangePushStateO(projectBean.getProjectId(), state, new ShopModel.OnChangeStateListener() {
                 @Override
                 public void Before() {
                     CanChange=false;

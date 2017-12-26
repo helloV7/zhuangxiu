@@ -62,6 +62,10 @@ public class Path {
     public static final String URL_ChANGE_PUSH=BasePath+"project/relation";
     //定位
     public static final String URL_PUSH_LOCATION=BasePath+"user/updatePos";
+    //发送评论-店主
+    public static final String URL_SEND_EVALUATE1=BasePath+"eval/keep";
+    //发送评论-品牌方
+    public static final String URL_SEND_EVALUATE2=BasePath+"eval/brand";
 
 
 }

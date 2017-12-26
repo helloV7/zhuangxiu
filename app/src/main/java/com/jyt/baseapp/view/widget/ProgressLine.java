@@ -157,7 +157,7 @@ public class ProgressLine extends RelativeLayout {
     private boolean isCurrent=false;
     public void setCurrent(int speedCode){
         isCurrent=true;
-        tv_station.setText("未完成");
+        tv_station.setText("进行中");
         tv_title.setTextColor(getResources().getColor(R.color.white));
         tv_station.setTextColor(getResources().getColor(R.color.white));
         civ_light.setImageResource(R.mipmap.oval);
