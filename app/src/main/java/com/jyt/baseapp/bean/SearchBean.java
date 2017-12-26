@@ -20,6 +20,7 @@ public class SearchBean implements Serializable,Parcelable {
     private String address;
     private String schedule;
     private String time;
+    private String isfrozen;
 
     public SearchBean(){}
 
@@ -35,6 +36,7 @@ public class SearchBean implements Serializable,Parcelable {
         address = in.readString();
         schedule = in.readString();
         time = in.readString();
+        isfrozen =in.readString();
     }
 
     @Override
@@ -50,6 +52,7 @@ public class SearchBean implements Serializable,Parcelable {
         dest.writeString(address);
         dest.writeString(schedule);
         dest.writeString(time);
+        dest.writeString(isfrozen);
     }
 
     @Override
@@ -151,5 +154,19 @@ public class SearchBean implements Serializable,Parcelable {
         this.schedule = schedule;
     }
 
+    public String getTime() {
+        return time;
+    }
 
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getIsfrozen() {
+        return isfrozen;
+    }
+
+    public void setIsfrozen(String isfrozen) {
+        this.isfrozen = isfrozen;
+    }
 }
