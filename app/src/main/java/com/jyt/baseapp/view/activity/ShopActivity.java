@@ -1,6 +1,5 @@
 package com.jyt.baseapp.view.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -187,7 +186,6 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onFunctionClick() {
         super.onFunctionClick();
-        startActivity(new Intent(ShopActivity.this,LoginActivity.class));
         Const.Logout(ShopActivity.this);
         finish();
     }

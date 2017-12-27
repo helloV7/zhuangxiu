@@ -10,6 +10,8 @@ public class WorkBean {
     private String type;
     private boolean isCheck;
     private String id;
+    private String subClassId;
+    private String subClassName;
 
     public WorkBean(String type){
         this.type = type;
@@ -19,6 +21,8 @@ public class WorkBean {
         this.type = type;
         this.id = id;
     }
+
+
 
 
 
@@ -49,5 +53,21 @@ public class WorkBean {
     public WorkBean firstCheck(){
         isCheck=true;
         return this;
+    }
+
+    public String getSubClassId() {
+        return subClassId;
+    }
+
+    public void setSubClassId(String subClassId) {
+        this.subClassId = subClassId;
+    }
+
+    public String getSubClassName() {
+        return subClassName;
+    }
+
+    public void setSubClassName(String subClassName) {
+        this.subClassName = subClassName;
     }
 }

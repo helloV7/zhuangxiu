@@ -377,7 +377,7 @@ public class ShopProgressFragment extends BaseFragment {
         mPlMeasure.addAppendItem(at_Measure);
         mPlMeasure.addAppendItem(at_Measured);
 
-        mPlMeasure.setSb(true);//店主 品牌方
+
     }
 
     private void initOffer(){
@@ -398,7 +398,7 @@ public class ShopProgressFragment extends BaseFragment {
         mPlOffer.addAppendItem(at_Offer);
         mPlOffer.addAppendItem(at_Offered);
 
-        mPlOffer.setSb(true);//店主 品牌方
+
     }
 
     private void initApproval(){
@@ -411,7 +411,7 @@ public class ShopProgressFragment extends BaseFragment {
         mPlApproval.addAppendItem(at_Approval);
         mPlApproval.addAppendItem(at_Approvaled);
 
-        mPlApproval.setSb(true);//店主 品牌方
+
     }
 
     private void initConfirm(){
@@ -425,7 +425,7 @@ public class ShopProgressFragment extends BaseFragment {
         mPlConfirm.addAppendItem(at_Confirm);
         mPlConfirm.addAppendItem(at_Confirmed);
 
-        mPlConfirm.setSb(true);//店主 品牌方
+
     }
 
     private void initStock(){
@@ -479,6 +479,8 @@ public class ShopProgressFragment extends BaseFragment {
         mPlStocking.addAppendItem(at_Material5);
         mPlStocking.addAppendItem(at_Material6);
         mPlStocking.addAppendItem(at_Material7);
+
+
     }
 
     private void initLogistics(){
@@ -498,6 +500,8 @@ public class ShopProgressFragment extends BaseFragment {
         mPlLogistics.addAppendItem(at_Logistics2);
         mPlLogistics.addAppendItem(at_Logistics3);
         mPlLogistics.addAppendItem(at_Logistics4);
+
+        mPlLogistics.setSb(false);
     }
 
     private void initConstruction(){
@@ -506,7 +510,7 @@ public class ShopProgressFragment extends BaseFragment {
         at_Construction.setState(1);//操作后可见
         mPlConstruction.addAppendItem(at_Construction);
 
-        mPlConstruction.setSb(true);//店主 品牌方
+
     }
 
     private void initComplete(){
@@ -515,7 +519,7 @@ public class ShopProgressFragment extends BaseFragment {
         at_Complete.setState(1);//操作后可见
         mPlComplete.addAppendItem(at_Complete);
 
-        mPlComplete.setSb(true);//店主 品牌方
+
     }
 
     private void initSettlement(){
@@ -531,12 +535,25 @@ public class ShopProgressFragment extends BaseFragment {
         mPlSettlement.addAppendItem(at_Settlement2);
         mPlSettlement.addAppendItem(at_Settlement3);
         mPlSettlement.addAppendItem(at_Settlement4);
+
+
     }
 
     private void initShop(){
+        mPlMeasure.setSb(true);//店主 品牌方
+        mPlOffer.setSb(true);//店主 品牌方
+        mPlApproval.setSb(true);//店主 品牌方
+        mPlConfirm.setSb(true);//店主 品牌方
+        mPlStocking.setSb(false);
+        mPlConstruction.setSb(true);//店主 品牌方
+        mPlComplete.setSb(true);//店主 品牌方
+        mPlSettlement.setSb(false);
         mPlMeasure.setOnPlClickListener(new ProgressLine.OnClickListener() {
             @Override
             public void onClick() {
+                if (!isLink){
+                    return;
+                }
                 if ("0".equals(progressBeanList.get(0).getIsfinish())){
                     //未完成-进入测量中界面
                     Log.e("@#","co1");
@@ -552,6 +569,9 @@ public class ShopProgressFragment extends BaseFragment {
         mPlOffer.setOnPlClickListener(new ProgressLine.OnClickListener() {
             @Override
             public void onClick() {
+                if (!isLink){
+                    return;
+                }
                 if ("0".equals(progressBeanList.get(4).getIsfinish())){
                     return;
                 }
@@ -562,6 +582,9 @@ public class ShopProgressFragment extends BaseFragment {
         mPlApproval.setOnPlClickListener(new ProgressLine.OnClickListener() {
             @Override
             public void onClick() {
+                if (!isLink){
+                    return;
+                }
                 if ("0".equals(progressBeanList.get(8).getIsfinish())){
                     return;
                 }
@@ -572,20 +595,27 @@ public class ShopProgressFragment extends BaseFragment {
         mPlConfirm.setOnPlClickListener(new ProgressLine.OnClickListener() {
             @Override
             public void onClick() {
-                if ("0".equals(progressBeanList.get(9).getIsfinish())){
+                if (!isLink){
                     return;
                 }
                 if ("0".equals(progressBeanList.get(9).getIsfinish())){
-                    IntentHelper.openCommonProgressActivity(getContext(),progressBeanList.get(9), null);
-                }else {
-                    IntentHelper.openCommonProgressActivity(getContext(),progressBeanList.get(9), progressBeanList.get(9));
+                    return;
                 }
+                if ("0".equals(progressBeanList.get(10).getIsfinish())){
+                    IntentHelper.openCommonProgressActivity(getContext(),progressBeanList.get(9), null,false);
+                }else {
+                    IntentHelper.openCommonProgressActivity(getContext(),progressBeanList.get(9), null,true);
+                }
+
             }
         });
 
         mPlConstruction.setOnPlClickListener(new ProgressLine.OnClickListener() {
             @Override
             public void onClick() {
+                if (!isLink){
+                    return;
+                }
                 if ("0".equals(progressBeanList.get(29).getIsfinish())){
                     return;
                 }
@@ -596,6 +626,9 @@ public class ShopProgressFragment extends BaseFragment {
         mPlComplete.setOnPlClickListener(new ProgressLine.OnClickListener() {
             @Override
             public void onClick() {
+                if (!isLink){
+                    return;
+                }
                 if ("0".equals(progressBeanList.get(30).getIsfinish())){
                     return;
                 }

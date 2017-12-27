@@ -19,6 +19,7 @@
             android:orientation="vertical"
             android:visibility="visible">
 
+
             <ImageView
                 android:layout_width="97dp"
                 android:layout_height="97dp"

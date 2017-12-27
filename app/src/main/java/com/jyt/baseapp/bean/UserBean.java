@@ -15,7 +15,7 @@ public class UserBean implements Serializable {
     private String departmentName;
     private String tel;
 
-    //店主
+
     private String shopkeeperId;
     private String shopkeeperName;
     private String brandId;

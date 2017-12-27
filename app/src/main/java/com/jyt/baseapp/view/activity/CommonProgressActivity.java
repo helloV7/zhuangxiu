@@ -19,6 +19,7 @@ import com.jyt.baseapp.bean.ProjectFileBean;
 import com.jyt.baseapp.bean.Tuple;
 import com.jyt.baseapp.bean.UserBean;
 import com.jyt.baseapp.helper.IntentHelper;
+import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.ProjectDetailModel;
 import com.jyt.baseapp.model.impl.ProjectDetailModelImpl;
 import com.jyt.baseapp.util.ScreenUtils;
@@ -94,6 +95,12 @@ public class CommonProgressActivity extends BaseActivity {
 
         if (beforeProject == null) {
             beforeProject = project;
+        }
+
+        if (getIntent().getBooleanExtra(IntentKey.Confirm,false)){
+            textConfirm.setVisibility(View.VISIBLE);
+        }else {
+            textConfirm.setVisibility(View.GONE);
         }
 
 

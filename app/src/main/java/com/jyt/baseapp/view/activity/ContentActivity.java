@@ -13,6 +13,7 @@ import com.jyt.baseapp.adapter.FragmentViewPagerAdapter;
 import com.jyt.baseapp.view.fragment.BaseFragment;
 import com.jyt.baseapp.view.fragment.BrandFragment;
 import com.jyt.baseapp.view.fragment.InfoFragment;
+import com.jyt.baseapp.view.fragment.MapBrandFragment;
 import com.jyt.baseapp.view.fragment.MapFragment;
 import com.jyt.baseapp.view.fragment.MoreFragment;
 import com.jyt.baseapp.view.fragment.ProjectFragment;
@@ -50,6 +51,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     LinearLayout mLlMore;
     private boolean isFirst;
     private List<BaseFragment> flist;
+    private MapBrandFragment mMapBrandFragment;
     private MapFragment mMapFragment;
     private ProjectFragment mProjectFragment;
     private MoreFragment mMoreFragment;
@@ -80,16 +82,18 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
 
     private void init() {
         flist=new ArrayList<>();
-        mMapFragment=new MapFragment();
-        mProjectFragment=new ProjectFragment();
-        mMoreFragment=new MoreFragment();
-//        mBrandFragment = new BrandFragment();
-//        mInfoFragment = new InfoFragment();
-        flist.add(mMapFragment);
-        flist.add(mProjectFragment);
-        flist.add(mMoreFragment);
-//        flist.add(mBrandFragment);//品牌方
-//        flist.add(mInfoFragment);//品牌方
+//        mMapFragment=new MapFragment();
+//        mProjectFragment=new ProjectFragment();
+//        mMoreFragment=new MoreFragment();
+        mMapBrandFragment = new MapBrandFragment();
+        mBrandFragment = new BrandFragment();
+        mInfoFragment = new InfoFragment();
+//        flist.add(mMapFragment);
+//        flist.add(mProjectFragment);
+//        flist.add(mMoreFragment);
+        flist.add(mMapBrandFragment);//品牌方
+        flist.add(mBrandFragment);//品牌方
+        flist.add(mInfoFragment);//品牌方
         vpAdapter=new FragmentViewPagerAdapter(getSupportFragmentManager());
         vpAdapter.setFragments(flist);
         mVpContainer.setAdapter(vpAdapter);
@@ -145,7 +149,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
 
                 break;
             case 2:
-                mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.more_on));
+//                mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.more_on));
                 mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.brand_on));
                 mTvMore.setTextColor(getResources().getColor(R.color.white));
 
@@ -162,6 +166,10 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         if (!isFirst){
             isFirst=true;
             return;
+        }
+
+        if (mMapBrandFragment!=null){
+            mMapBrandFragment.initSelecotr();
         }
         if (mMapFragment!=null){
             mMapFragment.initSelecotr();

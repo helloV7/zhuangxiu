@@ -271,6 +271,15 @@ public class IntentHelper {
         context.startActivity(intent);
     }
 
+    public static void openCommonProgressActivity(Context context,Parcelable project ,Parcelable beforeProject,boolean isConfirm) {
+        Intent intent = getIntent(context, CommonProgressActivity.class);
+        //        intent.putExtra(IntentKey.TYPE,CommonProgressActivity.TYPE_VERIFIED_MATERIAL);
+        intent.putExtra(IntentKey.DATA,project);
+        intent.putExtra(IntentKey.DATA2,beforeProject);
+        intent.putExtra(IntentKey.Confirm,isConfirm);
+        context.startActivity(intent);
+    }
+
     public static void openCompleteCommonProgressActivity(Context context,Parcelable project ,Parcelable beforeProject) {
         Intent intent = getIntent(context, CommonProgressActivity.class);
         //        intent.putExtra(IntentKey.TYPE,CommonProgressActivity.TYPE_VERIFIED_MATERIAL);

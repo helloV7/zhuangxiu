@@ -13,6 +13,7 @@ public class IntentKey {
     public static String DATA2 = "DATA2";
     public static String ID = "Id";
     public static String EDITABLE = "EDITABLE";
+    public static String Confirm = "Confirm";
 
     public static String PEOPLE = "PEOPLE";
     public static String PROJECT = "PROJECT";

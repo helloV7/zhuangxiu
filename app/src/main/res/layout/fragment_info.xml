@@ -3,6 +3,13 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="消息"
+        android:textColor="@color/text_color1"
+        android:textSize="16dp"
+        android:gravity="center"/>
     <RelativeLayout
         android:id="@+id/rl_progress"
         android:orientation="vertical"

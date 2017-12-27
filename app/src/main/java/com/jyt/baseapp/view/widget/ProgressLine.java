@@ -224,6 +224,12 @@ public class ProgressLine extends RelativeLayout {
 
     public void setSb(boolean isSb){
         this.isSb = isSb;
+        if (isSb){
+            iv_arrow.setVisibility(VISIBLE);
+            iv_arrow.setImageResource(R.mipmap.jiantou_hui);
+        }else {
+            iv_arrow.setVisibility(INVISIBLE);
+        }
     }
 
     public boolean getSb(){

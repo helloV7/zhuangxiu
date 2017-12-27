@@ -19,6 +19,7 @@ import cn.jpush.android.api.TagAliasCallback;
 public class Const {
     private final static String TAG="@#";
     public static int NUM;
+    public static boolean isOk;//用于店主确认界面
     public final static String ISFIRST="ISFIRST";
     public final static String DepartmentId="departmentId";
     public final static String Tel ="tel";
@@ -73,9 +74,10 @@ public class Const {
         BaseUtil.setSpString(PositionName,"");
     }
 
-    public static void KeepLoginStateBrand(String name ,String token,String tel){
+    public static void KeepLoginStateBrand(String name,String id ,String token,String tel){
         BaseUtil.setSpBoolean(UserLoginState,true);
         BaseUtil.setSpString(NickName,name);
+        BaseUtil.setSpString(USERID,id);
         BaseUtil.setSpString(UserToken,token);
         BaseUtil.setSpString(Tel,tel);
         BaseUtil.setSpString(PositionName,"");

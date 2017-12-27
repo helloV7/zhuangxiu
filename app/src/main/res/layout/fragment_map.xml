@@ -94,15 +94,33 @@
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/bg_selector">
             </com.jyt.baseapp.view.widget.SingleSelector>
+            <LinearLayout
+                android:id="@+id/ll_brands"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal"
+                android:showDividers="middle"
+                android:divider="@drawable/linefull"
+                android:background="@drawable/bg_selector">
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rv_work"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dp">
+                </android.support.v7.widget.RecyclerView>
+            </LinearLayout>
         </FrameLayout>
     </LinearLayout>
 
     <ImageView
         android:id="@+id/iv_brand"
+        android:visibility="gone"
         android:layout_gravity="bottom|left"
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:src="@mipmap/icon_backblue"/>
 </FrameLayout>

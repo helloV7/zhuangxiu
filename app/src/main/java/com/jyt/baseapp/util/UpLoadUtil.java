@@ -1,6 +1,7 @@
 package com.jyt.baseapp.util;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
 import com.alibaba.sdk.android.oss.OSS;
@@ -54,12 +55,11 @@ public class UpLoadUtil {
                 remoteUrls = new ArrayList<String>();
 
                 for (int i=0;i<images.size();i++){
+                    Log.e("@#","size="+images.size());
                     String remoteUrl = upload(images.get(i));
                     remoteUrls.add(remoteUrl);
-                    if (i==images.size()){
+                    if (i==images.size()-1){
                         onUpLoadProgressChangedListener.onProgress(1);
-                    }else {
-                        onUpLoadProgressChangedListener.onProgress(i+1/images.size());
                     }
                 }
 

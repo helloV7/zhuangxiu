@@ -192,7 +192,7 @@ public class UpLoadImageActivity extends BaseActivity {
             upLoadUtil.setOnUpLoadProgressChangedListener(new UpLoadUtil.OnUpLoadProgressChangedListener() {
                 @Override
                 public void onProgress(float percent) {
-                    if (percent==upLoadUtil.getRemoteUrls().size()){
+                    if (percent==1){
                         model.uploadImage(progressBean.getSpeedId(), progressBean.getProjectId(), progressBean.getSpeedCode()+"", upLoadUtil.getRemoteUrls(), new BeanCallback() {
                             @Override
                             public void onError(Call call, Exception e, int id) {
