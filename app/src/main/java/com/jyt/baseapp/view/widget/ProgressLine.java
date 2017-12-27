@@ -28,6 +28,7 @@ public class ProgressLine extends RelativeLayout {
     private ImageView iv_arrow;
     private LinearLayout ll_append;
     private List<AppendItem> appendList;
+    private boolean isSb;//是否是店主或品牌方
     public ProgressLine(Context context) {
         super(context);
         init(context);
@@ -64,7 +65,11 @@ public class ProgressLine extends RelativeLayout {
         rl_hide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToAnimation();
+                if (listener!=null){
+                    listener.onClick();
+                }
+                //内部人员
+//                ToAnimation();
             }
         });
     }
@@ -151,6 +156,12 @@ public class ProgressLine extends RelativeLayout {
             tv_station.setText("");
             tv_station.setTextColor(getResources().getColor(R.color.map_text1));
         }
+        //店主 品牌方
+        if (isSb){
+            iv_arrow.setImageResource(R.mipmap.jiantou_hui);
+        }else {
+            iv_arrow.setVisibility(INVISIBLE);
+        }
     }
     //当前进行到的位置 字体白色 背景蓝色 圆标白色
     //内部AppendItem同样
@@ -161,7 +172,13 @@ public class ProgressLine extends RelativeLayout {
         tv_title.setTextColor(getResources().getColor(R.color.white));
         tv_station.setTextColor(getResources().getColor(R.color.white));
         civ_light.setImageResource(R.mipmap.oval);
-        iv_arrow.setImageResource(R.mipmap.jiantou_xia_bai);
+//        iv_arrow.setImageResource(R.mipmap.jiantou_xia_bai);//内部人员
+        //店主 品牌方
+        if (isSb){
+            iv_arrow.setImageResource(R.mipmap.jiantou_you_bai);
+        }else {
+            iv_arrow.setVisibility(INVISIBLE);
+        }
         ll_parent.setBackground(getResources().getDrawable(R.drawable.bg_blue));
         ll_parent.setDividerDrawable(getResources().getDrawable(R.drawable.line_white30));
         for (AppendItem item: appendList) {
@@ -187,13 +204,13 @@ public class ProgressLine extends RelativeLayout {
         this.isCurrent=current;
     }
 
-//    public interface OnClickListener{
-//        void onClick();
-//    }
-//    private OnClickListener listener;
-//    public void setOnClickListener (OnClickListener listener){
-//        this.listener=listener;
-//    }
+    public interface OnClickListener{
+        void onClick();
+    }
+    private OnClickListener listener;
+    public void setOnPlClickListener (OnClickListener listener){
+        this.listener=listener;
+    }
 
 
 
@@ -204,4 +221,22 @@ public class ProgressLine extends RelativeLayout {
             appendList.add(item);
         }
     }
+
+    public void setSb(boolean isSb){
+        this.isSb = isSb;
+    }
+
+    public boolean getSb(){
+        return isSb;
+    }
+
+
+    public void setNextVisible(boolean visible){
+        if (visible){
+            iv_arrow.setVisibility(VISIBLE);
+        }else {
+            iv_arrow.setVisibility(INVISIBLE);
+        }
+    }
+
 }

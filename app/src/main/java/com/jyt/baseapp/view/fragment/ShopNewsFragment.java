@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jyt.baseapp.R;
@@ -72,11 +73,13 @@ public class ShopNewsFragment extends BaseFragment {
     SwitchView mSvPush;
     @BindView(R.id.ll_reason)
     LinearLayout mLlReason;
+    @BindView(R.id.rl_push)
+    RelativeLayout mRlPush;
     private SearchBean projectBean;
     private ShopModel mShopModel;
     private boolean isPush;//是否推送
-    private boolean CanChange=true;
-    private boolean isIn=true;//用户是否任职四个职位中的任何一个，默认true
+    private boolean CanChange = true;
+    private boolean isIn = true;//用户是否任职四个职位中的任何一个，默认true
     Unbinder unbinder;
 
     @Override
@@ -95,6 +98,7 @@ public class ShopNewsFragment extends BaseFragment {
     private void init() {
         mShopModel = new ShopModel();
         projectBean = (SearchBean) getArguments().getSerializable(IntentKey.SHOPINFO);
+        mRlPush.setVisibility(View.GONE);//店主
 
     }
 
@@ -102,7 +106,7 @@ public class ShopNewsFragment extends BaseFragment {
         mShopModel.getAsynShopDetail(projectBean.getProjectId(), new ShopModel.OnShopDetailResultListener() {
             @Override
             public void Result(boolean isSuccess, Exception e, List<ShopBean> shopBean) {
-                if (isSuccess && shopBean!=null && shopBean.size()>0) {
+                if (isSuccess && shopBean != null && shopBean.size() > 0) {
                     setProjectBean(shopBean.get(0));
                 }
             }
@@ -112,69 +116,69 @@ public class ShopNewsFragment extends BaseFragment {
     private void setProjectBean(ShopBean data) {
         //暂停原因设置
         //如果工程暂停了，就显示原因，否则隐藏
-        if ("0".equals(data.getIsfrozen())){
+        if ("0".equals(data.getIsfrozen())) {
             mLlReason.setVisibility(View.GONE);
-        }else {
+        } else {
             mLlReason.setVisibility(View.VISIBLE);
             mTvReason.setText(data.getReason());
         }
         //推送设置
-        if (Const.getPositionName().equals("预算员")){
-            if ("0".equals(data.getIspush())){
+        if (Const.getPositionName().equals("预算员")) {
+            if ("0".equals(data.getIspush())) {
                 mSvPush.setOpened(false);
-                isPush=false;
-            }else {
-                isPush=true;
+                isPush = false;
+            } else {
+                isPush = true;
                 mSvPush.setOpened(true);
             }
-        }else if (Const.getPositionName().equals("设计师")){
-            if ("0".equals(data.getDesignIsPush())){
+        } else if (Const.getPositionName().equals("设计师")) {
+            if ("0".equals(data.getDesignIsPush())) {
                 mSvPush.setOpened(false);
-                isPush=false;
-            }else {
-                isPush=true;
+                isPush = false;
+            } else {
+                isPush = true;
                 mSvPush.setOpened(true);
             }
-        }else if (Const.getPositionName().equals("测量人员")){
-            if ("0".equals(data.getMeasureIsPush())){
+        } else if (Const.getPositionName().equals("测量人员")) {
+            if ("0".equals(data.getMeasureIsPush())) {
                 mSvPush.setOpened(false);
-                isPush=false;
-            }else {
-                isPush=true;
+                isPush = false;
+            } else {
+                isPush = true;
                 mSvPush.setOpened(true);
             }
-        }else if (Const.getPositionName().equals("项目经理")){
-            if ("0".equals(data.getProIsPush())){
+        } else if (Const.getPositionName().equals("项目经理")) {
+            if ("0".equals(data.getProIsPush())) {
                 mSvPush.setOpened(false);
-                isPush=false;
-            }else {
-                isPush=true;
+                isPush = false;
+            } else {
+                isPush = true;
                 mSvPush.setOpened(true);
             }
-        }else {
+        } else {
             //不属于以上四者，则需要专门查询该用户的推送状态
-            isIn=false;
+            isIn = false;
             OkHttpUtils.get().url(Path.URL_MapDatas)
                     .addParams("token", Const.gettokenSession())
-                    .addParams("method","getNotInPush")
-                    .addParams("page","0")
+                    .addParams("method", "getNotInPush")
+                    .addParams("page", "0")
                     .addParams("keyWord", projectBean.getProjectId())
-                    .addParams("searchValue",Const.getUserid())
+                    .addParams("searchValue", Const.getUserid())
                     .build()
                     .execute(new BeanCallback<BaseJson<String>>() {
                         @Override
                         public void onError(Call call, Exception e, int id) {
-                            Log.e("@#","in=onError");
+                            Log.e("@#", "in=onError");
                         }
 
                         @Override
                         public void onResponse(BaseJson<String> response, int id) {
-                            Log.e("@#","in="+response.data);
-                            if ("0".equals(response.data)){
+                            Log.e("@#", "in=" + response.data);
+                            if ("0".equals(response.data)) {
                                 mSvPush.setOpened(false);
-                                isPush=false;
-                            }else {
-                                isPush=true;
+                                isPush = false;
+                            } else {
+                                isPush = true;
                                 mSvPush.setOpened(true);
                             }
                         }
@@ -209,7 +213,7 @@ public class ShopNewsFragment extends BaseFragment {
         mItForecaster4.setRightText(data.getProtel());
     }
 
-    private void initListener(){
+    private void initListener() {
         mItemEvaluate.setOnClickItemListener(new ItemText.OnClickItemListener() {
             @Override
             public void onClick(View v) {
@@ -223,10 +227,10 @@ public class ShopNewsFragment extends BaseFragment {
         mSvPush.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (CanChange){
-                    if (isPush){
+                if (CanChange) {
+                    if (isPush) {
                         ChangePushState("0");
-                    }else {
+                    } else {
                         ChangePushState("1");
                     }
                 }
@@ -235,46 +239,46 @@ public class ShopNewsFragment extends BaseFragment {
 
     }
 
-    private void ChangePushState(String state){
-        if (isIn){
+    private void ChangePushState(String state) {
+        if (isIn) {
             //是四个职位
             mShopModel.ChangePushState(projectBean.getProjectId(), state, new ShopModel.OnChangeStateListener() {
                 @Override
                 public void Before() {
-                    CanChange=false;
+                    CanChange = false;
                 }
 
                 @Override
                 public void Result(boolean isSuccess) {
-                    CanChange=true;
-                    if (isSuccess){
-                        if (isPush){
-                            isPush=false;
+                    CanChange = true;
+                    if (isSuccess) {
+                        if (isPush) {
+                            isPush = false;
                             mSvPush.setOpened(false);
-                        }else {
+                        } else {
                             mSvPush.setOpened(true);
-                            isPush=true;
+                            isPush = true;
                         }
                     }
                 }
             });
-        }else {
+        } else {
             mShopModel.ChangePushStateO(projectBean.getProjectId(), state, new ShopModel.OnChangeStateListener() {
                 @Override
                 public void Before() {
-                    CanChange=false;
+                    CanChange = false;
                 }
 
                 @Override
                 public void Result(boolean isSuccess) {
-                    CanChange=true;
-                    if (isSuccess){
-                        if (isPush){
-                            isPush=false;
+                    CanChange = true;
+                    if (isSuccess) {
+                        if (isPush) {
+                            isPush = false;
                             mSvPush.setOpened(false);
-                        }else {
+                        } else {
                             mSvPush.setOpened(true);
-                            isPush=true;
+                            isPush = true;
                         }
                     }
                 }

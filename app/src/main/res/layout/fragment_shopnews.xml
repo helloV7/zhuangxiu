@@ -184,6 +184,7 @@
             app:leftText="店主评价"
             app:showIV="true"/>
         <RelativeLayout
+            android:id="@+id/rl_push"
             android:layout_marginTop="1.5dp"
             android:layout_marginBottom="15dp"
             android:layout_width="match_parent"

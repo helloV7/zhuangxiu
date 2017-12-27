@@ -351,16 +351,19 @@ public class IntentHelper {
         activity.startActivity(intent);
     }
 
+
+
     /**
      * 打开评价发送界面
      * 店主 品牌方
      * @param activity
      * @param projectId
      */
-    public static void OpenEvaluateSendActivity(Activity activity , String projectId , int state){
+    public static void OpenEvaluateSendActivity(Activity activity , String projectId , int state,boolean isShop){
         Intent intent = new Intent(activity,EvaluateSendActivity.class);
         intent.putExtra(IntentKey.PROJECTID,projectId);
         intent.putExtra(IntentKey.STATE,state);
+        intent.putExtra(IntentKey.SHOP,isShop);
         activity.startActivityForResult(intent,IntentKey.REQUEST_SEND);
     }
 

@@ -42,9 +42,9 @@ public class WelcomeActivity extends BaseActivity {
                     //不是第一次进入
                     if (BaseUtil.getSpBoolean(Const.UserLoginState)){
                         //内部人员 品牌方
-                        startActivity(new Intent(WelcomeActivity.this,ContentActivity.class));
+//                        startActivity(new Intent(WelcomeActivity.this,ContentActivity.class));
                         //店主
-//                        startActivity(new Intent(WelcomeActivity.this,ShopActivity.class));
+                        startActivity(new Intent(WelcomeActivity.this,ShopActivity.class));
                     }else {
                         startActivity(new Intent(WelcomeActivity.this,LoginActivity.class));
                     }

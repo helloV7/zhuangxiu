@@ -2,6 +2,7 @@ package com.jyt.baseapp.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -34,9 +35,8 @@ public class EvaluateDetailActivity extends BaseActivity {
     TextView mTvBEvaluation;
     private int state;
     private String projectId;
-
+    private boolean Type;
     private EvaluateModel mEvaluateModel;
-    private String mProjectID;
     private boolean isResume;
 
     @Override
@@ -63,22 +63,22 @@ public class EvaluateDetailActivity extends BaseActivity {
         state = getIntent().getIntExtra(IntentKey.STATE,0);
         projectId =getIntent().getStringExtra(IntentKey.PROJECTID);
         if (!getIntent().getBooleanExtra(IntentKey.SEND_STATE,true)){
-            setFunctionText("回复");
-            setOnClickFunctionListener(new OnClickTvFunctionListener() {
-                @Override
-                public void onClick() {
-                    IntentHelper.OpenEvaluateSendActivity(EvaluateDetailActivity.this,projectId,state);
-                }
-            });
+            //未评价
+            setFunctionText("评价");
+            //店主
+            IntentHelper.OpenEvaluateSendActivity(EvaluateDetailActivity.this,projectId,state,true);
+            finish();
+        }else {
+            //已评价
+            setFunctionText("");
         }
         mEvaluateModel = new EvaluateModel();
-        mProjectID = getIntent().getStringExtra(IntentKey.PROJECT);
 
     }
 
     private void initData() {
         //内部人员
-        mEvaluateModel.getEvaluateData(BaseUtil.getSpString(Const.PositionID), mProjectID, new EvaluateModel.OngetEvaluateDataListener() {
+        mEvaluateModel.getEvaluateData(BaseUtil.getSpString(Const.PositionID), projectId, new EvaluateModel.OngetEvaluateDataListener() {
             @Override
             public void Result(boolean isSuccess , List<EvaluateBean> data) {
                 if (isSuccess && data.size()>0){
@@ -101,6 +101,7 @@ public class EvaluateDetailActivity extends BaseActivity {
 
 
     private void initSB(){
+        Log.e("@#","###");
         //店主 品牌方
         mEvaluateModel.getEvaluateShop(state, projectId, new EvaluateModel.OngetEvaluateSBListener() {
             @Override
@@ -141,9 +142,15 @@ public class EvaluateDetailActivity extends BaseActivity {
         super.onResume();
         if (!isResume){
             isResume=true;
+            return;
         }
         //用于店主或品牌方发送消息后刷新界面
         initSB();
 
+    }
+
+    @Override
+    public void onFunctionClick() {
+        IntentHelper.OpenEvaluateSendActivity(EvaluateDetailActivity.this,projectId,state,false);
     }
 }

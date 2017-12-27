@@ -367,6 +367,8 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
 
     }
 
+
+
     private void initData() {
 
         getLRData(true);

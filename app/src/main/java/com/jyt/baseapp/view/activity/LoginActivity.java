@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.bean.UserBean;
+import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.LoginModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.util.MD5Util;
@@ -58,34 +59,34 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         //内部人员
-        mLoginModel.ToLogin(tel, MD5Util.encrypt(pwd), new LoginModel.LoginResultListener() {
-            @Override
-            public void Result(boolean isSuccess, UserBean user) {
-                if (isSuccess){
-                    Const.KeepLoginState(user.getDepartmentId(),user.getNickName(),user.getPositionId(),user.getTokenSession(),user.getUserId(),user.getDepartmentName(),user.getStationName(),user.getTel());
-                    startActivity(new Intent(LoginActivity.this,ContentActivity.class));
-                    finish();
-                    BaseUtil.makeText("登录成功");
-                }
-            }
-        });
-        //店主
-//        mLoginModel.ToShopLogin(tel, MD5Util.encrypt(pwd), new LoginModel.LoginResultListener() {
+//        mLoginModel.ToLogin(tel, MD5Util.encrypt(pwd), new LoginModel.LoginResultListener() {
 //            @Override
 //            public void Result(boolean isSuccess, UserBean user) {
 //                if (isSuccess){
-//                    Const.KeepLoginStateShop(user.getShopkeeperName(),user.getShopkeeperId(),user.getToken());
-//                    Intent intent = new Intent(LoginActivity.this,ShopActivity.class);
-//                    intent.putExtra(IntentKey.PROJECTID,user.getProjectId());
-//                    intent.putExtra(IntentKey.SHOPNAME,user.getProjectName());
-//                    BaseUtil.setSpString(Const.PROJECTNAME,user.getProjectName());
-//                    BaseUtil.setSpString(Const.PROJECTID,user.getProjectId());
-//                    startActivity(intent);
+//                    Const.KeepLoginState(user.getDepartmentId(),user.getNickName(),user.getPositionId(),user.getTokenSession(),user.getUserId(),user.getDepartmentName(),user.getStationName(),user.getTel());
+//                    startActivity(new Intent(LoginActivity.this,ContentActivity.class));
 //                    finish();
 //                    BaseUtil.makeText("登录成功");
 //                }
 //            }
 //        });
+        //店主
+        mLoginModel.ToShopLogin(tel, MD5Util.encrypt(pwd), new LoginModel.LoginResultListener() {
+            @Override
+            public void Result(boolean isSuccess, UserBean user) {
+                if (isSuccess){
+                    Const.KeepLoginStateShop(user.getShopkeeperName(),user.getShopkeeperId(),user.getToken());
+                    Intent intent = new Intent(LoginActivity.this,ShopActivity.class);
+                    intent.putExtra(IntentKey.PROJECTID,user.getProjectId());
+                    intent.putExtra(IntentKey.SHOPNAME,user.getProjectName());
+                    BaseUtil.setSpString(Const.PROJECTNAME,user.getProjectName());
+                    BaseUtil.setSpString(Const.PROJECTID,user.getProjectId());
+                    startActivity(intent);
+                    finish();
+                    BaseUtil.makeText("登录成功");
+                }
+            }
+        });
 
 //        //品牌方
 //        mLoginModel.ToBrandLogin(tel, MD5Util.encrypt(pwd), new LoginModel.LoginResultListener() {

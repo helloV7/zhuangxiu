@@ -62,6 +62,7 @@ public class Const {
         BaseUtil.setSpString(DepartmentName,departmentName);
         BaseUtil.setSpString(PositionName,stateName);
         JPushInterface.setAlias(BaseUtil.getContext(),userToken,mAliasCallback);
+        JPushInterface.resumePush(BaseUtil.getContext());
     }
 
     public static void KeepLoginStateShop(String name,String id,String token){
@@ -79,6 +80,7 @@ public class Const {
         BaseUtil.setSpString(Tel,tel);
         BaseUtil.setSpString(PositionName,"");
         JPushInterface.setAlias(BaseUtil.getContext(),token,mAliasCallback);
+        JPushInterface.resumePush(BaseUtil.getContext());
     }
 
     public static void Logout(Context context){
@@ -92,7 +94,8 @@ public class Const {
         BaseUtil.setSpString(Tel,null);
         IntentHelper.DoLogout(context);
         JPushInterface.clearAllNotifications(context);
-        JPushInterface.cleanTags(BaseUtil.getContext(),0);
+        JPushInterface.deleteAlias(context,0);
+        JPushInterface.stopPush(BaseUtil.getContext());
     }
 
 
@@ -163,7 +166,7 @@ public class Const {
                         public void run() {
                             JPushInterface.setAlias(BaseUtil.getContext(),gettokenSession(),mAliasCallback);
                         }
-                    },3000*60);
+                    },1000*60);
                     // 延迟 60 秒来调用 Handler 设置别名
                     //                    mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
                     break;

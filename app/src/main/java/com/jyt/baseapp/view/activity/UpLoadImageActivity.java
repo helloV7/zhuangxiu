@@ -99,16 +99,17 @@ public class UpLoadImageActivity extends BaseActivity {
         progressBean = intent.getParcelableExtra(IntentKey.PROJECT);
 //        maxCount = intent.getIntExtra(IntentKey.MAX_COUNT,0);
 
-        if (1!=progressBean.getPermissionState()){
-            //无操作权限
-            btnSubmit.setVisibility(View.GONE);
-
-            if ( "1".equals(progressBean.getIsfinish())){
-                //已经操作过了，获取数据
-            }
-
-            return;
-        }
+        //店主 关闭
+//        if (1!=progressBean.getPermissionState()){
+//            //无操作权限
+//            btnSubmit.setVisibility(View.GONE);
+//
+//            if ( "1".equals(progressBean.getIsfinish())){
+//                //已经操作过了，获取数据
+//            }
+//
+//            return;
+//        }
 
 
 

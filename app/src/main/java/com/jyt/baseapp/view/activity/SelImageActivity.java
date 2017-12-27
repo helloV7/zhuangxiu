@@ -25,7 +25,7 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * 测量中
+ *
  */
 public class SelImageActivity extends BaseActivity {
 

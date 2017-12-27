@@ -39,6 +39,7 @@ import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.api.BeanCallback;
+import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.bean.BrandBean;
 import com.jyt.baseapp.bean.MapBean;
@@ -72,6 +73,10 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     LinearLayout mLlCity;
     @BindView(R.id.ll_brand)
     LinearLayout mLlBrand;
+    @BindView(R.id.line_map)
+    View mLineMap;
+    @BindView(R.id.iv_brand)
+    ImageView mIvBrand;
     private int mtotalWidth;
     private int mtotalHeight;
     @BindView(R.id.mapview_map)
@@ -159,15 +164,14 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
      */
     public void initSelecotr() {
         //当点击其他页面时，需要重置Selector
-        isHideMapSelecotr=false;
-        isHideBrandSelecotr=false;
+        isHideMapSelecotr = false;
+        isHideBrandSelecotr = false;
         isShowMap = true;
         isShowBrand = true;
         mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
         tv_city.setTextColor(getResources().getColor(R.color.text_color1));
         mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
         tv_brand.setTextColor(getResources().getColor(R.color.text_color1));
-
 
 
         mMapSelector.getLayoutParams().width = (int) (mtotalWidth * 0.9);
@@ -178,6 +182,17 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         mBrandSelector.getLayoutParams().height = 0;
         mBrandSelector.requestLayout();
         mBrandSelector.setHideDeleteIV(true);
+    }
+
+    private void initBrand(){
+        mIvBrand.setVisibility(View.VISIBLE);
+        mIvBrand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Const.Logout(getContext());
+                getActivity().finish();
+            }
+        });
     }
 
 
@@ -264,9 +279,9 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             @Override
             public void onCameraChangeFinish(CameraPosition cameraPosition) {
                 //阻断全国搜索
-//                if (isBrandChange) {
-//                    return;
-//                }
+                //                if (isBrandChange) {
+                //                    return;
+                //                }
                 LatLng l1 = mMap.getProjection().fromScreenLocation(new Point(0, mtotalHeight));
                 LatLng l2 = mMap.getProjection().fromScreenLocation(new Point(mtotalWidth, 0));
                 //                Log.e("@#","longitude1="+l1.longitude+" latitude1="+l1.latitude);
@@ -275,7 +290,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                 //                    getLocationShop(l1,l2);
                 //                    isFst=true;
                 //                }
-//                getLocationShop(l1, l2);
+                //                getLocationShop(l1, l2);
             }
         });
         //点击Marker进入商店详细界面
@@ -283,7 +298,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             @Override
             public boolean onMarkerClick(Marker marker) {
                 SearchBean searchBean = (SearchBean) marker.getObject();
-                IntentHelper.openShopActivity(getActivity(),searchBean);
+                IntentHelper.openShopActivity(getActivity(), searchBean);
                 return true;
             }
         });
@@ -420,7 +435,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         if (ProcinveID == -1) {
             mMapBean.mCities.clear();
             mMapSelector.notifyData(mMapBean);
-            isByMap=false;
+            isByMap = false;
             SearchShop("null,null,null,null,null,null,null");
             mMap.moveCamera(CameraUpdateFactory.zoomTo(4));
             mLlCity.performClick();

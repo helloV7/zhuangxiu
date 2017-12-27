@@ -171,7 +171,9 @@ public class CommonProgressActivity extends BaseActivity {
 
                                 @Override
                                 public void onResponse(BaseJson<UserBean> response, int id) {
-                                    vWorkerAndTime.setWorkerText(response.data.getStationName() + " " + response.data.getNickName());
+                                    if (response.data!=null){
+                                        vWorkerAndTime.setWorkerText(response.data.getStationName() + " " + response.data.getNickName());
+                                    }
                                 }
                             });
                         }else {

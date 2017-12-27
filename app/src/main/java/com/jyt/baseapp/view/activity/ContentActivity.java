@@ -128,7 +128,8 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     public void setTabBg(int selecor){
         mIvMap.setImageDrawable(getResources().getDrawable(R.mipmap.map_off));
         mIvProject.setImageDrawable(getResources().getDrawable(R.mipmap.project_off));
-        mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.more_off));
+        mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.more_off));//内部人员
+        mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.brand_off));//品牌方
         mTvMap.setTextColor(getResources().getColor(R.color.vp_text));
         mTvProject.setTextColor(getResources().getColor(R.color.vp_text));
         mTvMore.setTextColor(getResources().getColor(R.color.vp_text));
@@ -145,6 +146,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
                 break;
             case 2:
                 mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.more_on));
+                mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.brand_on));
                 mTvMore.setTextColor(getResources().getColor(R.color.white));
 
                 break;

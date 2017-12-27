@@ -142,6 +142,7 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
             default:
                 break;
         }
+
     }
 
     @Override
@@ -149,4 +150,6 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
         super.onResume();
         initShop();
     }
+
+
 }

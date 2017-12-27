@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.FragmentViewPagerAdapter;
@@ -63,6 +64,7 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
+        initShop();
         initVP();
         initListener();
     }
@@ -98,15 +100,9 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
 
     private void initShop(){
         //店主界面设置
+        hideBackBtn();
         setFunctionText("退出");
-        setOnClickFunctionListener(new OnClickTvFunctionListener() {
-            @Override
-            public void onClick() {
-                startActivity(new Intent(ShopActivity.this,LoginActivity.class));
-                Const.Logout(ShopActivity.this);
-                finish();
-            }
-        });
+
     }
 
     private void initVP(){
@@ -185,16 +181,31 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        FinishActivityManager manager =FinishActivityManager.getManager();
-//        if (!manager.IsActivityExist(ContentActivity.class)){
-//            startActivity(new Intent(ShopActivity.this,ContentActivity.class));
-//        }
-//        finish();
-//
-//    }
 
 
+
+    @Override
+    public void onFunctionClick() {
+        super.onFunctionClick();
+        startActivity(new Intent(ShopActivity.this,LoginActivity.class));
+        Const.Logout(ShopActivity.this);
+        finish();
+    }
+
+    /**
+     * 双击退出
+     * 店主
+     */
+    private long mPressedTime = 0;
+    @Override
+    public void onBackPressed() {
+        long mNowTime = System.currentTimeMillis();//获取第一次按键时间
+        if((mNowTime - mPressedTime) > 2000){//比较两次按键时间差
+            Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            mPressedTime = mNowTime;
+        }
+        else{//退出程序
+            this.finish();
+        }
+    }
 }

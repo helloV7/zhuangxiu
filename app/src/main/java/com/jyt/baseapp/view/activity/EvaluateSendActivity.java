@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.api.BeanCallback;
 import com.jyt.baseapp.bean.BaseJson;
+import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.EvaluateModel;
 import com.jyt.baseapp.util.BaseUtil;
@@ -35,6 +36,7 @@ public class EvaluateSendActivity extends BaseActivity {
     private EvaluateModel mEvaluateModel;
     private int state;
     private int starNum;
+    private boolean isShop;
     private String projectId;
     private boolean isPrepare;
 
@@ -60,6 +62,7 @@ public class EvaluateSendActivity extends BaseActivity {
         setTextTitle("填写评价");
         mEvaluateModel = new EvaluateModel();
         state = getIntent().getIntExtra(IntentKey.STATE, 0);
+        isShop = getIntent().getBooleanExtra(IntentKey.SHOP,false);
         projectId = getIntent().getStringExtra(IntentKey.PROJECTID);
         mEtEvaluate.addTextChangedListener(new TextWatcher() {
             @Override
@@ -105,8 +108,10 @@ public class EvaluateSendActivity extends BaseActivity {
                         public void onResponse(BaseJson response, int id) {
                             if (response.ret) {
                                 BaseUtil.makeText("评论成功");
-                                setResult(IntentKey.RESULT_SEND);
+                                IntentHelper.OpenEvaluateDetailActivity(EvaluateSendActivity.this,projectId,state,true);
                                 finish();
+                            }else {
+                                BaseUtil.makeText("评论失败");
                             }
                         }
                     });
@@ -137,7 +142,10 @@ public class EvaluateSendActivity extends BaseActivity {
                         public void onResponse(BaseJson response, int id) {
                             if (response.ret) {
                                 BaseUtil.makeText("评论成功");
+                                setResult(IntentKey.RESULT_SEND);
                                 finish();
+                            }else {
+                                BaseUtil.makeText("评论失败");
                             }
                         }
                     });

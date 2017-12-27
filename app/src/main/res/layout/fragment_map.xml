@@ -96,4 +96,13 @@
             </com.jyt.baseapp.view.widget.SingleSelector>
         </FrameLayout>
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_brand"
+        android:layout_gravity="bottom|left"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/icon_backblue"/>
 </FrameLayout>
