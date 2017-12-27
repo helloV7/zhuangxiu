@@ -19,6 +19,7 @@ import cn.jpush.android.api.TagAliasCallback;
 public class Const {
     private final static String TAG="@#";
     public static int NUM;
+    public final static String ISFIRST="ISFIRST";
     public final static String DepartmentId="departmentId";
     public final static String Tel ="tel";
     public final static String NickName="nickName";
@@ -28,6 +29,10 @@ public class Const {
     public final static String PositionName="positionName";
     public final static String DepartmentName="departmentName";
     public static final String USERID = "userId";
+
+    //店主
+    public static final String PROJECTNAME="shop_projectName";
+    public static final String PROJECTID="shop_projectId";
 
     public final static String Tag_LocationShop ="location";
     public final static String Tag_LocationWorker="worker";
@@ -45,28 +50,49 @@ public class Const {
             ,String userToken
             ,String userId
             ,String departmentName
-            ,String positionName){
+            ,String stateName
+            ,String tel){
         BaseUtil.setSpString(DepartmentId,departmentId);
+        BaseUtil.setSpString(Tel,tel);
         BaseUtil.setSpString(NickName,nickName);
         BaseUtil.setSpString(PositionID,positionId);
         BaseUtil.setSpString(UserToken,userToken);
         BaseUtil.setSpBoolean(UserLoginState,true);
         BaseUtil.setSpString(USERID,userId);
         BaseUtil.setSpString(DepartmentName,departmentName);
-        BaseUtil.setSpString(PositionName,positionName);
+        BaseUtil.setSpString(PositionName,stateName);
         JPushInterface.setAlias(BaseUtil.getContext(),userToken,mAliasCallback);
+    }
+
+    public static void KeepLoginStateShop(String name,String id,String token){
+        BaseUtil.setSpBoolean(UserLoginState,true);
+        BaseUtil.setSpString(NickName,name);
+        BaseUtil.setSpString(USERID,id);
+        BaseUtil.setSpString(UserToken,token);
+        BaseUtil.setSpString(PositionName,"");
+    }
+
+    public static void KeepLoginStateBrand(String name ,String token,String tel){
+        BaseUtil.setSpBoolean(UserLoginState,true);
+        BaseUtil.setSpString(NickName,name);
+        BaseUtil.setSpString(UserToken,token);
+        BaseUtil.setSpString(Tel,tel);
+        BaseUtil.setSpString(PositionName,"");
+        JPushInterface.setAlias(BaseUtil.getContext(),token,mAliasCallback);
     }
 
     public static void Logout(Context context){
         BaseUtil.setSpString(DepartmentId,null);
+        BaseUtil.setSpString(PositionName,null);
         BaseUtil.setSpString(NickName,null);
         BaseUtil.setSpString(PositionID,null);
         BaseUtil.setSpString(UserToken,null);
         BaseUtil.setSpBoolean(UserLoginState,false);
         BaseUtil.setSpString(USERID,null);
+        BaseUtil.setSpString(Tel,null);
         IntentHelper.DoLogout(context);
         JPushInterface.clearAllNotifications(context);
-        JPushInterface.setAlias(BaseUtil.getContext(),"---",mAliasCallback);
+        JPushInterface.cleanTags(BaseUtil.getContext(),0);
     }
 
 
@@ -80,6 +106,14 @@ public class Const {
             }
             destDir.mkdirs();
         }
+    }
+
+    public static String getUserName(){
+        return BaseUtil.getSpString(NickName);
+    }
+
+    public static String getTel(){
+        return BaseUtil.getSpString(Tel);
     }
 
     public static String gettokenSession(){
@@ -96,6 +130,18 @@ public class Const {
 
     public static String getUserid(){
         return BaseUtil.getSpString(USERID);
+    }
+
+    public static boolean getIsfirst(){
+        return BaseUtil.getSpBoolean(ISFIRST);
+    }
+
+    public static String getProjectname(){
+        return BaseUtil.getSpString(PROJECTNAME);
+    }
+
+    public static String getProjectid(){
+        return BaseUtil.getSpString(PROJECTID);
     }
 
     private  final static TagAliasCallback mAliasCallback = new TagAliasCallback() {

@@ -47,7 +47,7 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-
+        initShop();
         initListener();
     }
 
@@ -57,7 +57,31 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
         mEvaluateModel = new EvaluateModel();
         stateList = new ArrayList<>();
         mProjectId = getIntent().getStringExtra(IntentKey.PROJECTID);
+
+
+    }
+
+    private void initShop(){
+        //店主
         mEvaluateModel.getKEvalIsFinish(mProjectId, new BeanCallback<BaseJson<List<Integer>>>() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(BaseJson<List<Integer>> response, int id) {
+                if (response.ret){
+                    isPrepare=true;
+                    stateList=response.data;
+                }
+            }
+        });
+    }
+
+    private void initBrand(){
+        //品牌方
+        mEvaluateModel.getBEvalIsFinish(mProjectId, new BeanCallback<BaseJson<List<Integer>>>() {
             @Override
             public void onError(Call call, Exception e, int id) {
 
@@ -88,35 +112,41 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.jt_j1:
                 if (0==stateList.get(0)){
-                    IntentHelper.OpenEvaluateSendActivity(EvaluateActivity.this,mProjectId,1);
+                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,1,false);
                 }else {
-                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,1);
+                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,1,true);
                 }
                 break;
             case R.id.jt_j2:
-                if (0==stateList.get(0)){
-                    IntentHelper.OpenEvaluateSendActivity(EvaluateActivity.this,mProjectId,2);
+                if (0==stateList.get(1)){
+                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,2,false);
                 }else {
-                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,2);
+                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,2,true);
                 }
                 break;
             case R.id.jt_j3:
-                if (0==stateList.get(0)){
-                    IntentHelper.OpenEvaluateSendActivity(EvaluateActivity.this,mProjectId,3);
+                if (0==stateList.get(2)){
+                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,3,false);
                 }else {
-                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,3);
+                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,3,true);
                 }
                 break;
             case R.id.jt_j4:
-                if (0==stateList.get(0)){
-                    IntentHelper.OpenEvaluateSendActivity(EvaluateActivity.this,mProjectId,4);
+                if (0==stateList.get(3)){
+                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,4,false);
                 }else {
-                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,4);
+                    IntentHelper.OpenEvaluateDetailActivity(EvaluateActivity.this,mProjectId,4,true);
                 }
                 break;
 
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initShop();
     }
 }

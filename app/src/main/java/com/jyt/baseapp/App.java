@@ -3,7 +3,6 @@ package com.jyt.baseapp;
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 import android.view.ViewConfiguration;
 
 import com.jyt.baseapp.api.OkHttpPostInterceptor;
@@ -16,7 +15,6 @@ import com.zhy.http.okhttp.log.LoggerInterceptor;
 import java.lang.reflect.Field;
 import java.security.SecureRandom;
 import java.security.cert.X509Certificate;
-import java.util.Set;
 
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -26,7 +24,6 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 import cn.jpush.android.api.JPushInterface;
-import cn.jpush.android.api.TagAliasCallback;
 import okhttp3.OkHttpClient;
 
 /**
@@ -53,7 +50,6 @@ public class App  extends Application{
         super.onCreate();
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
-        JPushInterface.setAlias(this,"sdf",mAliasCallback);
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
             Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
@@ -134,27 +130,4 @@ public class App  extends Application{
         return mainThreadid;
     }
 
-    private final TagAliasCallback  mAliasCallback = new TagAliasCallback() {
-        @Override
-        public void gotResult(int code, String alias, Set<String> tags) {
-            String logs ;
-            switch (code) {
-                case 0:
-                    logs = "Set tag and alias success";
-                    Log.i(TAG, logs);
-                    // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
-                    break;
-                case 6002:
-                    logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
-                    Log.i(TAG, logs);
-                    // 延迟 60 秒来调用 Handler 设置别名
-                    //                    mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
-                    break;
-                default:
-                    logs = "Failed with errorCode = " + code;
-                    Log.e(TAG, logs);
-            }
-
-        }
-    };
 }

@@ -199,7 +199,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                             LatLng latLng2 = new LatLng(v, v1);
                             mMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng2));
                             mMap.moveCamera(CameraUpdateFactory.zoomTo(10));
-                            //定位上传到后台
+                            //定位上传到后台-内部人员
                             mMapModel.pushLocation(latLng2, new BeanCallback<BaseJson>() {
                                 @Override
                                 public void onError(Call call, Exception e, int id) {
@@ -212,6 +212,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                                 }
                             });
                             isLocation = true;
+
                         }
 
                     }

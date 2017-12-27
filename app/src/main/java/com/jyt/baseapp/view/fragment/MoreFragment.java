@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.api.BeanCallback;
-import com.jyt.baseapp.bean.UserBean;
-import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.PersonModel;
 import com.jyt.baseapp.model.impl.MoreModel;
 import com.jyt.baseapp.view.activity.AboutUsActivity;
@@ -49,7 +47,7 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
 
     private MoreModel mMoreModel;
     private PersonModel mPersonModel;
-    private UserBean mInfoBean;
+
 
 
 
@@ -63,14 +61,7 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         mMoreModel = new MoreModel();
         mPersonModel = new PersonModel();
-        mPersonModel.getPersonInfo(new PersonModel.OngetPersonInfoListener() {
-            @Override
-            public void Result(boolean isSuccess, UserBean data) {
-                if (isSuccess){
-                    mInfoBean = data;
-                }
-            }
-        });
+
 
         mMoreModel.getRole(new BeanCallback<String>() {
             @Override
@@ -136,11 +127,8 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.item_info:
-//                if (mInfoBean!=null){
-                    Intent intent = new Intent(getActivity(), PersonInfoActivity.class);
-                    intent.putExtra(IntentKey.PERSONINFO,mInfoBean);
-                    startActivity(intent);
-//                }
+                Intent intent = new Intent(getActivity(), PersonInfoActivity.class);
+                startActivity(intent);
                 break;
             case R.id.item_maneuver:
                 getActivity().startActivity(new Intent(getActivity(), ManeuverActivity.class));

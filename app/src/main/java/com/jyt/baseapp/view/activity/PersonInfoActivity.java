@@ -3,13 +3,12 @@ package com.jyt.baseapp.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.api.Const;
-import com.jyt.baseapp.bean.UserBean;
-import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.util.FinishActivityManager;
 import com.jyt.baseapp.view.widget.JumpItem;
@@ -46,14 +45,16 @@ public class PersonInfoActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTextTitle("个人资料");
-        UserBean bean= (UserBean) getIntent().getSerializableExtra(IntentKey.PERSONINFO);
 
-        if (bean!=null){
-            mJtName.setMsg(bean.getNickName());
-            mJtPhone.setMsg(bean.getTel());
-            mJtPosition.setMsg(bean.getStationName());
-            mJtDepartment.setMsg(bean.getDepartmentName());
+        mJtName.setMsg(Const.getUserName());
+        mJtPhone.setMsg(Const.getTel());
+        if (Const.getPositionName()!=null || TextUtils.isEmpty(Const.getPositionName())){
+            mJtPosition.setMsg(Const.getPositionName());
         }
+        if (Const.getDepartmentName()!=null){
+            mJtDepartment.setMsg(Const.getDepartmentName());
+        }
+
 
 
         mBtnLogout.setOnClickListener(new View.OnClickListener() {

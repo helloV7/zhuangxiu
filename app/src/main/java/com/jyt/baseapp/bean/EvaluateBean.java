@@ -8,11 +8,10 @@ public class EvaluateBean {
     private String evalk;
     private String evals;
     private String evalb;
-    private String star;
-
     private String timek;
     private String times;
     private String timeb;
+    private String star;
 
     public String getEvalk() {
         return evalk;

@@ -5,8 +5,8 @@ package com.jyt.baseapp.api;
  */
 public class Path {
 
-//    public final static String BasePath="http://192.168.3.44:8080/mingya/";
-    public final static String BasePath="http://119.23.66.37:8080/mingya/mingya/";
+    public final static String BasePath="http://192.168.3.44:8080/mingya/";
+//    public final static String BasePath="http://119.23.66.37:8080/mingya/mingya/";
     /**
      * 获取省份
      */
@@ -23,6 +23,17 @@ public class Path {
      * 登录
      */
     public final static String URL_LOGIN=BasePath+"admin/login";
+
+    /**
+     * 店主登录
+     */
+    public final static String URL_LOGIN_SHPO=BasePath+"keeper/login";
+
+    /**
+     * 店主登录
+     */
+    public final static String URL_LOGIN_BRAND=BasePath+"branda/login";
+
     /**
      * 获取品牌信息
      */
@@ -67,6 +78,8 @@ public class Path {
     public static final String URL_SEND_EVALUATE1=BasePath+"eval/keep";
     //发送评论-品牌方
     public static final String URL_SEND_EVALUATE2=BasePath+"eval/brand";
+    //获取评价
+    public static final String URL_EVALUATE_SHOP=BasePath+"getEval";
 
 
 }

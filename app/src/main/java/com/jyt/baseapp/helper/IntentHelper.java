@@ -343,10 +343,11 @@ public class IntentHelper {
      * @param activity
      * @param projectId
      */
-    public static void OpenEvaluateDetailActivity(Activity activity , String projectId , int state){
+    public static void OpenEvaluateDetailActivity(Activity activity , String projectId , int state,boolean sendState){
         Intent intent = new Intent(activity,EvaluateDetailActivity.class);
         intent.putExtra(IntentKey.PROJECTID,projectId);
         intent.putExtra(IntentKey.STATE,state);
+        intent.putExtra(IntentKey.SEND_STATE,sendState);
         activity.startActivity(intent);
     }
 
@@ -360,7 +361,7 @@ public class IntentHelper {
         Intent intent = new Intent(activity,EvaluateSendActivity.class);
         intent.putExtra(IntentKey.PROJECTID,projectId);
         intent.putExtra(IntentKey.STATE,state);
-        activity.startActivity(intent);
+        activity.startActivityForResult(intent,IntentKey.REQUEST_SEND);
     }
 
 

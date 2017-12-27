@@ -1,5 +1,6 @@
 package com.jyt.baseapp.view.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.FragmentViewPagerAdapter;
+import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.view.fragment.BaseFragment;
@@ -71,10 +73,17 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
         if (mShopInfo==null){
             //当通过推送进入该界面时，要将工程ID赋予mShopInfo
             mShopInfo =new SearchBean();
-            mShopInfo.setProjectId(getIntent().getStringExtra(IntentKey.PROJECTID));
-            mShopInfo.setProjectName(getIntent().getStringExtra(IntentKey.SHOPNAME));
-
+            if (getIntent().getStringExtra(IntentKey.PROJECTID)==null || getIntent().getStringExtra(IntentKey.SHOPNAME)==null){
+                //店主
+                mShopInfo.setProjectName(Const.getProjectname());
+                mShopInfo.setProjectId(Const.getProjectid());
+            }else {
+                //内部人员 品牌方
+                mShopInfo.setProjectId(getIntent().getStringExtra(IntentKey.PROJECTID));
+                mShopInfo.setProjectName(getIntent().getStringExtra(IntentKey.SHOPNAME));
+            }
         }
+
 
         flist=new ArrayList<>();
         Bundle bundle = new Bundle();
@@ -85,6 +94,19 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
         mProgressFragment.setArguments(bundle);
         mAdapter=new FragmentViewPagerAdapter(getSupportFragmentManager());
         setTextTitle(mShopInfo.getProjectName());
+    }
+
+    private void initShop(){
+        //店主界面设置
+        setFunctionText("退出");
+        setOnClickFunctionListener(new OnClickTvFunctionListener() {
+            @Override
+            public void onClick() {
+                startActivity(new Intent(ShopActivity.this,LoginActivity.class));
+                Const.Logout(ShopActivity.this);
+                finish();
+            }
+        });
     }
 
     private void initVP(){

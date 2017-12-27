@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.util.FinishActivityManager;
 import com.jyt.baseapp.view.activity.ContentActivity;
@@ -38,17 +39,19 @@ public class InfoReceiver extends BroadcastReceiver {
 
             //            receivingNotification(context, bundle);
         } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent
+                .getAction()) || JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent
                 .getAction())) {
-            Log.i(TAG, "接受到推送下来的通知");
+            Log.i(TAG, "接受到推送下来的通知/消息");
             String message = bundle.getString(JPushInterface.EXTRA_TITLE);
-            Log.i(TAG,"收到了通知。消息内容是：title=" + message);
+            Log.i(TAG,"收到了通知/消息。消息内容是：title=" + message);
             String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
-            Log.i(TAG,"收到了通知。extra是：" + extra);
-
+            Log.i(TAG,"收到了通知/消息。extra是：" + extra);
+            Const.NUM++;
         } else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent
                 .getAction())) {
             Log.i(TAG, "用户点击打开了通知");
             openNotification(context, bundle);
+            Const.NUM--;
         }
     }
 

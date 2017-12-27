@@ -43,6 +43,7 @@ public class ManeuverViewHolder extends BaseViewHolder<ManeuverBean> {
         mTvTel.setVisibility(View.VISIBLE);
         Glide.with(itemView.getContext())
                 .load(data.getImage())
+                .error(R.mipmap.icon_person)
                 .into(mIvLogo);
     }
 }

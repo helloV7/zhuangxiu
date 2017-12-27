@@ -46,7 +46,7 @@ public class InfoDetailViewHolder extends BaseViewHolder<InfoBean> {
                 break;
             case 2:
                 shopName = data.getProjectName();
-                msg = "店主已对您进行评价，点击查看详情。";
+                msg = "店主已进行评价，点击查看详情。";
                 switch (Const.getPositionName()) {
                     case "预算员":
                         lastTime = BaseUtil.getTime(data.getKtobtime());

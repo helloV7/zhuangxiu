@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.ProjectAdapter;
+import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.bean.BrandBean;
 import com.jyt.baseapp.bean.MapBean;
 import com.jyt.baseapp.bean.SearchBean;
@@ -42,6 +43,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * @author LinWei on 2017/10/30 15:05
@@ -87,6 +89,8 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     ImageView mIvArrow3;
     @BindView(R.id.ll_progress)
     LinearLayout mLlProgress;
+    @BindView(R.id.tv_num)
+    TextView mTvNum;
 
     private int mtotalWidth;
     private MapModel mMapModel;
@@ -693,6 +697,8 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                 break;
             case R.id.iv_noti:
                 getActivity().startActivity(new Intent(getActivity(), InfoActivity.class));
+                JPushInterface.clearAllNotifications(getActivity());
+                Const.NUM=0;
                 break;
             case R.id.et_input:
             case R.id.ll_input:
@@ -773,5 +779,14 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         animator.start();
     }
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Const.NUM>0){
+            mTvNum.setVisibility(View.VISIBLE);
+            mTvNum.setText(Const.NUM+"");
+        }else {
+            mTvNum.setVisibility(View.GONE);
+        }
+    }
 }

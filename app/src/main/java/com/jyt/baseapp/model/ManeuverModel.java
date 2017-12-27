@@ -95,13 +95,14 @@ public class ManeuverModel {
         void Result(boolean isSuccess, List<ManeuverBean> data);
     }
 
-    public void addManeuver(String image,String name ,String tel ,String workId ,String province ,String city ,String area,final OnaddManeuverListener listener){
+    public void addManeuver(String image,String name ,String tel , String idcard ,String workId ,String province ,String city ,String area,final OnaddManeuverListener listener){
         OkHttpUtils
                 .post()
                 .url(Path.URL_UploadData)
                 .addParams("token", BaseUtil.getSpString(Const.UserToken))
                 .addParams("personalname",name)
                 .addParams("tel",tel)
+                .addParams("idcard",idcard)
                 .addParams("province",province)
                 .addParams("city",city)
                 .addParams("area",area)

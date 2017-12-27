@@ -10,16 +10,18 @@
     android:focusable="true"
     android:focusableInTouchMode="true">
     <EditText
+        android:padding="15dp"
         android:id="@+id/tv_evaluate"
         android:gravity="left|top"
         android:layout_width="match_parent"
         android:layout_height="149dp"
         android:hint="请输入您的评价"
-        android:textSize="13dp"
+        android:textSize="14dp"
         android:textColor="@color/text_color1"
         android:background="@color/white"/>
 
     <RelativeLayout
+        android:id="@+id/rl_star"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"

@@ -36,7 +36,7 @@
                 android:layout_width="54dp"
                 android:layout_height="54dp"
                 app:border_color="@color/white"
-                android:src="@mipmap/icon_no"
+                android:src="@mipmap/icon_add"
                 />
 
         </RelativeLayout>
@@ -55,6 +55,7 @@
                 android:textColor="@color/map_text1"/>
             <EditText
                 android:id="@+id/et_name"
+                android:paddingLeft="39dp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -63,6 +64,7 @@
                 android:layout_marginLeft="10dp"
                 android:hint="请输入人员姓名"
                 android:textSize="13dp"
+                android:textColor="@color/text_color1"
                 android:textCursorDrawable="@drawable/et_cursor"
                 android:textColorHint="@color/map_text1"
                 android:background="@null"/>
@@ -82,6 +84,7 @@
                 android:textColor="@color/map_text1"/>
             <EditText
                 android:id="@+id/et_phone"
+                android:paddingLeft="13dp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -91,6 +94,35 @@
                 android:imeOptions="actionDone"
                 android:hint="请输入人员联系方式"
                 android:textSize="13dp"
+                android:textColor="@color/text_color1"
+                android:textCursorDrawable="@drawable/et_cursor"
+                android:textColorHint="@color/map_text1"
+                android:background="@null"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:padding="10dp"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="身份证号码"
+                android:textSize="13dp"
+                android:textColor="@color/map_text1"/>
+            <EditText
+                android:id="@+id/et_idcard"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:inputType="number"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
+                android:hint="请输入身份证"
+                android:textSize="13dp"
+                android:textColor="@color/text_color1"
                 android:textCursorDrawable="@drawable/et_cursor"
                 android:textColorHint="@color/map_text1"
                 android:background="@null"/>

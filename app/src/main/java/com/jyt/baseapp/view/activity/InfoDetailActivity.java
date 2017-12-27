@@ -3,6 +3,7 @@ package com.jyt.baseapp.view.activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -129,6 +130,7 @@ public class InfoDetailActivity extends BaseActivity {
 
             @Override
             public void onResponse(BaseJson<List<InfoBean>> response, int id) {
+                Log.e("@#","re="+response.data.size()+"");
                 if (response.ret && response.data!=null && response.data.size()>0){
                     List<InfoBean> data = transList(2,response.data);
                     mDetailAdapter.notifyData(data);

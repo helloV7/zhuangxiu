@@ -38,11 +38,22 @@ public class WelcomeActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (BaseUtil.getSpBoolean(Const.UserLoginState)){
-                    startActivity(new Intent(WelcomeActivity.this,ContentActivity.class));
+                if (Const.getIsfirst()){
+                    //不是第一次进入
+                    if (BaseUtil.getSpBoolean(Const.UserLoginState)){
+                        //内部人员 品牌方
+                        startActivity(new Intent(WelcomeActivity.this,ContentActivity.class));
+                        //店主
+//                        startActivity(new Intent(WelcomeActivity.this,ShopActivity.class));
+                    }else {
+                        startActivity(new Intent(WelcomeActivity.this,LoginActivity.class));
+                    }
                 }else {
-                    startActivity(new Intent(WelcomeActivity.this,LoginActivity.class));
+                    //第一次进入，轮播图
+                    BaseUtil.setSpBoolean(Const.ISFIRST,true);
+                    startActivity(new Intent(WelcomeActivity.this,GuideActivity.class));
                 }
+
                 finish();
                 overridePendingTransition(0,0);
             }

@@ -8,11 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.api.BeanCallback;
 import com.jyt.baseapp.bean.BaseJson;
-import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.EvaluateModel;
 import com.jyt.baseapp.util.BaseUtil;
@@ -30,6 +30,8 @@ public class EvaluateSendActivity extends BaseActivity {
     RatingBar mRbEvaluate;
     @BindView(R.id.btn_submit)
     Button mBtnSubmit;
+    @BindView(R.id.rl_star)
+    RelativeLayout mRlStar;
     private EvaluateModel mEvaluateModel;
     private int state;
     private int starNum;
@@ -51,13 +53,13 @@ public class EvaluateSendActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         init();
         initShop();
-        initBrand();
+//        initBrand();
     }
 
-    private void init(){
+    private void init() {
         setTextTitle("填写评价");
         mEvaluateModel = new EvaluateModel();
-        state = getIntent().getIntExtra(IntentKey.STATE,0);
+        state = getIntent().getIntExtra(IntentKey.STATE, 0);
         projectId = getIntent().getStringExtra(IntentKey.PROJECTID);
         mEtEvaluate.addTextChangedListener(new TextWatcher() {
             @Override
@@ -72,29 +74,28 @@ public class EvaluateSendActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (s.length()>0){
+                if (s.length() > 0) {
                     isPrepare = true;
                     mBtnSubmit.setBackground(getResources().getDrawable(R.drawable.btn_add_on));
-                }else {
+                } else {
                     isPrepare = false;
                     mBtnSubmit.setBackground(getResources().getDrawable(R.drawable.btn_add_off));
                 }
             }
         });
-        initShop();
 
     }
 
     /**
      * 店主
      */
-    private void initShop(){
-        mRbEvaluate.setVisibility(View.VISIBLE);
+    private void initShop() {
+        mRlStar.setVisibility(View.VISIBLE);
         mBtnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isPrepare){
-                    mEvaluateModel.SendEvaluate1(state, mEtEvaluate.getText().toString().trim(), mRbEvaluate.getNumStars() ,projectId, new BeanCallback<BaseJson>() {
+                if (isPrepare) {
+                    mEvaluateModel.SendEvaluate1(state, mEtEvaluate.getText().toString().trim(), (int) mRbEvaluate.getRating(), projectId, new BeanCallback<BaseJson>() {
                         @Override
                         public void onError(Call call, Exception e, int id) {
 
@@ -102,14 +103,15 @@ public class EvaluateSendActivity extends BaseActivity {
 
                         @Override
                         public void onResponse(BaseJson response, int id) {
-                            if (response.ret){
+                            if (response.ret) {
                                 BaseUtil.makeText("评论成功");
-                                IntentHelper.OpenEvaluateDetailActivity(EvaluateSendActivity.this,projectId,state);
+                                setResult(IntentKey.RESULT_SEND);
+                                finish();
                             }
                         }
                     });
 
-                }else {
+                } else {
                     BaseUtil.makeText("请输入评价内容");
                 }
             }
@@ -119,13 +121,13 @@ public class EvaluateSendActivity extends BaseActivity {
     /**
      * 品牌方
      */
-    private void initBrand(){
-        mRbEvaluate.setVisibility(View.GONE);
+    private void initBrand() {
+        mRlStar.setVisibility(View.GONE);
         mBtnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isPrepare){
-                    mEvaluateModel.SendEvaluate2(state, mEtEvaluate.getText().toString().trim() ,projectId, new BeanCallback<BaseJson>() {
+                if (isPrepare) {
+                    mEvaluateModel.SendEvaluate2(state, mEtEvaluate.getText().toString().trim(), projectId, new BeanCallback<BaseJson>() {
                         @Override
                         public void onError(Call call, Exception e, int id) {
 
@@ -133,14 +135,14 @@ public class EvaluateSendActivity extends BaseActivity {
 
                         @Override
                         public void onResponse(BaseJson response, int id) {
-                            if (response.ret){
+                            if (response.ret) {
                                 BaseUtil.makeText("评论成功");
-                                IntentHelper.OpenEvaluateDetailActivity(EvaluateSendActivity.this,projectId,state);
+                                finish();
                             }
                         }
                     });
 
-                }else {
+                } else {
                     BaseUtil.makeText("请输入评价内容");
                 }
             }

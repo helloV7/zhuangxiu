@@ -58,7 +58,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class AddPersonActivity extends BaseActivity implements View.OnClickListener{
+public class AddPersonActivity extends BaseActivity implements View.OnClickListener {
 
     @BindView(R.id.civ_pic)
     CircleImageView mCivPic;
@@ -76,6 +76,10 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
     Button mBtnSubmit;
     @BindView(R.id.rl_parent)
     RelativeLayout mRlParent;
+    @BindView(R.id.et_idcard)
+    EditText mEtIdcard;
+    @BindView(R.id.bg_meng)
+    View mBgMeng;
     private File pictureFile;
     private static final int PHOTO_REQUEST_GALLERY = 2;// 从相册中选择
     private static final int PHOTO_REQUEST_CUT = 3;// 结果
@@ -91,14 +95,15 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
     private WorkAdapter mWorkAdapter;
     private List<WorkBean> mWorkList;
     private boolean isUpload;
-    public String SProvince="";//省
-    public String SCity="";//市
-    public String SArea="";//区
-    private String SName="";//姓名
-    private String STel="";
-    private String SWork="";//工种
-    private String SWorkID="";//工种ID
-    private String SPic="";
+    public String SProvince = "";//省
+    public String SCity = "";//市
+    public String SArea = "";//区
+    private String SName = "";//姓名
+    private String STel = "";//电话
+    private String SId="";//身份证
+    private String SWork = "";//工种
+    private String SWorkID = "";//工种ID
+    private String SPic = "";
     private String mFileName;//
 
     private MapSelector mCitySelector;
@@ -126,35 +131,35 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
         initListener();
     }
 
-    private void init(){
+    private void init() {
         setTextTitle("添加机动人员");
-        mManeuverModel=new ManeuverModel();
+        mManeuverModel = new ManeuverModel();
         mWorkAdapter = new WorkAdapter();
-        mWorkList =new ArrayList<>();
-        mMapModel =new MapModel();
+        mWorkList = new ArrayList<>();
+        mMapModel = new MapModel();
         WindowManager wm = (WindowManager) BaseUtil.getContext().getSystemService(Context.WINDOW_SERVICE);
         mtotalWidth = wm.getDefaultDisplay().getWidth();
-        mMapBean=new MapBean();
-        SPCA =new StringBuilder();
+        mMapBean = new MapBean();
+        SPCA = new StringBuilder();
         //初始化OSS
         mManeuverModel.getOssAliyunKey(new ManeuverModel.OngetOssAliyunListener() {
             @Override
             public void Result(boolean isSuccess, OssBean bean) {
-                if (isSuccess){
-                    Log.e("@#",bean.getAccessKeyId());
-                    Log.e("@#",bean.getAccessKeySecret());
-                    Log.e("@#",bean.getSecurityToken());
+                if (isSuccess) {
+                    Log.e("@#", bean.getAccessKeyId());
+                    Log.e("@#", bean.getAccessKeySecret());
+                    Log.e("@#", bean.getSecurityToken());
                     String AccessKeyId = bean.getAccessKeyId();
                     String SecretId = bean.getAccessKeySecret();
                     String token = bean.getSecurityToken();
-//                    OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(mOssBean.getAccessKeyId().trim(),mOssBean.getAccessKeySecret().trim(),mOssBean.getAccessKeySecret().trim());
-                    OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(AccessKeyId,SecretId,token);
+                    //                    OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(mOssBean.getAccessKeyId().trim(),mOssBean.getAccessKeySecret().trim(),mOssBean.getAccessKeySecret().trim());
+                    OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(AccessKeyId, SecretId, token);
                     ClientConfiguration conf = new ClientConfiguration();
                     conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
                     conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒
                     conf.setMaxConcurrentRequest(5); // 最大并发请求数，默认5个
                     conf.setMaxErrorRetry(2); // 失败后最大重试次数，默认2次
-                    mOSS = new OSSClient(getApplicationContext(), Const.endpoint,credentialProvider,conf);
+                    mOSS = new OSSClient(getApplicationContext(), Const.endpoint, credentialProvider, conf);
                 }
             }
         });
@@ -171,7 +176,7 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initDialog() {
-        mDialog_city=new MyDialog(this,R.layout.pop_city);
+        mDialog_city = new MyDialog(this, R.layout.pop_city);
         View view_city = mDialog_city.getView();
         mCitySelector = (MapSelector) view_city.findViewById(R.id.selector_city);
         mCitySelector.setHideDeleteIV(true);
@@ -183,10 +188,10 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
                 mMapModel.getCityAreaData(ProvinceID, new MapModel.onResultCityListener() {
                     @Override
                     public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
-                        if (isSuccess){
-                            mMapBean.mCities=data;
+                        if (isSuccess) {
+                            mMapBean.mCities = data;
                             mCitySelector.notifyData(mMapBean);
-                            SProvince=ProvinceName;
+                            SProvince = ProvinceName;
                         }
                     }
                 });
@@ -196,10 +201,10 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
                 SPCA.setLength(0);
-                SPCA.append(SProvince+CityName+AreaName);
+                SPCA.append(SProvince + CityName + AreaName);
                 mJumpCity.setNext(false, SPCA.toString());
-                SCity=CityName;
-                SArea=AreaName;
+                SCity = CityName;
+                SArea = AreaName;
                 isCanUpLoad();
                 mDialog_city.dismiss();
             }
@@ -210,22 +215,22 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
             }
         });
 
-        mDialog_work=new MyDialog(this,R.layout.pop_work);
-        View view_work=mDialog_work.getView();
-        LinearLayout ll= (LinearLayout) view_work.findViewById(R.id.ll_work);
+        mDialog_work = new MyDialog(this, R.layout.pop_work);
+        View view_work = mDialog_work.getView();
+        LinearLayout ll = (LinearLayout) view_work.findViewById(R.id.ll_work);
         mRv_work = (RecyclerView) view_work.findViewById(R.id.rv_work);
-        ll.getLayoutParams().width=(int) (mtotalWidth * 0.8);
+        ll.getLayoutParams().width = (int) (mtotalWidth * 0.8);
         ll.requestLayout();
     }
 
     private void initData() {
-        mMapModel.getProvinceData(this,new MapModel.onResultProvinceListener() {
+        mMapModel.getProvinceData(this, new MapModel.onResultProvinceListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
-                if (isSuccess){
-                    mMapBean.mProvinces=data;
-                    SProvince=mMapBean.mProvinces.get(0).ProvinceName;
-                    mMapBean.mProvinces.get(0).isCheckProvince=true;
+                if (isSuccess) {
+                    mMapBean.mProvinces = data;
+                    SProvince = mMapBean.mProvinces.get(0).ProvinceName;
+                    mMapBean.mProvinces.get(0).isCheckProvince = true;
                     mCitySelector.setProvinceAdapter(mMapBean, AddPersonActivity.this);
                 }
             }
@@ -234,8 +239,8 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
         mMapModel.getCityAreaData(3, new MapModel.onResultCityListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.City> data) {
-                if (isSuccess){
-                    mMapBean.mCities=data;
+                if (isSuccess) {
+                    mMapBean.mCities = data;
                     mCitySelector.setCityAdapter(mMapBean, AddPersonActivity.this);
                 }
             }
@@ -251,13 +256,13 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
             }
         });
 
-        mRv_work.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
-        mRv_work.addItemDecoration(new RecycleViewDivider(this,LinearLayoutManager.VERTICAL));
+        mRv_work.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        mRv_work.addItemDecoration(new RecycleViewDivider(this, LinearLayoutManager.VERTICAL));
         mRv_work.setAdapter(mWorkAdapter);
 
     }
 
-    private void initListener(){
+    private void initListener() {
         mJumpCity.setOnClickListener(this);
         mJumpWork.setOnClickListener(this);
         mCivPic.setOnClickListener(this);
@@ -266,12 +271,12 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onClick(BaseViewHolder holder) {
                 //点击切换选中的工种颜色
-                for (int i = 0; i <mWorkList.size() ; i++) {
-                    if (i==holder.getPosition()){
+                for (int i = 0; i < mWorkList.size(); i++) {
+                    if (i == holder.getPosition()) {
                         mWorkList.get(i).setCheck(true);
-                        SWork=mWorkList.get(i).getType();
-                        SWorkID=mWorkList.get(i).getId();
-                        mJumpWork.setNext(false,SWork);
+                        SWork = mWorkList.get(i).getType();
+                        SWorkID = mWorkList.get(i).getId();
+                        mJumpWork.setNext(false, SWork);
                         isCanUpLoad();
                         continue;
                     }
@@ -317,9 +322,24 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
             }
         });
 
+        mEtIdcard.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                isCanUpLoad();
+            }
+        });
+
     }
-
-
 
 
     /**
@@ -337,7 +357,7 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
     private void Logigallery(Intent data) {
         if (data != null) {
             Uri uri = data.getData();
-            mFileName=BaseUtil.getRealFilePath(uri);
+            mFileName = BaseUtil.getRealFilePath(uri);
             crop(uri);
 
         }
@@ -352,9 +372,9 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
             case PHOTO_REQUEST_CUT:
                 if (data != null) {
                     Bitmap bitmap = data.getParcelableExtra("data");
-                    pictureFile = new File(Const.mMainFile, new Date().getTime()+mFileName);
+                    pictureFile = new File(Const.mMainFile, new Date().getTime() + mFileName);
                     savePicture(bitmap, pictureFile);
-                    PutObjectSamples putObjectSamples = new PutObjectSamples(mOSS,Const.BucketName,pictureFile.getName(),pictureFile.getAbsolutePath());
+                    PutObjectSamples putObjectSamples = new PutObjectSamples(mOSS, Const.BucketName, pictureFile.getName(), pictureFile.getAbsolutePath());
                     putObjectSamples.asyncPutObjectFromLocalFile(new ProgressCallback<PutObjectRequest, PutObjectResult>() {
                         @Override
                         public void onProgress(PutObjectRequest putObjectRequest, long currentSize, long totalSize) {
@@ -363,9 +383,9 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
 
                         @Override
                         public void onSuccess(PutObjectRequest putObjectRequest, PutObjectResult putObjectResult) {
-                            Log.e("@#","Success");
-                            SPic= Path.URL_Ayiyun+putObjectRequest.getObjectKey();
-                            Log.e("@#",SPic);
+                            Log.e("@#", "Success");
+                            SPic = Path.URL_Ayiyun + putObjectRequest.getObjectKey();
+                            Log.e("@#", SPic);
                         }
 
                         @Override
@@ -373,11 +393,11 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
                             if (clientException != null) {
                                 // 本地异常如网络异常等
                                 clientException.printStackTrace();
-                                Log.e("clientMsg",clientException.getMessage());
+                                Log.e("clientMsg", clientException.getMessage());
                             }
                             if (serviceException != null) {
                                 // 服务异常
-                                Log.e("StatusCode",serviceException.getStatusCode()+"");
+                                Log.e("StatusCode", serviceException.getStatusCode() + "");
                                 Log.e("ErrorCode", serviceException.getErrorCode());
                                 Log.e("RequestId", serviceException.getRequestId());
                                 Log.e("HostId", serviceException.getHostId());
@@ -426,7 +446,7 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, ops);
             Glide.with(AddPersonActivity.this)
                     .load(picture)
-//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    //                    .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .into(mCivPic);
             ops.flush();
         } catch (FileNotFoundException e) {
@@ -444,20 +464,21 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
         }
 
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.jump_city:
-                if (mDialog_city.isShowing()){
+                if (mDialog_city.isShowing()) {
                     mDialog_city.dismiss();
-                }else {
+                } else {
                     mDialog_city.show();
                 }
                 break;
             case R.id.jump_work:
-                if (mDialog_work.isShowing()){
+                if (mDialog_work.isShowing()) {
                     mDialog_work.dismiss();
-                }else {
+                } else {
                     mDialog_work.show();
                 }
                 break;
@@ -465,14 +486,14 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
                 gallery();
                 break;
             case R.id.btn_submit:
-                if (!isUpload){
+                if (!isUpload) {
                     BaseUtil.makeText("参数缺失");
                     return;
                 }
-                mManeuverModel.addManeuver(SPic, SName, STel, SWorkID, SProvince, SCity, SArea, new ManeuverModel.OnaddManeuverListener() {
+                mManeuverModel.addManeuver(SPic, SName, STel, SId , SWorkID, SProvince, SCity, SArea, new ManeuverModel.OnaddManeuverListener() {
                     @Override
                     public void Result(boolean isSuccess) {
-                        if (isSuccess){
+                        if (isSuccess) {
                             BaseUtil.makeText("新增机动人员成功");
                             finish();
                         }
@@ -488,31 +509,32 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
     /**
      * 检验上传的合格性
      */
-    private void isCanUpLoad(){
-        SName=mEtName.getText().toString();
-        STel=mEtPhone.getText().toString();
+    private void isCanUpLoad() {
+        SName = mEtName.getText().toString();
+        STel = mEtPhone.getText().toString();
+        SId = mEtIdcard.getText().toString();
 
-        if (SPic.length()>0
-                &&SName.length()>0
-                && STel.length()>0
-                && SWorkID.length()>0
-                && SProvince.length()>0
-                && SCity.length()>0
-                && SArea.length()>0){
+        if (SPic.length() > 0
+                && SName.length() > 0
+                && STel.length() > 0
+                && SId.length() > 0
+                && SWorkID.length() > 0
+                && SProvince.length() > 0
+                && SCity.length() > 0
+                && SArea.length() > 0) {
             mBtnSubmit.setBackground(getResources().getDrawable(R.drawable.bg_corner_blue2));
-            isUpload=true;
-        }else {
-            mBtnSubmit.setBackground(getResources().getDrawable(R.drawable. btn_add_off));
-            isUpload=false;
+            isUpload = true;
+        } else {
+            mBtnSubmit.setBackground(getResources().getDrawable(R.drawable.btn_add_off));
+            isUpload = false;
         }
     }
-
 
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (pictureFile!=null){
+        if (pictureFile != null) {
             pictureFile.delete();
         }
     }

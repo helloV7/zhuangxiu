@@ -24,5 +24,8 @@ public class IntentKey {
     public static String PERSONINFO = "PERSONINFO";
     public static String SHOPNAME = "SHOPNAME";
     public static String STATE = "STATE";
+    public static String SEND_STATE = "SEND_STATE";
+    public static int REQUEST_SEND = 12;
+    public static int RESULT_SEND = 13;
 
 }

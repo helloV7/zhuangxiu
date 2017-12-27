@@ -84,6 +84,14 @@ public abstract class BaseActivity extends AppCompatActivity {
                 }
             }
         });
+        textFunction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Tvlistener!=null){
+                    Tvlistener.onClick();
+                }
+            }
+        });
 
     }
 
@@ -190,8 +198,24 @@ public abstract class BaseActivity extends AppCompatActivity {
     public interface OnClickFunctionListener{
         void onClick();
     }
+
+    /**
+     * ImageView
+     */
     private OnClickFunctionListener listener;
     public void setOnClickFunctionListener(OnClickFunctionListener listener){
         this.listener=listener;
     }
+
+    /**
+     * TextView
+     */
+    public interface OnClickTvFunctionListener{
+        void onClick();
+    }
+    private OnClickTvFunctionListener Tvlistener;
+    public void setOnClickFunctionListener(OnClickTvFunctionListener listener){
+        this.Tvlistener=listener;
+    }
+
 }
