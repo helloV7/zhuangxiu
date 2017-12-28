@@ -63,7 +63,7 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        initShop();
+//        initShop();
         initVP();
         initListener();
     }

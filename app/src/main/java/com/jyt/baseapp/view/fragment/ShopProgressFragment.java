@@ -112,7 +112,7 @@ public class ShopProgressFragment extends BaseFragment {
         initComplete();
         initSettlement();
         initData();
-        initShop();
+//        initShop();
         initListener();
     }
 
@@ -270,99 +270,85 @@ public class ShopProgressFragment extends BaseFragment {
     }
 
     private void initData(){
-        //店主 品牌方
-        mShopModel.getProjectProgress(mInfo.getProjectId(), new ShopModel.OnProgressResultListener() {
+
+
+        //操作权限赋予
+        mShopModel.getStationRole(new ShopModel.OngetStationRoleListener() {
             @Override
-            public void Result(boolean isSuccess, Exception e, List<ProgressBean> shopBean) {
+            public void Result(boolean isSuccess, Exception e, List<Integer> data) {
                 if (isSuccess){
-                    isLink = true;
-                    progressBeanList = shopBean;
-                    setProgress(shopBean);
-                }else {
-                    for (Map.Entry<Integer,ProgressLine> entry : mProgressMap.entrySet()) {
-                        entry.getValue().setNextVisible(false);
+                    at_Measure.setOperate(data.get(0));
+                    at_Material6.setOperate(data.get(1));
+                    at_Material7.setOperate(data.get(2));
+                    at_Logistics1.setOperate(data.get(3));
+                    at_Logistics2.setOperate(data.get(4));
+                    at_Logistics3.setOperate(data.get(5));
+                    at_Logistics4.setOperate(data.get(6));
+                    at_Construction.setOperate(data.get(7));
+
+                    List<AppendItem> appendItemList1 =new ArrayList<AppendItem>();
+                    appendItemList1.add(at_Measure);
+                    appendItemList1.add(at_Material6);
+                    appendItemList1.add(at_Material7);
+                    appendItemList1.add(at_Logistics1);
+                    appendItemList1.add(at_Logistics2);
+                    appendItemList1.add(at_Logistics3);
+                    appendItemList1.add(at_Logistics4);
+                    appendItemList1.add(at_Construction);
+
+                    for (int i = 0; i < appendItemList1.size(); i++) {
+                        if (data.get(i)==0){
+                            appendItemList1.get(i).setImgVisible(false);
+                        }
                     }
+
+
+                    List<AppendItem> appendItemList2 =new ArrayList<AppendItem>();
+                    appendItemList2.add(at_Measured);
+                    appendItemList2.add(at_Designed);
+                    appendItemList2.add(at_Approvaled);
+                    appendItemList2.add(at_Confirm);
+                    appendItemList2.add(at_Confirmed);
+                    appendItemList2.add(at_Paper3);
+                    appendItemList2.add(at_Paper4);
+                    appendItemList2.add(at_Material1);
+                    appendItemList2.add(at_Material3);
+                    appendItemList2.add(at_Material4);
+                    appendItemList2.add(at_Complete);
+                    for (int i = 0; i < appendItemList2.size(); i++) {
+                        if (data.get(i+8)==0){
+                            appendItemList2.get(i).setNext(false);
+                        }
+                    }
+
+                    at_Measured.setOperate(data.get(8));
+                    at_Designed.setOperate(data.get(9));
+                    at_Approvaled.setOperate(data.get(10));
+                    at_Confirm.setOperate(data.get(11));
+                    at_Confirmed.setOperate(data.get(12));
+                    at_Paper3.setOperate(data.get(13));
+                    at_Paper4.setOperate(data.get(14));
+                    at_Material1.setOperate(data.get(15));
+                    at_Material3.setOperate(data.get(16));
+                    at_Material4.setOperate(data.get(17));
+                    at_Complete.setOperate(data.get(18));
+
+
+                    mShopModel.getProjectProgress(mInfo.getProjectId(), new ShopModel.OnProgressResultListener() {
+                        @Override
+                        public void Result(boolean isSuccess, Exception e, List<ProgressBean> shopBean) {
+                            if (isSuccess){
+                                isLink = true;
+                                progressBeanList = shopBean;
+                                setProgress(shopBean);
+                            }
+                        }
+                    });
+                }else {
+
                 }
             }
         });
-
-        //操作权限赋予
-//        mShopModel.getStationRole(new ShopModel.OngetStationRoleListener() {
-//            @Override
-//            public void Result(boolean isSuccess, Exception e, List<Integer> data) {
-//                if (isSuccess){
-//                    at_Measure.setOperate(data.get(0));
-//                    at_Material6.setOperate(data.get(1));
-//                    at_Material7.setOperate(data.get(2));
-//                    at_Logistics1.setOperate(data.get(3));
-//                    at_Logistics2.setOperate(data.get(4));
-//                    at_Logistics3.setOperate(data.get(5));
-//                    at_Logistics4.setOperate(data.get(6));
-//                    at_Construction.setOperate(data.get(7));
-//
-//                    List<AppendItem> appendItemList1 =new ArrayList<AppendItem>();
-//                    appendItemList1.add(at_Measure);
-//                    appendItemList1.add(at_Material6);
-//                    appendItemList1.add(at_Material7);
-//                    appendItemList1.add(at_Logistics1);
-//                    appendItemList1.add(at_Logistics2);
-//                    appendItemList1.add(at_Logistics3);
-//                    appendItemList1.add(at_Logistics4);
-//                    appendItemList1.add(at_Construction);
-//
-//                    for (int i = 0; i < appendItemList1.size(); i++) {
-//                        if (data.get(i)==0){
-//                            appendItemList1.get(i).setImgVisible(false);
-//                        }
-//                    }
-//
-//
-//                    List<AppendItem> appendItemList2 =new ArrayList<AppendItem>();
-//                    appendItemList2.add(at_Measured);
-//                    appendItemList2.add(at_Designed);
-//                    appendItemList2.add(at_Approvaled);
-//                    appendItemList2.add(at_Confirm);
-//                    appendItemList2.add(at_Confirmed);
-//                    appendItemList2.add(at_Paper3);
-//                    appendItemList2.add(at_Paper4);
-//                    appendItemList2.add(at_Material1);
-//                    appendItemList2.add(at_Material3);
-//                    appendItemList2.add(at_Material4);
-//                    appendItemList2.add(at_Complete);
-//                    for (int i = 0; i < appendItemList2.size(); i++) {
-//                        if (data.get(i+8)==0){
-//                            appendItemList2.get(i).setNext(false);
-//                        }
-//                    }
-//
-//                    at_Measured.setOperate(data.get(8));
-//                    at_Designed.setOperate(data.get(9));
-//                    at_Approvaled.setOperate(data.get(10));
-//                    at_Confirm.setOperate(data.get(11));
-//                    at_Confirmed.setOperate(data.get(12));
-//                    at_Paper3.setOperate(data.get(13));
-//                    at_Paper4.setOperate(data.get(14));
-//                    at_Material1.setOperate(data.get(15));
-//                    at_Material3.setOperate(data.get(16));
-//                    at_Material4.setOperate(data.get(17));
-//                    at_Complete.setOperate(data.get(18));
-//
-//
-//                    mShopModel.getProjectProgress(mInfo.getProjectId(), new ShopModel.OnProgressResultListener() {
-//                        @Override
-//                        public void Result(boolean isSuccess, Exception e, List<ProgressBean> shopBean) {
-//                            if (isSuccess){
-//                                isLink = true;
-//                                progressBeanList = shopBean;
-//                                setProgress(shopBean);
-//                            }
-//                        }
-//                    });
-//                }else {
-//
-//                }
-//            }
-//        });
 
 
     }
@@ -501,7 +487,7 @@ public class ShopProgressFragment extends BaseFragment {
         mPlLogistics.addAppendItem(at_Logistics3);
         mPlLogistics.addAppendItem(at_Logistics4);
 
-        mPlLogistics.setSb(false);
+
     }
 
     private void initConstruction(){
@@ -540,11 +526,29 @@ public class ShopProgressFragment extends BaseFragment {
     }
 
     private void initShop(){
+
+        //店主 品牌方
+        mShopModel.getProjectProgress(mInfo.getProjectId(), new ShopModel.OnProgressResultListener() {
+            @Override
+            public void Result(boolean isSuccess, Exception e, List<ProgressBean> shopBean) {
+                if (isSuccess){
+                    isLink = true;
+                    progressBeanList = shopBean;
+                    setProgress(shopBean);
+                }else {
+                    for (Map.Entry<Integer,ProgressLine> entry : mProgressMap.entrySet()) {
+                        entry.getValue().setNextVisible(false);
+                    }
+                }
+            }
+        });
+
         mPlMeasure.setSb(true);//店主 品牌方
         mPlOffer.setSb(true);//店主 品牌方
         mPlApproval.setSb(true);//店主 品牌方
         mPlConfirm.setSb(true);//店主 品牌方
         mPlStocking.setSb(false);
+        mPlLogistics.setSb(false);
         mPlConstruction.setSb(true);//店主 品牌方
         mPlComplete.setSb(true);//店主 品牌方
         mPlSettlement.setSb(false);

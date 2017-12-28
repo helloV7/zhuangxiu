@@ -2,7 +2,6 @@ package com.jyt.baseapp.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -53,8 +52,8 @@ public class EvaluateDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-//        initData();
-        initSB();
+        initData();
+//        initSB();
 
     }
 
@@ -62,16 +61,7 @@ public class EvaluateDetailActivity extends BaseActivity {
         setTextTitle("评价详情");
         state = getIntent().getIntExtra(IntentKey.STATE,0);
         projectId =getIntent().getStringExtra(IntentKey.PROJECTID);
-        if (!getIntent().getBooleanExtra(IntentKey.SEND_STATE,true)){
-            //未评价
-            setFunctionText("评价");
-            //店主
-            IntentHelper.OpenEvaluateSendActivity(EvaluateDetailActivity.this,projectId,state,true);
-            finish();
-        }else {
-            //已评价
-            setFunctionText("");
-        }
+
         mEvaluateModel = new EvaluateModel();
 
     }
@@ -101,7 +91,16 @@ public class EvaluateDetailActivity extends BaseActivity {
 
 
     private void initSB(){
-        Log.e("@#","###");
+        if (!getIntent().getBooleanExtra(IntentKey.SEND_STATE,true)){
+            //未评价
+            setFunctionText("评价");
+            //店主
+            IntentHelper.OpenEvaluateSendActivity(EvaluateDetailActivity.this,projectId,state,true);
+            finish();
+        }else {
+            //已评价
+            setFunctionText("");
+        }
         //店主 品牌方
         mEvaluateModel.getEvaluateShop(state, projectId, new EvaluateModel.OngetEvaluateSBListener() {
             @Override

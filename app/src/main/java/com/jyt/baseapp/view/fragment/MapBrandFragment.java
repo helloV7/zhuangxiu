@@ -411,7 +411,7 @@ public class MapBrandFragment extends BaseFragment implements View.OnClickListen
                 //点击全省的搜索
                 if (CityID == -2 && AreaID == -2) {
                     isClickProvince = true;
-                    SearchShop("null," + str_province + ",null,null,null,null,null");
+                    SearchShop("null," + str_province + ",null,null,"+Const.getUserid()+",null,null");
                     mLlCity.performClick();
                     return;
                 }

@@ -82,18 +82,18 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
 
     private void init() {
         flist=new ArrayList<>();
-//        mMapFragment=new MapFragment();
-//        mProjectFragment=new ProjectFragment();
-//        mMoreFragment=new MoreFragment();
-        mMapBrandFragment = new MapBrandFragment();
-        mBrandFragment = new BrandFragment();
-        mInfoFragment = new InfoFragment();
-//        flist.add(mMapFragment);
-//        flist.add(mProjectFragment);
-//        flist.add(mMoreFragment);
-        flist.add(mMapBrandFragment);//品牌方
-        flist.add(mBrandFragment);//品牌方
-        flist.add(mInfoFragment);//品牌方
+        mMapFragment=new MapFragment();
+        mProjectFragment=new ProjectFragment();
+        mMoreFragment=new MoreFragment();
+//        mMapBrandFragment = new MapBrandFragment();
+//        mBrandFragment = new BrandFragment();
+//        mInfoFragment = new InfoFragment();
+        flist.add(mMapFragment);
+        flist.add(mProjectFragment);
+        flist.add(mMoreFragment);
+//        flist.add(mMapBrandFragment);//品牌方
+//        flist.add(mBrandFragment);//品牌方
+//        flist.add(mInfoFragment);//品牌方
         vpAdapter=new FragmentViewPagerAdapter(getSupportFragmentManager());
         vpAdapter.setFragments(flist);
         mVpContainer.setAdapter(vpAdapter);
@@ -133,7 +133,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
         mIvMap.setImageDrawable(getResources().getDrawable(R.mipmap.map_off));
         mIvProject.setImageDrawable(getResources().getDrawable(R.mipmap.project_off));
         mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.more_off));//内部人员
-        mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.brand_off));//品牌方
+//        mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.brand_off));//品牌方
         mTvMap.setTextColor(getResources().getColor(R.color.vp_text));
         mTvProject.setTextColor(getResources().getColor(R.color.vp_text));
         mTvMore.setTextColor(getResources().getColor(R.color.vp_text));
@@ -149,8 +149,8 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
 
                 break;
             case 2:
-//                mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.more_on));
-                mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.brand_on));
+                mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.more_on));
+//                mIvMore.setImageDrawable(getResources().getDrawable(R.mipmap.brand_on));
                 mTvMore.setTextColor(getResources().getColor(R.color.white));
 
                 break;

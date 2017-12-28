@@ -98,7 +98,7 @@ public class ShopNewsFragment extends BaseFragment {
     private void init() {
         mShopModel = new ShopModel();
         projectBean = (SearchBean) getArguments().getSerializable(IntentKey.SHOPINFO);
-        mRlPush.setVisibility(View.GONE);//店主
+//        mRlPush.setVisibility(View.GONE);//店主
 
     }
 
@@ -218,9 +218,9 @@ public class ShopNewsFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //内部人员
-//                IntentHelper.OpenEvaluateDetailActivity(getActivity(), projectBean.getProjectId(),0);
+                IntentHelper.OpenEvaluateDetailActivity(getActivity(), projectBean.getProjectId(),0,false);
                 //店主 品牌方
-                IntentHelper.OpenEvaluateActivity(getActivity(), projectBean.getProjectId());
+//                IntentHelper.OpenEvaluateActivity(getActivity(), projectBean.getProjectId());
             }
         });
 
