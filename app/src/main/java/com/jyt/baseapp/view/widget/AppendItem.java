@@ -101,6 +101,7 @@ public class AppendItem extends RelativeLayout {
         }
     }
 
+
     private boolean isEditor;
     public void setEditor(){
         isEditor=true;
@@ -118,14 +119,19 @@ public class AppendItem extends RelativeLayout {
 
 
 
-    public void setComplete(boolean isComplete){
+    public void setComplete(boolean isComplete,String time){
         this.isComplete=isComplete;
         if (isComplete){
             iv_complete.setVisibility(VISIBLE);
             iv_complete.setImageResource(R.mipmap.right_green);
+            tv_time.setVisibility(VISIBLE);
             tv_time.setTextColor(getResources().getColor(R.color.map_text1));
             tv_estimate.setVisibility(GONE);
             tv_msg.setTextColor(getResources().getColor(R.color.map_text1));
+            //版本一
+//            if (time!=null){
+//                tv_time.setText(BaseUtil.getTime(time.split(" ")[0]));
+//            }
             switch (state) {
                 case 0:
                     iv_next.setVisibility(INVISIBLE);
@@ -135,24 +141,49 @@ public class AppendItem extends RelativeLayout {
                     iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_hui));
                     break;
                 case 2:
-                    iv_next.setVisibility(INVISIBLE);
+
+                    if (isEditor){
+                        iv_next.setVisibility(INVISIBLE);
+                    }else {
+                        iv_next.setVisibility(VISIBLE);
+                        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_hui));
+                    }
                     break;
                 default:
                     break;
             }
         }else {
             iv_complete.setVisibility(INVISIBLE);
+            tv_time.setVisibility(INVISIBLE);
+            //版本一
+//            if (time!=null){
+//                tv_estimate.setVisibility(VISIBLE);
+//                tv_time.setText(BaseUtil.getTime(time.split(" ")[0]));
+//
+//            }else {
+//                tv_estimate.setVisibility(GONE);
+//            }
+
         }
     }
 
     //设置当前的进度点
-    public void setCurrent(){
+    public void setCurrent(String time){
         isComplete=true; //特殊操作，当前进度处于未完成和完成之间，需要赋予点击事件
         iv_complete.setVisibility(VISIBLE);
         iv_complete.setImageResource(R.mipmap.oval);
+        tv_time.setVisibility(VISIBLE);
         tv_msg.setTextColor(getResources().getColor(R.color.white));
+        tv_estimate.setVisibility(VISIBLE);
         tv_estimate.setTextColor(getResources().getColor(R.color.white));
         tv_time.setTextColor(getResources().getColor(R.color.white));
+        //版本一
+//        if (time!=null){
+//            tv_time.setText(BaseUtil.getTime(time.split(" ")[0]));
+//            tv_estimate.setVisibility(VISIBLE);
+//        }else {
+//            tv_estimate.setVisibility(GONE);
+//        }
         switch (state) {
             case 0:
                 iv_next.setVisibility(INVISIBLE);
@@ -176,6 +207,9 @@ public class AppendItem extends RelativeLayout {
             iv_next.setVisibility(INVISIBLE);
         }
     }
+
+
+
     //设置当前进度点相同父类下的其他进度点
     public void setCurrentColor(int speed){
 
@@ -183,6 +217,9 @@ public class AppendItem extends RelativeLayout {
             tv_msg.setTextColor(getResources().getColor(R.color.white_half));
             tv_estimate.setTextColor(getResources().getColor(R.color.white_half));
             tv_time.setTextColor(getResources().getColor(R.color.white_half));
+            //版本一
+//            tv_estimate.setTextColor(getResources().getColor(R.color.white_half));
+
             iv_complete.setVisibility(INVISIBLE);
             switch (state) {
                 case 0:
@@ -207,6 +244,9 @@ public class AppendItem extends RelativeLayout {
             tv_msg.setTextColor(getResources().getColor(R.color.white));
             tv_estimate.setTextColor(getResources().getColor(R.color.white));
             tv_time.setTextColor(getResources().getColor(R.color.white));
+            //版本一
+//            tv_estimate.setTextColor(getResources().getColor(R.color.white));
+
             iv_complete.setVisibility(VISIBLE);
             iv_complete.setImageDrawable(getResources().getDrawable(R.mipmap.right_blue));
             switch (state) {
@@ -222,7 +262,12 @@ public class AppendItem extends RelativeLayout {
                     }
                     break;
                 case 2:
-                    iv_next.setVisibility(INVISIBLE);
+                    if (isEditor){
+                        iv_next.setVisibility(INVISIBLE);
+                    }else {
+                        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+                    }
+
                     break;
                 default:
                     break;

@@ -137,7 +137,7 @@ public class UpLoadImageActivity extends BaseActivity {
                     images.remove(images.size() - 1);
                     int selCount = maxCount - currentCount;
                     if (selCount > 0) {
-                        IntentHelper.openSelImageActivityForResult(getContext(), selCount);
+                        IntentHelper.openSelImageActivityForResult(getContext(), selCount,images);
 
                     } else {
                         T.showShort(getContext(), "已达到限制，无法继续添加");

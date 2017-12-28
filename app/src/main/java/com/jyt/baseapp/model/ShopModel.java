@@ -186,7 +186,7 @@ public class ShopModel {
                                 }
                             }
                             data.add(jsonArray.getJSONObject(1).getJSONArray("role").getJSONObject(1).getInt("测量完毕"));
-
+                            Log.e("@#","测量完毕权限:"+data.get(8));
                             if(data.get(8)!=1){
                                 int pl=jsonArray.getJSONObject(1).getInt("ishandle");
                                 if (pl==2){

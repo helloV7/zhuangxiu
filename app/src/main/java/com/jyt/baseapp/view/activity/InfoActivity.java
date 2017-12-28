@@ -42,6 +42,9 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener {
     RelativeLayout mRlEvaluation;
 
     private InfoModel mInfoModel;
+    private boolean click_b;
+    private boolean click_y;
+    private boolean click_g;
 
     @Override
     protected int getLayoutId() {
@@ -78,6 +81,7 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onResponse(BaseJson<InfoBean> response, int id) {
                 if (response.ret){
+                    click_b=true;
                     InfoBean data = response.data;
                     mTvProgress.setText("进度已达"+data.getProjectName() +"，点击查看");
                     mTvBtime.setText(getTime(data.getUpdateDate()));
@@ -95,6 +99,7 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onResponse(BaseJson<InfoBean> response, int id) {
+                click_y=true;
                 InfoBean data = response.data;
                 mTvNews.setText(data.getBliu()+"有新的消息，点击查看");
                 mTvYtime.setText(getTime(data.getFinishDate()));
@@ -110,6 +115,7 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onResponse(BaseJson<InfoBean> response, int id) {
+                click_g=true;
                 InfoBean data = response.data;
                 mTvEvaluation.setText(data.getProjectName()+"有新的评价，点击查看");
                 switch (Const.getPositionName()) {
@@ -144,15 +150,21 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
            case R.id.rl_progress:
-                IntentHelper.OpenInfoDetailActivity(InfoActivity.this,0);
+               if (click_b){
+                   IntentHelper.OpenInfoDetailActivity(InfoActivity.this,0);
+               }
                 break;
 
             case R.id.rl_news:
-                IntentHelper.OpenInfoDetailActivity(InfoActivity.this,1);
+                if (click_y){
+                    IntentHelper.OpenInfoDetailActivity(InfoActivity.this,1);
+                }
                 break;
 
             case R.id.rl_evaluation:
-                IntentHelper.OpenInfoDetailActivity(InfoActivity.this,2);
+                if (click_g){
+                    IntentHelper.OpenInfoDetailActivity(InfoActivity.this,2);
+                }
                 break;
 
             default:

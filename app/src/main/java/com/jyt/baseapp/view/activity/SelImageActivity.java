@@ -5,6 +5,7 @@ package com.jyt.baseapp.view.activity;
  */
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.jyt.baseapp.R;
@@ -80,6 +81,19 @@ public class SelImageActivity extends BaseActivity {
         imgFolderFragment.setOnFolderClickListener(new ImgFolderFragment.OnFolderClickListener() {
             @Override
             public void onClick(List<LocalMedia> medias) {
+
+
+                for (int i = 0; i < selImages.size(); i++) {
+                    Log.e("@#","@#1111");
+                    for (int j = 0; j < medias.size(); j++) {
+                        Log.e("@#","@#");
+                        if (selImages.get(i).equals(medias.get(j).getPath())){
+                            Log.e("@#","success");
+                            medias.get(j).setChecked(true);
+                        }
+                    }
+                }
+
                 imgListFragment.setData(medias,selImages);
                 vViewPager.setCurrentItem(1,true);
             }

@@ -50,12 +50,20 @@ public class IntentHelper {
         }
     }
     public static void openSelImageActivityForResult(Object context, int maxSelCount,List images){
-        Intent intent = getIntent((Context) context, SelImageActivity.class);
-        intent.putExtra(IntentKey.MAX_COUNT,maxSelCount);
-        intent.putStringArrayListExtra(IntentKey.IMAGES, (ArrayList<String>) images);
+        if(images == null){
+            images = new ArrayList();
+        }
+
+
         if (context instanceof  Activity){
+            Intent intent = getIntent((Context) context, SelImageActivity.class);
+            intent.putExtra(IntentKey.MAX_COUNT,maxSelCount);
+            intent.putStringArrayListExtra(IntentKey.IMAGES, (ArrayList<String>) images);
             ((Activity) context).startActivityForResult(intent,IntentRequestCode.CODE_SEL_IMAGES);
         }else if (context instanceof Fragment){
+            Intent intent = getIntent(((Fragment) context).getContext(), SelImageActivity.class);
+            intent.putExtra(IntentKey.MAX_COUNT,maxSelCount);
+            intent.putStringArrayListExtra(IntentKey.IMAGES, (ArrayList<String>) images);
             ((Fragment) context).startActivityForResult(intent,IntentRequestCode.CODE_SEL_IMAGES);
         }
     }

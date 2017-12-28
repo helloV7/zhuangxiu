@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.ProjectAdapter;
 import com.jyt.baseapp.adapter.WorkAdapter;
+import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.bean.MapBean;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.bean.WorkBean;
@@ -347,7 +348,7 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
      * @param condition
      */
     private void SearchMapShop(String condition) {
-        mMapModel.getSearchData("null," + condition + ",null,null,null", new MapModel.OnSearchResultListener() {
+        mMapModel.getSearchData("null," + condition + ","+Const.getUserid()+",null,null", new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, List<SearchBean> data) {
                 if (isSuccess) {
@@ -364,7 +365,7 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
      */
     private void SearchProgressShop(String condition) {
         Log.e("@#", condition);
-        mMapModel.getSearchData("null,null,null,null,null,null," + condition, new MapModel.OnSearchResultListener() {
+        mMapModel.getSearchData("null,null,null,null,"+ Const.getUserid()+",null," + condition, new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, List<SearchBean> data) {
                 if (isSuccess) {

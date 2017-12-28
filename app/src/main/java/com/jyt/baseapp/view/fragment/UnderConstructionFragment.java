@@ -162,7 +162,7 @@ public class UnderConstructionFragment extends BaseFragment {
                         images.remove(images.size()-1);
                         int selCount = maxCount-currentCount;
                         if (selCount>0){
-                            IntentHelper.openSelImageActivityForResult(UnderConstructionFragment.this,selCount);
+                            IntentHelper.openSelImageActivityForResult(UnderConstructionFragment.this,selCount,images);
 
                         }else {
                             T.showShort(getContext(),"已达到限制，无法继续添加");

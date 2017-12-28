@@ -221,12 +221,13 @@ public class ShopProgressFragment extends BaseFragment {
         }
 
         for (int i = 0; i < data.size(); i++) {
+            String time=data.get(i).getFinishTime();
             if (!"0".equals(data.get(i).getIsfinish())){
                //完成
-                mAppendList.get(i).setComplete(true);
+                mAppendList.get(i).setComplete(true,time);
             }else {
                 //未完成
-                mAppendList.get(i).setComplete(false);
+                mAppendList.get(i).setComplete(false,time);
                 if (!isIndex){
                     //只触发一次，即当前进度点触发
 
@@ -251,8 +252,7 @@ public class ShopProgressFragment extends BaseFragment {
                         }
                     }
                     //用于标记进度目前到达的位置
-                    mAppendList.get(i).setEstimate(true);
-                    mAppendList.get(i).setCurrent();
+                    mAppendList.get(i).setCurrent(time);
                     isIndex=true;
                 }
 
@@ -260,9 +260,11 @@ public class ShopProgressFragment extends BaseFragment {
             //---------------------------------------------------
             if (data.get(i).getFinishTime()!=null){
                 mAppendList.get(i).setTv_time(BaseUtil.getTime(data.get(i).getFinishTime().split(" ")[0]));
+                //版本一
+//                mAppendList.get(i).setEstimate(true);
             }else {
-//                Log.e("@#","ASD");
-                mAppendList.get(i).setEstimate(false);
+                //版本一
+//                mAppendList.get(i).setEstimate(false);
             }
 
         }
@@ -449,7 +451,7 @@ public class ShopProgressFragment extends BaseFragment {
         at_Material6.setState(2);
         at_Material7.setTv_msg("所有材料已打包");
         at_Material7.setEditor();
-        at_Material7.setState(3);//操作后可见
+        at_Material7.setState(1);//操作后可见
 
         mPlStocking.addAppendItem(at_BudgetConfirm);
         mPlStocking.addAppendItem(at_Paper1);
@@ -471,11 +473,11 @@ public class ShopProgressFragment extends BaseFragment {
 
     private void initLogistics(){
         at_Logistics1.setTv_msg("待发货");
-        at_Logistics1.setEditor();
-        at_Logistics1.setState(1);//操作后可见
+//        at_Logistics1.setEditor();
+        at_Logistics1.setState(2);//操作后可见
         at_Logistics2.setTv_msg("已发货");
-        at_Logistics2.setEditor();
-        at_Logistics2.setState(1);//操作后可见
+//        at_Logistics2.setEditor();
+        at_Logistics2.setState(2);//操作后可见
         at_Logistics3.setTv_msg("货到待施工");
         at_Logistics3.setEditor();
         at_Logistics3.setState(2);//操作后不可见
@@ -651,7 +653,6 @@ public class ShopProgressFragment extends BaseFragment {
                 if (!isLink){
                     return;
                 }
-                IntentHelper.openUploadImagesActivityForResult(getContext(), bean,20);
                 if ("0".equals(bean.getIsfinish())
                         && 0!=bean.getPermissionState()) {
                     IntentHelper.openUploadImagesActivityForResult(getContext(), bean,20);
@@ -684,9 +685,8 @@ public class ShopProgressFragment extends BaseFragment {
                 if (!isLink){
                     return;
                 }
-
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-                if( beforeFinish!=null && "0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()){
+                if( beforeFinish!=null  && 0!=bean.getPermissionState()){
                     IntentHelper.openConstructionActivity(getContext(),bean);
                 }
 
@@ -818,7 +818,7 @@ public class ShopProgressFragment extends BaseFragment {
                 }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null) {
-                    if ("0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()) {
+                    if ( "0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()) {
                         IntentHelper.openWaitingConstructActivity(getContext(), bean);
                     }
                 }

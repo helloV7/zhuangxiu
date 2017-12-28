@@ -1,6 +1,5 @@
 package com.jyt.baseapp.view.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -61,7 +60,6 @@ public class PersonInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Const.Logout(PersonInfoActivity.this);
-                startActivity(new Intent(PersonInfoActivity.this,LoginActivity.class));
                 FinishActivityManager.getManager().finishActivity(ContentActivity.class);
                 finish();
                 BaseUtil.makeText("已退出登录");

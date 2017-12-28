@@ -2,6 +2,7 @@ package com.jyt.baseapp.view.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.adapter.FragmentViewPagerAdapter;
+import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.view.fragment.BaseFragment;
 import com.jyt.baseapp.view.fragment.BrandFragment;
 import com.jyt.baseapp.view.fragment.InfoFragment;
@@ -81,6 +83,8 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void init() {
+
+        Log.e("@#","token=" + Const.gettokenSession());
         flist=new ArrayList<>();
         mMapFragment=new MapFragment();
         mProjectFragment=new ProjectFragment();
@@ -89,6 +93,7 @@ public class ContentActivity extends BaseActivity implements View.OnClickListene
 //        mBrandFragment = new BrandFragment();
 //        mInfoFragment = new InfoFragment();
         flist.add(mMapFragment);
+//        flist.add(mBrandFragment);//品牌方
         flist.add(mProjectFragment);
         flist.add(mMoreFragment);
 //        flist.add(mMapBrandFragment);//品牌方

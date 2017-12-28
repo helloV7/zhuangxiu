@@ -40,9 +40,11 @@ public class InfoDetailViewHolder extends BaseViewHolder<InfoBean> {
                 break;
             case 1:
                 shopName = data.getBliu();
-                long finishTime = Long.valueOf(data.getFinishDate()) - Long.valueOf(data.getBshiba());
-                msg = "距离"+data.getTabletimeName()+"完工时间剩下"+(finishTime/(1000*60*60))+"小时，请尽快完工。";
-                lastTime = BaseUtil.getTime(data.getAsishiba());
+                if (data.getFinishDate()!=null && data.getBshiba()!=null){
+                    long finishTime = Long.valueOf(data.getFinishDate()) - Long.valueOf(data.getBshiba());
+                    msg = "距离"+data.getTabletimeName()+"完工时间剩下"+(finishTime/(1000*60*60))+"小时，请尽快完工。";
+                    lastTime = BaseUtil.getTime(data.getAsishiba());
+                }
                 break;
             case 2:
                 shopName = data.getProjectName();

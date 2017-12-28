@@ -33,6 +33,7 @@ import com.jyt.baseapp.view.widget.JumpItem;
 import com.jyt.baseapp.view.widget.TitleAndFlowImages;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -199,6 +200,7 @@ public class ViewConstructFragment extends BaseFragment {
 
 
                         }
+                        Collections.reverse(list);
                         mAdapter.notifyData(list);
                         isFinish=false;
                     }
