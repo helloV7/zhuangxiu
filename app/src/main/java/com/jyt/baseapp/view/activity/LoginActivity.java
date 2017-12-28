@@ -30,6 +30,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.btn_submit)
     Button mBtnSubmit;
     private LoginModel mLoginModel;
+    private boolean isClick =true;
 
     @Override
     protected int getLayoutId() {
@@ -51,6 +52,11 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.btn_submit)
     public void ToLogin(){
+        if (!isClick){
+            return;
+        }
+        isClick =false;
+
         String tel=mEtTel.getText().toString().trim();
         String pwd=mEtPwd.getText().toString().trim();
         if (TextUtils.isEmpty(tel) || TextUtils.isEmpty(pwd)){
@@ -61,6 +67,7 @@ public class LoginActivity extends BaseActivity {
         mLoginModel.ToLogin(tel, MD5Util.encrypt(pwd), new LoginModel.LoginResultListener() {
             @Override
             public void Result(boolean isSuccess, UserBean user) {
+                isClick =true;
                 if (isSuccess){
                     Const.KeepLoginState(user.getDepartmentId(),user.getNickName(),user.getPositionId(),user.getTokenSession(),user.getUserId(),user.getDepartmentName(),user.getStationName(),user.getTel());
                     startActivity(new Intent(LoginActivity.this,ContentActivity.class));

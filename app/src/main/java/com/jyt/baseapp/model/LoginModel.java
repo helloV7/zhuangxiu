@@ -29,6 +29,7 @@ public class LoginModel {
                         if (listener!=null){
                             listener.Result(false,null);
                             Log.e("@#","model---login "+ e.getMessage());
+                            BaseUtil.makeText("登录失败");
                         }
                     }
 

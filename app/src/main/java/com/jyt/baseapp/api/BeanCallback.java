@@ -1,10 +1,15 @@
 package com.jyt.baseapp.api;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.jyt.baseapp.bean.BaseJson;
+import com.jyt.baseapp.util.BaseUtil;
+import com.jyt.baseapp.util.FinishActivityManager;
+import com.jyt.baseapp.view.activity.LoginActivity;
 import com.jyt.baseapp.view.widget.LoadingDialog;
 import com.zhy.http.okhttp.callback.Callback;
 
@@ -74,7 +79,15 @@ public abstract class BeanCallback<T> extends Callback<T> {
                         return (T) bodyString;
                     } else {
                         //如果是 Bean List Map ，则解析完后返回
-                        return new Gson().fromJson(bodyString, beanType);
+                        T obj = new Gson().fromJson(bodyString, beanType);
+                        if (obj instanceof BaseJson){
+                            if ("登陆无效请重新登录".equals(((BaseJson)obj).forUser)){
+                                FinishActivityManager.getManager().finishAllActivity();
+                                BaseUtil.getContext().startActivity(new Intent(BaseUtil.getContext(), LoginActivity.class));
+                                return null;
+                            }
+                        }
+                        return obj;
                     }
                 }catch (Exception e){
                     e.printStackTrace();
