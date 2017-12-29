@@ -59,9 +59,9 @@ public class PersonInfoActivity extends BaseActivity {
         mBtnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FinishActivityManager.getManager().finishAllActivity();
                 Const.Logout(PersonInfoActivity.this);
-                FinishActivityManager.getManager().finishActivity(ContentActivity.class);
-                finish();
+
                 BaseUtil.makeText("已退出登录");
 
             }

@@ -47,7 +47,8 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        initShop();
+//        initShop();
+        initBrand();
         initListener();
     }
 
@@ -148,7 +149,8 @@ public class EvaluateActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void onResume() {
         super.onResume();
-        initShop();
+//        initShop();
+        initBrand();
     }
 
 

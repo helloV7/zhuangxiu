@@ -102,7 +102,7 @@
             android:divider="@drawable/linefull"
             android:background="@drawable/bg_selector">
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_brand"
+                android:id="@+id/rv_work"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp">

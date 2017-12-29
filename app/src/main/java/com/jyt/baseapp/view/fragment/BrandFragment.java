@@ -136,6 +136,7 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
         mSelectorCity.getLayoutParams().height = 0;
         mSelectorCity.requestLayout();
         mRvProgress.getLayoutParams().width = (int) (mtotalWidth * 0.9);
+        mRvProgress.getLayoutParams().height = 0;
         mRvProgress.requestLayout();
         mSelectorCity.setHideDeleteIV(true);
 
@@ -278,7 +279,7 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
         if (isRefresh) {
             mPage = 1;
         }
-        mMapModel.getLRData(mPage, new MapModel.OnSearchResultListener() {
+        mMapModel.getBrandLRData(mPage, new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, final List<SearchBean> data) {
                 if (isSuccess) {
@@ -348,7 +349,7 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
      * @param condition
      */
     private void SearchMapShop(String condition) {
-        mMapModel.getSearchData("null," + condition + ","+Const.getUserid()+",null,null", new MapModel.OnSearchResultListener() {
+        mMapModel.getBrandSearchData("null," + condition + ","+Const.getUserid()+",null,null", new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, List<SearchBean> data) {
                 if (isSuccess) {
@@ -365,7 +366,7 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
      */
     private void SearchProgressShop(String condition) {
         Log.e("@#", condition);
-        mMapModel.getSearchData("null,null,null,null,"+ Const.getUserid()+",null," + condition, new MapModel.OnSearchResultListener() {
+        mMapModel.getBrandSearchData("null,null,null,null,"+ Const.getUserid()+",null," + condition, new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, List<SearchBean> data) {
                 if (isSuccess) {

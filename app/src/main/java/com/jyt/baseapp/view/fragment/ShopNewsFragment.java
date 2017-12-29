@@ -11,17 +11,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jyt.baseapp.R;
-import com.jyt.baseapp.api.BeanCallback;
 import com.jyt.baseapp.api.Const;
-import com.jyt.baseapp.api.Path;
-import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.bean.ShopBean;
 import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.ShopModel;
 import com.jyt.baseapp.view.widget.ItemText;
-import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.util.List;
 
@@ -29,7 +25,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import ch.ielse.view.SwitchView;
-import okhttp3.Call;
 
 /**
  * @author LinWei on 2017/11/2 13:53
@@ -158,31 +153,13 @@ public class ShopNewsFragment extends BaseFragment {
         } else {
             //不属于以上四者，则需要专门查询该用户的推送状态
             isIn = false;
-            OkHttpUtils.get().url(Path.URL_MapDatas)
-                    .addParams("token", Const.gettokenSession())
-                    .addParams("method", "getNotInPush")
-                    .addParams("page", "0")
-                    .addParams("keyWord", projectBean.getProjectId())
-                    .addParams("searchValue", Const.getUserid())
-                    .build()
-                    .execute(new BeanCallback<BaseJson<String>>() {
-                        @Override
-                        public void onError(Call call, Exception e, int id) {
-                            Log.e("@#", "in=onError");
-                        }
-
-                        @Override
-                        public void onResponse(BaseJson<String> response, int id) {
-                            Log.e("@#", "in=" + response.data);
-                            if ("0".equals(response.data)) {
-                                mSvPush.setOpened(false);
-                                isPush = false;
-                            } else {
-                                isPush = true;
-                                mSvPush.setOpened(true);
-                            }
-                        }
-                    });
+            if ("0".equals(data.getIsfinish())) {
+                mSvPush.setOpened(false);
+                isPush = false;
+            } else {
+                isPush = true;
+                mSvPush.setOpened(true);
+            }
 
         }
 
@@ -218,9 +195,9 @@ public class ShopNewsFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //内部人员
-                IntentHelper.OpenEvaluateDetailActivity(getActivity(), projectBean.getProjectId(),0,false);
+//                IntentHelper.OpenEvaluateDetailActivity(getActivity(), projectBean.getProjectId(),0,false);
                 //店主 品牌方
-//                IntentHelper.OpenEvaluateActivity(getActivity(), projectBean.getProjectId());
+                IntentHelper.OpenEvaluateActivity(getActivity(), projectBean.getProjectId());
             }
         });
 
@@ -240,9 +217,10 @@ public class ShopNewsFragment extends BaseFragment {
     }
 
     private void ChangePushState(String state) {
+        Log.e("@#","isIn="+isIn);
         if (isIn) {
             //是四个职位
-            mShopModel.ChangePushState(projectBean.getProjectId(), state, new ShopModel.OnChangeStateListener() {
+            mShopModel.ChangePushState(projectBean.getProjectId(), state , "", new ShopModel.OnChangeStateListener() {
                 @Override
                 public void Before() {
                     CanChange = false;
@@ -263,7 +241,8 @@ public class ShopNewsFragment extends BaseFragment {
                 }
             });
         } else {
-            mShopModel.ChangePushStateO(projectBean.getProjectId(), state, new ShopModel.OnChangeStateListener() {
+
+            mShopModel.ChangePushState(projectBean.getProjectId(), state , "1", new ShopModel.OnChangeStateListener() {
                 @Override
                 public void Before() {
                     CanChange = false;
@@ -283,6 +262,27 @@ public class ShopNewsFragment extends BaseFragment {
                     }
                 }
             });
+
+//            mShopModel.ChangePushStateO(projectBean.getProjectId(), state, new ShopModel.OnChangeStateListener() {
+//                @Override
+//                public void Before() {
+//                    CanChange = false;
+//                }
+//
+//                @Override
+//                public void Result(boolean isSuccess) {
+//                    CanChange = true;
+//                    if (isSuccess) {
+//                        if (isPush) {
+//                            isPush = false;
+//                            mSvPush.setOpened(false);
+//                        } else {
+//                            mSvPush.setOpened(true);
+//                            isPush = true;
+//                        }
+//                    }
+//                }
+//            });
         }
 
     }

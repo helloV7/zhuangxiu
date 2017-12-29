@@ -289,12 +289,13 @@ public class ShopModel {
         void Result(boolean isSuccess,Exception e,List<Integer> data);
     }
 
-    public void ChangePushState(String ProjectID,String state,final OnChangeStateListener listener){
+    public void ChangePushState(String ProjectID,String state,String type ,final OnChangeStateListener listener){
         OkHttpUtils
                 .post()
                 .url(Path.URL_ChangeState)
                 .addParams("token", BaseUtil.getSpString(Const.UserToken))
                 .addParams("projectId",ProjectID)
+                .addParams("type",type)
                 .addParams("ispush",state)
                 .build()
                 .execute(new BeanCallback<BaseJson<String>>() {

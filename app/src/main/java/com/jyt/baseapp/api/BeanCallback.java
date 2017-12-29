@@ -79,15 +79,20 @@ public abstract class BeanCallback<T> extends Callback<T> {
                         return (T) bodyString;
                     } else {
                         //如果是 Bean List Map ，则解析完后返回
-                        T obj = new Gson().fromJson(bodyString, beanType);
-                        if (obj instanceof BaseJson){
-                            if ("登陆无效请重新登录".equals(((BaseJson)obj).forUser)){
-                                FinishActivityManager.getManager().finishAllActivity();
-                                BaseUtil.getContext().startActivity(new Intent(BaseUtil.getContext(), LoginActivity.class));
-                                return null;
+                        try {
+                            T obj = new Gson().fromJson(bodyString, beanType);
+                            if (obj instanceof BaseJson){
+                                if ("登陆无效请重新登录".equals(((BaseJson)obj).forUser)){
+                                    BaseUtil.makeText("登陆无效请重新登录");
+                                    FinishActivityManager.getManager().finishAllActivity();
+                                    BaseUtil.getContext().startActivity(new Intent(BaseUtil.getContext(), LoginActivity.class));
+                                    return null;
+                                }
                             }
+                            return obj;
+                        } catch (Exception e){
+                            return (T)new BaseJson();
                         }
-                        return obj;
                     }
                 }catch (Exception e){
                     e.printStackTrace();

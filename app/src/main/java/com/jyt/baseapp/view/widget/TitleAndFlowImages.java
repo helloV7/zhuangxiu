@@ -96,10 +96,12 @@ public class TitleAndFlowImages extends FrameLayout {
             imageView.setOnClickListener(onClickListener);
             vFlowLayout.addView(imageView);
         }
-        if (num<=3 && num>=0){
+        if (num<=3 && num>0){
             num=1;
-        }else {
+        }else if (num%3==0){
             num =num/3;
+        }else if (num%3>0){
+            num =num/3+1;
         }
 
 

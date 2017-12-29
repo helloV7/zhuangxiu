@@ -79,8 +79,6 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     ImageView mIvBrand;
     @BindView(R.id.rv_work)
     RecyclerView mRvWork;
-    @BindView(R.id.ll_brands)
-    LinearLayout mLlBrands;
     private int mtotalWidth;
     private int mtotalHeight;
     @BindView(R.id.mapview_map)

@@ -267,6 +267,40 @@ public class MapModel {
                 });
     }
 
+    public void getMapBrandSonData(String BrandID,final OngetBrandResultListener listener){
+        OkHttpUtils
+                .get()
+                .tag("BrandSon")
+                .url(Path.URL_MapDatas)
+                .addParams("token", BaseUtil.getSpString(Const.UserToken))
+                .addParams("method","getSubClassSelect")
+                .addParams("page","0")
+                .addParams("keyWord",null)
+                .addParams("searchValue",BrandID)
+                .build()
+                .execute(new BeanCallback<BaseJson<List<BrandBean>>>() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        if (listener!=null){
+                            listener.Result(false,null);
+                            Log.e("@#","model_map "+e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onResponse(BaseJson<List<BrandBean>> response, int id) {
+                        if (listener!=null) {
+                            if (response.ret) {
+
+                                listener.Result(true,response.data);
+                            }else {
+                                Log.e("@#","model_map "+response.forUser);
+                            }
+                        }
+                    }
+                });
+    }
+
     public interface OngetBrandResultListener{
         void Result(boolean isSuccess, List<BrandBean> brandData);
     }
@@ -402,6 +436,39 @@ public class MapModel {
                     }
                 });
     }
+
+    public void getBrandLRData(int page, final OnSearchResultListener listener){
+        OkHttpUtils
+                .get()
+                .url(Path.URL_MapDatas)
+                .addParams("token", BaseUtil.getSpString(Const.UserToken))
+                .addParams("method","getProjectList")
+                .addParams("page",String.valueOf(page))
+                .addParams("keyWord","")
+                .addParams("searchValue","null,null,null,null,null,null,null")
+                .build()
+                .execute(new BeanCallback<BaseJson<List<SearchBean>>>() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+
+                    }
+
+                    @Override
+                    public void onResponse(BaseJson<List<SearchBean>> response, int id) {
+                        if (listener!=null){
+                            if (response.ret ){
+                                listener.Result(true,response.data);
+                            }else {
+                                Log.e("@#","model_map "+response.forUser);
+                            }
+                        }
+                    }
+                });
+    }
+
+
+
+
 
 
     public interface OnSearchResultListener{

@@ -2,6 +2,8 @@ package com.jyt.baseapp.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -52,8 +54,8 @@ public class EvaluateDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        initData();
-//        initSB();
+//        initData();
+        initSB();
 
     }
 
@@ -73,32 +75,59 @@ public class EvaluateDetailActivity extends BaseActivity {
             public void Result(boolean isSuccess , List<EvaluateBean> data) {
                 if (isSuccess && data.size()>0){
                     EvaluateBean bean =data.get(0);
-                    mTvHostEvaluate.setText(bean.getEvalk());
-                    mRbEvaluate.setRating(Integer.valueOf(bean.getStar()));
-                    mTvSEvaluation.setText(bean.getEvals());
-                    mTvStime.setText(BaseUtil.getTime(bean.getTimes()));
-                    mTvBEvaluation.setText(bean.getEvalb());
-                    mTvBtime.setText(BaseUtil.getTime(bean.getTimeb()));
-                    mRbEvaluate.setRating(Integer.valueOf(bean.getStar()));
+                    if (!TextUtils.isEmpty(bean.getEvalk())){
+                        mTvHostEvaluate.setText(bean.getEvalk());
+                    }
+
+                    if (!TextUtils.isEmpty(bean.getStar())){
+                        mRbEvaluate.setRating(Integer.valueOf(bean.getStar()));
+                    }
+
+                    if (!TextUtils.isEmpty(bean.getEvals())){
+                        mTvSEvaluation.setText(bean.getEvals());
+                    }
+
+                    if (!TextUtils.isEmpty(bean.getTimes())){
+                        mTvStime.setText(BaseUtil.getTime(bean.getTimes()));
+                    }
+
+                    if (!TextUtils.isEmpty(bean.getEvalb())){
+                        mTvBEvaluation.setText(bean.getEvalb());
+                    }
+
+                    if (!TextUtils.isEmpty(bean.getTimeb())){
+                        mTvBtime.setText(BaseUtil.getTime(bean.getTimeb()));
+                    }
+
+                    if (!TextUtils.isEmpty(bean.getStar())){
+                        mRbEvaluate.setRating(Integer.valueOf(bean.getStar()));
+                    }
+
+
                 }
             }
         });
-
-
 
     }
 
 
 
     private void initSB(){
+        //店主
+//        if (!getIntent().getBooleanExtra(IntentKey.SEND_STATE,true)){
+//            //未评价
+//            setFunctionText("评价");
+//            //店主
+//            IntentHelper.OpenEvaluateSendActivity(EvaluateDetailActivity.this,projectId,state,true);
+//            finish();
+//        }else {
+//            //已评价
+//            setFunctionText("");
+//        }
+        //品牌方
         if (!getIntent().getBooleanExtra(IntentKey.SEND_STATE,true)){
-            //未评价
             setFunctionText("评价");
-            //店主
-            IntentHelper.OpenEvaluateSendActivity(EvaluateDetailActivity.this,projectId,state,true);
-            finish();
         }else {
-            //已评价
             setFunctionText("");
         }
         //店主 品牌方
@@ -118,9 +147,17 @@ public class EvaluateDetailActivity extends BaseActivity {
                     mTvStime.setText(BaseUtil.getTime(bean.getTimes()));
                 }
 
+                if (bean.getEvals()!=null){
+                    mTvSEvaluation.setText(bean.getEvals());
+                }
+
                 if (bean.getTimeb()!=null){
-                    mTvBEvaluation.setText(bean.getEvalb());
+
                     mTvBtime.setText(BaseUtil.getTime(bean.getTimeb()));
+                }
+
+                if (bean.getEvalb()!=null){
+                    mTvBEvaluation.setText(bean.getEvalb());
                 }
 
 
@@ -132,7 +169,8 @@ public class EvaluateDetailActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode==IntentKey.REQUEST_SEND && resultCode==IntentKey.RESULT_SEND){
-            setFunctionText("");
+            Log.e("@#","ASD");
+            hideFunction();
         }
     }
 

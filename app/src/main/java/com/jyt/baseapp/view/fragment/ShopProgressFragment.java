@@ -111,8 +111,8 @@ public class ShopProgressFragment extends BaseFragment {
         initConstruction();
         initComplete();
         initSettlement();
-        initData();
-//        initShop();
+//        initData();
+        initShop();
         initListener();
     }
 
@@ -560,13 +560,16 @@ public class ShopProgressFragment extends BaseFragment {
                 if (!isLink){
                     return;
                 }
+                //店主
+//                if ("0".equals(progressBeanList.get(0).getIsfinish())){
+//                    //未完成-进入测量中界面
+//                    IntentHelper.openUploadImagesActivityForResult(getContext(), progressBeanList.get(0),20);
+//                }else {
+//                    //已完成-进入测量完毕界面
+//                    IntentHelper.openCommonProgressActivity(getContext(),progressBeanList.get(1), progressBeanList.get(0));
+//                }
+                //品牌方
                 if ("0".equals(progressBeanList.get(0).getIsfinish())){
-                    //未完成-进入测量中界面
-                    Log.e("@#","co1");
-                    IntentHelper.openUploadImagesActivityForResult(getContext(), progressBeanList.get(0),20);
-                }else {
-                    //已完成-进入测量完毕界面
-                    Log.e("@#","co2");
                     IntentHelper.openCommonProgressActivity(getContext(),progressBeanList.get(1), progressBeanList.get(0));
                 }
             }

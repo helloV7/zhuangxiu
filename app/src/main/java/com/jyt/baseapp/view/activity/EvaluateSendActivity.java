@@ -54,8 +54,8 @@ public class EvaluateSendActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
-        initShop();
-//        initBrand();
+//        initShop();
+        initBrand();
     }
 
     private void init() {

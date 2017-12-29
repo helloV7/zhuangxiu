@@ -49,7 +49,7 @@ import com.jyt.baseapp.bean.MapBean;
 import com.jyt.baseapp.bean.SearchBean;
 import com.jyt.baseapp.bean.WorkBean;
 import com.jyt.baseapp.helper.IntentHelper;
-import com.jyt.baseapp.itemDecoration.SpacesItemDecoration;
+import com.jyt.baseapp.itemDecoration.RecycleViewDivider;
 import com.jyt.baseapp.model.MapModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
@@ -85,10 +85,7 @@ public class MapBrandFragment extends BaseFragment implements View.OnClickListen
     ImageView mIvBrand;
     @BindView(R.id.rv_work)
     RecyclerView mRvWork;
-    @BindView(R.id.ll_brands)
-    LinearLayout mLlBrands;
-    private int mtotalWidth;
-    private int mtotalHeight;
+
     @BindView(R.id.mapview_map)
     MapView mMapView;
     @BindView(R.id.tv_map_city)
@@ -103,6 +100,8 @@ public class MapBrandFragment extends BaseFragment implements View.OnClickListen
     SingleSelector mBrandSelector;
     @BindView(R.id.fl_selector)
     FrameLayout fl_selector;
+    private int mtotalWidth;
+    private int mtotalHeight;
     private MapModel mMapModel;
     private MapBean mMapBean;
 
@@ -193,9 +192,9 @@ public class MapBrandFragment extends BaseFragment implements View.OnClickListen
         mMapSelector.getLayoutParams().height = 0;
         mMapSelector.requestLayout();
         mMapSelector.setHideDeleteIV(true);
-        mLlBrands.getLayoutParams().width = (int) (mtotalWidth * 0.9);
-        mLlBrands.getLayoutParams().height = 0;
-        mLlBrands.requestLayout();
+        mRvWork.getLayoutParams().width = (int) (mtotalWidth * 0.9);
+        mRvWork.getLayoutParams().height = 0;
+        mRvWork.requestLayout();
     }
 
     private void initBrand() {
@@ -204,7 +203,7 @@ public class MapBrandFragment extends BaseFragment implements View.OnClickListen
 
         mMapBrandList = new ArrayList<>();
         mRvWork.setLayoutManager((new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false)));
-        mRvWork.addItemDecoration(new SpacesItemDecoration(0, 5));
+        mRvWork.addItemDecoration(new RecycleViewDivider(getActivity(), LinearLayoutManager.VERTICAL));
         mRvWork.setAdapter(mBrandAdapter);
         mIvBrand.setVisibility(View.VISIBLE);
         mIvBrand.setOnClickListener(new View.OnClickListener() {
@@ -353,19 +352,19 @@ public class MapBrandFragment extends BaseFragment implements View.OnClickListen
         //            }
         //        });
 
-        mMapModel.getBrandSonData(Const.getUserid(), new MapModel.OngetBrandResultListener() {
+        mMapModel.getMapBrandSonData(Const.getUserid(), new MapModel.OngetBrandResultListener() {
             @Override
             public void Result(boolean isSuccess, List<BrandBean> brandData) {
                 if (isSuccess) {
                     mMapBrandList.clear();
                     if (brandData!=null && brandData.size()>0){
-
                         for (int i = 0; i < brandData.size(); i++) {
                             mMapBrandList.add(new WorkBean(brandData.get(i).getSubClassName(),brandData.get(i).getSubClassId()));
                         }
-                        mMapBrandList.add(0,new WorkBean("全部","-1"));
+                        mMapBrandList.add(0,new WorkBean("全部","-1").firstCheck());
                     }
                     mBrandAdapter.notifyData(mMapBrandList);
+
                 }
             }
         });
@@ -635,7 +634,7 @@ public class MapBrandFragment extends BaseFragment implements View.OnClickListen
                     mIvArrow2.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
                     tv_brand.setTextColor(getResources().getColor(R.color.text_color1));
                     mMapSelector.setVisibility(View.VISIBLE);
-                    mLlBrands.setVisibility(View.GONE);
+                    mRvWork.setVisibility(View.GONE);
                     isShowMap = false;
                     isShowBrand = true;
                     isHideMapSelecotr = false;
@@ -653,7 +652,7 @@ public class MapBrandFragment extends BaseFragment implements View.OnClickListen
                     mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
                     tv_city.setTextColor(getResources().getColor(R.color.text_color1));
                     mMapSelector.setVisibility(View.GONE);
-                    mLlBrands.setVisibility(View.VISIBLE);
+                    mRvWork.setVisibility(View.VISIBLE);
                     isShowBrand = false;
                     isShowMap = true;
                     isHideBrandSelecotr = false;
@@ -706,8 +705,8 @@ public class MapBrandFragment extends BaseFragment implements View.OnClickListen
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                mLlBrands.getLayoutParams().height = (int) animation.getAnimatedValue();
-                mLlBrands.requestLayout();
+                mRvWork.getLayoutParams().height = (int) animation.getAnimatedValue();
+                mRvWork.requestLayout();
             }
         });
         animator.setDuration(500);

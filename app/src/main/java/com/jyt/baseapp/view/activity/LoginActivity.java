@@ -14,6 +14,7 @@ import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.bean.UserBean;
 import com.jyt.baseapp.model.LoginModel;
 import com.jyt.baseapp.util.BaseUtil;
+import com.jyt.baseapp.util.FinishActivityManager;
 import com.jyt.baseapp.util.MD5Util;
 
 import butterknife.BindView;
@@ -64,18 +65,18 @@ public class LoginActivity extends BaseActivity {
             return;
         }
         //内部人员
-        mLoginModel.ToLogin(tel, MD5Util.encrypt(pwd), new LoginModel.LoginResultListener() {
-            @Override
-            public void Result(boolean isSuccess, UserBean user) {
-                isClick =true;
-                if (isSuccess){
-                    Const.KeepLoginState(user.getDepartmentId(),user.getNickName(),user.getPositionId(),user.getTokenSession(),user.getUserId(),user.getDepartmentName(),user.getStationName(),user.getTel());
-                    startActivity(new Intent(LoginActivity.this,ContentActivity.class));
-                    finish();
-                    BaseUtil.makeText("登录成功");
-                }
-            }
-        });
+//        mLoginModel.ToLogin(tel, MD5Util.encrypt(pwd), new LoginModel.LoginResultListener() {
+//            @Override
+//            public void Result(boolean isSuccess, UserBean user) {
+//                isClick =true;
+//                if (isSuccess){
+//                    Const.KeepLoginState(user.getDepartmentId(),user.getNickName(),user.getPositionId(),user.getTokenSession(),user.getUserId(),user.getDepartmentName(),user.getStationName(),user.getTel());
+//                    startActivity(new Intent(LoginActivity.this,ContentActivity.class));
+//                    finish();
+//                    BaseUtil.makeText("登录成功");
+//                }
+//            }
+//        });
         //店主
 //        mLoginModel.ToShopLogin(tel, MD5Util.encrypt(pwd), new LoginModel.LoginResultListener() {
 //            @Override
@@ -95,17 +96,17 @@ public class LoginActivity extends BaseActivity {
 //        });
 
         //品牌方
-//        mLoginModel.ToBrandLogin(tel, MD5Util.encrypt(pwd), new LoginModel.LoginResultListener() {
-//            @Override
-//            public void Result(boolean isSuccess, UserBean user) {
-//                if (isSuccess){
-//                    Const.KeepLoginStateBrand(user.getNickName(),user.getBrandId(),user.getToken(),user.getTel());
-//                    startActivity(new Intent(LoginActivity.this,ContentActivity.class));
-//                    finish();
-//                    BaseUtil.makeText("登录成功");
-//                }
-//            }
-//        });
+        mLoginModel.ToBrandLogin(tel, MD5Util.encrypt(pwd), new LoginModel.LoginResultListener() {
+            @Override
+            public void Result(boolean isSuccess, UserBean user) {
+                if (isSuccess){
+                    Const.KeepLoginStateBrand(user.getNickName(),user.getBrandId(),user.getToken(),user.getTel());
+                    startActivity(new Intent(LoginActivity.this,ContentActivity.class));
+                    finish();
+                    BaseUtil.makeText("登录成功");
+                }
+            }
+        });
 
     }
 
@@ -122,7 +123,7 @@ public class LoginActivity extends BaseActivity {
             mPressedTime = mNowTime;
         }
         else{//退出程序
-            this.finish();
+            FinishActivityManager.getManager().finishAllActivity();
         }
     }
 

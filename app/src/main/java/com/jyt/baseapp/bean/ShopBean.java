@@ -36,6 +36,7 @@ public class ShopBean {
     private String designIsPush;
     private String measureIsPush;
     private String proIsPush;
+    private String isfinish;
 
     public int getSchedule() {
         return schedule;
@@ -291,5 +292,13 @@ public class ShopBean {
 
     public void setProIsPush(String proIsPush) {
         this.proIsPush = proIsPush;
+    }
+
+    public String getIsfinish() {
+        return isfinish;
+    }
+
+    public void setIsfinish(String isfinish) {
+        this.isfinish = isfinish;
     }
 }
