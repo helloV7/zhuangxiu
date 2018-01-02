@@ -514,8 +514,7 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
         STel = mEtPhone.getText().toString();
         SId = mEtIdcard.getText().toString();
 
-        if (SPic.length() > 0
-                && SName.length() > 0
+        if (SName.length() > 0
                 && STel.length() > 0
                 && SId.length() > 0
                 && SWorkID.length() > 0

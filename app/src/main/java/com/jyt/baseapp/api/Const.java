@@ -62,8 +62,8 @@ public class Const {
         BaseUtil.setSpString(USERID,userId);
         BaseUtil.setSpString(DepartmentName,departmentName);
         BaseUtil.setSpString(PositionName,stateName);
-//        JPushInterface.setAlias(BaseUtil.getContext(),userToken,mAliasCallback);
-//        JPushInterface.resumePush(BaseUtil.getContext());
+        JPushInterface.resumePush(BaseUtil.getContext());
+        JPushInterface.setAlias(BaseUtil.getContext(),userToken,mAliasCallback);
     }
 
     public static void KeepLoginStateShop(String name,String id,String token){

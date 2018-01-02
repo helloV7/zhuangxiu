@@ -111,8 +111,8 @@ public class ShopProgressFragment extends BaseFragment {
         initConstruction();
         initComplete();
         initSettlement();
-//        initData();
-        initShop();
+        initData();
+//        initShop();
         initListener();
     }
 

@@ -14,14 +14,14 @@
             android:id="@+id/tv_shopName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="店名"
+            android:text=""
             android:textSize="16dp"
             android:textColor="@color/text_color1"/>
         <TextView
             android:id="@+id/tv_shopMsg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="邓普轮胎 PC期-56轮"
+            android:text=""
             android:textSize="14dp"
             android:textColor="@color/map_text1"/>
     </LinearLayout>
@@ -38,7 +38,7 @@
             android:id="@+id/tv_shopStation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="暂停中"
+            android:text=""
             android:textSize="14dp"
             android:textColor="@color/color_stop"/>
         <ImageView
@@ -51,7 +51,7 @@
             android:id="@+id/tv_shopLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="广州-天河区"
+            android:text=""
             android:textSize="14dp"
             android:textColor="@color/map_text1"/>
     </LinearLayout>

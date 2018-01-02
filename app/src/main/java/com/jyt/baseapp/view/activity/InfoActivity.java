@@ -83,8 +83,11 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener {
                 if (response.ret){
                     click_b=true;
                     InfoBean data = response.data;
-                    mTvProgress.setText("进度已达"+data.getProjectName() +"，点击查看");
-                    mTvBtime.setText(getTime(data.getUpdateDate()));
+                    if (data!=null){
+                        mTvProgress.setText("进度已达"+data.getProjectName() +"，点击查看");
+                        mTvBtime.setText(getTime(data.getUpdateDate()));
+                    }
+
 
                 }
             }
@@ -101,8 +104,10 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener {
             public void onResponse(BaseJson<InfoBean> response, int id) {
                 click_y=true;
                 InfoBean data = response.data;
-                mTvNews.setText(data.getBliu()+"有新的消息，点击查看");
-                mTvYtime.setText(getTime(data.getFinishDate()));
+                if (data!=null){
+                    mTvNews.setText(data.getBliu()+"有新的消息，点击查看");
+                    mTvYtime.setText(getTime(data.getFinishDate()));
+                }
             }
         });
 
@@ -117,23 +122,26 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener {
             public void onResponse(BaseJson<InfoBean> response, int id) {
                 click_g=true;
                 InfoBean data = response.data;
-                mTvEvaluation.setText(data.getProjectName()+"有新的评价，点击查看");
-                switch (Const.getPositionName()) {
-                    case "预算员":
-                        mTvGtime.setText(getTime(data.getKtobtime()));
-                        break;
-                    case "设计师":
-                        mTvGtime.setText(getTime(data.getKtodtime()));
-                        break;
-                    case "测量人员":
-                        mTvGtime.setText(getTime(data.getKtomtime()));
-                        break;
-                    case "项目经理":
-                        mTvGtime.setText(getTime(data.getKtobtime()));
-                        break;
+                if (data!=null){
+                    mTvEvaluation.setText(data.getProjectName()+"有新的评价，点击查看");
+                    switch (Const.getPositionName()) {
+                        case "预算员":
+                            mTvGtime.setText(getTime(data.getKtobtime()));
+                            break;
+                        case "设计师":
+                            mTvGtime.setText(getTime(data.getKtodtime()));
+                            break;
+                        case "测量人员":
+                            mTvGtime.setText(getTime(data.getKtomtime()));
+                            break;
+                        case "项目经理":
+                            mTvGtime.setText(getTime(data.getKtobtime()));
+                            break;
+                    }
+                }
             }
-        }
-    });}
+        });
+    }
 
     private void initListener(){
         mRlProgress.setOnClickListener(this);

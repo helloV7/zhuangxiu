@@ -1,6 +1,5 @@
 package com.jyt.baseapp.view.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,19 +15,13 @@ import com.jyt.baseapp.bean.Person;
 import com.jyt.baseapp.bean.Tuple;
 import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.itemDecoration.RecycleViewDivider;
-import com.jyt.baseapp.model.ProjectDetailModel;
 import com.jyt.baseapp.model.UserModel;
-import com.jyt.baseapp.model.impl.ProjectDetailModelImpl;
 import com.jyt.baseapp.model.impl.UserModelImpl;
-import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.util.T;
 import com.jyt.baseapp.view.viewholder.BaseViewHolder;
 import com.jyt.baseapp.view.widget.RefreshRecyclerView;
 import com.jyt.baseapp.view.widget.SearchView;
-import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
-import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -79,6 +72,7 @@ public class SelPeopleActivity extends BaseActivity {
 
         vRefreshRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
         vRefreshRecyclerView.setAdapter(adapter = new SelPersonAdapter());
+
         vRefreshRecyclerView.getRecyclerView().addItemDecoration(new RecycleViewDivider(getContext(),LinearLayoutManager.VERTICAL));
         vRefreshRecyclerView.setRefreshable(false);
 //        vRefreshRecyclerView.setRefreshListener(new RefreshListenerAdapter() {

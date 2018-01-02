@@ -1,5 +1,6 @@
 package com.jyt.baseapp.view.viewholder;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -40,6 +41,7 @@ public class ProjectHolder extends BaseViewHolder<SearchBean> {
             mTvShopStation.setText("暂停中");
             mTvShopStation.setTextColor(itemView.getResources().getColor(R.color.color_stop));
         }else {
+            Log.e("@#",data.getSchedule());
             mTvShopStation.setTextColor(itemView.getResources().getColor(R.color.map_text2));
             switch (data.getSchedule()) {
                 case "0":
@@ -50,6 +52,9 @@ public class ProjectHolder extends BaseViewHolder<SearchBean> {
                     break;
                 case "2":
                     mTvShopStation.setText("测量完毕");
+                    break;
+                case "100":
+                    mTvShopStation.setText("设计报价");
                     break;
                 case "101":
                     mTvShopStation.setText("待设计");
@@ -66,17 +71,26 @@ public class ProjectHolder extends BaseViewHolder<SearchBean> {
                 case "105":
                     mTvShopStation.setText("报价完毕");
                     break;
+                case "200":
+                    mTvShopStation.setText("客户审批");
+                    break;
                 case "201":
                     mTvShopStation.setText("待客户审批");
                     break;
                 case "202":
                     mTvShopStation.setText("客户已审批");
                     break;
+                case "300":
+                    mTvShopStation.setText("店主确认中");
+                    break;
                 case "301":
                     mTvShopStation.setText("待店主确认");
                     break;
                 case "302":
                     mTvShopStation.setText("店主已确认");
+                    break;
+                case "400":
+                    mTvShopStation.setText("备货中");
                     break;
                 case "401":
                     mTvShopStation.setText("预算确认下单");
@@ -120,6 +134,9 @@ public class ProjectHolder extends BaseViewHolder<SearchBean> {
                 case "414":
                     mTvShopStation.setText("所有材料已打包");
                     break;
+                case "500":
+                    mTvShopStation.setText("物流中");
+                    break;
                 case "501":
                     mTvShopStation.setText("待发货");
                     break;
@@ -132,11 +149,20 @@ public class ProjectHolder extends BaseViewHolder<SearchBean> {
                 case "504":
                     mTvShopStation.setText("岸炮施工人员完毕");
                     break;
+                case "600":
+                    mTvShopStation.setText("进场施工");
+                    break;
                 case "601":
                     mTvShopStation.setText("施工中");
                     break;
+                case "700":
+                    mTvShopStation.setText("完成施工");
+                    break;
                 case "701":
                     mTvShopStation.setText("施工完毕");
+                    break;
+                case "800":
+                    mTvShopStation.setText("结算阶段");
                     break;
                 case "801":
                     mTvShopStation.setText("预算审核照片已回访");
@@ -149,6 +175,9 @@ public class ProjectHolder extends BaseViewHolder<SearchBean> {
                     break;
                 case "804":
                     mTvShopStation.setText("已收款");
+                    break;
+                case "900":
+                    mTvShopStation.setText("已完成");
                     break;
                 default:
                     break;

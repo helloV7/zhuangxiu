@@ -3,6 +3,7 @@ package com.jyt.baseapp.view.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -77,7 +78,8 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
                     JSONArray jsonArray=new JSONArray(jsondata.getString("data"));
                     int state1 = jsonArray.getJSONObject(13).getJSONArray("role").getJSONObject(3).getInt("机动人员管理");
                     int state2 = jsonArray.getJSONObject(11).getJSONArray("role").getJSONObject(1).getInt("查看定位");
-
+                    Log.e("@#","State1="+state1);
+                    Log.e("@#","State2="+state2);
                     if (state1==1){
                         mItemManeuver.setVisibility(View.VISIBLE);
                     }else {

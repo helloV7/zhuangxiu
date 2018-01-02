@@ -303,6 +303,8 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
         if (ProcinveID == -1) {
             mMapBean.mCities.clear();
             mSelectorCity.notifyData(mMapBean);
+            NotifySearchType("null,null,null,null,null");
+            mLlCity.performClick();
             return;
         }
         mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {

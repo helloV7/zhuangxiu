@@ -51,6 +51,7 @@ public class InfoDetailViewHolder extends BaseViewHolder<InfoBean> {
                 msg = "店主已进行评价，点击查看详情。";
                 switch (Const.getPositionName()) {
                     case "预算员":
+
                         lastTime = BaseUtil.getTime(data.getKtobtime());
                         break;
                     case "设计师":

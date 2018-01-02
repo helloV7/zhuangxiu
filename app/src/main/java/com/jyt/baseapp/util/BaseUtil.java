@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.StatFs;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
@@ -178,8 +179,13 @@ public class BaseUtil {
     }
 
     public static String getTime(String time){
-        SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm");//"yyyy-MM-dd HH:mm:ss"
-        return format.format(Long.parseLong(time));
+        if (TextUtils.isEmpty(time)){
+            return "";
+        }else {
+            SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm");//"yyyy-MM-dd HH:mm:ss"
+            return format.format(Long.parseLong(time));
+        }
+
     }
 
     /**

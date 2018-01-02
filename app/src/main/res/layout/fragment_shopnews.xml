@@ -181,7 +181,7 @@
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:leftText="店主评价"
+            app:leftText="评价"
             app:showIV="true"/>
         <RelativeLayout
             android:id="@+id/rl_push"

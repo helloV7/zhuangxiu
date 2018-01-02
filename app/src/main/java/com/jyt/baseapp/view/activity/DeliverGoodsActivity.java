@@ -86,7 +86,9 @@ public class DeliverGoodsActivity extends BaseActivity {
                 setTextTitle("已发货");
                 enableView = false;
                 btnAddBatch.setVisibility(View.GONE);
-                btnConfirm.setVisibility(View.GONE);
+                if ("1".equals(progressBean.getIsfinish())){
+                    btnConfirm.setVisibility(View.GONE);
+                }
                 getLogisticList();
                 break;
         }

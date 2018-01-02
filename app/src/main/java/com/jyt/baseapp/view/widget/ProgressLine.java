@@ -66,11 +66,11 @@ public class ProgressLine extends RelativeLayout {
             @Override
             public void onClick(View v) {
                 //店主 品牌方
-                if (listener!=null){
-                    listener.onClick();
-                }
+//                if (listener!=null){
+//                    listener.onClick();
+//                }
                 //内部人员
-//                ToAnimation();
+                ToAnimation();
             }
         });
     }
@@ -158,11 +158,11 @@ public class ProgressLine extends RelativeLayout {
             tv_station.setTextColor(getResources().getColor(R.color.map_text1));
         }
         //店主 品牌方
-        if (isSb){
-            iv_arrow.setImageResource(R.mipmap.jiantou_hui);
-        }else {
-            iv_arrow.setVisibility(INVISIBLE);
-        }
+//        if (isSb){
+//            iv_arrow.setImageResource(R.mipmap.jiantou_hui);
+//        }else {
+//            iv_arrow.setVisibility(INVISIBLE);
+//        }
     }
     //当前进行到的位置 字体白色 背景蓝色 圆标白色
     //内部AppendItem同样
@@ -175,11 +175,11 @@ public class ProgressLine extends RelativeLayout {
         civ_light.setImageResource(R.mipmap.oval);
         iv_arrow.setImageResource(R.mipmap.jiantou_xia_bai);//内部人员
         //店主 品牌方
-        if (isSb){
-            iv_arrow.setImageResource(R.mipmap.jiantou_you_bai);
-        }else {
-            iv_arrow.setVisibility(INVISIBLE);
-        }
+//        if (isSb){
+//            iv_arrow.setImageResource(R.mipmap.jiantou_you_bai);
+//        }else {
+//            iv_arrow.setVisibility(INVISIBLE);
+//        }
         ll_parent.setBackground(getResources().getDrawable(R.drawable.bg_blue));
         ll_parent.setDividerDrawable(getResources().getDrawable(R.drawable.line_white30));
         for (AppendItem item: appendList) {

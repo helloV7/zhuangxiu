@@ -195,9 +195,9 @@ public class ShopNewsFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 //内部人员
-//                IntentHelper.OpenEvaluateDetailActivity(getActivity(), projectBean.getProjectId(),0,false);
+                IntentHelper.OpenEvaluateDetailActivity(getActivity(), projectBean.getProjectId(),0,false);
                 //店主 品牌方
-                IntentHelper.OpenEvaluateActivity(getActivity(), projectBean.getProjectId());
+//                IntentHelper.OpenEvaluateActivity(getActivity(), projectBean.getProjectId());
             }
         });
 
