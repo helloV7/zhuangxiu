@@ -154,6 +154,7 @@ public class CommonProgressActivity extends BaseActivity {
             vWorkerAndTime.setUpdateTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(Long.valueOf(beforeProject.getFinishTime()))));
         }
         if (type == 0) {
+
             projectDetailModel.getProgressDetail(beforeProject.getSpeedId(), new BeanCallback<BaseJson<List<ProjectFileBean>>>() {
                 @Override
                 public void onError(Call call, Exception e, int id) {
@@ -201,6 +202,8 @@ public class CommonProgressActivity extends BaseActivity {
                 @Override
                 public void onResponse(BaseJson<FinishBean> response, int id) {
                     if (response.data.getLolist() != null && response.ret) {
+                        mLlParent.setVisibility(View.VISIBLE);
+                        mLlEmpty.setVisibility(View.GONE);
                         List<ProjectFileBean> data = new ArrayList<ProjectFileBean>();
                         for (int i = 0; i < response.data.getLolist().size(); i++) {
                             FinishBean.Data finishFile = response.data.getLolist().get(i);

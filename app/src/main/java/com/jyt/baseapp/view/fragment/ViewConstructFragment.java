@@ -33,7 +33,6 @@ import com.jyt.baseapp.view.widget.JumpItem;
 import com.jyt.baseapp.view.widget.TitleAndFlowImages;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -174,8 +173,15 @@ public class ViewConstructFragment extends BaseFragment {
                         ConstructionBean detailBean = new ConstructionBean();
                         //整理数据
                         for (int i = 0; i < response.data.getConstructionList().size(); i++) {
+
                             //时间一致
                             if ("1".equals(response.data.getConstructionList().get(i).getConstructionType())){
+                                if (!isFirst){
+                                    list.add(detailBean);
+                                    detailBean= new ConstructionBean();
+                                    time=response.data.getConstructionList().get(i).getConstructionDate();
+                                    isFirst=true;
+                                }
                                 if (!time.equals(response.data.getConstructionList().get(i).getConstructionDate())){
                                     list.add(detailBean);
                                     detailBean= new ConstructionBean();
@@ -185,12 +191,8 @@ public class ViewConstructFragment extends BaseFragment {
 
                                 }
 
-                            }else {
-                                if (!isFirst){
-                                    list.add(detailBean);
-                                    detailBean= new ConstructionBean();
-                                    isFirst=true;
-                                }
+                            }else if (("2".equals(response.data.getConstructionList().get(i).getConstructionType()))){
+
                                 detailBean.getConstructionList().add(response.data.getConstructionList().get(i));
                             }
                             //记得最后一组
@@ -200,9 +202,10 @@ public class ViewConstructFragment extends BaseFragment {
 
 
                         }
-                        Collections.reverse(list);
-                        mAdapter.notifyData(list);
-                        isFinish=false;
+                        if (list.size()>0){
+                            mAdapter.notifyData(list);
+                            isFinish=false;
+                        }
                     }
 
                 } else {

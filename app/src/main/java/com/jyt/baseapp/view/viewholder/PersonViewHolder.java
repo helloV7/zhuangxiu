@@ -5,7 +5,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.jyt.baseapp.R;
-import com.jyt.baseapp.bean.Person;
+import com.jyt.baseapp.bean.Manager;
+import com.jyt.baseapp.bean.Monitor;
 
 import butterknife.BindView;
 
@@ -25,8 +26,11 @@ public class PersonViewHolder extends BaseViewHolder {
     @Override
     public void setData(Object data) {
         super.setData(data);
-        if (data instanceof Person){
-            textName.setText(((Person) data).getName());
+        if (data instanceof Monitor){
+            textName.setText(((Monitor) data).getMonitorName());
+        }
+        if (data instanceof Manager){
+            textName.setText(((Manager) data).getNickName());
         }
     }
 }

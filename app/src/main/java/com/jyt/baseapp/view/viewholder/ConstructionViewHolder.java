@@ -35,7 +35,7 @@ public class ConstructionViewHolder extends BaseViewHolder<ConstructionBean> {
         }
         String type="";
         if ("1".equals(data.getConstructionList().get(0).getConstructionType())){
-            type="施工中"+"\n"+data.getConstructionList().get(0).getConstructionNickName()+"   "+BaseUtil.getTime(data.getConstructionList().get(0).getConstructionDate());
+            type="施工中"+"\n"+data.getConstructionList().get(0).getConstructionNickName()+"   "+ BaseUtil.getTime(data.getConstructionList().get(0).getConstructionDate());
         }else {
             type="施工完毕"+"\n"+data.getConstructionList().get(0).getConstructionNickName()+"   "+BaseUtil.getTime(data.getConstructionList().get(0).getConstructionDate());
         }
@@ -46,6 +46,10 @@ public class ConstructionViewHolder extends BaseViewHolder<ConstructionBean> {
 
         mTiAf.setImages(picList);
         mTiAf.setOnImageClickListener(listener);
+        if (data!=null && data.getConstructionList().size()>0){
+
+        }
+
     }
 
     private TitleAndFlowImages.OnImageClickListener listener;

@@ -1,6 +1,5 @@
 package com.jyt.baseapp.view.viewholder;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -41,7 +40,6 @@ public class ProjectHolder extends BaseViewHolder<SearchBean> {
             mTvShopStation.setText("暂停中");
             mTvShopStation.setTextColor(itemView.getResources().getColor(R.color.color_stop));
         }else {
-            Log.e("@#",data.getSchedule());
             mTvShopStation.setTextColor(itemView.getResources().getColor(R.color.map_text2));
             switch (data.getSchedule()) {
                 case "0":

@@ -6,7 +6,6 @@
               android:layout_height="match_parent">
     <android.support.design.widget.TabLayout
         android:id="@+id/v_tabLayout"
-        android:visibility="gone"
         app:tabIndicatorColor="@color/map_text2"
         app:tabSelectedTextColor="@color/map_text2"
         app:tabTextColor="@color/map_text1"

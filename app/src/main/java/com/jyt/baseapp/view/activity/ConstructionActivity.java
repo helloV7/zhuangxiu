@@ -59,7 +59,7 @@ public class ConstructionActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         projectDetailModel = new ProjectDetailModelImpl();
         projectDetailModel.onCreate(getContext());
-
+        setTextTitle("施工中");
         canEdit = getIntent().getBooleanExtra(IntentKey.EDITABLE,false);
         progressBean = getIntent().getParcelableExtra(IntentKey.DATA);
 

@@ -26,6 +26,7 @@ public class AppendItem extends RelativeLayout {
     private int Operate;
     private boolean isNext;
     private boolean isComplete;//是否已经操作完毕
+    private boolean CanEstimate;//是否能显示预订预计时间
     private int state;//0无任何操作 1操作完显示可见 2操作完显示不可见
     public AppendItem(Context context) {
         super(context);
@@ -121,12 +122,12 @@ public class AppendItem extends RelativeLayout {
 
     public void setComplete(boolean isComplete,String time){
         this.isComplete=isComplete;
+        tv_estimate.setVisibility(GONE);
         if (isComplete){
             iv_complete.setVisibility(VISIBLE);
             iv_complete.setImageResource(R.mipmap.right_green);
             tv_time.setVisibility(VISIBLE);
             tv_time.setTextColor(getResources().getColor(R.color.map_text1));
-            tv_estimate.setVisibility(GONE);
             tv_msg.setTextColor(getResources().getColor(R.color.map_text1));
             //版本一
 //            if (time!=null){
@@ -172,11 +173,15 @@ public class AppendItem extends RelativeLayout {
         isComplete=true; //特殊操作，当前进度处于未完成和完成之间，需要赋予点击事件
         iv_complete.setVisibility(VISIBLE);
         iv_complete.setImageResource(R.mipmap.oval);
-        tv_time.setVisibility(VISIBLE);
         tv_msg.setTextColor(getResources().getColor(R.color.white));
-        tv_estimate.setVisibility(VISIBLE);
+        tv_time.setVisibility(VISIBLE);
         tv_estimate.setTextColor(getResources().getColor(R.color.white));
         tv_time.setTextColor(getResources().getColor(R.color.white));
+        if (CanEstimate){
+            tv_estimate.setVisibility(VISIBLE);
+        }else {
+            tv_estimate.setVisibility(GONE);
+        }
         //版本一
 //        if (time!=null){
 //            tv_time.setText(BaseUtil.getTime(time.split(" ")[0]));
@@ -212,7 +217,7 @@ public class AppendItem extends RelativeLayout {
 
     //设置当前进度点相同父类下的其他进度点
     public void setCurrentColor(int speed){
-
+        tv_estimate.setVisibility(GONE);
         if (speed<mProgressBean.getSpeedCode()){
             tv_msg.setTextColor(getResources().getColor(R.color.white_half));
             tv_estimate.setTextColor(getResources().getColor(R.color.white_half));
@@ -303,6 +308,10 @@ public class AppendItem extends RelativeLayout {
 
     public void setOperate(int operate) {
         Operate = operate;
+    }
+
+    public void setCanEstimate(boolean canEstimate){
+        this.CanEstimate = canEstimate;
     }
 
     public interface OnAppendOnclickListener{

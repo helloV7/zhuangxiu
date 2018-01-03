@@ -71,7 +71,7 @@ public class UnderConstructionFragment extends BaseFragment {
     FrameLayout vUploadImg;
     @BindView(R.id.btn_submitDate)
     TextView btnSubmitDate;
-
+    private int mMax;
     ShowImageAdapter adapter;
     //当前数量
     int currentCount;
@@ -132,6 +132,22 @@ public class UnderConstructionFragment extends BaseFragment {
                 }
             }
         });
+        projectDetailModel.getStatus(mBean.getProjectId(),"3", new BeanCallback<BaseJson<String>>() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(BaseJson<String> response, int id) {
+                mMax = Integer.valueOf(response.data.toString().trim());
+                if (mMax>=3){
+                    textImageCount.setText("每天可上传次数(3/3)");
+                }else {
+                    textImageCount.setText("每天可上传次数("+mMax+"/3)");
+                }
+            }
+        });
     }
 
     /**
@@ -189,7 +205,7 @@ public class UnderConstructionFragment extends BaseFragment {
 
     public void upDateView(){
         currentCount = imageList.size()-1;
-        textImageCount.setText(getString(R.string.uploadImages_finish_text,imageList.size()-1+"",maxCount+""));
+//        textImageCount.setText(getString(R.string.uploadImages_finish_text,imageList.size()-1+"",maxCount+""));
     }
 
     //上传图片
@@ -215,9 +231,11 @@ public class UnderConstructionFragment extends BaseFragment {
                 int max = Integer.valueOf(response.data.toString().trim());
                 if (max>=3){
                     isMax=true;
+                    textImageCount.setText("每天可上传次数(3/3)");
                     BaseUtil.makeText("已超出当天最大上传次数");
                     return;
                 }
+
                 final LoadingDialog loadingDialog = new LoadingDialog(getActivity());
                 loadingDialog.show();
                 //提交aliyun
@@ -249,6 +267,8 @@ public class UnderConstructionFragment extends BaseFragment {
                                             imageList.clear();
                                             imageList.add(imageList.size(),new Integer(0));
                                             adapter.notifyData(imageList);
+                                            mMax++;
+                                            textImageCount.setText("每天可上传次数("+mMax+"/3)");
                                             BaseUtil.makeText("上传完成");
                                             //通知查看施工界面刷新
                                             Intent intent = new Intent();

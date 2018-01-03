@@ -168,7 +168,7 @@ public class ShopNewsFragment extends BaseFragment {
         mItNumber.setRightText(data.getProjectCode());
         mItUserName.setRightText(data.getShopkeeperName());
         mItShopPhone.setRightText(data.getShopkeepertel());
-        mItAddress.setRightText(data.getAddress());
+        mItAddress.setRightText(data.getCity()+"-"+data.getAddress());
         mItTime.setRightText(data.getBeginTime());
 
         mItBrand.setRightText(data.getBrandName());

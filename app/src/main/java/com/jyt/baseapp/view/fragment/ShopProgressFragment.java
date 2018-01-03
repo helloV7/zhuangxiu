@@ -358,6 +358,7 @@ public class ShopProgressFragment extends BaseFragment {
     private void initMeasure() {
         at_Measure.setTv_msg("测量中");
         at_Measure.setEditor();
+        at_Measure.setCanEstimate(true);
         at_Measure.setState(2);//操作后不可见
         at_Measured.setTv_msg("测量完毕");
         at_Measured.setNext(true);
@@ -372,10 +373,12 @@ public class ShopProgressFragment extends BaseFragment {
         at_Design.setTv_msg("待设计");
         at_Design.setNext(false);
         at_Designing.setTv_msg("设计中");
+        at_Designing.setCanEstimate(true);
         at_Designing.setNext(false);
         at_Designed.setTv_msg("设计完毕");
         at_Designed.setState(1);//操作后可见
         at_Offer.setTv_msg("待报价");
+        at_Offer.setCanEstimate(true);
         at_Offer.setNext(false);
         at_Offered.setTv_msg("报价完毕");
         at_Offered.setNext(false);
@@ -407,6 +410,7 @@ public class ShopProgressFragment extends BaseFragment {
         at_Confirm.setNext(true);
         at_Confirm.setState(1);//操作后可见
         at_Confirmed.setTv_msg("店主已确认");
+        at_Confirmed.setCanEstimate(true);
         at_Confirmed.setNext(true);
         at_Confirmed.setState(1);//操作后可见
 
@@ -434,6 +438,7 @@ public class ShopProgressFragment extends BaseFragment {
         at_Paper6.setTv_msg("预算已复核纸");
         at_Paper6.setNext(false);
         at_Material1.setTv_msg("待⽣产招牌");
+        at_Material1.setCanEstimate(true);
         at_Material1.setNext(true);
         at_Material1.setState(1);//操作后可见
         at_Material2.setTv_msg("待下材料单");
@@ -445,6 +450,7 @@ public class ShopProgressFragment extends BaseFragment {
         at_Material4.setNext(true);
         at_Material4.setState(1);//操作后可见
         at_Material5.setTv_msg("待备料");
+        at_Material5.setCanEstimate(true);
         at_Material5.setNext(false);
         at_Material6.setTv_msg("钢挂已完成");
         at_Material6.setEditor();
@@ -474,11 +480,13 @@ public class ShopProgressFragment extends BaseFragment {
     private void initLogistics(){
         at_Logistics1.setTv_msg("待发货");
 //        at_Logistics1.setEditor();
+        at_Logistics1.setCanEstimate(true);
         at_Logistics1.setState(2);//操作后可见
         at_Logistics2.setTv_msg("已发货");
 //        at_Logistics2.setEditor();
         at_Logistics2.setState(2);//操作后可见
         at_Logistics3.setTv_msg("货到待施工");
+        at_Logistics3.setCanEstimate(true);
         at_Logistics3.setEditor();
         at_Logistics3.setState(2);//操作后不可见
         at_Logistics4.setTv_msg("安排施工人员完毕");

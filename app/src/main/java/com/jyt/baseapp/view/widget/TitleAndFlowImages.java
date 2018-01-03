@@ -114,6 +114,10 @@ public class TitleAndFlowImages extends FrameLayout {
         this.onImageClickListener = onImageClickListener;
     }
 
+    public void setHideTitle(){
+        textTitle.setVisibility(GONE);
+    }
+
 
     public interface OnImageClickListener {
         void onImaegClick(String imagPath);

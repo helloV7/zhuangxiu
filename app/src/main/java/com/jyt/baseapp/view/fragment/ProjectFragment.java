@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -355,6 +356,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onClickDetail(String BrandSonID, String BrandSonName) {
                 mLlProgress.performClick();
+                Log.e("@#","code="+BrandSonID);
                 SearchProgressShop(BrandSonID);
 
             }
@@ -512,7 +514,10 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     private void ChangeBrand(String BrandID) {
         if ("-1".equals(BrandID)) {
             SearchBrandShop("null,null");
+            List<BrandBean> brandData =new ArrayList<>();
+            mSelectorBrand.notifyRightData(brandData);
             mLlBrand.performClick();
+            return;
         }
         mMapModel.getBrandSonData(BrandID, new MapModel.OngetBrandResultListener() {
             @Override
