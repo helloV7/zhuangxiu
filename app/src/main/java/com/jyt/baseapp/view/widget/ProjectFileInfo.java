@@ -2,11 +2,9 @@ package com.jyt.baseapp.view.widget;
 
 import android.content.Context;
 import android.os.Handler;
-import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;

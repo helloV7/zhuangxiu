@@ -151,8 +151,9 @@ public class ShopNewsFragment extends BaseFragment {
                 mSvPush.setOpened(true);
             }
         } else {
-            //不属于以上四者，则需要专门查询该用户的推送状态
+            //不属于以上四者，则需要专门查询该用户的推送状态,并隐藏它的评价
             isIn = false;
+            mItemEvaluate.setVisibility(View.GONE);
             if ("0".equals(data.getIsfinish())) {
                 mSvPush.setOpened(false);
                 isPush = false;

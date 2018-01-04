@@ -148,7 +148,23 @@ public class ViewConstructFragment extends BaseFragment {
         mAdapter.setOnImageClickListener(new TitleAndFlowImages.OnImageClickListener() {
             @Override
             public void onImaegClick(String imagePath) {
-                IntentHelper.openBrowseImagesActivity(getContext(),imagePath);
+                int index1=0;
+                int index2=0;
+                for (int i = 0; i < list.size(); i++) {
+                    for (int j = 0; j < list.get(i).getConstructionList().size(); j++) {
+                        if (imagePath.equals(list.get(i).getConstructionList().get(j).getConstructionUrl())){
+                            index1 = i;
+                            index2 = j;
+                            break;
+                        }
+                    }
+                }
+                List<String> imageList = new ArrayList();
+                for (int i = 0; i < list.get(index1).getConstructionList().size(); i++) {
+                    imageList.add(list.get(index1).getConstructionList().get(i).getConstructionUrl());
+                }
+                IntentHelper.openBrowseImagesActivity(getContext(),imageList,index2);
+//                IntentHelper.openBrowseImagesActivity(getContext(),imagePath);
             }
         });
     }
@@ -177,10 +193,14 @@ public class ViewConstructFragment extends BaseFragment {
                             //时间一致
                             if ("1".equals(response.data.getConstructionList().get(i).getConstructionType())){
                                 if (!isFirst){
-                                    list.add(detailBean);
-                                    detailBean= new ConstructionBean();
-                                    time=response.data.getConstructionList().get(i).getConstructionDate();
-                                    isFirst=true;
+                                    if (!isFirst){
+                                        if (detailBean.getConstructionList().size()>0){
+                                            list.add(detailBean);
+                                        }
+                                        detailBean= new ConstructionBean();
+                                        time=response.data.getConstructionList().get(i).getConstructionDate();
+                                        isFirst=true;
+                                    }
                                 }
                                 if (!time.equals(response.data.getConstructionList().get(i).getConstructionDate())){
                                     list.add(detailBean);
@@ -197,7 +217,9 @@ public class ViewConstructFragment extends BaseFragment {
                             }
                             //记得最后一组
                             if (i==response.data.getConstructionList().size()-1){
-                                list.add(detailBean);
+                                if (detailBean.getConstructionList().size()>0){
+                                    list.add(detailBean);
+                                }
                             }
 
 

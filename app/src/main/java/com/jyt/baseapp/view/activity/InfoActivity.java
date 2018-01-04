@@ -84,7 +84,7 @@ public class InfoActivity extends BaseActivity implements View.OnClickListener {
                     click_b=true;
                     InfoBean data = response.data;
                     if (data!=null){
-                        mTvProgress.setText("进度已达"+data.getProjectName() +"，点击查看");
+                        mTvProgress.setText("进度已达"+data.getSpeedName() +"，点击查看");
                         mTvBtime.setText(getTime(data.getUpdateDate()));
                     }
 

@@ -46,9 +46,6 @@ public class ConstructionViewHolder extends BaseViewHolder<ConstructionBean> {
 
         mTiAf.setImages(picList);
         mTiAf.setOnImageClickListener(listener);
-        if (data!=null && data.getConstructionList().size()>0){
-
-        }
 
     }
 

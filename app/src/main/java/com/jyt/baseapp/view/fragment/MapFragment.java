@@ -112,10 +112,12 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     private List<Marker> mMarkerList;
     private GeocodeSearch mGeocodeSearch;
     private DistrictSearch mSearch;
-    private String str_province;//搜索的省份
     private String str_brandID;//搜索的品牌ID
-    private String str_city;//搜索的城市
-    private String str_area;//搜索的地区
+    private String str_province="null";//搜索的省份
+    private String str_city="null";//搜索的城市
+    private String str_area="null";//搜索的地区
+    private String str_Brand="null";//搜索的品牌
+    private String str_BrandSon="null";//搜索的子品牌
     private int codeProvince;//城市编码
     private boolean isByMap;//是否通过省份-城市-地区搜索商店数据，true：定位到该地区；false：不移动
 
@@ -219,7 +221,9 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
 
                                 @Override
                                 public void onResponse(BaseJson response, int id) {
-
+                                    LatLng l1 = mMap.getProjection().fromScreenLocation(new Point(0, mtotalHeight));
+                                    LatLng l2 = mMap.getProjection().fromScreenLocation(new Point(mtotalWidth, 0));
+                                    getLocationShop(l1, l2);
                                 }
                             });
 
@@ -278,15 +282,14 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                 //                if (isBrandChange) {
                 //                    return;
                 //                }
-                LatLng l1 = mMap.getProjection().fromScreenLocation(new Point(0, mtotalHeight));
-                LatLng l2 = mMap.getProjection().fromScreenLocation(new Point(mtotalWidth, 0));
+
                 //                Log.e("@#","longitude1="+l1.longitude+" latitude1="+l1.latitude);
                 //                Log.e("@#","longitude2="+l2.longitude+" latitude2="+l2.latitude);
                 //                if (!isFst){
                 //                    getLocationShop(l1,l2);
                 //                    isFst=true;
                 //                }
-                //                getLocationShop(l1, l2);
+
             }
         });
         //点击Marker进入商店详细界面
@@ -301,7 +304,6 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     }
 
     private void initData() {
-        SearchShop("null,null,null,null,null,null,null");//内部人员
 //        SearchShop("null,null,null,null,"+Const.getUserid()+",null,null");//品牌方
         mMapModel.getProvinceData(getActivity(), new MapModel.onResultProvinceListener() {
             @Override
@@ -346,7 +348,9 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                 //点击全省的搜索
                 if (CityID == -2 && AreaID == -2) {
                     isClickProvince = true;
-                    SearchShop("null," + str_province + ",null,null,null,null,null");
+                    str_city="null";
+                    str_area="null";
+                    SearchShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ",null");
                     mLlCity.performClick();
                     return;
                 }
@@ -362,7 +366,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                     str_city = AreaName;
                     str_area = CityName + AreaName;
                 }
-                SearchShop("null," + str_province + "," + CityName + "," + AreaName + ",null,null,null");
+                SearchShop("null," + str_province + "," + CityName + "," + AreaName + ","+str_Brand+","+str_BrandSon+",null");
                 mLlCity.performClick();
             }
 
@@ -379,7 +383,6 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                     mBrandBeen = brandData;
                     mBrandBeen.add(0, new BrandBean("全部", "-1"));
                     mBrandBeen.get(0).setCheck(true);
-                    //                    str_brandID =mBrandBeen.get(0).getBrandId();//默认第一个品牌名
                     mBrandSelector.setLeftAdapter(getActivity(), mBrandBeen);
                 }
             }
@@ -403,14 +406,16 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             @Override
             public void onClickBrand(String BrandID, String BrandName) {
                 str_brandID = BrandID;
+                str_Brand=BrandID;
                 ChangeBrand(BrandID);
             }
 
             @Override
             public void onClickDetail(String BrandSonID, String BrandSonName) {
                 isByMap = false;
+                str_BrandSon=BrandSonID;
                 mLlBrand.performClick();
-                SearchShop("null,null,null,null," + str_brandID + "," + BrandSonID + ",null");
+                SearchShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ",null");
             }
 
             @Override
@@ -434,7 +439,10 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             mMapBean.mCities.clear();
             mMapSelector.notifyData(mMapBean);
             isByMap = false;
-            SearchShop("null,null,null,null,null,null,null");
+            str_province="null";
+            str_city="null";
+            str_area="null";
+            SearchShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ",null");
             mMap.moveCamera(CameraUpdateFactory.zoomTo(4));
             mLlCity.performClick();
             return;
@@ -467,8 +475,10 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         if ("-1".equals(BrandID)) {
             mBrandSonBeen.clear();
             mBrandSelector.notifyRightData(mBrandSonBeen);
-            SearchShop("null,null,null,null,null,null,null");
-            mMap.moveCamera(CameraUpdateFactory.zoomTo(4));
+            str_Brand="null";
+            str_BrandSon="null";
+            SearchShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ",null");
+//            mMap.moveCamera(CameraUpdateFactory.zoomTo(4));
             mLlBrand.performClick();
             return;
         }
@@ -545,7 +555,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
 
         } else {
             isBrandChange = true;
-            mMap.moveCamera(CameraUpdateFactory.zoomTo(4));
+//            mMap.moveCamera(CameraUpdateFactory.zoomTo(4));
         }
         //搜索该定位附近的店
         mMapModel.getSearchData(condition, new MapModel.OnSearchResultListener() {

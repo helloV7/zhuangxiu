@@ -256,7 +256,7 @@ public class MapModel {
                                 }
                                 BrandBean first=new BrandBean();
                                 first.setBrandName("全部");
-                                first.setBrandId(null);
+                                first.setBrandId("null");
                                 response.data.add(0,first);
                                 listener.Result(true,response.data);
                             }else {

@@ -1,6 +1,7 @@
 package com.jyt.baseapp.view.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,6 +72,7 @@ public class CommonProgressActivity extends BaseActivity {
     private int type;
     private ProgressBean project;
     private ProgressBean beforeProject;
+    private List<String> mImageList;
 
     ProjectDetailModel projectDetailModel;
 
@@ -89,6 +91,7 @@ public class CommonProgressActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         Tuple data = IntentHelper.CommonProgressActivityGetPara(getIntent());
         type = (int) data.getItem1();
+        mImageList = new ArrayList<>();
         project = (ProgressBean) data.getItem2();
         beforeProject = (ProgressBean) data.getItem3();
         setTextTitle(project.getSpeedName());
@@ -253,8 +256,7 @@ public class CommonProgressActivity extends BaseActivity {
         View.OnClickListener onImageClickToBrowserListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                IntentHelper.openBrowseImagesActivity(getContext(), (String) v.getTag(R.id.tag_imgUrl));
+                IntentHelper.openBrowseImagesActivity(getContext(),mImageList , (int) v.getTag(R.id.tag_imgUrl));
             }
         };
 
@@ -266,17 +268,23 @@ public class CommonProgressActivity extends BaseActivity {
         };
 
         //        files.addAll(files);
+        int index=0;
         for (ProjectFileBean projectFileBean : files) {
             if (projectFileBean.getContentSuffix().toLowerCase().equals("jpg") || projectFileBean.getContentSuffix().toLowerCase().equals("png") || projectFileBean.getContentSuffix().toLowerCase().equals("jpeg")) {
                 ImageView img = new ImageView(getContext());
                 FlowLayout.LayoutParams param = new FlowLayout.LayoutParams(imageWidth, imageWidth);
                 img.setLayoutParams(param);
                 Glide.with(getContext()).load(projectFileBean.getContentUrl()).centerCrop().into(img);
-                img.setTag(R.id.tag_imgUrl, projectFileBean.getContentUrl());
+                img.setTag(R.id.tag_imgUrl, index);
                 img.setOnClickListener(onImageClickToBrowserListener);
                 vImageLayout.addView(img);
                 vImageLayout.setVisibility(View.VISIBLE);
+                mImageList.add(projectFileBean.getContentUrl());
+                index++;
             } else {
+                if (TextUtils.isEmpty(projectFileBean.getContentUrl())){
+                    continue;
+                }
                 ProjectFileInfo projectFile = new ProjectFileInfo(getContext());
                 projectFile.setFileUrl(projectFileBean.getContentUrl());
                 projectFile.setTag(R.id.tag_data, projectFileBean.toFileBean());

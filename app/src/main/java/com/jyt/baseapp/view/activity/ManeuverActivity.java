@@ -74,6 +74,9 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
     private boolean isHideWork;
     private List<WorkBean> mWorkList;
     private String str_province;
+    private String str_city;
+    private String str_area;
+    private String str_work;
     private boolean isShowCity = true;
     private boolean isShowWork = true;
 
@@ -131,10 +134,13 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
                 if (CityID == -2 && AreaID == -2) {
-                    NotifySearchType(str_province + ",null,null,null,null");
+                    str_city="null";
+                    str_area="null";
                 } else {
-                    NotifySearchType(str_province + "," + CityName + "," + AreaName + ",null,null");
+                    str_city=CityName;
+                    str_area=AreaName;
                 }
+                NotifySearchType(str_province+","+str_city+","+str_area+","+str_work+",null");
                 mLlCity.performClick();
             }
 
@@ -206,10 +212,11 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
                     if (i == holder.getPosition()) {
                         mWorkList.get(i).setCheck(true);
                         if ("-1".equals(mWorkList.get(i).getId())) {
-                            NotifySearchType("null,null,null,null,null");
+                            str_work="null";
                         } else {
-                            NotifySearchType("null,null,null," + mWorkList.get(i).getId() + ",null");
+                            str_work=mWorkList.get(i).getId();
                         }
+                        NotifySearchType(str_province+","+str_city+","+str_area+","+str_work+",null");
                         mLlType.performClick();
                         continue;
                     }
@@ -303,8 +310,10 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
         if (ProcinveID == -1) {
             mMapBean.mCities.clear();
             mSelectorCity.notifyData(mMapBean);
-            NotifySearchType("null,null,null,null,null");
-            mLlCity.performClick();
+            str_province="null";
+            str_city="null";
+            str_area="null";
+            NotifySearchType(str_province+","+str_city+","+str_area+","+str_work+",null");
             return;
         }
         mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {
