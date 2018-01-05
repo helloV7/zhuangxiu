@@ -92,6 +92,11 @@ public class MapModel {
                     public void onResponse(BaseJson<List<MapBean.City>> response, int id) {
                         if (listener!=null){
                             if (response.ret){
+                                for (int i = 0; i < response.data.size(); i++) {
+                                    if (response.data.get(i).mAreas.size()>1){
+                                        response.data.get(i).mAreas.set(0,new MapBean.Area("全部",-3));
+                                    }
+                                }
                                 listener.ResultData(true,null,response.data);
                             }else {
 

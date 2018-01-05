@@ -1,10 +1,13 @@
 package com.jyt.baseapp.view.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
@@ -84,6 +87,21 @@ public class EvaluateSendActivity extends BaseActivity {
                     isPrepare = false;
                     mBtnSubmit.setBackground(getResources().getDrawable(R.drawable.btn_add_off));
                 }
+            }
+        });
+
+        mEtEvaluate.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(keyCode == KeyEvent.KEYCODE_ENTER){
+                    InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if(imm.isActive()){
+                        imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0 );
+                    }
+                    return true;
+
+                }
+                return false;
             }
         });
 

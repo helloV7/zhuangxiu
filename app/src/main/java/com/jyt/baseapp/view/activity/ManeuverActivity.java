@@ -140,6 +140,9 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
                     str_city=CityName;
                     str_area=AreaName;
                 }
+                if (AreaID==-3){
+                    str_area="null";
+                }
                 NotifySearchType(str_province+","+str_city+","+str_area+","+str_work+",null");
                 mLlCity.performClick();
             }
@@ -314,6 +317,7 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
             str_city="null";
             str_area="null";
             NotifySearchType(str_province+","+str_city+","+str_area+","+str_work+",null");
+            mLlCity.performClick();
             return;
         }
         mMapModel.getCityAreaData(ProcinveID, new MapModel.onResultCityListener() {

@@ -15,6 +15,7 @@
         android:gravity="left|top"
         android:layout_width="match_parent"
         android:layout_height="149dp"
+        android:imeOptions="actionDone"
         android:hint="请输入您的评价"
         android:textSize="14dp"
         android:textColor="@color/text_color1"

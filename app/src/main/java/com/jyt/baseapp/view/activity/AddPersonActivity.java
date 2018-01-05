@@ -205,6 +205,9 @@ public class AddPersonActivity extends BaseActivity implements View.OnClickListe
                 mJumpCity.setNext(false, SPCA.toString());
                 SCity = CityName;
                 SArea = AreaName;
+                if (AreaID==-3){
+                    SArea="";
+                }
                 isCanUpLoad();
                 mDialog_city.dismiss();
             }

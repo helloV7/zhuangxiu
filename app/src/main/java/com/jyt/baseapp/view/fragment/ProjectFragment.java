@@ -156,7 +156,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         ProgressList = new ArrayList<>();
         //        ProgressList.add(new BrandBean("全部", "-1").setChecks(true));
         mPData=new ArrayList<>();
-        ProgressList.add(new BrandBean("全部", "-1"));
+        ProgressList.add(new BrandBean("全部", "-1").setChecks(true));
         ProgressList.add(new BrandBean("丈量中", "0"));
         ProgressList.add(new BrandBean("设计报价", "1"));
         ProgressList.add(new BrandBean("客户审批", "2"));
@@ -237,7 +237,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         Pson9.add(new BrandBean("预算审核照⽚并已回访", "801").TransDataThis());
         Pson9.add(new BrandBean("待寄报销资料", "802").TransDataThis());
         Pson9.add(new BrandBean("已寄报销资料", "803").TransDataThis());
-        Pson9.add(new BrandBean("已收款", "804").TransDataThis());
+        Pson9.add(new BrandBean("已收款", "900").TransDataThis());
         mPData.add(Pson9);
 
 

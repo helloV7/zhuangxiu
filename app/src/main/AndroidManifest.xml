@@ -46,7 +46,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="4e7f20c1b5d868348284cee64b0134e9"/>
+            android:value="adea5bfc68af423e76ac3522c98a8631"/>
 
         <service android:name="cn.jpush.android.service.PushService"
                  android:process=":multiprocess"

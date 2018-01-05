@@ -118,6 +118,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     private String str_area="null";//搜索的地区
     private String str_Brand="null";//搜索的品牌
     private String str_BrandSon="null";//搜索的子品牌
+    private int AreaID;
     private int codeProvince;//城市编码
     private boolean isByMap;//是否通过省份-城市-地区搜索商店数据，true：定位到该地区；false：不移动
 
@@ -366,6 +367,10 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                     str_city = AreaName;
                     str_area = CityName + AreaName;
                 }
+                MapFragment.this.AreaID=AreaID;
+                if (AreaID==-3){
+                    str_area="null";
+                }
                 SearchShop("null," + str_province + "," + CityName + "," + AreaName + ","+str_Brand+","+str_BrandSon+",null");
                 mLlCity.performClick();
             }
@@ -537,7 +542,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     private void SearchShop(String condition) {
         if (isByMap) {
             //地理编码 定位到该位置
-            GeocodeQuery query = null;
+
             if (isClickProvince) {
                 //点击省，查找全省
                 //                query=new GeocodeQuery("",codeProvince+"");
@@ -549,8 +554,19 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                 mSearch.searchDistrictAnsy();//开始搜索
                 isClickProvince = false;
             } else {
-                query = new GeocodeQuery(str_area, str_city);
-                mGeocodeSearch.getFromLocationNameAsyn(query);
+                if (AreaID==-3){
+                    Log.e("@#","SDA");
+                    DistrictSearchQuery Proquery = new DistrictSearchQuery();
+                    Proquery.setKeywords(str_city);
+                    Proquery.setShowBoundary(true);
+                    mSearch.setQuery(Proquery);
+                    mSearch.setOnDistrictSearchListener(this);//绑定监听器
+                    mSearch.searchDistrictAnsy();//开始搜索
+                }else {
+                    GeocodeQuery query = null;
+                    query = new GeocodeQuery(str_area, str_city);
+                    mGeocodeSearch.getFromLocationNameAsyn(query);
+                }
             }
 
         } else {
@@ -750,7 +766,11 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             LatLng latLng = new LatLng(point.getLatitude(), point.getLongitude());
             mMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
         }
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(8));
+        if (AreaID==-3){
+            mMap.moveCamera(CameraUpdateFactory.zoomTo(10));
+        }else {
+            mMap.moveCamera(CameraUpdateFactory.zoomTo(8));
+        }
     }
 
 
