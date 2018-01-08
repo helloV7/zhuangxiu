@@ -64,6 +64,14 @@ public class ItemText extends RelativeLayout {
                 }
             }
         });
+        tv_right.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (calllistener!=null){
+                    calllistener.onClick(v);
+                }
+            }
+        });
     }
 
     public ItemText(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -88,17 +96,32 @@ public class ItemText extends RelativeLayout {
         this.listener=listener;
     }
 
+    public interface OnClickCallListener{
+        void onClick(View v);
+    }
+    private OnClickCallListener calllistener;
+    public void setOnClickItemListener(OnClickCallListener listener){
+        this.calllistener=listener;
+    }
+
+
     public void setLeftText(String txt){
         tv_left.setText(txt);
     }
 
     public void setRightText(String txt){
         tv_right.setText(txt);
+        tv_right.setTag(txt);
     }
 
     public void setAppendrText(String txt){
         tv_append.setText(txt);
     }
+
+    public void setRlTag(String tag){
+        tv_right.setTag(tag);
+    }
+
 
 
 }

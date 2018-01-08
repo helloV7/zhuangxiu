@@ -93,8 +93,8 @@ public class MapModel {
                         if (listener!=null){
                             if (response.ret){
                                 for (int i = 0; i < response.data.size(); i++) {
-                                    if (response.data.get(i).mAreas.size()>1){
-                                        response.data.get(i).mAreas.set(0,new MapBean.Area("全部",-3));
+                                    if (response.data.get(i).mAreas.size()>=0){
+                                        response.data.get(i).mAreas.add(0,new MapBean.Area("全部",-3));
                                     }
                                 }
                                 listener.ResultData(true,null,response.data);
@@ -413,7 +413,7 @@ public class MapModel {
 
     }
 
-    public void getLRData(int page, final OnSearchResultListener listener){
+    public void getLRData(String condition , int page, final OnSearchResultListener listener){
         OkHttpUtils
                 .get()
                 .url(Path.URL_MapDatas)
@@ -421,7 +421,7 @@ public class MapModel {
                 .addParams("method","getProjectList")
                 .addParams("page",String.valueOf(page))
                 .addParams("keyWord",BaseUtil.getSpString(Const.PositionID))
-                .addParams("searchValue","null,null,null,null,null,null,null")
+                .addParams("searchValue",condition)
                 .build()
                 .execute(new BeanCallback<BaseJson<List<SearchBean>>>() {
                     @Override

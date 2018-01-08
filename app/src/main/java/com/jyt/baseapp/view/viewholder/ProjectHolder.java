@@ -145,7 +145,7 @@ public class ProjectHolder extends BaseViewHolder<SearchBean> {
                     mTvShopStation.setText("货到待施工");
                     break;
                 case "504":
-                    mTvShopStation.setText("岸炮施工人员完毕");
+                    mTvShopStation.setText("安排施工人员完毕");
                     break;
                 case "600":
                     mTvShopStation.setText("进场施工");

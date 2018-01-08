@@ -298,7 +298,7 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
                             }
                             mPage++;
                         }
-                    }, 1500);
+                    }, 1000);
                 }
             }
         });

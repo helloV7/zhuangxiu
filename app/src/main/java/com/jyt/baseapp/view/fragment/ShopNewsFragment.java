@@ -1,7 +1,10 @@
 package com.jyt.baseapp.view.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +20,7 @@ import com.jyt.baseapp.bean.ShopBean;
 import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.ShopModel;
+import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.view.widget.ItemText;
 
 import java.util.List;
@@ -75,6 +79,8 @@ public class ShopNewsFragment extends BaseFragment {
     private boolean isPush;//是否推送
     private boolean CanChange = true;
     private boolean isIn = true;//用户是否任职四个职位中的任何一个，默认true
+    private ShopBean mData;
+    private String mCallPhone;
     Unbinder unbinder;
 
     @Override
@@ -87,6 +93,7 @@ public class ShopNewsFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         init();
         initData();
+
         initListener();
     }
 
@@ -96,6 +103,8 @@ public class ShopNewsFragment extends BaseFragment {
 //        mRlPush.setVisibility(View.GONE);//店主
 
     }
+
+
 
     private void initData() {
         mShopModel.getAsynShopDetail(projectBean.getProjectId(), new ShopModel.OnShopDetailResultListener() {
@@ -109,6 +118,7 @@ public class ShopNewsFragment extends BaseFragment {
     }
 
     private void setProjectBean(ShopBean data) {
+        mData = data;
         //暂停原因设置
         //如果工程暂停了，就显示原因，否则隐藏
         if ("0".equals(data.getIsfrozen())) {
@@ -170,12 +180,13 @@ public class ShopNewsFragment extends BaseFragment {
         mItUserName.setRightText(data.getShopkeeperName());
         mItShopPhone.setRightText(data.getShopkeepertel());
         mItAddress.setRightText(data.getCity()+"-"+data.getAddress());
-        mItTime.setRightText(data.getBeginTime());
+        mItTime.setRightText(BaseUtil.getTime(data.getBeginTime()));
 
         mItBrand.setRightText(data.getBrandName());
         mItBrandLevel.setRightText(data.getSubClassName());
         mItCommissioner.setRightText(data.getNickName());
         mItCPhone.setRightText(data.getBrandaccounttel());
+
 
         mItForecaster1.setLeftText(data.getButenickName());
         mItForecaster1.setAppendrText(data.getButenickName());
@@ -214,6 +225,22 @@ public class ShopNewsFragment extends BaseFragment {
                 }
             }
         });
+        ItemText.OnClickCallListener callListener =new ItemText.OnClickCallListener() {
+            @Override
+            public void onClick(View v) {
+                String tel = (String) v.getTag();
+                if (!TextUtils.isEmpty(tel)){
+                    call(tel);
+                }
+            }
+        };
+        //电话拨出
+        mItShopPhone.setOnClickItemListener(callListener);
+        mItCPhone.setOnClickItemListener(callListener);
+        mItForecaster1.setOnClickItemListener(callListener);
+        mItForecaster2.setOnClickItemListener(callListener);
+        mItForecaster3.setOnClickItemListener(callListener);
+        mItForecaster4.setOnClickItemListener(callListener);
 
     }
 
@@ -288,7 +315,13 @@ public class ShopNewsFragment extends BaseFragment {
 
     }
 
-    @Override
+    private void call(String phone) {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+        startActivity(intent);
+    }
+
+
+        @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);

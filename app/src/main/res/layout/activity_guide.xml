@@ -12,14 +12,10 @@
     <Button
         android:id="@+id/btn_submit"
         android:visibility="gone"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="35dp"
-        android:layout_width="280dp"
-        android:layout_height="60dp"
-        android:text="进入"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:textColor="@color/white"
-        android:background="@drawable/btn_add_on"/>
+        android:background="@color/transparent"/>
 
 
 </RelativeLayout>

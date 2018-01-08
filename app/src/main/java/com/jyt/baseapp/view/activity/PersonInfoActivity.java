@@ -5,11 +5,12 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.util.BaseUtil;
-import com.jyt.baseapp.util.FinishActivityManager;
+import com.jyt.baseapp.view.widget.FreeDialog;
 import com.jyt.baseapp.view.widget.JumpItem;
 
 import butterknife.BindView;
@@ -27,6 +28,9 @@ public class PersonInfoActivity extends BaseActivity {
     JumpItem mJtPosition;
     @BindView(R.id.btn_logout)
     Button mBtnLogout;
+    private FreeDialog mDialog;
+    private TextView TvSubmit;
+    private TextView TvCancel;
 
 
 
@@ -59,14 +63,33 @@ public class PersonInfoActivity extends BaseActivity {
         mBtnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FinishActivityManager.getManager().finishAllActivity();
-                Const.Logout(PersonInfoActivity.this);
-
-                BaseUtil.makeText("已退出登录");
+               if (!mDialog.isShowing()){
+                   mDialog.show();
+               }
 
             }
         });
+        initDialog();
 
+    }
+    private void initDialog(){
+        mDialog = new FreeDialog(this, R.layout.dialog_input);
+        TvSubmit = (TextView) mDialog.getView().findViewById(R.id.tv_submit);
+        TvCancel = (TextView) mDialog.getView().findViewById(R.id.tv_cancel);
+        TvSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BaseUtil.makeText("已退出登录");
+                Const.Logout(getContext());
+                finish();
+            }
+        });
+        TvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDialog.dismiss();
+            }
+        });
     }
 
 

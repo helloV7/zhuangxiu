@@ -290,12 +290,16 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
+                mPage=1;
                 if (CityID == -2 && AreaID == -2) {
                     str_city="null";
                     str_area="null";
                 }else{
                     str_city=CityName;
                     str_area=AreaName;
+                }
+                if (AreaID==-3){
+                    str_area="null";
                 }
                 SearchMapShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ","+str_progress);
                 mLlCity.performClick();
@@ -318,6 +322,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onClickDetail(String BrandSonID, String BrandSonName) {
+                mPage=1;
                 str_BrandSon=BrandSonID;
                 SearchMapShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ","+str_progress);
                 mLlBrand.performClick();
@@ -338,6 +343,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             public void onClickBrand(String BrandID, String BrandName) {
                 switch (BrandID) {
                     case "-1":
+                        mPage=1;
                         mSelectorProgress.notifyRightData(Pson0);
                         str_progress="null";
                         SearchMapShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ","+str_progress);
@@ -384,6 +390,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
 
             @Override
             public void onClickDetail(String BrandSonID, String BrandSonName) {
+                mPage=1;
                 mLlProgress.performClick();
                 str_progress=BrandSonID;
                 Log.e("@#","code="+BrandSonID);
@@ -402,9 +409,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
 
 
     private void initData() {
-
         getLRData(true);
-
         mMapModel.getProvinceData(getActivity(), new MapModel.onResultProvinceListener() {
             @Override
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
@@ -478,7 +483,6 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                     mIvArrow1.setImageDrawable(getResources().getDrawable(R.mipmap.btn_down));
                     mTvMapCity.setTextColor(getResources().getColor(R.color.text_color1));
                     setCitySelector();
-
                 }
                 if (isHideBrand) {
                     setBrandSelector();
@@ -514,6 +518,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     private void ChangeProvince(int ProcinveID) {
         //全部的查找
         if (ProcinveID == -1) {
+            mPage=1;
             mMapBean.mCities.clear();
             mSelectorCity.notifyData(mMapBean);
             str_province="null";
@@ -546,6 +551,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
      */
     private void ChangeBrand(String BrandID) {
         if ("-1".equals(BrandID)) {
+            mPage=1;
             str_Brand="null";
             str_BrandSon="null";
             SearchMapShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ","+str_progress);
@@ -622,7 +628,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         if (isRefresh) {
             mPage = 1;
         }
-        mMapModel.getLRData(mPage, new MapModel.OnSearchResultListener() {
+        mMapModel.getLRData("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ","+str_progress , mPage ,  new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, final List<SearchBean> data) {
                 if (isSuccess) {

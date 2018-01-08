@@ -520,13 +520,16 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                     for (int i = 0; i < shops.size(); i++) {
                         View view = View.inflate(getActivity(), R.layout.layout_infowindow, null);
                         TextView tv = (TextView) view.findViewById(R.id.tv_text);
+                        view.measure(0,0);
+                        view.setPadding(view.getMeasuredWidth()/2,0,0,0);
                         tv.setText(shops.get(i).getProjectName());
                         Bitmap b = convertViewToBitmap(view);
                         LatLng l = new LatLng(Double.valueOf(shops.get(i).getLatitude()), Double.valueOf(shops.get(i).getLongitude()));
                         Marker marker = mMap.addMarker(new MarkerOptions()
                                 .position(l)
+                                .perspective(true)
                                 .infoWindowEnable(false)
-                                .icon(BitmapDescriptorFactory.fromBitmap(b)));
+                                .icon(BitmapDescriptorFactory.fromView(view)));
                         marker.setObject(shops.get(i));
                         mMarkerList.add(marker);
                     }
@@ -555,7 +558,6 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                 isClickProvince = false;
             } else {
                 if (AreaID==-3){
-                    Log.e("@#","SDA");
                     DistrictSearchQuery Proquery = new DistrictSearchQuery();
                     Proquery.setKeywords(str_city);
                     Proquery.setShowBoundary(true);
@@ -597,6 +599,8 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         for (int i = 0; i < data.size(); i++) {
             SearchBean shop = data.get(i);
             View view = View.inflate(getActivity(), R.layout.layout_infowindow, null);
+            view.measure(0,0);
+            view.setPadding(view.getMeasuredWidth()/2,0,0,0);
             TextView tv = (TextView) view.findViewById(R.id.tv_text);
             tv.setText(shop.getProjectName());
             Bitmap b = convertViewToBitmap(view);
@@ -604,7 +608,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             Marker marker = mMap.addMarker(new MarkerOptions()
                     .position(l)
                     .infoWindowEnable(false)
-                    .icon(BitmapDescriptorFactory.fromBitmap(b)));
+                    .icon(BitmapDescriptorFactory.fromView(view)));
             marker.setObject(shop);
             mMarkerList.add(marker);
         }
@@ -752,7 +756,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         LatLonPoint point = geocodeResult.getGeocodeAddressList().get(0).getLatLonPoint();
         LatLng latLng = new LatLng(point.getLatitude(), point.getLongitude());
         mMap.moveCamera(CameraUpdateFactory.changeLatLng(latLng));
-        mMap.moveCamera(CameraUpdateFactory.zoomTo(10));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(12));
     }
 
     public void onDistrictSearched(DistrictResult districtResult) {
