@@ -67,6 +67,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:25.1.0'
     compile 'com.zhy:okhttputils:2.6.2'
     compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.orhanobut:hawk:2.0.1'
     compile 'com.lcodecorex:tkrefreshlayout:1.0.7'
     compile 'com.squareup.okhttp3:logging-interceptor:3.8.0'

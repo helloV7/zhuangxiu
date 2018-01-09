@@ -2,6 +2,7 @@ package com.jyt.baseapp.view.activity;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -72,17 +73,21 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
         mShopInfo = (SearchBean) getIntent().getSerializableExtra(IntentKey.SHOPINFO);
         if (mShopInfo==null){
             //当通过推送进入该界面时，要将工程ID赋予mShopInfo
+            Log.e("@#","jpush enter");
             mShopInfo =new SearchBean();
-            if (getIntent().getStringExtra(IntentKey.PROJECTID)==null || getIntent().getStringExtra(IntentKey.SHOPNAME)==null){
-                //店主
-                mShopInfo.setProjectName(Const.getProjectname());
-                mShopInfo.setProjectId(Const.getProjectid());
-            }else {
-                //内部人员 品牌方
-                mShopInfo.setProjectId(getIntent().getStringExtra(IntentKey.PROJECTID));
-                mShopInfo.setProjectName(getIntent().getStringExtra(IntentKey.SHOPNAME));
-            }
+            mShopInfo.setProjectId(getIntent().getStringExtra(IntentKey.PROJECTID));
+            mShopInfo.setProjectName(getIntent().getStringExtra(IntentKey.SHOPNAME));
+//            if (getIntent().getStringExtra(IntentKey.PROJECTID)==null || getIntent().getStringExtra(IntentKey.SHOPNAME)==null){
+//                //店主
+//                mShopInfo.setProjectName(Const.getProjectname());
+//                mShopInfo.setProjectId(Const.getProjectid());
+//            }else {
+//                //内部人员 品牌方
+//                mShopInfo.setProjectId(getIntent().getStringExtra(IntentKey.PROJECTID));
+//                mShopInfo.setProjectName(getIntent().getStringExtra(IntentKey.SHOPNAME));
+//            }
         }
+        Log.e("@#","projectID="+ mShopInfo.getProjectId());
 
 
         flist=new ArrayList<>();

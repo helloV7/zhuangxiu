@@ -607,6 +607,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             LatLng l = new LatLng(Double.valueOf(shop.getLatitude()), Double.valueOf(shop.getLongitude()));
             Marker marker = mMap.addMarker(new MarkerOptions()
                     .position(l)
+                    .perspective(true)
                     .infoWindowEnable(false)
                     .icon(BitmapDescriptorFactory.fromView(view)));
             marker.setObject(shop);

@@ -123,35 +123,7 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
         mLlWork.getLayoutParams().width = (int) (mtotalWidth * 0.9);
         mLlWork.requestLayout();
         mSelectorCity.setHideDeleteIV(true);
-        mSelectorCity.setOnMapClickListener(new MapSelector.OnMapClickListener() {
-            @Override
-            public void onClickProvince(int ProvinceID, String ProvinceName) {
-                str_province = ProvinceName;
-                ChangeProvince(ProvinceID);
 
-            }
-
-            @Override
-            public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
-                if (CityID == -2 && AreaID == -2) {
-                    str_city="null";
-                    str_area="null";
-                } else {
-                    str_city=CityName;
-                    str_area=AreaName;
-                }
-                if (AreaID==-3){
-                    str_area="null";
-                }
-                NotifySearchType(str_province+","+str_city+","+str_area+","+str_work+",null");
-                mLlCity.performClick();
-            }
-
-            @Override
-            public void onClickBack() {
-
-            }
-        });
 
 
     }
@@ -207,10 +179,41 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
     private void initListener() {
         mLlCity.setOnClickListener(this);
         mLlType.setOnClickListener(this);
+        mSelectorCity.setOnMapClickListener(new MapSelector.OnMapClickListener() {
+            @Override
+            public void onClickProvince(int ProvinceID, String ProvinceName) {
+                str_province = ProvinceName;
+                ChangeProvince(ProvinceID);
+
+            }
+
+            @Override
+            public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
+                mPage = 1;
+                if (CityID == -2 && AreaID == -2) {
+                    str_city="null";
+                    str_area="null";
+                } else {
+                    str_city=CityName;
+                    str_area=AreaName;
+                }
+                if (AreaID==-3){
+                    str_area="null";
+                }
+                NotifySearchType(str_province+","+str_city+","+str_area+","+str_work+",null");
+                mLlCity.performClick();
+            }
+
+            @Override
+            public void onClickBack() {
+
+            }
+        });
         mWorkAdapter.setOnViewHolderClickListener(new BaseViewHolder.OnViewHolderClickListener() {
             @Override
             public void onClick(BaseViewHolder holder) {
                 //点击切换选中的工种颜色
+                mPage = 1;
                 for (int i = 0; i < mWorkList.size(); i++) {
                     if (i == holder.getPosition()) {
                         mWorkList.get(i).setCheck(true);
@@ -277,7 +280,7 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
         if (isRefresh) {
             mPage = 1;
         }
-        mManeuverModel.getAllPersonal("null,null,null,null,null", mPage, new ManeuverModel.OngetAllPersonalListener() {
+        mManeuverModel.getAllPersonal(str_province+","+str_city+","+str_area+","+str_work+",null", mPage, new ManeuverModel.OngetAllPersonalListener() {
             @Override
             public void Result(boolean isSuccess, final List<ManeuverBean> data) {
                 if (isSuccess) {
@@ -311,6 +314,7 @@ public class ManeuverActivity extends BaseActivity implements View.OnClickListen
      */
     private void ChangeProvince(int ProcinveID) {
         if (ProcinveID == -1) {
+            mPage = 1;
             mMapBean.mCities.clear();
             mSelectorCity.notifyData(mMapBean);
             str_province="null";
