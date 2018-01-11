@@ -42,16 +42,17 @@ public class InfoReceiver extends BroadcastReceiver {
             Const.NUM++;
             //            receivingNotification(context, bundle);
         }
-//        else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent
-//                .getAction()) || JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent
-//                .getAction())) {
-//            Log.i(TAG, "接受到推送下来的通知/消息");
-//            String message = bundle.getString(JPushInterface.EXTRA_TITLE);
-//            Log.i(TAG,"收到了通知/消息。消息内容是：title=" + message);
-//            String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
-//            Log.i(TAG,"收到了通知/消息。extra是：" + extra);
-//            Const.NUM++;
-//        }
+        else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent
+                .getAction()) || JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent
+                .getAction())) {
+            Log.i(TAG, "接受到推送下来的通知/消息");
+            String message = bundle.getString(JPushInterface.EXTRA_TITLE);
+            Log.i(TAG,"收到了通知/消息。消息内容是：title=" + message);
+            String extra = bundle.getString(JPushInterface.EXTRA_EXTRA);
+            Log.i(TAG,"收到了通知/消息。extra是：" + extra);
+            Sextra = extra;
+            Const.NUM++;
+        }
         else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent
                 .getAction())) {
             Log.i(TAG, "用户点击打开了通知");

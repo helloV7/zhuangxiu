@@ -1,7 +1,7 @@
 package com.jyt.baseapp.api;
 
 import android.content.Context;
-import android.content.Intent;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -9,10 +9,8 @@ import com.google.gson.Gson;
 import com.jyt.baseapp.bean.BaseJson;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.util.FinishActivityManager;
-import com.jyt.baseapp.view.activity.LoginActivity;
 import com.jyt.baseapp.view.widget.LoadingDialog;
 import com.zhy.http.okhttp.callback.Callback;
-
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -82,11 +80,20 @@ public abstract class BeanCallback<T> extends Callback<T> {
                         try {
                             T obj = new Gson().fromJson(bodyString, beanType);
                             if (obj instanceof BaseJson){
-                                if ("登陆无效请重新登录".equals(((BaseJson)obj).forUser)){
-                                    BaseUtil.makeText("登陆无效请重新登录");
-                                    FinishActivityManager.getManager().finishAllActivity();
-                                    BaseUtil.getContext().startActivity(new Intent(BaseUtil.getContext(), LoginActivity.class));
-                                    return null;
+                                if ("登陆失败，请重新登录".equals(((BaseJson)obj).forUser.trim())){
+                                    new Handler(BaseUtil.getContext().getMainLooper()).post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            BaseUtil.makeText("登陆无效请重新登录");
+                                            FinishActivityManager.getManager().finishAllActivity();
+                                            Const.Logout(BaseUtil.getContext());
+                                        }
+                                    });
+                                    Log.e("@#",((BaseJson)obj).forUser);
+                                    Log.e("@#","登录无效");
+                                    BaseJson baseJson =new BaseJson();
+                                    baseJson.ret=false;
+                                    return (T) baseJson;
                                 }
                             }
                             return obj;

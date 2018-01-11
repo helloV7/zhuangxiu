@@ -417,7 +417,7 @@ public class MapModel {
         OkHttpUtils
                 .get()
                 .url(Path.URL_MapDatas)
-                .addParams("token", BaseUtil.getSpString(Const.UserToken))
+                .addParams("token", Const.gettokenSession())
                 .addParams("method","getProjectList")
                 .addParams("page",String.valueOf(page))
                 .addParams("keyWord",BaseUtil.getSpString(Const.PositionID))

@@ -173,7 +173,7 @@ public class LocationActivity extends BaseActivity {
            public void Result(boolean isSuccess, List<LocationBean> workers) {
                if (isSuccess && workers!=null ){
                    for (int i = 0; i < workers.size(); i++) {
-                       View view = View.inflate(LocationActivity.this, R.layout.layout_infowindow, null);
+                       View view = View.inflate(LocationActivity.this, R.layout.layout_luser, null);
                        TextView tv = (TextView) view.findViewById(R.id.tv_text);
                        tv.setText(workers.get(i).getNickName());
                        Bitmap b = convertViewToBitmap(view);

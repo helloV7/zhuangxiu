@@ -417,7 +417,9 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                     mMapBean.mProvinces = data;
                     mMapBean.mProvinces.add(0, new MapBean.Province("全部", -1));
                     mMapBean.mProvinces.get(0).isCheckProvince = true;
-                    mSelectorCity.setProvinceAdapter(mMapBean, getActivity());
+                    if (mSelectorCity!=null){
+                        mSelectorCity.setProvinceAdapter(mMapBean, getActivity());
+                    }
                 }
             }
         });
@@ -638,11 +640,16 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                             if (isRefresh) {
                                 //刷新
                                 mProjectAdapter.notifyData(data);
-                                mTrlLore.finishRefreshing();
+                                if (mTrlLore!=null){
+                                    mTrlLore.finishRefreshing();
+                                }
+
                             } else {
                                 //加载更多
                                 mProjectAdapter.LoadMoreData(data);
-                                mTrlLore.finishLoadmore();
+                                if (mTrlLore!=null){
+                                    mTrlLore.finishLoadmore();
+                                }
                             }
                             mPage++;
                         }

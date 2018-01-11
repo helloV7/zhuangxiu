@@ -314,7 +314,10 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                     mMapBean.mProvinces.add(0, new MapBean.Province("全部", -1));
                     str_province = mMapBean.mProvinces.get(0).ProvinceName;//默认第一个省份
                     mMapBean.mProvinces.get(0).isCheckProvince = true;
-                    mMapSelector.setProvinceAdapter(mMapBean, getActivity());
+                    if (mMapSelector!=null){
+                        mMapSelector.setProvinceAdapter(mMapBean, getActivity());
+                    }
+
                 }
             }
         });
@@ -388,7 +391,9 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                     mBrandBeen = brandData;
                     mBrandBeen.add(0, new BrandBean("全部", "-1"));
                     mBrandBeen.get(0).setCheck(true);
-                    mBrandSelector.setLeftAdapter(getActivity(), mBrandBeen);
+                    if (mBrandSelector!=null){
+                        mBrandSelector.setLeftAdapter(getActivity(), mBrandBeen);
+                    }
                 }
             }
         });

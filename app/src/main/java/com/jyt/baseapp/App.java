@@ -48,7 +48,10 @@ public class App  extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-
+        context = getApplicationContext();
+        handler = new Handler();
+        mainThreadid = android.os.Process.myTid();//主线程ID
+        initUtil();
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
         try {
@@ -61,12 +64,8 @@ public class App  extends Application{
         } catch (Exception ex) {
             // Ignore
         }
-        super.onCreate();
-        context = getApplicationContext();
-        handler = new Handler();
-        mainThreadid = android.os.Process.myTid();//主线程ID
 
-        initUtil();
+
     }
 
 

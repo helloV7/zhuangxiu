@@ -244,8 +244,13 @@ public class BaseUtil {
      * 吐司
      * @param object
      */
-    public static void makeText(Object object){
-        Toast.makeText(BaseUtil.getContext(),""+object,Toast.LENGTH_SHORT).show();
+    public static void makeText(final Object object){
+       new Handler(getContext().getMainLooper()).post(new Runnable() {
+           @Override
+           public void run() {
+               Toast.makeText(getContext(),object.toString(),Toast.LENGTH_SHORT).show();
+           }
+       });
     }
     /**
      * 判断手机号码的格式是否符合标准
