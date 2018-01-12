@@ -127,7 +127,6 @@ public class ShopModel {
                             JSONObject jsondata=new JSONObject(response);
                             JSONArray jsonArray=new JSONArray(jsondata.getString("data"));
                             //   0/1(无权限/有权限)
-
                             data.add(jsonArray.getJSONObject(1).getJSONArray("role").getJSONObject(0).getInt("测量中"));
                             data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(12).getInt("钢挂已完成"));
                             data.add(jsonArray.getJSONObject(5).getJSONArray("role").getJSONObject(13).getInt("所有材料已打包"));

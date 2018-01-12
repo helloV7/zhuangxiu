@@ -37,7 +37,7 @@
             style="@style/defaultTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="搜索施工人员"
+            android:text="搜索店铺"
             android:textColor="#868686" />
     </LinearLayout>
     <!--<RelativeLayout-->

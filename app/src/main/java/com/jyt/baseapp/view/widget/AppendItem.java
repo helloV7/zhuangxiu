@@ -2,6 +2,7 @@ package com.jyt.baseapp.view.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,7 +25,6 @@ public class AppendItem extends RelativeLayout {
     private TextView tv_estimate;
     private TextView tv_time;
     private int Operate;
-    private boolean isNext;
     private boolean isComplete;//是否已经操作完毕
     private boolean CanEstimate;//是否能显示预订预计时间
     private int state;//0无任何操作 1操作完显示可见 2操作完显示不可见
@@ -82,13 +82,14 @@ public class AppendItem extends RelativeLayout {
     }
 
     public void setNext(boolean isNext){
-        this.isNext=isNext;
         if (isNext){
             iv_next.setVisibility(VISIBLE);
         }else {
             iv_next.setVisibility(INVISIBLE);
         }
     }
+
+
 
     public void setEstimate(boolean isShow){
         if (isShow){
@@ -107,6 +108,15 @@ public class AppendItem extends RelativeLayout {
     public void setEditor(){
         isEditor=true;
         iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_hui));
+    }
+
+    public void setEditorImg(){
+        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_hui));
+    }
+
+    private boolean reSet;
+    public void setReSet(boolean reSet){
+        this.reSet=reSet;
     }
 
 
@@ -138,17 +148,15 @@ public class AppendItem extends RelativeLayout {
                     iv_next.setVisibility(INVISIBLE);
                     break;
                 case 1:
-                    iv_next.setVisibility(VISIBLE);
-                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_hui));
-                    break;
-                case 2:
-
-                    if (isEditor){
-                        iv_next.setVisibility(INVISIBLE);
+                    if (reSet){
+                        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_hui));
                     }else {
-                        iv_next.setVisibility(VISIBLE);
                         iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_hui));
                     }
+
+                    break;
+                case 2:
+                    iv_next.setVisibility(INVISIBLE);
                     break;
                 default:
                     break;
@@ -195,15 +203,24 @@ public class AppendItem extends RelativeLayout {
                 break;
             case 1:
                 iv_next.setVisibility(VISIBLE);
-                if (isEditor){
-                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
-                }else {
+                if (Operate==2){
+                    Log.e("@#","当前节点可看不可操作");
                     iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+                }else {
+                    if (isEditor){
+                        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
+                    }else {
+                        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+                    }
                 }
                 break;
             case 2:
-                iv_next.setVisibility(VISIBLE);
-                iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
+                if (Operate==2){
+                    Log.e("@#","当前节点可看不可操作");
+                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+                }else {
+                    iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
+                }
                 break;
             default:
                 break;
@@ -232,14 +249,17 @@ public class AppendItem extends RelativeLayout {
                     break;
                 case 1:
                     iv_next.setVisibility(VISIBLE);
-                    if (isEditor){
-                        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
-                    }else {
+                    if (Operate==2){
                         iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+                    }else {
+                        if (isEditor){
+                            iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
+                        }else {
+                            iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
+                        }
                     }
                     break;
                 case 2:
-                    iv_next.setVisibility(VISIBLE);
                     iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
                     break;
                 default:
@@ -259,20 +279,15 @@ public class AppendItem extends RelativeLayout {
                     iv_next.setVisibility(INVISIBLE);
                     break;
                 case 1:
-                    iv_next.setVisibility(VISIBLE);
-                    if (isEditor){
+                    if (reSet){
                         iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.bianji_bai));
                     }else {
                         iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
                     }
+
                     break;
                 case 2:
-                    if (isEditor){
-                        iv_next.setVisibility(INVISIBLE);
-                    }else {
-                        iv_next.setImageDrawable(getResources().getDrawable(R.mipmap.jiantou_you_bai));
-                    }
-
+                    iv_next.setVisibility(INVISIBLE);
                     break;
                 default:
                     break;

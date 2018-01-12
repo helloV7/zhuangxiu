@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -112,6 +111,8 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
     private String str_Brand="null";//搜索的品牌
     private String str_BrandSon="null";//搜索的子品牌
     private String str_progress="null";//搜索的进度
+    private String sBrandName;//品牌名
+    private String sProgress;//进度
     private ProjectAdapter mProjectAdapter;
     private List<List<BrandBean>> mPData;
     private List<BrandBean> ProgressList;
@@ -291,15 +292,21 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
                 mPage=1;
+                str_city=CityName;
+                str_area=AreaName;
                 if (CityID == -2 && AreaID == -2) {
                     str_city="null";
                     str_area="null";
-                }else{
-                    str_city=CityName;
-                    str_area=AreaName;
+                    mTvMapCity.setText(str_province);
+                    SearchMapShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ","+str_progress);
+                    mLlCity.performClick();
+                    return;
                 }
                 if (AreaID==-3){
                     str_area="null";
+                    mTvMapCity.setText(CityName);
+                }else {
+                    mTvMapCity.setText(AreaName);
                 }
                 SearchMapShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ","+str_progress);
                 mLlCity.performClick();
@@ -316,6 +323,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             @Override
             public void onClickBrand(String BrandID, String BrandName) {
                 str_Brand=BrandID;
+                sBrandName= BrandName;
                 ChangeBrand(BrandID);
 
             }
@@ -324,8 +332,13 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             public void onClickDetail(String BrandSonID, String BrandSonName) {
                 mPage=1;
                 str_BrandSon=BrandSonID;
-                SearchMapShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ","+str_progress);
                 mLlBrand.performClick();
+                if ("null".equals(BrandSonID)){
+                    mTvMapBrand.setText(sBrandName);
+                }else {
+                    mTvMapBrand.setText(BrandSonName);
+                }
+                SearchMapShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ","+str_progress);
 
             }
 
@@ -348,42 +361,52 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                         str_progress="null";
                         SearchMapShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ","+str_progress);
                         mLlProgress.performClick();
+                        mTvMapProgress.setText("全部");
                         break;
                     case "0":
                         mSelectorProgress.notifyRightData(Pson1);
                         initPl(0);
+
                         break;
                     case "1":
                         mSelectorProgress.notifyRightData(Pson2);
                         initPl(1);
+
                         break;
                     case "2":
                         mSelectorProgress.notifyRightData(Pson3);
                         initPl(2);
+
                         break;
                     case "3":
                         mSelectorProgress.notifyRightData(Pson4);
                         initPl(3);
+
                         break;
                     case "4":
                         mSelectorProgress.notifyRightData(Pson5);
                         initPl(4);
+
                         break;
                     case "5":
                         mSelectorProgress.notifyRightData(Pson6);
                         initPl(5);
+
                         break;
                     case "6":
                         mSelectorProgress.notifyRightData(Pson7);
                         initPl(6);
+
                         break;
                     case "7":
                         mSelectorProgress.notifyRightData(Pson8);
                         initPl(7);
+
                         break;
                     case "8":
                         mSelectorProgress.notifyRightData(Pson9);
                         initPl(8);
+
                         break;
                 }
             }
@@ -393,7 +416,53 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                 mPage=1;
                 mLlProgress.performClick();
                 str_progress=BrandSonID;
-                Log.e("@#","code="+BrandSonID);
+                boolean isUp=false;
+                switch (BrandSonID){
+                    case "0":
+                        isUp=true;
+                        sProgress="丈量中";
+                        break;
+                    case "100":
+                        isUp=true;
+                        sProgress="设计报价";
+                        break;
+                    case "200":
+                        isUp=true;
+                        sProgress="客户审批";
+                        break;
+                    case "300":
+                        isUp=true;
+                        sProgress="店主确认中";
+                        break;
+                    case "400":
+                        isUp=true;
+                        sProgress="备货中";
+                        break;
+                    case "500":
+                        isUp=true;
+                        sProgress="物流中";
+                        break;
+                    case "600":
+                        isUp=true;
+                        sProgress="进程施工中";
+                        break;
+                    case "700":
+                        isUp=true;
+                        sProgress="完成施工";
+                        break;
+                    case "800":
+                        isUp=true;
+                        sProgress="施工完毕";
+                        break;
+                    default:
+                        isUp=false;
+                        break;
+                }
+                if (isUp){
+                    mTvMapProgress.setText(sProgress);
+                }else {
+                    mTvMapProgress.setText(BrandSonName);
+                }
                 SearchMapShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ","+str_progress);
 
             }
@@ -415,7 +484,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess) {
                     mMapBean.mProvinces = data;
-                    mMapBean.mProvinces.add(0, new MapBean.Province("全部", -1));
+                    mMapBean.mProvinces.add(0, new MapBean.Province("全国", -1));
                     mMapBean.mProvinces.get(0).isCheckProvince = true;
                     if (mSelectorCity!=null){
                         mSelectorCity.setProvinceAdapter(mMapBean, getActivity());
@@ -528,6 +597,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             str_area="null";
             SearchMapShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ","+str_progress);
             mLlCity.performClick();
+            mTvMapCity.setText("全国");
             return;
         }
 
@@ -538,7 +608,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
                     mMapBean.mCities = data;
                     ArrayList<MapBean.Area> areaList = new ArrayList<MapBean.Area>();
                     areaList.add(new MapBean.Area("全部", -2));
-                    MapBean.City city = new MapBean.City("全部", -2, areaList);
+                    MapBean.City city = new MapBean.City("全省", -2, areaList);
                     mMapBean.mCities.add(0, city);
                     mSelectorCity.notifyData(mMapBean);
                 }
@@ -560,6 +630,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
             List<BrandBean> brandData =new ArrayList<>();
             mSelectorBrand.notifyRightData(brandData);
             mLlBrand.performClick();
+            mTvMapBrand.setText("全部");
             return;
         }
         mMapModel.getBrandSonData(BrandID, new MapModel.OngetBrandResultListener() {

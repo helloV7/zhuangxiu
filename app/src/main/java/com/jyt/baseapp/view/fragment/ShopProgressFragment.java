@@ -319,7 +319,7 @@ public class ShopProgressFragment extends BaseFragment {
                     appendItemList2.add(at_Complete);
                     for (int i = 0; i < appendItemList2.size(); i++) {
                         if (data.get(i+8)==0){
-                            appendItemList2.get(i).setNext(false);
+                            appendItemList2.get(i).setImgVisible(false);
                         }
                     }
 
@@ -357,7 +357,7 @@ public class ShopProgressFragment extends BaseFragment {
 
     private void initMeasure() {
         at_Measure.setTv_msg("测量中");
-        at_Measure.setEditor();
+        at_Measure.setEditorImg();
         at_Measure.setCanEstimate(true);
         at_Measure.setState(2);//操作后不可见
         at_Measured.setTv_msg("测量完毕");
@@ -376,6 +376,7 @@ public class ShopProgressFragment extends BaseFragment {
         at_Designing.setCanEstimate(true);
         at_Designing.setNext(false);
         at_Designed.setTv_msg("设计完毕");
+        at_Designed.setEditorImg();
         at_Designed.setState(1);//操作后可见
         at_Offer.setTv_msg("待报价");
         at_Offer.setCanEstimate(true);
@@ -453,7 +454,7 @@ public class ShopProgressFragment extends BaseFragment {
         at_Material5.setCanEstimate(true);
         at_Material5.setNext(false);
         at_Material6.setTv_msg("钢挂已完成");
-        at_Material6.setEditor();
+        at_Material6.setEditorImg();
         at_Material6.setState(2);
         at_Material7.setTv_msg("所有材料已打包");
         at_Material7.setEditor();
@@ -479,12 +480,13 @@ public class ShopProgressFragment extends BaseFragment {
 
     private void initLogistics(){
         at_Logistics1.setTv_msg("待发货");
-//        at_Logistics1.setEditor();
         at_Logistics1.setCanEstimate(true);
-        at_Logistics1.setState(2);//操作后可见
+        at_Logistics1.setReSet(true);
+        at_Logistics1.setEditor();
+        at_Logistics1.setState(1);//操作后可见
         at_Logistics2.setTv_msg("已发货");
-//        at_Logistics2.setEditor();
-        at_Logistics2.setState(2);//操作后可见
+        at_Logistics2.setState(1);//操作后可见
+        at_Logistics2.setEditor();
         at_Logistics3.setTv_msg("货到待施工");
         at_Logistics3.setCanEstimate(true);
         at_Logistics3.setEditor();
@@ -677,9 +679,12 @@ public class ShopProgressFragment extends BaseFragment {
                 if (!isLink){
                     return;
                 }
+                if (0==bean.getPermissionState()){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if ( beforeFinish!=null ) {
-                    if ("0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()){
+                    if ("0".equals(bean.getIsfinish())){
                         IntentHelper.openUploadImagesActivityForResult(getContext(), bean,9);
                     }else {
                         IntentHelper.openCommonProgressActivity(getContext(),bean, null);

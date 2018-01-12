@@ -152,7 +152,7 @@ public class BrandFragment extends BaseFragment implements View.OnClickListener 
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess) {
                     mMapBean.mProvinces = data;
-                    mMapBean.mProvinces.add(0, new MapBean.Province("全部", -1));
+                    mMapBean.mProvinces.add(0, new MapBean.Province("全省", -1));
                     mMapBean.mProvinces.get(0).isCheckProvince = true;
                     mSelectorCity.setProvinceAdapter(mMapBean, getActivity());
                 }

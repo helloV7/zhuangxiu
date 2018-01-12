@@ -69,11 +69,17 @@ public class BrandBean {
         brandName=subClassName;
     }
 
+    public void FTransData(){
+        subClassId=brandId;
+        subClassName=brandName;
+    }
+
     public BrandBean TransDataThis(){
         subClassId=brandId;
         subClassName=brandName;
         return this;
     }
+
 
 
 

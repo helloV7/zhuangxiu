@@ -83,7 +83,9 @@
                 android:gravity="center"
                 android:textSize="14dp"
                 android:textColor="@color/text_color1"
-                android:text="城市"/>
+                android:text="城市"
+                android:singleLine="true"
+                android:maxEms="4"/>
             <ImageView
                 android:id="@+id/iv_arrow1"
                 android:layout_marginLeft="3dp"
@@ -111,7 +113,9 @@
                 android:gravity="center"
                 android:textSize="14dp"
                 android:textColor="@color/text_color1"
-                android:text="品牌"/>
+                android:text="品牌"
+                android:singleLine="true"
+                android:maxEms="4"/>
             <ImageView
                 android:id="@+id/iv_arrow2"
                 android:layout_marginLeft="3dp"
@@ -137,7 +141,9 @@
                 android:gravity="center"
                 android:textSize="14dp"
                 android:textColor="@color/text_color1"
-                android:text="进度"/>
+                android:text="进度"
+                android:singleLine="true"
+                android:maxEms="4"/>
             <ImageView
                 android:id="@+id/iv_arrow3"
                 android:layout_marginLeft="3dp"

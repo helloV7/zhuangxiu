@@ -34,7 +34,6 @@ import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.district.DistrictResult;
 import com.amap.api.services.district.DistrictSearch;
 import com.amap.api.services.district.DistrictSearchQuery;
-import com.amap.api.services.geocoder.GeocodeQuery;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeResult;
@@ -112,15 +111,16 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
     private List<Marker> mMarkerList;
     private GeocodeSearch mGeocodeSearch;
     private DistrictSearch mSearch;
-    private String str_brandID;//搜索的品牌ID
     private String str_province="null";//搜索的省份
     private String str_city="null";//搜索的城市
     private String str_area="null";//搜索的地区
     private String str_Brand="null";//搜索的品牌
     private String str_BrandSon="null";//搜索的子品牌
+    private String sBrandName="";//品牌名
     private int AreaID;
     private int codeProvince;//城市编码
     private boolean isByMap;//是否通过省份-城市-地区搜索商店数据，true：定位到该地区；false：不移动
+    private boolean isSearchCity;//是否搜素城市内
 
 
     @Override
@@ -311,7 +311,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             public void ResultData(boolean isSuccess, Exception e, List<MapBean.Province> data) {
                 if (isSuccess) {
                     mMapBean.mProvinces = data;
-                    mMapBean.mProvinces.add(0, new MapBean.Province("全部", -1));
+                    mMapBean.mProvinces.add(0, new MapBean.Province("全国", -1));
                     str_province = mMapBean.mProvinces.get(0).ProvinceName;//默认第一个省份
                     mMapBean.mProvinces.get(0).isCheckProvince = true;
                     if (mMapSelector!=null){
@@ -350,31 +350,37 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             public void onClickArea(int CityID, String CityName, int AreaID, String AreaName) {
                 isByMap = true;
                 //点击全省的搜索
+                Log.e("@#","city="+CityID);
+                Log.e("@#","are="+AreaID);
+                str_city = CityName;
+                str_area = AreaName;
                 if (CityID == -2 && AreaID == -2) {
                     isClickProvince = true;
                     str_city="null";
                     str_area="null";
                     SearchShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ",null");
                     mLlCity.performClick();
+                    tv_city.setText(str_province);//全省
                     return;
                 }
-                str_city = CityName;
-                str_area = AreaName;
-                if ("北京".equals(str_province)
-                        || "上海".equals(str_province)
-                        || "天津".equals(str_province)
-                        || "重庆".equals(str_province)) {
-                    str_city = str_province + "市";
-                    str_area = CityName + AreaName;
-                } else if ("台湾".equals(str_province)) {
-                    str_city = AreaName;
-                    str_area = CityName + AreaName;
-                }
+//                if ("北京".equals(str_province)
+//                        || "上海".equals(str_province)
+//                        || "天津".equals(str_province)
+//                        || "重庆".equals(str_province)) {
+//                    str_city = str_province + "市";
+//                    str_area = CityName + AreaName;
+//                } else if ("台湾".equals(str_province)) {
+//                    str_city = AreaName;
+//                    str_area = CityName + AreaName;
+//                }
                 MapFragment.this.AreaID=AreaID;
                 if (AreaID==-3){
                     str_area="null";
+                    tv_city.setText(CityName);//全市或全区
+                }else {
+                    tv_city.setText(AreaName);//区域
                 }
-                SearchShop("null," + str_province + "," + CityName + "," + AreaName + ","+str_Brand+","+str_BrandSon+",null");
+                SearchShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ",null");
                 mLlCity.performClick();
             }
 
@@ -415,8 +421,9 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
 
             @Override
             public void onClickBrand(String BrandID, String BrandName) {
-                str_brandID = BrandID;
                 str_Brand=BrandID;
+                Log.e("@#",BrandName+"S");
+                sBrandName = BrandName;
                 ChangeBrand(BrandID);
             }
 
@@ -425,6 +432,11 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                 isByMap = false;
                 str_BrandSon=BrandSonID;
                 mLlBrand.performClick();
+                if ("null".equals(BrandSonID)){
+                    tv_brand.setText(sBrandName);
+                }else {
+                    tv_brand.setText(BrandSonName);
+                }
                 SearchShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ",null");
             }
 
@@ -454,6 +466,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             str_area="null";
             SearchShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ",null");
             mMap.moveCamera(CameraUpdateFactory.zoomTo(4));
+            tv_city.setText("全国");
             mLlCity.performClick();
             return;
         }
@@ -463,7 +476,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                 if (isSuccess) {
                     mMapBean.mCities = data;
                     ArrayList<MapBean.Area> areaList = new ArrayList<MapBean.Area>();
-                    areaList.add(new MapBean.Area("全部", -2));
+                    areaList.add(new MapBean.Area("全省", -2));
                     MapBean.City city = new MapBean.City("全部", -2, areaList);
                     mMapBean.mCities.add(0, city);
                     mMapSelector.notifyData(mMapBean);
@@ -489,6 +502,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             str_BrandSon="null";
             SearchShop("null,"+str_province+","+ str_city +","+ str_area +"," + str_Brand + "," + str_BrandSon + ",null");
 //            mMap.moveCamera(CameraUpdateFactory.zoomTo(4));
+            tv_brand.setText("全部");
             mLlBrand.performClick();
             return;
         }
@@ -553,7 +567,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
 
             if (isClickProvince) {
                 //点击省，查找全省
-                //                query=new GeocodeQuery("",codeProvince+"");
+                isSearchCity=false;
                 DistrictSearchQuery Proquery = new DistrictSearchQuery();
                 Proquery.setKeywords(str_province);
                 Proquery.setShowBoundary(true);
@@ -562,7 +576,9 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                 mSearch.searchDistrictAnsy();//开始搜索
                 isClickProvince = false;
             } else {
-                if (AreaID==-3){
+                if (AreaID==-3){//搜市内的全部
+                    Log.e("@#","city="+str_city);
+                    isSearchCity=false;
                     DistrictSearchQuery Proquery = new DistrictSearchQuery();
                     Proquery.setKeywords(str_city);
                     Proquery.setShowBoundary(true);
@@ -570,9 +586,16 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                     mSearch.setOnDistrictSearchListener(this);//绑定监听器
                     mSearch.searchDistrictAnsy();//开始搜索
                 }else {
-                    GeocodeQuery query = null;
-                    query = new GeocodeQuery(str_area, str_city);
-                    mGeocodeSearch.getFromLocationNameAsyn(query);
+                    isSearchCity=true;
+                    DistrictSearchQuery Proquery = new DistrictSearchQuery();
+                    Proquery.setKeywords(str_area);
+                    Proquery.setShowBoundary(true);
+                    mSearch.setQuery(Proquery);
+                    mSearch.setOnDistrictSearchListener(this);//绑定监听器
+                    mSearch.searchDistrictAnsy();//开始搜索
+//                    GeocodeQuery query = null;
+//                    query = new GeocodeQuery(str_area, str_city);
+//                    mGeocodeSearch.getFromLocationNameAsyn(query);
                 }
             }
 
@@ -592,35 +615,6 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
             }
         });
     }
-
-    private void setSearchShop(List<SearchBean> data) {
-        if (mMarkerList != null && mMarkerList.size() > 0) {
-            //清除原有的数据
-            for (Marker marker : mMarkerList) {
-                marker.destroy();
-            }
-            mMarkerList.clear();
-        }
-        for (int i = 0; i < data.size(); i++) {
-            SearchBean shop = data.get(i);
-            View view = View.inflate(getActivity(), R.layout.layout_infowindow, null);
-            view.measure(0,0);
-            view.setPadding(view.getMeasuredWidth()/2,0,0,0);
-            TextView tv = (TextView) view.findViewById(R.id.tv_text);
-            tv.setText(shop.getProjectName());
-            Bitmap b = convertViewToBitmap(view);
-            LatLng l = new LatLng(Double.valueOf(shop.getLatitude()), Double.valueOf(shop.getLongitude()));
-            Marker marker = mMap.addMarker(new MarkerOptions()
-                    .position(l)
-                    .perspective(true)
-                    .infoWindowEnable(false)
-                    .icon(BitmapDescriptorFactory.fromView(view)));
-            marker.setObject(shop);
-            mMarkerList.add(marker);
-        }
-
-    }
-
 
     @Override
     public void onClick(View v) {
@@ -664,6 +658,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
                 break;
         }
     }
+
 
     /**
      * 地图的选择器动画
@@ -711,12 +706,12 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         animator.start();
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
         mMapView.onResume();
     }
+
 
     @Override
     public void onPause() {
@@ -732,7 +727,6 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         }
     }
 
-
     /**
      * 将view转为位图
      *
@@ -745,6 +739,35 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         view.buildDrawingCache();
         Bitmap bitmap = view.getDrawingCache();
         return bitmap;
+    }
+
+
+    private void setSearchShop(List<SearchBean> data) {
+        if (mMarkerList != null && mMarkerList.size() > 0) {
+            //清除原有的数据
+            for (Marker marker : mMarkerList) {
+                marker.destroy();
+            }
+            mMarkerList.clear();
+        }
+        for (int i = 0; i < data.size(); i++) {
+            SearchBean shop = data.get(i);
+            View view = View.inflate(getActivity(), R.layout.layout_infowindow, null);
+            view.measure(0,0);
+            view.setPadding(view.getMeasuredWidth()/2,0,0,0);
+            TextView tv = (TextView) view.findViewById(R.id.tv_text);
+            tv.setText(shop.getProjectName());
+            Bitmap b = convertViewToBitmap(view);
+            LatLng l = new LatLng(Double.valueOf(shop.getLatitude()), Double.valueOf(shop.getLongitude()));
+            Marker marker = mMap.addMarker(new MarkerOptions()
+                    .position(l)
+                    .perspective(true)
+                    .infoWindowEnable(false)
+                    .icon(BitmapDescriptorFactory.fromView(view)));
+            marker.setObject(shop);
+            mMarkerList.add(marker);
+        }
+
     }
 
 
@@ -779,7 +802,12 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         if (AreaID==-3){
             mMap.moveCamera(CameraUpdateFactory.zoomTo(10));
         }else {
-            mMap.moveCamera(CameraUpdateFactory.zoomTo(8));
+            if (isSearchCity){
+                mMap.moveCamera(CameraUpdateFactory.zoomTo(12));
+            }else {
+                mMap.moveCamera(CameraUpdateFactory.zoomTo(9));
+            }
+
         }
     }
 
