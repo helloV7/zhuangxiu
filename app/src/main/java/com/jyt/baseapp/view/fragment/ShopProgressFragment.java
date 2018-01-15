@@ -14,7 +14,6 @@ import com.jyt.baseapp.helper.IntentHelper;
 import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.model.ShopModel;
 import com.jyt.baseapp.util.BaseUtil;
-import com.jyt.baseapp.util.L;
 import com.jyt.baseapp.view.widget.AppendItem;
 import com.jyt.baseapp.view.widget.ProgressLine;
 
@@ -666,8 +665,10 @@ public class ShopProgressFragment extends BaseFragment {
                 if (!isLink){
                     return;
                 }
-                if ("0".equals(bean.getIsfinish())
-                        && 0!=bean.getPermissionState()) {
+                if (0==bean.getPermissionState()){
+                    return;
+                }
+                if ("0".equals(bean.getIsfinish())) {
                     IntentHelper.openUploadImagesActivityForResult(getContext(), bean,20);
                 }
             }
@@ -701,8 +702,11 @@ public class ShopProgressFragment extends BaseFragment {
                 if (!isLink){
                     return;
                 }
+                if (0==bean.getPermissionState()){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-                if( beforeFinish!=null  && 0!=bean.getPermissionState()){
+                if( beforeFinish!=null){
                     IntentHelper.openConstructionActivity(getContext(),bean);
                 }
 
@@ -715,10 +719,11 @@ public class ShopProgressFragment extends BaseFragment {
                 if (!isLink){
                     return;
                 }
-                L.e("click ");
+                if (0==bean.getPermissionState()){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-                Log.e("@#","permission="+bean.getPermissionState());
-                if (beforeFinish!=null && 0!=bean.getPermissionState()){
+                if (beforeFinish!=null ){
                    IntentHelper.openCommonProgressActivity(getContext(),bean, null);
                }
 
@@ -732,10 +737,11 @@ public class ShopProgressFragment extends BaseFragment {
                 if (!isLink){
                     return;
                 }
-                Log.e("@#","click="+bean.getPermissionState());
+                if (0==bean.getPermissionState()){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-                Log.e("@#","permission="+bean.getPermissionState());
-                if (beforeFinish!=null && 0!=bean.getPermissionState()){
+                if (beforeFinish!=null){
                     IntentHelper.openCommonProgressActivity(getContext(),bean, beforeFinish);
                 }
 
@@ -749,8 +755,11 @@ public class ShopProgressFragment extends BaseFragment {
                 if (!isLink){
                     return;
                 }
+                if (0==bean.getPermissionState()){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-                if (beforeFinish!=null && 0!=bean.getPermissionState()){
+                if (beforeFinish!=null){
                     IntentHelper.openCommonProgressActivity(getContext(),bean, progressBeanList.get(12));
                 }
             }
@@ -762,8 +771,11 @@ public class ShopProgressFragment extends BaseFragment {
                 if (!isLink){
                     return;
                 }
+                if (0==bean.getPermissionState()){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-                if (beforeFinish!=null && 0!=bean.getPermissionState()){
+                if (beforeFinish!=null){
                     IntentHelper.openCommonProgressActivity(getContext(),bean, progressBeanList.get(19));
                 }
             }
@@ -771,10 +783,27 @@ public class ShopProgressFragment extends BaseFragment {
 
         at_Designed.setOnAppendOnclickListener(beforeSimpleContent);
         at_Measured.setOnAppendOnclickListener(beforeSimpleContent);
-        at_Confirmed.setOnAppendOnclickListener(beforeSimpleContent);
+
         at_Approvaled.setOnAppendOnclickListener(beforeSimpleContent);
 
         at_Confirm.setOnAppendOnclickListener(browserSimpleContent);
+        at_Confirmed.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
+            @Override
+            public void onClick(ProgressBean bean) {
+                if (!isLink){
+                    return;
+                }
+                ProgressBean beforeFinish = beforeItemIsFinish(bean);
+                if (beforeFinish==null || 0==bean.getPermissionState()){
+                    return;
+                }
+                if ("0".equals(bean.getIsfinish())){
+                    IntentHelper.openCommonProgressActivity(getContext(),progressBeanList.get(9), null,false);
+                }else {
+                    IntentHelper.openCommonProgressActivity(getContext(),progressBeanList.get(9), null,true);
+                }
+            }
+        });
         at_Complete.setOnAppendOnclickListener(new AppendItem.OnAppendOnclickListener() {
             @Override
             public void onClick(ProgressBean bean) {
@@ -832,9 +861,12 @@ public class ShopProgressFragment extends BaseFragment {
                 if (!isLink){
                     return;
                 }
+                if (0==bean.getPermissionState()){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
                 if (beforeFinish!=null) {
-                    if ( "0".equals(bean.getIsfinish()) && 0!=bean.getPermissionState()) {
+                    if ( "0".equals(bean.getIsfinish())) {
                         IntentHelper.openWaitingConstructActivity(getContext(), bean);
                     }
                 }
@@ -848,8 +880,11 @@ public class ShopProgressFragment extends BaseFragment {
                 if (!isLink){
                     return;
                 }
+                if (0==bean.getPermissionState()){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-                if (beforeFinish!=null && 0!=bean.getPermissionState()) {
+                if (beforeFinish!=null ) {
                     IntentHelper.openPrepareConstructCompleteActivity(getContext(), bean);
                 }
             }
@@ -863,8 +898,11 @@ public class ShopProgressFragment extends BaseFragment {
                 if (!isLink){
                     return;
                 }
+                if (0==bean.getPermissionState()){
+                    return;
+                }
                 ProgressBean beforeFinish = beforeItemIsFinish(bean);
-                if (beforeFinish!=null && 0!=bean.getPermissionState() && "0".equals(bean.getIsfinish())) {
+                if (beforeFinish!=null && "0".equals(bean.getIsfinish())) {
                     IntentHelper.openFinishSteelHookActivity(getContext(), bean);
                 }
             }

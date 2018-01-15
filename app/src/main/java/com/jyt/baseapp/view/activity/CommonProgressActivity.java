@@ -100,6 +100,7 @@ public class CommonProgressActivity extends BaseActivity {
             beforeProject = project;
         }
 
+        //用于店主已确认
         if (getIntent().getBooleanExtra(IntentKey.Confirm,false)){
             textConfirm.setVisibility(View.VISIBLE);
         }else {

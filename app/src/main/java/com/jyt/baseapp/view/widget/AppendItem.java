@@ -325,6 +325,10 @@ public class AppendItem extends RelativeLayout {
         Operate = operate;
     }
 
+    /**
+     * 设置可见的预计完工时间
+     * @param canEstimate
+     */
     public void setCanEstimate(boolean canEstimate){
         this.CanEstimate = canEstimate;
     }
