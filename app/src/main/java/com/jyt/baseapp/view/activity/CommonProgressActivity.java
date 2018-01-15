@@ -197,6 +197,7 @@ public class CommonProgressActivity extends BaseActivity {
                 }
             });
         } else {
+            //施工完毕
             projectDetailModel.getFinishList(beforeProject.getProjectId(), new BeanCallback<BaseJson<FinishBean>>() {
                 @Override
                 public void onError(Call call, Exception e, int id) {
@@ -223,6 +224,9 @@ public class CommonProgressActivity extends BaseActivity {
                             vWorkerAndTime.setWorkerText(response.data.getLolist().get(0).getConstructionNickName());
                             createView(data);
                         }
+                    }else {
+                        mLlEmpty.setVisibility(View.VISIBLE);
+                        mLlParent.setVisibility(View.GONE);
                     }
                 }
             });

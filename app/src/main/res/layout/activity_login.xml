@@ -5,31 +5,35 @@
               android:layout_height="match_parent"
     android:gravity="center_horizontal">
         <ImageView
-            android:layout_marginTop="75dp"
-            android:layout_width="145dp"
-            android:layout_height="145dp"
-            android:background="@mipmap/logo"/>
+            android:layout_marginTop="44dp"
+            android:layout_width="243dp"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/login1"/>
+        <ImageView
+            android:layout_marginTop="77dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/login2"/>
         <EditText
             android:id="@+id/et__tel"
-            android:layout_marginTop="71dp"
-            android:layout_width="280dp"
+            android:layout_marginTop="75dp"
+            android:layout_width="243dp"
             android:layout_height="40dp"
             android:singleLine="true"
             android:imeOptions="actionNext"
             android:inputType="number"
-            android:hint="请输入账号"
+            android:hint="用户名"
             android:paddingLeft="15dp"
             android:textColorHint="@color/et_login_hint"
             android:background="@drawable/input_login"/>
-
         <EditText
             android:id="@+id/et_pwd"
-            android:layout_marginTop="20dp"
-            android:layout_width="280dp"
+            android:layout_marginTop="9dp"
+            android:layout_width="243dp"
             android:layout_height="40dp"
             android:singleLine="true"
             android:imeOptions="actionDone"
-            android:hint="请输入密码"
+            android:hint="密码"
             android:inputType="numberPassword"
             android:paddingLeft="15dp"
             android:textColorHint="@color/et_login_hint"
@@ -37,11 +41,16 @@
 
         <Button
             android:id="@+id/btn_submit"
-            android:layout_marginTop="20dp"
-            android:layout_width="280dp"
-            android:layout_height="60dp"
+            android:layout_marginTop="16dp"
+            android:layout_width="243dp"
+            android:layout_height="40dp"
             android:text="登录"
-            android:textSize="16dp"
+            android:textSize="20dp"
             android:textColor="@color/white"
             android:background="@drawable/btn_login"/>
+        <ImageView
+            android:layout_marginTop="55dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/login3"/>
 </LinearLayout>

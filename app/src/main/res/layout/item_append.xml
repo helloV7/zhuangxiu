@@ -30,6 +30,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="待客户审批"
+            android:singleLine="true"
+            android:maxEms="6"
             android:textSize="13dp"
             android:textColor="@color/map_text1"/>
         <TextView

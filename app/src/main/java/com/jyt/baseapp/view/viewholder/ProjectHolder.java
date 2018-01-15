@@ -41,7 +41,16 @@ public class ProjectHolder extends BaseViewHolder<SearchBean> {
             mTvShopStation.setTextColor(itemView.getResources().getColor(R.color.color_stop));
         }else {
             mTvShopStation.setTextColor(itemView.getResources().getColor(R.color.map_text2));
-            switch (data.getSchedule()) {
+            int schedule = Integer.valueOf(data.getSchedule());
+            String Sschedule=null;
+            if (schedule==2 || schedule==105 || schedule==202 || schedule==302 || schedule==414 ||
+                    schedule==2 || schedule==504 || schedule==2 || schedule==601 || schedule==701 ||
+                    schedule==804 || schedule==900){
+                Sschedule=data.getSchedule();
+            }else {
+                Sschedule=(schedule+1)+"";
+            }
+            switch (Sschedule) {
                 case "0":
                     mTvShopStation.setText("未开始");
                     break;

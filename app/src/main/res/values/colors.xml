@@ -30,5 +30,6 @@
     <color name="white10">#24ffffff</color>
     <color name="white30">#77ffffff</color>
     <color name="red">#f00</color>
+    <color name="login_red"> #E62129</color>
 
 </resources>

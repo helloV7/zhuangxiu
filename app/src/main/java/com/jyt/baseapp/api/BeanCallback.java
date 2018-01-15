@@ -80,7 +80,8 @@ public abstract class BeanCallback<T> extends Callback<T> {
                         try {
                             T obj = new Gson().fromJson(bodyString, beanType);
                             if (obj instanceof BaseJson){
-                                if ("登陆失败，请重新登录".equals(((BaseJson)obj).forUser.trim())){
+                                if ("登陆失败，请重新登录".equals(((BaseJson)obj).forUser.trim())
+                                        || "登陆失败请重新登录".equals(((BaseJson)obj).forUser.trim())){
                                     new Handler(BaseUtil.getContext().getMainLooper()).post(new Runnable() {
                                         @Override
                                         public void run() {
