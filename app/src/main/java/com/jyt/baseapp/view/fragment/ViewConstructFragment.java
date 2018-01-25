@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +74,7 @@ public class ViewConstructFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
-        initFace();
+        initData();
         initListener();
 
     }
@@ -132,7 +131,7 @@ public class ViewConstructFragment extends BaseFragment {
                     public void onResponse(BaseJson response, int id) {
                         if (response.ret){
                            try {
-                               initFace();
+                               initData();
                                ConstructionActivity activity= (ConstructionActivity) getActivity();
                                activity.notifyPage();
                            } catch (Exception e){
@@ -169,14 +168,13 @@ public class ViewConstructFragment extends BaseFragment {
         });
     }
     private boolean isFirst;
-    private boolean f1;
-    private void initFace(){
+    private void initData(){
         //初始化界面
         list.clear();
         projectDetailModel.getConstructionData(mBean.getProjectId(), new BeanCallback<BaseJson<ConstructionBean>>() {
             @Override
             public void onError(Call call, Exception e, int id) {
-                Log.e("@#","onError");
+
             }
 
             @Override
@@ -184,12 +182,11 @@ public class ViewConstructFragment extends BaseFragment {
                 if (response.data.getFinishTime() != null) {
                     vEmptyMsg.setVisibility(View.GONE);
                     mJtTime.setNext(false,BaseUtil.getTime(response.data.getFinishTime().split(" ")[0]));
-                    if (response.data.getConstructionList().size()>0){
+                    if (response.data!=null && response.data.getConstructionList()!=null && response.data.getConstructionList().size()>0){
                         String time=response.data.getConstructionList().get(0).getConstructionDate();
                         ConstructionBean detailBean = new ConstructionBean();
                         //整理数据
                         for (int i = 0; i < response.data.getConstructionList().size(); i++) {
-
                             //时间一致
                             if ("1".equals(response.data.getConstructionList().get(i).getConstructionType())){
                                 if (!isFirst){
@@ -260,7 +257,7 @@ public class ViewConstructFragment extends BaseFragment {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            initFace();
+            initData();
         }
     }
 

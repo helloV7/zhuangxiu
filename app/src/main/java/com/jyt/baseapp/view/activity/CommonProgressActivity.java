@@ -206,7 +206,7 @@ public class CommonProgressActivity extends BaseActivity {
 
                 @Override
                 public void onResponse(BaseJson<FinishBean> response, int id) {
-                    if (response.data.getLolist() != null && response.ret) {
+                    if (response.data!=null && response.data.getLolist() != null && response.ret) {
                         mLlParent.setVisibility(View.VISIBLE);
                         mLlEmpty.setVisibility(View.GONE);
                         List<ProjectFileBean> data = new ArrayList<ProjectFileBean>();

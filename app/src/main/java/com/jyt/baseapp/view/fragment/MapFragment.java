@@ -753,8 +753,8 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
         for (int i = 0; i < data.size(); i++) {
             SearchBean shop = data.get(i);
             View view = View.inflate(getActivity(), R.layout.layout_infowindow, null);
-            view.measure(0,0);
-            view.setPadding(view.getMeasuredWidth()/2,0,0,0);
+//            view.measure(0,0);
+//            view.setPadding(view.getMeasuredWidth()/2,0,0,0);
             TextView tv = (TextView) view.findViewById(R.id.tv_text);
             tv.setText(shop.getProjectName());
             Bitmap b = convertViewToBitmap(view);

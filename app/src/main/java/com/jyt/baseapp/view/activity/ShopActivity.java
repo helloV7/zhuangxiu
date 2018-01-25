@@ -16,6 +16,7 @@ import com.jyt.baseapp.helper.IntentKey;
 import com.jyt.baseapp.view.fragment.BaseFragment;
 import com.jyt.baseapp.view.fragment.ShopNewsFragment;
 import com.jyt.baseapp.view.fragment.ShopProgressFragment;
+import com.jyt.baseapp.view.widget.NoScrollViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class ShopActivity extends BaseActivity implements View.OnClickListener {
 
 
     @BindView(R.id.vp_shop_container)
-    ViewPager mVpContainer;
+    NoScrollViewPager mVpContainer;
     @BindView(R.id.iv_shop_news)
     ImageView mIvNews;
     @BindView(R.id.tv_shop_news)
