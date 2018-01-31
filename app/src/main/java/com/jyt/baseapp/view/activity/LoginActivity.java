@@ -16,6 +16,7 @@ import com.jyt.baseapp.model.LoginModel;
 import com.jyt.baseapp.util.BaseUtil;
 import com.jyt.baseapp.util.FinishActivityManager;
 import com.jyt.baseapp.util.MD5Util;
+import com.jyt.baseapp.view.widget.LoadingDialog;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -31,6 +32,7 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.btn_submit)
     Button mBtnSubmit;
     private LoginModel mLoginModel;
+    private LoadingDialog mLoadingDialog;
     private boolean isClick =true;
 
     @Override
@@ -48,28 +50,30 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         HideActionBar();
         mLoginModel=new LoginModel();
+        mLoadingDialog = new LoadingDialog(this);
         Const.createFileMkdirs();
     }
 
     @OnClick(R.id.btn_submit)
     public void ToLogin(){
-        if (!isClick){
-            return;
-        }
-        isClick =false;
-
         String tel=mEtTel.getText().toString().trim();
         String pwd=mEtPwd.getText().toString().trim();
         if (TextUtils.isEmpty(tel) || TextUtils.isEmpty(pwd)){
             BaseUtil.makeText("参数不全");
             return;
         }
+        if (!isClick){
+            return;
+        }
+        isClick =false;
+        mLoadingDialog.show();
 
         //内部人员
         mLoginModel.ToLogin(tel, MD5Util.encrypt(pwd), new LoginModel.LoginResultListener() {
             @Override
             public void Result(boolean isSuccess, UserBean user) {
                 isClick =true;
+                mLoadingDialog.dismiss();
                 if (isSuccess){
                     Const.KeepLoginState(user.getDepartmentId(),user.getNickName(),user.getPositionId(),user.getTokenSession(),user.getUserId(),user.getDepartmentName(),user.getStationName(),user.getTel());
                     startActivity(new Intent(LoginActivity.this,ContentActivity.class));

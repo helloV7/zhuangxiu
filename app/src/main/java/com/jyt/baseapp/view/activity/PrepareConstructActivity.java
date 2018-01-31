@@ -284,11 +284,30 @@ public class PrepareConstructActivity extends BaseActivity {
             @Override
             public void onResponse(BaseJson<List<Construction>> response, int id) {
                 if (response.ret){
-                    LTEstimateTime.setValueText(response.data.get(0).getConstructionTime().split(" ")[0]);
-                    LTActualTime.setValueText(response.data.get(0).getConstructionArr().split(" ")[0]);
-                    LTEstimateInShopTime.setValueText(response.data.get(0).getConstructionStart().split(" ")[0]);
-                    LTWorker.setValueText(response.data.get(0).getNickName());
-                    LTMonitor.setValueText(response.data.get(0).getMonitorName());
+                    String s1 = response.data.get(0).getConstructionTime().split(" ")[0];
+                    String s2 = response.data.get(0).getConstructionArr().split(" ")[0];
+                    String s3 = response.data.get(0).getConstructionStart().split(" ")[0];
+                    String s4 = response.data.get(0).getNickName();
+                    String s5 = response.data.get(0).getMonitorName();
+                    if (!TextUtils.isEmpty(s1)){
+                        LTEstimateTime.setValueText(s1);
+                    }
+
+                    if (!TextUtils.isEmpty(s2)){
+                        LTActualTime.setValueText(s2);
+                    }
+
+                    if (!TextUtils.isEmpty(s3)){
+                        LTEstimateInShopTime.setValueText(s3);
+                    }
+
+                    if (!TextUtils.isEmpty(s4)){
+                        LTWorker.setValueText(s4);
+                    }
+
+                    if (!TextUtils.isEmpty(s5)){
+                        LTMonitor.setValueText(s5);
+                    }
                 }else {
                     T.showShort(getContext(),response.forUser);
                 }

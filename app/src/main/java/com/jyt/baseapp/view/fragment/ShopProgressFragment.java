@@ -427,7 +427,7 @@ public class ShopProgressFragment extends BaseFragment {
         at_Paper1.setNext(false);
         at_Paper2.setTv_msg("图纸下单");
         at_Paper2.setNext(false);
-        at_Paper3.setTv_msg("待审图纸");
+        at_Paper3.setTv_msg("组长待审图纸");
         at_Paper3.setNext(true);
         at_Paper3.setState(1);//操作后可见
         at_Paper4.setTv_msg("已审图纸");

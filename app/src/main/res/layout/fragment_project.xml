@@ -41,7 +41,7 @@
             <ImageView
                 android:id="@+id/iv_noti"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/btn_noti"/>
             <TextView
@@ -50,13 +50,13 @@
                 android:layout_alignParentTop="true"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:layout_marginRight="13dp"
+                android:layout_marginRight="14dp"
                 android:gravity="center"
                 android:text="2"
                 android:textSize="11dp"
                 android:textColor="@color/white"
                 android:background="@mipmap/oval_r"
-                android:layout_marginTop="-4dp"/>
+                android:layout_marginTop="-1dp"/>
         </RelativeLayout>
     </LinearLayout>
 

@@ -204,7 +204,7 @@ public class ProjectFragment extends BaseFragment implements View.OnClickListene
         Pson5.add(new BrandBean("预算确认下单", "401").TransDataThis());
         Pson5.add(new BrandBean("待下图纸", "402").TransDataThis());
         Pson5.add(new BrandBean("图纸下单", "403").TransDataThis());
-        Pson5.add(new BrandBean("待审图纸", "404").TransDataThis());
+        Pson5.add(new BrandBean("组长待审图纸", "404").TransDataThis());
         Pson5.add(new BrandBean("已审图纸", "405").TransDataThis());
         Pson5.add(new BrandBean("待预算复核图纸", "406").TransDataThis());
         Pson5.add(new BrandBean("预算已复核纸", "407").TransDataThis());

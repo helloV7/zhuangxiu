@@ -109,7 +109,7 @@ public class ProjectHolder extends BaseViewHolder<SearchBean> {
                     mTvShopStation.setText("图纸下单");
                     break;
                 case "404":
-                    mTvShopStation.setText("待审图纸");
+                    mTvShopStation.setText("组长待审图纸");
                     break;
                 case "405":
                     mTvShopStation.setText("已审图纸");
