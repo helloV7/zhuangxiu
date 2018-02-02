@@ -57,7 +57,7 @@ public class WelcomeActivity extends BaseActivity {
                 finish();
                 overridePendingTransition(0,0);
             }
-        },1500);
+        },2000);
 
     }
 }
