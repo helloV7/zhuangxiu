@@ -12,7 +12,7 @@
         android:layout_gravity="center">
         <TextView
             android:id="@+id/tv_shopName"
-            android:layout_width="190dp"
+            android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:text=""
@@ -34,6 +34,7 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginRight="2dp"
         android:gravity="right|center_vertical">
         <TextView
             android:id="@+id/tv_shopStation"
@@ -51,10 +52,10 @@
             android:src="@mipmap/icon_next"/>
         <TextView
             android:id="@+id/tv_shopLocation"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:text=""
+            android:singleLine="true"
             android:textSize="14dp"
             android:textColor="@color/map_text1"/>
     </LinearLayout>
