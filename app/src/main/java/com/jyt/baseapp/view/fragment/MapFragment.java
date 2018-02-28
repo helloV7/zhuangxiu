@@ -604,7 +604,7 @@ public class MapFragment extends BaseFragment implements View.OnClickListener, G
 //            mMap.moveCamera(CameraUpdateFactory.zoomTo(4));
         }
         //搜索该定位附近的店
-        mMapModel.getSearchData(condition, new MapModel.OnSearchResultListener() {
+        mMapModel.getSearchMapData(condition, new MapModel.OnSearchResultListener() {
             @Override
             public void Result(boolean isSuccess, List<SearchBean> data) {
                 isBrandChange = false;

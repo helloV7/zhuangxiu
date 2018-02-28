@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.jyt.baseapp.R;
 import com.jyt.baseapp.api.Const;
 import com.jyt.baseapp.util.BaseUtil;
+import com.jyt.baseapp.util.FinishActivityManager;
 import com.jyt.baseapp.view.widget.FreeDialog;
 import com.jyt.baseapp.view.widget.JumpItem;
 
@@ -79,9 +80,11 @@ public class PersonInfoActivity extends BaseActivity {
         TvSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mDialog.dismiss();
                 BaseUtil.makeText("已退出登录");
+                FinishActivityManager.getManager().finishAllActivity();
                 Const.Logout(getContext());
-                finish();
+
             }
         });
         TvCancel.setOnClickListener(new View.OnClickListener() {

@@ -94,10 +94,10 @@ public class Const {
         BaseUtil.setSpBoolean(UserLoginState,false);
         BaseUtil.setSpString(USERID,null);
         BaseUtil.setSpString(Tel,null);
-        IntentHelper.DoLogout(context);
         JPushInterface.clearAllNotifications(context);
         JPushInterface.deleteAlias(context,0);
         JPushInterface.stopPush(BaseUtil.getContext());
+        IntentHelper.DoLogout(context);
     }
 
 

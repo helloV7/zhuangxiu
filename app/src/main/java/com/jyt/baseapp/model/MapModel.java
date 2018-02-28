@@ -381,6 +381,38 @@ public class MapModel {
                 });
     }
 
+    public void getSearchMapData(String condition, final OnSearchResultListener listener){
+        OkHttpUtils
+                .get()
+                .url(Path.URL_MapDatas)
+                .addParams("token", BaseUtil.getSpString(Const.UserToken))
+                .addParams("method","getProjectList")
+                .addParams("page","0")
+                .addParams("keyWord",BaseUtil.getSpString(Const.PositionID))
+                .addParams("searchValue",condition)
+                .build()
+                .execute(new BeanCallback<BaseJson<List<SearchBean>>>() {
+                    @Override
+                    public void onError(Call call, Exception e, int id) {
+                        if (listener!=null){
+                            listener.Result(false,null);
+                            Log.e("@#","model_map "+e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onResponse(BaseJson<List<SearchBean>> response, int id) {
+                        if (listener!=null){
+                            if (response.ret ){
+                                listener.Result(true,response.data);
+                            }else {
+                                Log.e("@#","model_map "+response.forUser);
+                            }
+                        }
+                    }
+                });
+    }
+
     public void getBrandSearchData(String condition, final OnSearchResultListener listener){
         OkHttpUtils
                 .get()

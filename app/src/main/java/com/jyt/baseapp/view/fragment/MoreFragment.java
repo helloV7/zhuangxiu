@@ -74,6 +74,7 @@ public class MoreFragment extends BaseFragment implements View.OnClickListener {
             public void onResponse(String response, int id) {
                 JSONObject jsondata= null;
                 try {
+                    Log.e("@#","data: "+response);
                     jsondata = new JSONObject(response);
                     JSONArray jsonArray=new JSONArray(jsondata.getString("data"));
                     int state1 = jsonArray.getJSONObject(13).getJSONArray("role").getJSONObject(3).getInt("机动人员管理");
